@@ -1,6 +1,6 @@
-<img src="/src/assets/nest_light_mono.png" align="right" width="200" height="200">
+<img src="/src/assets/nest_light_mono.png" align="right" width="200">
 
-# Nest.land
+# nest.land
 
 ## Project setup
 ```
