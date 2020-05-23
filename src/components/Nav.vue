@@ -28,7 +28,7 @@
                             About
                         </a>
                         <hr class="navbar-divider">
-                        <a class="navbar-item">
+                        <a class="navbar-item" href="https://github.com/tbaumer22/nest.land/issues">
                             Report an issue
                         </a>
                     </div>
