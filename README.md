@@ -1,4 +1,6 @@
-# dpm
+<img src="/src/assets/nest_light_mono.png" align="right" width="200" height="200">
+
+# Nest.land
 
 ## Project setup
 ```
@@ -22,3 +24,8 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Credits
+
+* [Tate Berenbaum](https://github.com/tbaumer22), Frontend & Design
+* [Oscar Davies](https://github.com/zorbyte), Backend & CLI

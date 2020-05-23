@@ -2,7 +2,7 @@
     <div class="hero is-medium">
         <div class="hero-body" id="intro">
             <div class="container">
-                <h1 class="title">What is DPM?</h1>
+                <h1 class="title">What is Nest?</h1>
                 <div class="columns">
                     <div class="column is-5">
                         <figure class="image is-128x128" id="deno-img">
@@ -26,7 +26,7 @@
                 <div class="columns">
                     <div class="column is-half">
                         <p>
-                            DPM combines the best of Node.js and TypeScript with the Arweave Permaweb. With DPM, you can
+                            Nest.land combines the best of Node.js and TypeScript with the Arweave Permaweb. With Nest, you can
                             push Deno packages to the permaweb, where they can never be deleted. This avoids a major pitfall
                             for web-based package imports while allowing the developer to maximize on the potential of Deno.
                         </p>
@@ -57,9 +57,6 @@
 </script>
 
 <style scoped>
-    .tools-images {
-        width: 10%;
-    }
     #plus {
         padding-top: 30px;
     }

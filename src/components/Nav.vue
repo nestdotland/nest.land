@@ -2,7 +2,7 @@
     <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item">
-                <img src="../assets/dpm_light.png">
+                <img src="../assets/nest_light.png">
             </a>
             <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="main-nav">
                 <span aria-hidden="true"></span>
@@ -17,7 +17,7 @@
                     Documentation
                 </a>
                 <a class="navbar-item">
-                    Package Registry
+                    The Gallery
                 </a>
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
@@ -49,7 +49,7 @@
 
 <script>
     export default {
-        name: "DPMNav"
+        name: "NestNav"
     }
 </script>
 
