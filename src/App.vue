@@ -4,6 +4,7 @@
     <hero></hero>
     <gradient-bar></gradient-bar>
     <intro></intro>
+    <featured-packages></featured-packages>
     <docs></docs>
     <nest-footer></nest-footer>
   </div>
@@ -14,6 +15,7 @@ import Hero from "./components/Hero";
 import NestNav from "./components/Nav";
 import GradientBar from "./components/GradientBar";
 import Intro from "./components/Intro";
+import FeaturedPackages from "./components/FeaturedPackages";
 import Docs from "./components/Docs";
 import NestFooter from "./components/Footer";
 
@@ -24,6 +26,7 @@ export default {
     NestNav,
     GradientBar,
     Intro,
+    FeaturedPackages,
     Docs,
     NestFooter
   }
