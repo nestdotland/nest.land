@@ -25,6 +25,9 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
+## Project Diagram
+<img src="/src/assets/nest_diagram.png">
+
 ## Credits
 
 * [Tate Berenbaum](https://github.com/tbaumer22), Frontend & Design

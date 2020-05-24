@@ -34,13 +34,16 @@
                     <div class="column is-half">
                         <ul>
                             <li class="subtitle">
-                                <span>🚯</span>Impossible to delete or remove
+                                <font-awesome-icon :icon="['fas', 'trash-alt']" class="left-icon" />
+                                Impossible to delete or remove
                             </li>
                             <li class="subtitle">
-                                <span>🔓</span>Easily accessible
+                                <font-awesome-icon :icon="['fas', 'universal-access']" class="left-icon" />
+                                Easily accessible
                             </li>
                             <li class="subtitle">
-                                <span>☁️</span>Easy to push packages
+                                <font-awesome-icon :icon="['fas', 'feather-alt']" class="left-icon" />
+                                Easy to publish packages
                             </li>
                         </ul>
                     </div>
@@ -72,9 +75,8 @@
         transition: transform 0.2s;
         transform: translateY(-15px);
     }
-    .subtitle span {
-        font-size: 1.2em;
-        padding-right: 10px;
+    .left-icon {
+        margin-right: 10px;
     }
     #intro {
         margin-bottom: 0;
