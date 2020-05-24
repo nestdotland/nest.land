@@ -26,7 +26,7 @@ npm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## Project Diagram
-<img src="/src/assets/nest_diagram.png">
+<img src="/src/assets/nest_diagram.jpg">
 
 ## Credits
 
