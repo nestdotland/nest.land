@@ -30,5 +30,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## Credits
 
-* [Tate Berenbaum](https://github.com/tbaumer22), Frontend & Design
-* [Oscar Davies](https://github.com/zorbyte), Backend & CLI
+* [tbaumer22](https://github.com/tbaumer22), Frontend & Design
+* [zorbyte](https://github.com/zorbyte), Backend & CLI
