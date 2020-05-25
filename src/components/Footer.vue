@@ -9,12 +9,8 @@
                 The <a href="https://github.com/tbaumer22/dpm">source code</a> is licensed <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
             </p>
             <p>
-                <a href="https://github.com/tbaumer22/nest.land">
+                <a href="https://github.com/nestlandgh/nest.land" class="footer-icon">
                     <font-awesome-icon :icon="['fab', 'github']" />
-                </a>
-                <span class="footer-icon-separator"></span>
-                <a href="">
-                    <font-awesome-icon :icon="['fab', 'discord']" />
                 </a>
             </p>
         </div>
@@ -30,6 +26,10 @@
 <style scoped>
     a, a:hover {
         color: white;
+    }
+
+    .footer-icon {
+        font-size: 1.5em;
     }
 
     .footer-icon-separator {

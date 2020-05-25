@@ -3,9 +3,9 @@
         <div class="hero-body" id="intro">
             <div class="container">
                 <h1 class="title">What is Nest?</h1>
-                <div class="columns">
+                <div class="columns is-mobile">
                     <div class="column is-5">
-                        <figure class="image is-128x128" id="deno-img">
+                        <figure id="deno-img">
                             <a href="https://deno.land/">
                                 <img src="../assets/deno.png">
                             </a>
@@ -15,7 +15,7 @@
                         <h1 class="title is-1" id="plus">+</h1>
                     </div>
                     <div class="column is-5">
-                        <figure class="image is-128x128" id="arweave-img">
+                        <figure id="arweave-img">
                             <a href="https://www.arweave.org/">
                                 <img src="../assets/arweave.png">
                             </a>
@@ -68,8 +68,11 @@
         transition: transform 0.2s;
     }
     #arweave-img {
-        float: left;
         transition: transform 0.2s;
+    }
+    #deno-img, #arweave-img {
+        width: 30%;
+        min-width: 100px;
     }
     #deno-img:hover, #arweave-img:hover {
         transition: transform 0.2s;
