@@ -2,7 +2,7 @@
     <footer class="footer has-background-dark">
         <div class="content has-text-centered has-text-white">
             <p>
-                <b>Nest.land</b> by <a href="https://github.com/tbaumer22">Tate Berenbaum</a> and Oscar Davies.<br>
+                <b>Nest.land</b> by <a href="https://github.com/tbaumer22">Tate Berenbaum</a> and <a href="https://github.com/zorbyte">Oscar Davies</a>.<br>
                 Made with <font-awesome-icon :icon="['fa', 'heart']" />, Arweave, Vue, and Bulma for Deno.
             </p>
             <p>
