@@ -36,7 +36,7 @@
 <style scoped>
     .card {
         border-radius: 20px;
-        box-shadow: lightgray 0 0 15px;
+        box-shadow: 0 15px 35px rgba(50,50,93,.1), 0 5px 15px rgba(0,0,0,.07);
         transition: transform 0.2s;
     }
     .card:hover {

@@ -34,5 +34,28 @@ export default {
 </script>
 
 <style>
+  .nest-gradient-hero {
+    background: linear-gradient(271deg, #22c1c3, #fdbb2d);
+    background-size: 400% 400%;
 
+    -webkit-animation: nestGradient 6s ease infinite;
+    -moz-animation: nestGradient 6s ease infinite;
+    animation: nestGradient 6s ease infinite;
+  }
+
+  @-webkit-keyframes nestGradient {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+  }
+  @-moz-keyframes nestGradient {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+  }
+  @keyframes nestGradient {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+  }
 </style>

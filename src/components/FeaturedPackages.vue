@@ -1,8 +1,8 @@
 <template>
-    <div class="hero is-medium">
+    <div class="hero is-medium nest-gradient-hero">
         <div class="hero-body" id="featured">
             <div class="container">
-                <h1 class="title">Featured Packages</h1>
+                <h1 class="title is-2 has-text-light has-text-centered" id="give-me-space">Featured Packages</h1>
                 <div class="columns">
                     <div class="column is-3" v-for="item in items" v-bind:key="item.id">
                         <card v-bind:item="item"></card>
@@ -36,7 +36,7 @@
                         packageTitle: 'Cheese',
                         packageURL: 'https://nest.land/x/bruh',
                         packageInfo: {
-                            author: 'Oscar Davies',
+                            author: 'Zorbyte',
                             docsLink: 'https://github.com/nannymcfee/helloworld',
                             description: 'A simple, easy to use hello world package!',
                             version: '1.0.1',
@@ -75,8 +75,7 @@
 </script>
 
 <style scoped>
-    #featured {
-        margin-bottom: 0;
-        padding-bottom: 0;
+    #give-me-space {
+        margin-bottom: 50px;
     }
 </style>

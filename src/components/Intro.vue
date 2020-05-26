@@ -3,7 +3,7 @@
         <div class="hero-body" id="intro">
             <div class="container">
                 <h1 class="title">What is Nest?</h1>
-                <div class="columns is-mobile">
+                <div class="columns is-mobile" id="double-trouble">
                     <div class="column is-5">
                         <figure id="deno-img">
                             <a href="https://deno.land/">
@@ -60,8 +60,9 @@
 </script>
 
 <style scoped>
-    #plus {
-        padding-top: 30px;
+    #double-trouble {
+        display: flex;
+        align-items: center;
     }
     #deno-img {
         float: right;
@@ -81,8 +82,8 @@
     .left-icon {
         margin-right: 10px;
     }
-    #intro {
-        margin-bottom: 0;
-        padding-bottom: 0;
-    }
+    /*#intro {*/
+    /*    margin-bottom: 0;*/
+    /*    padding-bottom: 0;*/
+    /*}*/
 </style>
