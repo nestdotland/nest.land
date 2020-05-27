@@ -20,7 +20,7 @@ import Docs from "./components/Docs";
 import NestFooter from "./components/Footer";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Hero,
     NestNav,
@@ -30,32 +30,53 @@ export default {
     Docs,
     NestFooter
   }
-}
+};
 </script>
 
 <style>
-  .nest-gradient-hero {
-    background: linear-gradient(271deg, #22c1c3, #fdbb2d);
-    background-size: 400% 400%;
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Inconsolata");
 
-    -webkit-animation: nestGradient 6s ease infinite;
-    -moz-animation: nestGradient 6s ease infinite;
-    animation: nestGradient 6s ease infinite;
-  }
+.nest-gradient-hero {
+  background: linear-gradient(271deg, #22c1c3, #fdbb2d);
+  background-size: 400% 400%;
 
-  @-webkit-keyframes nestGradient {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
+  -webkit-animation: nestGradient 6s ease infinite;
+  -moz-animation: nestGradient 6s ease infinite;
+  animation: nestGradient 6s ease infinite;
+}
+
+@-webkit-keyframes nestGradient {
+  0% {
+    background-position: 0% 50%;
   }
-  @-moz-keyframes nestGradient {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
+  50% {
+    background-position: 100% 50%;
   }
-  @keyframes nestGradient {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
+  100% {
+    background-position: 0% 50%;
   }
+}
+@-moz-keyframes nestGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+@keyframes nestGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 </style>

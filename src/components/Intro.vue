@@ -57,8 +57,6 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css?family=Inconsolata");
-
 #double-trouble {
   display: flex;
   align-items: center;

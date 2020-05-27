@@ -20,8 +20,6 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap");
-
 .gradient-text {
   background: -webkit-linear-gradient(45deg, #22c1c3, #fdbb2d);
   -webkit-background-clip: text;
