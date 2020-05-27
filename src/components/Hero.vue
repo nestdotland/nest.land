@@ -3,7 +3,7 @@
     <div class="hero-body">
       <div class="container">
         <h1 class="title is-1" id="hero-text">
-          A package manager for
+          A package registry for
           <span id="deno-text">Deno</span>,
           <br />on the
           <a class="gradient-text" href="https://www.arweave.org/">permaweb</a>
@@ -22,6 +22,7 @@ export default {
 <style scoped>
 .gradient-text {
   background: -webkit-linear-gradient(45deg, #22c1c3, #fdbb2d);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
