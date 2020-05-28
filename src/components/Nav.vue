@@ -18,22 +18,9 @@
     </div>
 
     <div id="main-nav" class="navbar-menu">
-      <div class="navbar-start">
+      <div class="navbar-end">
         <a class="navbar-item">The Gallery</a>
         <a class="navbar-item" href="#start">Documentation</a>
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link">More</a>
-          <div class="navbar-dropdown">
-            <a class="navbar-item">About</a>
-            <hr class="navbar-divider" />
-            <a
-              class="navbar-item"
-              href="https://github.com/nestlandgh/nest.land/issues"
-            >Report an issue</a>
-          </div>
-        </div>
-      </div>
-      <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
             <a class="button is-light is-primary" href="#start" id="get-started-button">
@@ -81,5 +68,8 @@ document.addEventListener("DOMContentLoaded", () => {
 <style scoped>
 #get-started-button {
   font-family: "Inconsolata", monospace;
+}
+.navbar-item:hover {
+  background: none !important;
 }
 </style>

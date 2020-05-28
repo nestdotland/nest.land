@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <nest-nav></nest-nav>
     <hero></hero>
     <gradient-bar></gradient-bar>
     <intro></intro>
@@ -12,7 +11,6 @@
 
 <script>
 import Hero from "./components/Hero";
-import NestNav from "./components/Nav";
 import GradientBar from "./components/GradientBar";
 import Intro from "./components/Intro";
 import FeaturedPackages from "./components/FeaturedPackages";
@@ -23,7 +21,6 @@ export default {
   name: "App",
   components: {
     Hero,
-    NestNav,
     GradientBar,
     Intro,
     FeaturedPackages,

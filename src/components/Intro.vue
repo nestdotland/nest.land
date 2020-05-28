@@ -7,7 +7,8 @@
           <div class="column is-5">
             <figure id="deno-img">
               <a href="https://deno.land/">
-                <img src="../assets/deno.png" />
+                <!-- <img src="../assets/deno.png" /> -->
+                <deno-logo></deno-logo>
               </a>
             </figure>
           </div>
@@ -17,7 +18,8 @@
           <div class="column is-5">
             <figure id="arweave-img">
               <a href="https://www.arweave.org/">
-                <img src="../assets/arweave.png" />
+                <!-- <img src="../assets/arweave.png" /> -->
+                <arweave-logo></arweave-logo>
               </a>
             </figure>
           </div>
@@ -27,7 +29,7 @@
           <div class="column is-half">
             <p>
               Nest.land combines the best of Node.js and TypeScript with the Arweave Permaweb. With Nest, you can
-              push Deno packages to the permaweb, where they can never be deleted. This avoids a major pitfall
+              publish Deno packages to the permaweb, where they can never be deleted. This avoids a major pitfall
               for web-based package imports while allowing the developer to maximize on the potential of Deno.
             </p>
           </div>
@@ -51,8 +53,15 @@
 </template>
 
 <script>
+import ArweaveLogo from "../assets/arweave.svg";
+import DenoLogo from "../assets/deno.svg";
+
 export default {
-  name: "Intro"
+  name: "Intro",
+  components: {
+    ArweaveLogo,
+    DenoLogo
+  }
 };
 </script>
 
@@ -70,7 +79,7 @@ export default {
 }
 #deno-img,
 #arweave-img {
-  width: 30%;
+  width: 40%;
   min-width: 100px;
 }
 #deno-img:hover,

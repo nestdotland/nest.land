@@ -1,5 +1,9 @@
 <template>
-  <div class="hero is-medium is-light is-bold">
+  <div class="hero is-medium is-light is-bold" style="position: relative">
+    <dino-footprints class="footprints is-hidden-mobile"></dino-footprints>
+    <div class="hero-head">
+      <nest-nav></nest-nav>
+    </div>
     <div class="hero-body">
       <div class="container">
         <h1 class="title is-1" id="hero-text">
@@ -14,8 +18,15 @@
 </template>
 
 <script>
+import DinoFootprints from "../assets/footprints.svg";
+import NestNav from "./Nav";
+
 export default {
-  name: "Hero"
+  name: "Hero",
+  components: {
+    DinoFootprints,
+    NestNav
+  }
 };
 </script>
 
@@ -30,5 +41,10 @@ export default {
   letter-spacing: -0.025em;
   font-family: "Inter", sans-serif;
   font-weight: 800;
+}
+.footprints {
+  position: absolute;
+  bottom: 0;
+  right: -40%;
 }
 </style>
