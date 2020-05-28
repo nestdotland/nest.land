@@ -10,11 +10,11 @@
       </p>
       <p>
         The
-        <a href="https://github.com/nestlandgh/nest.land">source code</a> is licensed
+        <a href="https://github.com/nestlandofficial/nest.land">source code</a> is licensed
         <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
       </p>
       <p>
-        <a href="https://github.com/nestlandgh/nest.land" class="footer-icon">
+        <a href="https://github.com/nestlandofficial/nest.land" class="footer-icon">
           <font-awesome-icon :icon="['fab', 'github']" />
         </a>
       </p>
