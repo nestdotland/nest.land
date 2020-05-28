@@ -1,36 +1,38 @@
 <template>
-  <nav class="navbar" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <a class="navbar-item" href="https://nest.land">
-        <img src="../assets/nest_light.png" />
-      </a>
-      <a
-        role="button"
-        class="navbar-burger burger"
-        aria-label="menu"
-        aria-expanded="false"
-        data-target="main-nav"
-      >
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </a>
-    </div>
+  <transition name="slide-down" type="animation" appear>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="https://nest.land">
+          <img src="../assets/nest_light.png" />
+        </a>
+        <a
+          role="button"
+          class="navbar-burger burger"
+          aria-label="menu"
+          aria-expanded="false"
+          data-target="main-nav"
+        >
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
 
-    <div id="main-nav" class="navbar-menu">
-      <div class="navbar-end">
-        <a class="navbar-item">The Gallery</a>
-        <a class="navbar-item" href="#start">Documentation</a>
-        <div class="navbar-item">
-          <div class="buttons">
-            <a class="button is-light is-primary" href="#start" id="get-started-button">
-              <strong>Get Started</strong>
-            </a>
+      <div id="main-nav" class="navbar-menu">
+        <div class="navbar-end">
+          <a class="navbar-item">The Gallery</a>
+          <a class="navbar-item" href="#start">Documentation</a>
+          <div class="navbar-item">
+            <div class="buttons">
+              <a class="button is-light is-primary" href="#start" id="get-started-button">
+                <strong>Get Started</strong>
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </nav>
+    </nav>
+  </transition>
 </template>
 
 <script>
