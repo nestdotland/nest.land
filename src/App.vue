@@ -6,19 +6,19 @@
 </template>
 
 <script>
-import NestFooter from "./components/Footer";
-
 export default {
-  name: "App",
-  components: {
-    NestFooter
-  }
+  name: "App"
 };
 </script>
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Inconsolata");
+
+.nest-input {
+  border: none !important;
+  box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07) !important;
+}
 
 .nest-gradient-hero {
   background: linear-gradient(271deg, #22c1c3, #fdbb2d);
@@ -62,9 +62,15 @@ export default {
   }
 }
 
+.fade-enter,
 .slide-down-enter,
 .slide-up-enter {
   opacity: 0;
+}
+.fade-enter-active {
+  transition: opacity 1s;
+  transition-timing-function: ease-in;
+  transition-delay: 0.5s;
 }
 .slide-up-enter-active {
   animation: slide-in-up 1s ease-out forwards;
@@ -74,16 +80,6 @@ export default {
   animation: slide-in-down 1s ease-out forwards;
   transition: opacity 1s;
 }
-/* 
-.slide-leave {
-
-}
-.slide-leave-active {
-  animation: slide-out 0.5s ease-out forwards;
-  transition: opacity 0.5s;
-  opacity: 0;
-}
-*/
 @keyframes slide-in-down {
   from {
     transform: translateY(-40px);
