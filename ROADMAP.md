@@ -8,8 +8,11 @@ Following release, we will place a strong emphasis on marketing in order to gain
 
 ### Goals
   - Site:
+    - Manually written documentation.
     - Basic analytics for the website (Google Analytics or FOSS alternative).
     - Functioning Database + API that maps files to a nest.land URI (see resources goal 1).
+    - Basic UI for information about the service.
+    - Gallery to view and search packages on the registry (utilizing the API).
   - CLI:
     - User Accounts
       - A global user account API key will be stored in `~/.nest-land-creds` where the CLI shall retreive them.
@@ -19,7 +22,7 @@ Following release, we will place a strong emphasis on marketing in order to gain
     - https://x.nest.land/package[@version]/[someFile].(ts/js)
       - Proxy to the files stored on Arweave, data required stored in database.
     - https://api.nest.land/packages
-      - `GET` -> Get a list of packages.
+      - `GET`  -> Get a list of packages.
     - https://api.nest.land/info/<package[@version]>
       - `GET`  -> Get package metadata.
     - https://api.nest.land/publish/<name@version>
@@ -29,10 +32,6 @@ Following release, we will place a strong emphasis on marketing in order to gain
       - `POST` -> Create a new account, argon2 hash, provides an API key.
     - https://api.nest.land/login
       - `POST` -> Logs into the account, provides an API key.
- - Website:
-    - Basic UI for information about the service and documentation for how to begin.
-    - Gallery to view and search packages on the registry (utilizing the API).
-
 
 ### Resources:
   - [PostgresSQL On Digital Ocean ($15/month)](https://www.digitalocean.com/products/managed-databases-postgresql/)
@@ -53,7 +52,9 @@ We'd also like to implement premium features to allow for profitability on the t
     - GraphQL API instead of REST.
       - Depending on the libraries available for Deno, this may consitute a rewrite to rust for the API.
   - Site:
+    - Automatically generated documentation with some manual components.
     - Transition to TypeScript for Deno compatibility
+  - Create a GitHub Discussions Page to interact with users
 
 ### Resources
   - Everything in Milestone 1
@@ -66,7 +67,8 @@ Milestone 3 consists of continuing to grow our userbase while introducing more p
 ### Goals
   - Random testing, some users may be served release candidates of nest.land in order to test if they function or not,
     this could be orchestrated through k8s or Docker (maybe).
-  - 
+  - Custom emails.
 
 ### Resources
   - Digital Ocean Kubernetes if scale demands it. Pricing varies on cluster sizing and network traffic.
+  - Server to host emails (Cheap VPS, in the case that we move to a clustered setup) OR Zoho, depends on brand identity requirements and success.
