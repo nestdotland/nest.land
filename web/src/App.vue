@@ -6,13 +6,13 @@
 </template>
 
 <script>
-import NestFooter from "./components/Footer";
+import NestFooter from "./components/Footer.vue";
 
 export default {
   name: "App",
   components: {
-    NestFooter
-  }
+    NestFooter,
+  },
 };
 </script>
 
