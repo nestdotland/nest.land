@@ -2,9 +2,9 @@
   <transition name="slide-down" type="animation" appear>
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <a class="navbar-item" href="https://nest.land">
+        <router-link class="navbar-item" to="/">
           <img src="../assets/nest_light.png" />
-        </a>
+        </router-link>
         <a
           role="button"
           class="navbar-burger burger"
@@ -20,7 +20,7 @@
 
       <div id="main-nav" class="navbar-menu">
         <div class="navbar-end">
-          <a class="navbar-item">The Gallery</a>
+          <router-link class="navbar-item" to="gallery" active-class="active-link" exact>The Gallery</router-link>
           <a class="navbar-item" href="#start">Documentation</a>
           <div class="navbar-item">
             <div class="buttons">
@@ -71,7 +71,13 @@ document.addEventListener("DOMContentLoaded", () => {
 #get-started-button {
   font-family: "Inconsolata", monospace;
 }
+
 .navbar-item:hover {
   background: none !important;
+}
+
+.active-link {
+  text-decoration: underline;
+  text-decoration-thickness: 6px;
 }
 </style>

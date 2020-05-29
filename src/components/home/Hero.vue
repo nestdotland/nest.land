@@ -20,8 +20,8 @@
 </template>
 
 <script>
-import DinoFootprints from "../assets/footprints.svg";
-import NestNav from "./Nav";
+import DinoFootprints from "../../assets/footprints.svg";
+import NestNav from "../Nav";
 
 export default {
   name: "Hero",

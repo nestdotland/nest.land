@@ -7,7 +7,6 @@
           <div class="column is-5">
             <figure id="deno-img">
               <a href="https://deno.land/">
-                <!-- <img src="../assets/deno.png" /> -->
                 <deno-logo></deno-logo>
               </a>
             </figure>
@@ -18,7 +17,6 @@
           <div class="column is-5">
             <figure id="arweave-img">
               <a href="https://www.arweave.org/">
-                <!-- <img src="../assets/arweave.png" /> -->
                 <arweave-logo></arweave-logo>
               </a>
             </figure>
@@ -53,8 +51,8 @@
 </template>
 
 <script>
-import ArweaveLogo from "../assets/arweave.svg";
-import DenoLogo from "../assets/deno.svg";
+import ArweaveLogo from "../../assets/arweave.svg";
+import DenoLogo from "../../assets/deno.svg";
 
 export default {
   name: "Intro",
