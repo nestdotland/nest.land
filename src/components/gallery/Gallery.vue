@@ -9,9 +9,8 @@
           <transition name="slide-up" type="animation" appear>
             <h1 class="title is-2">The Gallery</h1>
           </transition>
-          <div class="columns">
-            <div class="column is-3 is-hidden-mobile"></div>
-            <div class="column is-6">
+          <div class="columns is-mobile is-centered">
+            <div class="column is-half">
               <transition name="fade" type="transition" appear>
                 <div class="field">
                   <p class="control has-icons-left">
@@ -27,7 +26,6 @@
                 </div>
               </transition>
             </div>
-            <div class="column is-3 is-hidden-mobile"></div>
           </div>
           <p class="subtitle">
             Trying to add a package? See
@@ -54,7 +52,7 @@
     <div class="hero is-light is-small">
       <div class="hero-body">
         <div class="container">
-          <div class="columns">
+          <div class="columns is-multiline">
             <div class="column is-3" v-for="item in items" v-bind:key="item.id">
               <card v-bind:item="item"></card>
             </div>
