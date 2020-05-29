@@ -76,8 +76,8 @@ document.addEventListener("DOMContentLoaded", () => {
   background: none !important;
 }
 
-.active-link {
-  text-decoration: underline;
-  text-decoration-thickness: 6px;
+.navbar-item.active-link {
+  border-top: 0.4rem solid #fdbb2d;
+  padding-top: 0.1rem;
 }
 </style>
