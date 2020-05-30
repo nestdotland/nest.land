@@ -8,9 +8,11 @@
         <a
           role="button"
           class="navbar-burger burger"
+          :class="burgerClass"
           aria-label="menu"
           aria-expanded="false"
           data-target="main-nav"
+          @click="toggleBurger"
         >
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -18,7 +20,7 @@
         </a>
       </div>
 
-      <div id="main-nav" class="navbar-menu">
+      <div id="main-nav" class="navbar-menu" :class="burgerClass">
         <div class="navbar-end">
           <router-link class="navbar-item" to="gallery" active-class="active-link" exact>The Gallery</router-link>
           <router-link class="navbar-item" to="/#start">Documentation</router-link>
@@ -37,34 +39,26 @@
 
 <script>
 export default {
-  name: "NestNav"
-};
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  // Get all "navbar-burger" elements
-  const $navbarBurgers = Array.prototype.slice.call(
-    document.querySelectorAll(".navbar-burger"),
-    0
-  );
-
-  // Check if there are any navbar burgers
-  if ($navbarBurgers.length > 0) {
-    // Add a click event on each of them
-    $navbarBurgers.forEach(el => {
-      el.addEventListener("click", () => {
-        // Get the target from the "data-target" attribute
-        const target = el.dataset.target;
-        const $target = document.getElementById(target);
-
-        // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-        el.classList.toggle("is-active");
-        $target.classList.toggle("is-active");
-      });
-    });
+  name: "NestNav",
+  data() {
+    return {
+      burgerToggled: false,
+      burgerClass: ""
+    };
+  },
+  methods: {
+    toggleBurger() {
+      console.log("CLICKED");
+      if (this.burgerToggled) {
+        this.burgerToggled = false;
+        this.burgerClass = "";
+      } else {
+        this.burgerToggled = true;
+        this.burgerClass = "is-active";
+      }
+    }
   }
-});
+};
 </script>
 
 <style scoped>
@@ -72,7 +66,8 @@ document.addEventListener("DOMContentLoaded", () => {
   font-family: "Inconsolata", monospace;
 }
 
-.navbar-item:hover {
+.navbar-item:hover,
+.navbar-burger {
   background: none !important;
 }
 
