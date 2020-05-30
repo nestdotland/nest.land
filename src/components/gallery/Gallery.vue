@@ -29,7 +29,7 @@
           </div>
           <p class="subtitle">
             Trying to add a package? See
-            <a href>Getting Started</a>.
+            <router-link to="/#start">Getting Started</router-link>.
           </p>
         </div>
       </div>

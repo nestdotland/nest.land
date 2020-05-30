@@ -6,7 +6,13 @@
         <a href="https://github.com/tbaumer22">tbaumer22</a> and
         <a href="https://github.com/zorbyte">zorbyte</a>.
         <br />Made with
-        <font-awesome-icon :icon="['fa', 'heart']" />&nbsp; for Deno.
+        <font-awesome-icon
+          :icon="['fa', 'heart']"
+          v-show="!isCheese"
+          @click="isCheese = !isCheese"
+        />
+        <span v-show="isCheese">🧀</span>
+        &nbsp; for Deno.
       </p>
       <p>
         The
@@ -24,7 +30,12 @@
 
 <script>
 export default {
-  name: "NestFooter"
+  name: "NestFooter",
+  data() {
+    return {
+      isCheese: false
+    };
+  }
 };
 </script>
 
