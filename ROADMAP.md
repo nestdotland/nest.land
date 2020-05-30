@@ -44,6 +44,8 @@ In this milestone, we'd like to continue adding minor features to the service to
 We'd also like to implement premium features to allow for profitability on the team's end.
 
 ### Goals
+  - Database:
+    - Migrate to an Arweave-based Database
   - API:
     - Enforce cryptographic signing for all users (GPG keys).
     - All routes are ratelimited using a per-route token (paired with a cooldown) for storage in a client side bucket.

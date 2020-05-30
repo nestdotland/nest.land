@@ -6,7 +6,7 @@
         <a href="https://github.com/tbaumer22">tbaumer22</a> and
         <a href="https://github.com/zorbyte">zorbyte</a>.
         <br />Made with
-        <font-awesome-icon :icon="['fa', 'heart']" />, Arweave, Vue, and Bulma for Deno.
+        <font-awesome-icon :icon="['fa', 'heart']" />&nbsp; for Deno.
       </p>
       <p>
         The
