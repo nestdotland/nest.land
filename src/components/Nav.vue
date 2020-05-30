@@ -21,12 +21,12 @@
       <div id="main-nav" class="navbar-menu">
         <div class="navbar-end">
           <router-link class="navbar-item" to="gallery" active-class="active-link" exact>The Gallery</router-link>
-          <a class="navbar-item" href="#start">Documentation</a>
+          <router-link class="navbar-item" to="/#start">Documentation</router-link>
           <div class="navbar-item">
             <div class="buttons">
-              <a class="button is-light is-primary" href="#start" id="get-started-button">
+              <router-link class="button is-light is-primary" id="get-started-button" to="/#start">
                 <strong>Get Started</strong>
-              </a>
+              </router-link>
             </div>
           </div>
         </div>

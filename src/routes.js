@@ -9,5 +9,9 @@ export const routes = [
     {
         path: '/gallery',
         component: Gallery
+    },
+    {
+        path: '*',
+        redirect: '/'
     }
 ];

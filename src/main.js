@@ -29,7 +29,21 @@ Vue.use(VueRouter);
 
 const router = new VueRouter({
   routes,
-  mode: 'history'
+  mode: 'history',
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    }
+    if (to.hash) {
+      return {
+        selector: to.hash
+      };
+    }
+    return {
+      x: 0,
+      y: 0
+    };
+  }
 });
 
 new Vue({
