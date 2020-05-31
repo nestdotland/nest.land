@@ -37,10 +37,10 @@
         <nav class="tabs is-boxed is-fullwidth">
           <div class="container">
             <ul>
-              <li>
+              <li class="nest-heading">
                 <a class="no-hover">100 Packages</a>
               </li>
-              <li>
+              <li class="nest-heading">
                 <a class="no-hover">90 Authors</a>
               </li>
             </ul>
@@ -128,8 +128,15 @@ export default {
 </script>
 
 <style scoped>
+.nest-heading {
+  font-size: 0.9em;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
 .no-hover:hover {
   background: none !important;
+  border-bottom: 0 !important;
   cursor: default;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer has-background-dark">
+  <footer class="footer has-background-dark" id="symmetric-footer">
     <div class="content has-text-centered has-text-white">
       <p>
         <b>Nest.land</b> by
@@ -15,9 +15,10 @@
         &nbsp; for Deno.
       </p>
       <p>
-        The
-        <a href="https://github.com/nestlandofficial/nest.land">source code</a> is licensed
-        <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
+        Nest.land is licensed under the
+        <a
+          href="http://opensource.org/licenses/mit-license.php"
+        >MIT License</a>.
       </p>
       <p>
         <a href="https://github.com/nestlandofficial/nest.land" class="footer-icon">
@@ -40,6 +41,10 @@ export default {
 </script>
 
 <style scoped>
+#symmetric-footer {
+  padding: 3rem 1.5rem;
+}
+
 a,
 a:hover {
   color: white;
