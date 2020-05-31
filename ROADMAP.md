@@ -17,6 +17,7 @@ Following release, we will place a strong emphasis on marketing in order to gain
     - User Accounts
       - A global user account API key will be stored in `~/.nest-land-creds` where the CLI shall retreive them.
   - API:
+    - MongoDB
     - Versions must be SemVer (2.0.0) compliant.
     - Package names must be alphanumeric.
     - https://x.nest.land/package[@version]/[someFile].(ts/js)
@@ -34,7 +35,6 @@ Following release, we will place a strong emphasis on marketing in order to gain
       - `POST` -> Logs into the account, provides an API key.
 
 ### Resources:
-  - [PostgresSQL On Digital Ocean ($15/month)](https://www.digitalocean.com/products/managed-databases-postgresql/)
   - [VPS - Option 3 (3GB RAM  1vCPU  3TB Storage  60GB SSD 	$15/MO)](https://www.digitalocean.com/pricing/)
   - Average Package Size -> 50kb to 400kb -> 0.000088482632 AR to 0.000670494050 AR per transaction
 
@@ -51,6 +51,7 @@ We'd also like to implement premium features to allow for profitability on the t
       - Paywall for more than 3 people, $5 per person
     - GraphQL API instead of REST.
       - Depending on the libraries available for Deno, this may consitute a rewrite to rust for the API.
+    - Consider moving to PostgreSQL, if required we could try Cassandra or ScyllaDB however this could be deferred to Milesone 3 depending on the demand.
   - Site:
     - Automatically generated documentation with some manual components.
     - Transition to TypeScript for Deno compatibility
@@ -58,6 +59,9 @@ We'd also like to implement premium features to allow for profitability on the t
 
 ### Resources
   - Everything in Milestone 1
+  - Depending on the DB:
+    - [PostgreSQL On Digital Ocean ($15/month)](https://www.digitalocean.com/products/managed-databases-postgresql/)
+    - Hosted in a VPS if ScyllaDB or Cassandra is chosen.
   - [Vercel Teams ($40/month)](https://vercel.com/pricing)
 
 
@@ -71,4 +75,5 @@ Milestone 3 consists of continuing to grow our userbase while introducing more p
 
 ### Resources
   - Digital Ocean Kubernetes if scale demands it. Pricing varies on cluster sizing and network traffic.
+  - Distributed database, ScyllaDB
   - Server to host emails (Cheap VPS, in the case that we move to a clustered setup) OR Zoho, depends on brand identity requirements and success.
