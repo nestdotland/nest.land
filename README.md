@@ -1,4 +1,4 @@
-<img src="/src/assets/nest_light_mono.png" align="right" width="200">
+<img src="/web/src/assets/nest_light_mono.png" align="right" width="200">
 
 # nest.land
 
@@ -26,7 +26,7 @@ npm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## Project Diagram
-<img src="/src/assets/nest_diagram.jpg">
+<img src="/web/src/assets/nest_diagram.jpg">
 
 ## Credits
 
