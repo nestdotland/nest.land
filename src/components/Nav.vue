@@ -48,7 +48,6 @@ export default {
   },
   methods: {
     toggleBurger() {
-      console.log("CLICKED");
       if (this.burgerToggled) {
         this.burgerToggled = false;
         this.burgerClass = "";

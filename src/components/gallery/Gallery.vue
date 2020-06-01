@@ -1,6 +1,7 @@
 <template>
   <div class="gallery">
     <div class="hero is-medium is-light">
+      <div class="notification is-danger is-light" v-show="errorMessage !== ''">{{ errorMessage }}</div>
       <div class="hero-head">
         <nest-nav></nest-nav>
       </div>
@@ -18,6 +19,7 @@
                       class="input is-rounded nest-input"
                       type="text"
                       placeholder="Search for packages"
+                      v-model="searchPhrase"
                     />
                     <span class="icon is-small is-left">
                       <font-awesome-icon :icon="['fa', 'search']" />
@@ -53,8 +55,8 @@
       <div class="hero-body">
         <div class="container">
           <div class="columns is-multiline">
-            <div class="column is-3" v-for="item in items" v-bind:key="item.id">
-              <card v-bind:item="item"></card>
+            <div class="column is-3" v-for="p in shownPackages" v-bind:key="p.id">
+              <card v-bind:item="p"></card>
             </div>
           </div>
         </div>
@@ -67,62 +69,42 @@
 import NestNav from "../Nav";
 import GradientBar from "../GradientBar";
 import Card from "../Card";
+import { HTTP } from "../../http-common";
 
 export default {
   data() {
     return {
-      items: [
-        {
-          packageTitle: "Hello World",
-          packageURL: "https://nest.land/x/bruh",
-          packageInfo: {
-            author: "Nanny McFee",
-            docsLink: "https://github.com/nannymcfee/helloworld",
-            description: "A simple, easy to use hello world package!",
-            version: "1.0.1",
-            publishedDate: "datetime object here"
-          }
-        },
-        {
-          packageTitle: "Cheese",
-          packageURL: "https://nest.land/x/bruh",
-          packageInfo: {
-            author: "Zorbyte",
-            docsLink: "https://github.com/nannymcfee/helloworld",
-            description: "A simple, easy to use hello world package!",
-            version: "1.0.1",
-            publishedDate: "datetime object here"
-          }
-        },
-        {
-          packageTitle: "a1",
-          packageURL: "https://nest.land/x/bruh",
-          packageInfo: {
-            author: "sauce",
-            docsLink: "https://github.com/nannymcfee/helloworld",
-            description: "A simple, easy to use hello world package!",
-            version: "1.0.1",
-            publishedDate: "datetime object here"
-          }
-        },
-        {
-          packageTitle: "yo",
-          packageURL: "https://nest.land/x/bruh",
-          packageInfo: {
-            author: "mama",
-            docsLink: "https://github.com/nannymcfee/helloworld",
-            description: "A simple, easy to use hello world package!",
-            version: "1.0.1",
-            publishedDate: "datetime object here"
-          }
-        }
-      ]
+      packages: [],
+      searchPhrase: "",
+      shownPackages: [],
+      errorMessage: ""
     };
   },
   components: {
     NestNav,
     GradientBar,
     Card
+  },
+  created() {
+    HTTP.get("packages")
+      .then(response => {
+        this.packages = response.data;
+        this.shownPackages = response.data;
+      })
+      .catch(error => {
+        this.errorMessage = error;
+      });
+  },
+  watch: {
+    searchPhrase: function(value) {
+      let potentialMatches = [];
+      for (let i = 0; i < this.packages.length; i++) {
+        if (this.packages[i]._id.search(value) !== -1) {
+          potentialMatches.push(this.packages[i]);
+        }
+      }
+      this.shownPackages = potentialMatches;
+    }
   }
 };
 </script>
