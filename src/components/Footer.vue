@@ -1,17 +1,24 @@
 <template>
-  <footer class="footer has-background-dark">
+  <footer class="footer has-background-dark" id="symmetric-footer">
     <div class="content has-text-centered has-text-white">
       <p>
         <b>Nest.land</b> by
         <a href="https://github.com/tbaumer22">tbaumer22</a> and
         <a href="https://github.com/zorbyte">zorbyte</a>.
         <br />Made with
-        <font-awesome-icon :icon="['fa', 'heart']" />, Arweave, Vue, and Bulma for Deno.
+        <font-awesome-icon
+          :icon="['fa', 'heart']"
+          v-show="!isCheese"
+          @click="isCheese = !isCheese"
+        />
+        <span v-show="isCheese">🧀</span>
+        &nbsp; for Deno.
       </p>
       <p>
-        The
-        <a href="https://github.com/nestlandofficial/nest.land">source code</a> is licensed
-        <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
+        Nest.land is licensed under the
+        <a
+          href="http://opensource.org/licenses/mit-license.php"
+        >MIT License</a>.
       </p>
       <p>
         <a href="https://github.com/nestlandofficial/nest.land" class="footer-icon">
@@ -24,11 +31,20 @@
 
 <script>
 export default {
-  name: "NestFooter"
+  name: "NestFooter",
+  data() {
+    return {
+      isCheese: false
+    };
+  }
 };
 </script>
 
 <style scoped>
+#symmetric-footer {
+  padding: 3rem 1.5rem;
+}
+
 a,
 a:hover {
   color: white;
