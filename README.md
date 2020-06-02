@@ -1,7 +1,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/nestlandofficial/nest.land">
-    <img src="/web/src/assets/nest_light_mono.png" alt="logo" width="90">
+    <img src="./web/src/assets/nest_light.png" alt="logo" width="110">
   </a>
 
   <h3 align="center">nest.land</h3>
@@ -24,7 +24,7 @@ See the [roadmap](/ROADMAP.md).
 
 ## Project Diagram
 
-<img src="/web/src/assets/nest_diagram.jpg">
+<img src="./web/src/assets/nest_diagram.png">
 
 
 ## Credits
