@@ -37,13 +37,8 @@
 </template>
 
 <script>
-import PackageVector from "../../assets/package_vector.svg";
-
 export default {
   name: "Intro",
-  components: {
-    PackageVector
-  }
 };
 </script>
 

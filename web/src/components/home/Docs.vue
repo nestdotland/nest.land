@@ -1,8 +1,8 @@
 <template>
-  <div class="hero is-medium">
-    <div class="hero-body" style="padding-top: 0;">
+  <div class="hero is-medium" id="docs">
+    <div class="hero-body">
       <div class="container">
-        <h1 class="title" id="start">Getting Started</h1>
+        <h1 class="title">Documentation</h1>
         <div class="columns is-multiline">
           <div class="column is-half">
             <p>
@@ -32,7 +32,7 @@
 
 <script>
 export default {
-  name: "Docs"
+  name: "Docs",
 };
 </script>
 
