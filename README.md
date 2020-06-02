@@ -1,8 +1,15 @@
-<img src="/web/src/assets/nest_light_mono.png" align="right" width="200">
+<br />
+<p align="center">
+  <a href="https://github.com/nestlandofficial/nest.land">
+    <img src="/web/src/assets/nest_light_mono.png" alt="logo" width="90">
+  </a>
 
-# nest.land
+  <h3 align="center">nest.land</h3>
 
-An immutable package registry for Deno.
+  <p align="center">
+    An immutable, blockchain powerd package registry for Deno.
+ </p>
+</p>
 
 
 ## Project Diagram
