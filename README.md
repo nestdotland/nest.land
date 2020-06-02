@@ -12,6 +12,16 @@
 </p>
 
 
+## About
+
+nest.land is a package registry that uses Arweave to upload your packages to the blockchain, keeping them secure and immutable.
+
+
+## Roadmap
+
+See the [roadmap](/ROADMAP.md).
+
+
 ## Project Diagram
 
 <img src="/web/src/assets/nest_diagram.jpg">
