@@ -1,5 +1,5 @@
-import Home from "./components/home/Home.vue";
-import Gallery from "./components/gallery/Gallery.vue";
+import Home from "./components/home/Home";
+import Gallery from "./components/gallery/Gallery";
 
 export const routes = [
   {
@@ -9,5 +9,9 @@ export const routes = [
   {
     path: "/gallery",
     component: Gallery,
+  },
+  {
+    path: "*",
+    redirect: "/",
   },
 ];

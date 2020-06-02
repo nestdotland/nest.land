@@ -3,26 +3,24 @@
     <div class="card-content">
       <div class="media">
         <div class="media-content">
-          <p class="title is-4 has-text-dark">{{ item.packageTitle }}</p>
+          <p class="title is-4 has-text-dark">{{ item._id }}</p>
           <hr class="mini-hr" />
         </div>
         <div class="media-right">
           <figure class="image is-48x48">
-            <img
-              class="is-rounded"
-              src="https://bulma.io/images/placeholders/96x96.png"
-              alt="Placeholder icon"
-            />
+            <img src="../assets/package_icon.png" alt="Package Icon" />
           </figure>
         </div>
       </div>
       <div class="content">
-        <p>{{ item.packageInfo.description }}</p>
+        <p>{{ item.description }}</p>
       </div>
     </div>
     <footer class="card-footer">
-      <a :href="item.packageURL" class="card-footer-item has-text-dark">Package URL</a>
-      <a :href="item.packageInfo.docsLink" class="card-footer-item has-text-dark">Docs</a>
+      <a
+        :href="'https://x.nest.land/' + item._id + '@' + item.latestStableVersion"
+        class="card-footer-item has-text-dark"
+      >Open Package</a>
     </footer>
   </div>
 </template>

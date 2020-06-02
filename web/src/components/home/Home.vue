@@ -3,7 +3,7 @@
     <hero></hero>
     <gradient-bar></gradient-bar>
     <intro></intro>
-    <featured-packages></featured-packages>
+    <!-- <featured-packages></featured-packages>  Disabling for now. Will add back after release when more packages are added.  -->
     <docs></docs>
   </div>
 </template>
@@ -12,7 +12,7 @@
 import Hero from "./Hero";
 import GradientBar from "../GradientBar";
 import Intro from "./Intro";
-import FeaturedPackages from "./FeaturedPackages";
+// import FeaturedPackages from "./FeaturedPackages";
 import Docs from "./Docs";
 
 export default {
@@ -20,7 +20,7 @@ export default {
     Hero,
     GradientBar,
     Intro,
-    FeaturedPackages,
+    // FeaturedPackages,
     Docs
   }
 };

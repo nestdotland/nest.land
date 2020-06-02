@@ -2,47 +2,33 @@
   <div class="hero is-medium">
     <div class="hero-body" id="intro">
       <div class="container">
-        <h1 class="title">What is Nest?</h1>
-        <div class="columns is-mobile" id="double-trouble">
-          <div class="column is-5">
-            <figure id="deno-img">
-              <a href="https://deno.land/">
-                <deno-logo></deno-logo>
-              </a>
-            </figure>
-          </div>
-          <div class="column is-2 has-text-centered">
-            <h1 class="title is-1" id="plus">+</h1>
-          </div>
-          <div class="column is-5">
-            <figure id="arweave-img">
-              <a href="https://www.arweave.org/">
-                <arweave-logo></arweave-logo>
-              </a>
-            </figure>
-          </div>
-        </div>
-        <hr />
-        <div class="columns">
-          <div class="column is-half">
+        <div class="columns is-vcentered">
+          <div class="column">
+            <h1 class="title">What is Nest.land?</h1>
             <p>
-              Nest.land combines the best of Node.js and TypeScript with the Arweave Permaweb. With Nest, you can
+              Nest.land combines Deno with the
+              <a
+                class="has-text-dark"
+                href="https://www.arweave.org/"
+              >Arweave Blockchain</a>. With us, you can
               publish Deno packages to the permaweb, where they can never be deleted. This avoids a major pitfall
-              for web-based package imports while allowing the developer to maximize on the potential of Deno.
+              for web-based package imports while allowing the developer to maximize on the potential of Deno's URL-based imports!
             </p>
-          </div>
-          <div class="column is-half">
+            <hr />
             <ul>
               <li class="subtitle">
                 <font-awesome-icon :icon="['fas', 'trash-alt']" class="left-icon" />Impossible to delete or remove
               </li>
               <li class="subtitle">
-                <font-awesome-icon :icon="['fas', 'universal-access']" class="left-icon" />Easily accessible
+                <font-awesome-icon :icon="['fas', 'universal-access']" class="left-icon" />Easily accessible registry
               </li>
               <li class="subtitle">
-                <font-awesome-icon :icon="['fas', 'feather-alt']" class="left-icon" />Easy to publish packages
+                <font-awesome-icon :icon="['fas', 'feather-alt']" class="left-icon" />Easy and free to publish packages
               </li>
             </ul>
+          </div>
+          <div class="column is-hidden-mobile">
+            <package-vector></package-vector>
           </div>
         </div>
       </div>
@@ -51,40 +37,17 @@
 </template>
 
 <script>
-import ArweaveLogo from "../../assets/arweave.svg";
-import DenoLogo from "../../assets/deno.svg";
+import PackageVector from "../../assets/package_vector.svg";
 
 export default {
   name: "Intro",
   components: {
-    ArweaveLogo,
-    DenoLogo
+    PackageVector
   }
 };
 </script>
 
 <style scoped>
-#double-trouble {
-  display: flex;
-  align-items: center;
-}
-#deno-img {
-  float: right;
-  transition: transform 0.2s;
-}
-#arweave-img {
-  transition: transform 0.2s;
-}
-#deno-img,
-#arweave-img {
-  width: 40%;
-  min-width: 100px;
-}
-#deno-img:hover,
-#arweave-img:hover {
-  transition: transform 0.2s;
-  transform: translateY(-15px);
-}
 .left-icon {
   margin-right: 10px;
 }
