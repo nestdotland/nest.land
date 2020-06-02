@@ -7,7 +7,7 @@
   <h3 align="center">nest.land</h3>
 
   <p align="center">
-    An immutable, blockchain powerd package registry for Deno.
+    An immutable, blockchain powered package registry for Deno.
  </p>
 </p>
 
