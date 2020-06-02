@@ -2,33 +2,21 @@
 
 # nest.land
 
-## Project setup
-```
-npm install
-```
+An immutable package registry for Deno.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## Project Diagram
+
 <img src="/web/src/assets/nest_diagram.jpg">
+
 
 ## Credits
 
-* [tbaumer22](https://github.com/tbaumer22), Frontend & Design
-* [zorbyte](https://github.com/zorbyte), Backend & CLI
+### Authors
+
+ - [tbaumer22](https://github.com/tbaumer22), Co-Founder, Frontend & UI/UX
+ - [zorbyte](https://github.com/zorbyte), Co-Founder, Backend & CLI
+
+### Inspirations
+
+ - [Deno Third-Party Modules](https://deno.land/x)
