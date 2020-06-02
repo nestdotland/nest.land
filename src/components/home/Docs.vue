@@ -11,7 +11,7 @@
             </p>
           </div>
           <div class="column is-half">
-            <pre><code>$ deno install --allow-read --allow-run --allow-write -f --unstable https://x.nest.land/egg@0.1.0</code></pre>
+            <pre><code>$ deno install --allow-read --allow-run --allow-write -f --unstable https://x.nest.land/egg@0.0.1</code></pre>
           </div>
           <div class="column is-half">
             <p>Following installation, just navigate to the root of your package and use the command shown!</p>
