@@ -1,34 +1,39 @@
-<img src="/src/assets/nest_light_mono.png" align="right" width="200">
+<br />
+<p align="center">
+  <a href="https://github.com/nestlandofficial/nest.land">
+    <img src="/web/src/assets/nest_light_mono.png" alt="logo" width="90">
+  </a>
 
-# nest.land
+  <h3 align="center">nest.land</h3>
 
-## Project setup
-```
-npm install
-```
+  <p align="center">
+    An immutable, blockchain powerd package registry for Deno.
+ </p>
+</p>
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## About
 
-### Lints and fixes files
-```
-npm run lint
-```
+nest.land is a package registry that uses Arweave to upload your packages to the blockchain, keeping them secure and immutable.
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Roadmap
+
+See the [roadmap](/ROADMAP.md).
+
 
 ## Project Diagram
-<img src="/src/assets/nest_diagram.png">
+
+<img src="/web/src/assets/nest_diagram.jpg">
+
 
 ## Credits
 
-* [tbaumer22](https://github.com/tbaumer22), Frontend & Design
-* [zorbyte](https://github.com/zorbyte), Backend & CLI
+### Authors
+
+ - [tbaumer22](https://github.com/tbaumer22), Co-Founder, Frontend & UI/UX
+ - [zorbyte](https://github.com/zorbyte), Co-Founder, Backend & CLI
+
+### Inspirations
+
+ - [Deno Third-Party Modules](https://deno.land/x)

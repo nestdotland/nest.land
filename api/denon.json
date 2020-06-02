@@ -1,0 +1,14 @@
+{
+  "$schema": "https://deno.land/x/denon/schema.json",
+  "scripts": {
+    "start": {
+      "cmd": "./src/main.ts",
+      "desc": "Run the API server.",
+      "allow": ["env", "net"],
+      "env": {
+        "PORT": "8080",
+        "DEBUG": "true"
+      }
+    }
+  }
+}
