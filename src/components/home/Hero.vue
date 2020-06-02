@@ -1,6 +1,5 @@
 <template>
   <div class="hero is-medium is-light is-bold nest-footprints-hero">
-    <!-- <dino-footprints class="footprints is-hidden-mobile"></dino-footprints> -->
     <div class="hero-head">
       <nest-nav></nest-nav>
     </div>
@@ -20,13 +19,11 @@
 </template>
 
 <script>
-// import DinoFootprints from "../../assets/footprints.svg";
 import NestNav from "../Nav";
 
 export default {
   name: "Hero",
   components: {
-    //DinoFootprints,
     NestNav
   }
 };
