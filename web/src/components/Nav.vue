@@ -66,6 +66,8 @@ export default {
 }
 
 .navbar-item:hover,
+.navbar-item:focus,
+.navbar-item:focus-within,
 .navbar-burger {
   background: none !important;
 }

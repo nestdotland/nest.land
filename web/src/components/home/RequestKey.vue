@@ -21,7 +21,7 @@
               <div class="control">
                 <button
                   class="button is-light is-primary is-medium is-fullwidth"
-                  :class="status"
+                  :class="buttonStatusClass"
                   id="generate-button"
                   @click="recaptcha"
                 >Generate an API Key</button>
@@ -45,7 +45,7 @@ export default {
   name: "RequestKey",
   data() {
     return {
-      status: "",
+      buttonStatusClass: "",
       verificationSucceeded: false,
       serverError: "",
       eggAPIKey: "",
@@ -53,40 +53,39 @@ export default {
   },
   methods: {
     async recaptcha() {
-      this.status = "is-loading";
+      this.buttonStatusClass = "is-loading";
       await this.$recaptchaLoaded();
       const token = await this.$recaptcha("login");
       const url = window.location.href.split("#")[0] + "api/captcha";
-      axios({
-        method: "post",
-        url: url,
-        data: {
-          token,
-        },
-      })
-        .then(data => {
-          // CAPTCHA SUCCEEDED YAY -> Now need to generate an API key
-          this.getToken(data);
-        })
-        .catch(err => (this.serverError = err));
+      try {
+        const response = await axios({
+          method: "post",
+          url: url,
+          data: {
+            token,
+          },
+        });
+        this.getToken(response);
+      } catch (err) {
+        this.serverError = err;
+      }
     },
     async getToken(confirmation) {
       const url = window.location.href.split("#")[0] + "api/get-key";
-      axios({
-        method: "post",
-        url: url,
-        data: {
-          confirmation,
-        },
-      })
-        .then(response => {
-          // GENERATED TOKEN YAY
-          this.eggAPIKey = response.data.token;
-          this.verificationSucceeded = true;
-          this.status = "";
-        })
-        .catch(err => (this.serverError = err));
-      console.log(confirmation);
+      try {
+        const response = await axios({
+          method: "post",
+          url: url,
+          data: {
+            confirmation,
+          },
+        });
+        this.eggAPIKey = response.data.token;
+        this.verificationSucceeded = true;
+        this.buttonStatusClass = "";
+      } catch (err) {
+        this.serverError = err;
+      }
     },
   },
 };
