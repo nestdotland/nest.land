@@ -7,13 +7,17 @@
             <img src="../../assets/box_vector.png" alt="Box Vector" />
           </div>
           <div class="column">
+            <div
+              class="notification is-danger is-light"
+              v-show="serverError !== ''"
+            >{{ serverError }}</div>
             <h1 class="title">Getting Started</h1>
             <p>
               In order to publish packages to the blockchain with our CLI, you must first generate an API key. This key is your cryptographic identity on the blockchain, so don't lose it! After generating, see the
               <router-link to="/#docs" class="has-text-dark">documentation</router-link>.
             </p>
             <hr />
-            <div class="field">
+            <div class="field" v-show="verificationSucceeded !== true">
               <div class="control">
                 <button
                   class="button is-light is-primary is-medium"
@@ -22,6 +26,10 @@
                   @click="recaptcha"
                 >Generate an API Key</button>
               </div>
+            </div>
+            <div v-show="verificationSucceeded === true" id="token-group">
+              <h2 class="subtitle">Your key:</h2>
+              <pre id="token-element"><code>{{ eggAPIKey }}</code></pre>
             </div>
           </div>
         </div>
@@ -38,8 +46,9 @@ export default {
   data() {
     return {
       status: "",
-      sucessfulServerResponse: "",
+      verificationSucceeded: false,
       serverError: "",
+      eggAPIKey: "cheese",
     };
   },
   methods: {
@@ -56,10 +65,15 @@ export default {
         },
       })
         .then(data => {
-          console.log(data);
-          this.status = "";
+          // CAPTCHA SUCCEEDED YAY -> Now need to generate an API key
+          this.getToken(data);
         })
-        .catch(err => console.log(err));
+        .catch(err => (this.serverError = err));
+    },
+    async getToken(confirmation) {
+      this.verificationSucceeded = true;
+      this.status = "";
+      console.log(confirmation);
     },
   },
 };
@@ -71,5 +85,9 @@ export default {
 }
 #generate-button::after {
   border-color: transparent transparent black black !important;
+}
+
+#token-element {
+  background-color: #fdbb2d;
 }
 </style>

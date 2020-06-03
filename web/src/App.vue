@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: "App"
+  name: "App",
 };
 </script>
 
@@ -103,6 +103,10 @@ export default {
   to {
     transform: translateY(-20px);
   }
+}
+
+.grecaptcha-badge {
+  display: none !important;
 }
 
 .nest-footprints-hero {

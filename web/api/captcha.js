@@ -1,7 +1,7 @@
 const request = require("request");
 
 module.exports = (req, res) => {
-    if (!req.body.recaptchaToken) {
+    if (!req.body.token) {
         return res.status(400).json({ message: "recaptchaToken is required" });
     }
     const verifyCaptchaOptions = {
@@ -9,7 +9,7 @@ module.exports = (req, res) => {
         json: true,
         form: {
             secret: process.env.CAPTCHA_SECRET,
-            response: req.body.recaptchaToken
+            response: req.body.token
         }
     };
     request.post(verifyCaptchaOptions, function (err, response, body) {
