@@ -1,0 +1,1 @@
+This API folder is dedicated to the serverless functions in Vercel. This is NOT the Nest.land API.
