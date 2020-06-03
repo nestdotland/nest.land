@@ -77,23 +77,22 @@ export default {
       packages: [],
       searchPhrase: "",
       shownPackages: [],
-      errorMessage: ""
+      errorMessage: "",
     };
   },
   components: {
     NestNav,
     GradientBar,
-    Card
+    Card,
   },
-  created() {
-    HTTP.get("packages")
-      .then(response => {
-        this.packages = response.data;
-        this.shownPackages = response.data;
-      })
-      .catch(error => {
-        this.errorMessage = error;
-      });
+  async created() {
+    try {
+      const allPackages = await HTTP.get("packages");
+      this.packages = allPackages.data;
+      this.shownPackages = allPackages.data;
+    } catch (err) {
+      this.errorMessage = err;
+    }
   },
   watch: {
     searchPhrase: function(value) {
@@ -104,8 +103,8 @@ export default {
         }
       }
       this.shownPackages = potentialMatches;
-    }
-  }
+    },
+  },
 };
 </script>
 
