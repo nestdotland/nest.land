@@ -2,7 +2,7 @@ const request = require("request");
 
 module.exports = (req, res) => {
     if (!req.body.token) {
-        return res.status(400).json({ message: "recaptchaToken is required" });
+        return res.status(400).json({ message: "reCaptcha Token is required" });
     }
     const verifyCaptchaOptions = {
         uri: "https://www.google.com/recaptcha/api/siteverify",
@@ -14,7 +14,7 @@ module.exports = (req, res) => {
     };
     request.post(verifyCaptchaOptions, function (err, response, body) {
         if (err) {
-            return res.status(500).json({ message: "oops, something went wrong on our side" });
+            return res.status(500).json({ message: "Oops, something went wrong on our side" });
         }
         if (!body.success) {
             return res.status(500).json({ message: body["error-codes"].join(".") });

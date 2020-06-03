@@ -20,7 +20,7 @@
             <div class="field" v-show="verificationSucceeded !== true">
               <div class="control">
                 <button
-                  class="button is-light is-primary is-medium"
+                  class="button is-light is-primary is-medium is-fullwidth"
                   :class="status"
                   id="generate-button"
                   @click="recaptcha"
@@ -48,7 +48,7 @@ export default {
       status: "",
       verificationSucceeded: false,
       serverError: "",
-      eggAPIKey: "cheese",
+      eggAPIKey: "",
     };
   },
   methods: {
@@ -71,8 +71,21 @@ export default {
         .catch(err => (this.serverError = err));
     },
     async getToken(confirmation) {
-      this.verificationSucceeded = true;
-      this.status = "";
+      const url = window.location.href.split("#")[0] + "api/get-key";
+      axios({
+        method: "post",
+        url: url,
+        data: {
+          confirmation,
+        },
+      })
+        .then(response => {
+          // GENERATED TOKEN YAY
+          this.eggAPIKey = response.data.token;
+          this.verificationSucceeded = true;
+          this.status = "";
+        })
+        .catch(err => (this.serverError = err));
       console.log(confirmation);
     },
   },
