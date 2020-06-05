@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const HTTP = axios.create({
-  baseURL: window.location.href.split("#")[0] + "api/",
+  baseURL: "/api/",
   headers: {
     // Authorization: 'Bearer {token}'
   },

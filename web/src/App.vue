@@ -28,6 +28,18 @@ export default {
   -moz-animation: nestGradient 6s ease infinite;
   animation: nestGradient 6s ease infinite;
 }
+.mini-hr {
+  height: 10px;
+  width: 20%;
+  border-radius: 2px;
+  margin-bottom: 0;
+  background: linear-gradient(271deg, #22c1c3, #fdbb2d);
+  background-size: 400% 400%;
+
+  -webkit-animation: nestGradient 6s ease infinite;
+  -moz-animation: nestGradient 6s ease infinite;
+  animation: nestGradient 6s ease infinite;
+}
 @-webkit-keyframes nestGradient {
   0% {
     background-position: 0% 50%;

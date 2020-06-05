@@ -28,7 +28,7 @@
 <script>
 export default {
   name: "Card",
-  props: ["item"]
+  props: ["item"],
 };
 </script>
 
@@ -48,22 +48,11 @@ export default {
 .card-header-title span {
   margin: auto;
 }
-.mini-hr {
-  height: 10px;
-  width: 20%;
-  border-radius: 2px;
-  margin-bottom: 0;
-  background: linear-gradient(271deg, #22c1c3, #fdbb2d);
-  background-size: 400% 400%;
-
-  -webkit-animation: nestGradient 6s ease infinite;
-  -moz-animation: nestGradient 6s ease infinite;
-  animation: nestGradient 6s ease infinite;
-}
-.image {
-  margin-right: 0;
-}
 .card-footer-item {
   font-family: "Inconsolata", monospace;
+}
+
+.image {
+  margin-right: 0;
 }
 </style>
