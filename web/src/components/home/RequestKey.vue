@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { HTTP } from "../../http-common";
 
 export default {
   name: "RequestKey",
@@ -56,11 +56,9 @@ export default {
       this.buttonStatusClass = "is-loading";
       await this.$recaptchaLoaded();
       const token = await this.$recaptcha("login");
-      const url = window.location.href.split("#")[0] + "api/captcha";
+      const url = "captcha";
       try {
-        const response = await axios({
-          method: "post",
-          url: url,
+        const response = await HTTP.post(url, {
           data: {
             token,
           },
@@ -71,18 +69,15 @@ export default {
       }
     },
     async getToken(confirmation) {
-      const url = window.location.href.split("#")[0] + "api/get-key";
+      const url = "get-key";
       try {
-        const response = await axios({
-          method: "post",
-          url: url,
+        const response = await HTTP.post(url, {
           data: {
             confirmation,
           },
         });
         this.eggAPIKey = response.data.token;
         this.verificationSucceeded = true;
-        this.buttonStatusClass = "";
       } catch (err) {
         this.serverError = err;
       }
