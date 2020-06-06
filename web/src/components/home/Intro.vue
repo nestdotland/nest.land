@@ -35,7 +35,7 @@
                     <font-awesome-icon :icon="['fas', 'fingerprint']" class="left-icon" />Secure
                   </li>
                   <li class="subtitle">
-                    <font-awesome-icon :icon="['fas', 'fist-raised']" class="left-icon" />Decrentralized
+                    <font-awesome-icon :icon="['fas', 'fist-raised']" class="left-icon" />Decentralized
                   </li>
                   <li class="subtitle">
                     <font-awesome-icon :icon="['fas', 'times']" class="left-icon" />No GitHub needed
