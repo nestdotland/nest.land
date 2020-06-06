@@ -86,6 +86,7 @@ export default {
     Card,
   },
   async created() {
+    this.debouncedSortPackages = _.debounce(this.sortPackages, 500);
     try {
       const allPackages = await HTTP.get("packages");
       this.packages = allPackages.data;
@@ -95,7 +96,10 @@ export default {
     }
   },
   watch: {
-    searchPhrase: function(value) {
+    searchPhrase: this.debouncedSortPackages(newValue),
+  },
+  methods: {
+    sortPackages(value) {
       let potentialMatches = [];
       for (let i = 0; i < this.packages.length; i++) {
         if (this.packages[i]._id.search(value) !== -1) {
