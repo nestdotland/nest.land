@@ -100,6 +100,9 @@ export function packageRegistar(router: Router) {
 }
 
 function generatePublishToken(): string {
+  // Probably worth using some sort of counter, this is 8 iterations that could be optimised
+  // In reality, if we use a counter, we would only need to use the amount of iterations
+  // for how many existing entries there are. This may outgrow the performance penalty of 8 iterations though.
   const foundId = nanoid(8);
   if (ongoingUploads.has(foundId)) return generatePublishToken();
   return foundId;
