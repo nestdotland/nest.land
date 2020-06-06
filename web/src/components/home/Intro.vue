@@ -38,7 +38,7 @@
                     <font-awesome-icon :icon="['fas', 'fist-raised']" class="left-icon" />Decentralized
                   </li>
                   <li class="subtitle">
-                    <font-awesome-icon :icon="['fas', 'code-branch']" class="left-icon" />Works without Git or SCM
+                    <font-awesome-icon :icon="['fas', 'code-branch']" class="left-icon" />Works without Git
                   </li>
                 </ul>
               </div>
