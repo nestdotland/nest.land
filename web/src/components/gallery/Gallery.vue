@@ -87,7 +87,7 @@ export default {
   },
   async created() {
     try {
-      const allPackages = await HTTP.get("get-packages");
+      const allPackages = await HTTP.get("packages");
       this.packages = allPackages.data;
       this.shownPackages = allPackages.data;
     } catch (err) {

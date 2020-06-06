@@ -56,9 +56,8 @@ export default {
       this.buttonStatusClass = "is-loading";
       await this.$recaptchaLoaded();
       const token = await this.$recaptcha("login");
-      const url = "captcha";
       try {
-        const response = await HTTP.post(url, {
+        const response = await HTTP.post("captcha", {
           data: {
             token,
           },
@@ -69,9 +68,8 @@ export default {
       }
     },
     async getToken(confirmation) {
-      const url = "get-key";
       try {
-        const response = await HTTP.post(url, {
+        const response = await HTTP.post("key", {
           data: {
             confirmation,
           },
