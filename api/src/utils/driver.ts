@@ -117,7 +117,7 @@ export async function getPackages(getUploads = false) {
 export async function getPackage(pkg: Package | string, getUploads = false) {
   const _id = typeof pkg !== "string" ? pkg._id : pkg;
 
-  const pkgRes: Package[] = await packages.aggregate([
+  const pkgRes = await packages.aggregate([
     { $match: { _id } },
     {
       $lookup: {
@@ -127,7 +127,7 @@ export async function getPackage(pkg: Package | string, getUploads = false) {
         as: "uploads",
       },
     },
-  ]);
+  ]) as Package[];
 
-  return pkgRes[0];
+  return pkgRes[0] as Package | void ;
 }

@@ -32,6 +32,13 @@ interface PublishRequest {
   version?: string;
 }
 
+// TODO: Implement this for the /piece route.
+interface PieceRequest {
+  token: string;
+  pieces: Record<string, string>;
+  end: boolean;
+}
+
 interface OngoingPublish extends Required<PublishRequest> {
   token: string;
   apiKey: string;
@@ -55,7 +62,7 @@ export function packageRegistar(router: Router) {
       .headers.get("Authorisation")
       ?.split(" ") ?? ["", ""];
 
-    if (bearer !== "Bearer") ctx.throw(Status.BadRequest);
+    if (bearer !== "Bearer" || !apiKey) ctx.throw(Status.BadRequest);
 
     const user = await fetchUser(apiKey, true, true);
 
@@ -65,15 +72,14 @@ export function packageRegistar(router: Router) {
     validPublishBody(ctx, body);
 
     const existingPkg = await getPackage(body.name, true);
-    if (existingPkg.owner !== user._id) ctx.throw(Status.Forbidden);
-
     const version = body?.version ?? "0.0.1";
 
-    if (
-      (!body.update && existingPkg) ||
-      body.update && existingPkg.uploads.some((p) => p._id === version)
-    ) {
-      ctx.throw(Status.Conflict);
+    if (existingPkg && body.update) {
+      if (existingPkg.owner !== user._id) ctx.throw(Status.Forbidden);
+
+      if (existingPkg.uploads.some((p) => p._id === version)) {
+        ctx.throw(Status.Conflict);
+      }
     }
 
     const token = generatePublishToken();
@@ -88,6 +94,8 @@ export function packageRegistar(router: Router) {
     });
   });
 
+  // Upload pieces of the packet,
+  // this should enforce maximum payload limits as well as prevent the server from being blocked.
   router.post("/piece", (ctx) => {});
 }
 
