@@ -2,6 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import { routes } from "./routes";
 import { VueReCaptcha } from "vue-recaptcha-v3";
+import VueLodash from "vue-lodash";
+import lodash from "lodash";
 
 import App from "./App.vue";
 import NestFooter from "./components/Footer";
@@ -42,6 +44,7 @@ Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
 Vue.use(VueReCaptcha, { siteKey: "6Lepmf8UAAAAABsjF9Fo0kqzm3_2KcHHM2fX43YH" });
+Vue.use(VueLodash, { lodash: lodash });
 
 const router = new VueRouter({
   routes,
