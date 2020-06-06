@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import { routes } from "./routes";
-import { VueReCaptcha } from 'vue-recaptcha-v3'
+import { VueReCaptcha } from "vue-recaptcha-v3";
 
 import App from "./App.vue";
 import NestFooter from "./components/Footer";
@@ -15,6 +15,9 @@ import {
   faTrashAlt,
   faUniversalAccess,
   faSearch,
+  faFingerprint,
+  faFistRaised,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -24,6 +27,9 @@ library.add(
   faFeatherAlt,
   faTrashAlt,
   faUniversalAccess,
+  faFingerprint,
+  faFistRaised,
+  faTimes,
   faSearch,
   faGithub,
 );
@@ -35,7 +41,7 @@ Vue.component("package-vector", PackageVector);
 Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
-Vue.use(VueReCaptcha, { siteKey: '6Lepmf8UAAAAABsjF9Fo0kqzm3_2KcHHM2fX43YH' });
+Vue.use(VueReCaptcha, { siteKey: "6Lepmf8UAAAAABsjF9Fo0kqzm3_2KcHHM2fX43YH" });
 
 const router = new VueRouter({
   routes,
@@ -58,5 +64,5 @@ const router = new VueRouter({
 
 new Vue({
   router,
-  render: h => h(App),
+  render: (h) => h(App),
 }).$mount("#app");

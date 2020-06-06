@@ -15,17 +15,34 @@
               for web-based package imports while allowing the developer to maximize on the potential of Deno's URL-based imports!
             </p>
             <hr />
-            <ul>
-              <li class="subtitle">
-                <font-awesome-icon :icon="['fas', 'trash-alt']" class="left-icon" />Impossible to delete or remove
-              </li>
-              <li class="subtitle">
-                <font-awesome-icon :icon="['fas', 'universal-access']" class="left-icon" />Easily accessible registry
-              </li>
-              <li class="subtitle">
-                <font-awesome-icon :icon="['fas', 'feather-alt']" class="left-icon" />Easy and free to publish packages
-              </li>
-            </ul>
+            <div class="columns">
+              <div class="column">
+                <ul>
+                  <li class="subtitle">
+                    <font-awesome-icon :icon="['fas', 'trash-alt']" class="left-icon" />Permanently immutable
+                  </li>
+                  <li class="subtitle">
+                    <font-awesome-icon :icon="['fas', 'universal-access']" class="left-icon" />Easily accessible
+                  </li>
+                  <li class="subtitle">
+                    <font-awesome-icon :icon="['fas', 'feather-alt']" class="left-icon" />Free
+                  </li>
+                </ul>
+              </div>
+              <div class="column">
+                <ul>
+                  <li class="subtitle">
+                    <font-awesome-icon :icon="['fas', 'fingerprint']" class="left-icon" />Secure
+                  </li>
+                  <li class="subtitle">
+                    <font-awesome-icon :icon="['fas', 'fist-raised']" class="left-icon" />Decrentralized
+                  </li>
+                  <li class="subtitle">
+                    <font-awesome-icon :icon="['fas', 'times']" class="left-icon" />No GitHub needed
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
           <div class="column is-hidden-mobile">
             <package-vector></package-vector>
@@ -42,15 +59,12 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .left-icon {
-  margin-right: 10px;
+  margin-right: 15px;
 }
+
 .subtitle {
   font-family: "Inconsolata", monospace;
 }
-/*#intro {*/
-/*    margin-bottom: 0;*/
-/*    padding-bottom: 0;*/
-/*}*/
 </style>
