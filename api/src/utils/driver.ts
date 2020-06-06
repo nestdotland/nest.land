@@ -36,6 +36,7 @@ export interface Package {
 export interface User {
   // _id is the username.
   _id: string;
+  apiKey: string;
   passwordHash: string;
   packageIds: string[];
   packages: Package[];
@@ -46,12 +47,17 @@ export async function createUser(user: User) {
 }
 
 export async function fetchUser(
-  username: string,
+  usernameOrKey: string,
+  apiKey = false,
   withPkgs = false,
 ): Promise<User | void> {
+  const matchCriteria = apiKey
+    ? { apiKey: usernameOrKey }
+    : { _id: usernameOrKey };
+
   if (withPkgs) {
     const usersRes: User[] = await users.aggregate([
-      { $match: { _id: username } },
+      { $match: matchCriteria },
       {
         $lookup: {
           from: "packages",
@@ -65,7 +71,7 @@ export async function fetchUser(
     return usersRes?.[0];
   }
 
-  const user: User = await users.findOne({ _id: username });
+  const user: User = await users.findOne(matchCriteria);
   if (!user) return;
 
   user.packages = [];
@@ -111,7 +117,7 @@ export async function getPackages(getUploads = false) {
 export async function getPackage(pkg: Package | string, getUploads = false) {
   const _id = typeof pkg !== "string" ? pkg._id : pkg;
 
-  const pkgRes: PackageUpload[] = await packages.aggregate([
+  const pkgRes: Package[] = await packages.aggregate([
     { $match: { _id } },
     {
       $lookup: {
@@ -123,5 +129,5 @@ export async function getPackage(pkg: Package | string, getUploads = false) {
     },
   ]);
 
-  return pkgRes?.[0];
+  return pkgRes[0];
 }

@@ -1,7 +1,8 @@
 import { Application, Router, Snelm } from "./deps.ts";
 import { createLogger } from "./utils/logger.ts";
-import { package_ } from "./routes/package.ts";
-import { auth } from "./routes/auth.ts";
+import { packageRegistar } from "./registars/package.ts";
+import { authRegistar } from "./registars/auth.ts";
+import { setupRegistar } from "./utils/setup_registar.ts";
 
 const log = createLogger();
 
@@ -14,8 +15,8 @@ const router = new Router();
 const snelm = new Snelm("oak");
 await snelm.init();
 
-package_(router);
-// auth(router);
+setupRegistar(router, packageRegistar);
+setupRegistar(router, authRegistar);
 
 router.get("/", (ctx) => {
   ctx.response.body = JSON.stringify({ bruh: "cheese" });
