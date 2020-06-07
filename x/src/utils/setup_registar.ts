@@ -20,8 +20,9 @@ export function setupRegistar(
   // In the case that loc is router, the router argument must be a route registar.
   const isLocationApp = location instanceof Application;
   const app = (isLocationApp ? location : application) as Application;
-  const realRegistar =
-    typeof application === "function" ? application : registar!;
+  const realRegistar = typeof application === "function"
+    ? application
+    : registar!;
 
   const opts = !isLocationApp ? { prefix: location as string } : void 0;
 

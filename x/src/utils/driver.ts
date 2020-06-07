@@ -121,7 +121,13 @@ export async function createUpload(
   else await createPackage(freshPkg);
 }
 
-export async function getPackages(getUploads = false) {
+export async function fetchUpload(id: string) {
+  const upload: PackageUpload = await packageUploads.findOne({ _id: id });
+  if (!upload) return;
+  return upload;
+}
+
+export async function getPackages() {
   const pkgRes: PackageUpload[] = await packages.aggregate([
     {
       $lookup: {
@@ -136,7 +142,7 @@ export async function getPackages(getUploads = false) {
   return pkgRes;
 }
 
-export async function getPackage(pkg: Package | string, getUploads = false) {
+export async function getPackage(pkg: Package | string) {
   const _id = typeof pkg !== "string" ? pkg._id : pkg;
 
   const pkgRes = (await packages.aggregate([
