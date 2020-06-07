@@ -35,13 +35,21 @@ const ongoingUploads = new Map<string, OngoingPublish>();
 
 // TODO(@zorbyte): There is a lot of repeated code, lots of it should be turned into middleware and state.
 export function packageRegistar(router: Router) {
-  router.get("/info/:packageName", async ctx => {
+  router.get("/info/:packageId", async ctx => {
     // TODO(@zorbyte): This shouldn't be required,
     // but for now I'm going to check for it to save time while testing.
-    if (!ctx.params.packageName) return ctx.throw(Status.BadRequest);
+    if (!ctx.params.packageId) return ctx.throw(Status.BadRequest);
 
-    const pkgFields = ctx.params.packageName.split("@");
-    if (pkgFields.length !== 2) return ctx.throw(Status.BadRequest);
+    const pkgFields = ctx.params.packageId.split("@");
+    if (!pkgFields.length) return ctx.throw(Status.BadRequest);
+    if (pkgFields.length < 2) {
+      const pkg = await getPackage(ctx.params.packageId);
+      if (!pkg) return ctx.throw(Status.NotFound);
+      ctx.response.body = pkg;
+      return;
+    }
+
+    if (pkgFields.length > 2) return ctx.throw(Status.BadRequest);
     const [name, version] = pkgFields;
 
     const pkg = await getPackage(name, true);
@@ -52,6 +60,8 @@ export function packageRegistar(router: Router) {
 
     ctx.response.body = {
       name: pkg._id,
+      version: upload.version,
+      description: upload.description,
       displayName: upload._id,
     };
   });
