@@ -7,7 +7,7 @@ import { ensureMaxPayload } from "../middleware/max_payload.ts";
 import { assertFields } from "../utils/assert_fields.ts";
 import { getUserWithApiKey } from "../utils/auth_header.ts";
 import { LOCAL_URI } from "../utils/arweave_api.ts";
-import { BLOCKED_NAMES } from "../utils/blocked_names.ts";
+import { isValidName } from "../utils/name_filter/index.ts";
 
 // TODO(@zorbyte): Rename these from *Request to *Payload.
 interface PublishRequest {
@@ -75,10 +75,13 @@ export function packageRegistar(router: Router) {
 
     if (
       body.name.includes("@") ||
-      body.name.includes(" ") ||
-      BLOCKED_NAMES.has(body.name)
+      body.name.includes(" ")
     ) {
       return ctx.throw(Status.BadRequest);
+    }
+
+    if (!isValidName(body.name)) {
+      return ctx.throw(Status.BadRequest, `{"status":400,"message":"The requested name was blocked. Please contact us if you think this was a mistake."}`);
     }
 
     const existingPkg = await getPackage(body.name, true);
