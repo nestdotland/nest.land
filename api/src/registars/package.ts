@@ -5,7 +5,7 @@ import { assertBody } from "../middleware/assert_body.ts";
 import { ensureMaxPayload } from "../middleware/max_payload.ts";
 
 import { assertFields } from "../utils/assert_fields.ts";
-import { getUserWithApiKey } from "../utils/auth.ts";
+import { getUserWithApiKey } from "../utils/auth_header.ts";
 import { LOCAL_URI } from "../utils/arweave_api.ts";
 
 // TODO(@zorbyte): Rename these from *Request to *Payload.
