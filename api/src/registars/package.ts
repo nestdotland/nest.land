@@ -40,7 +40,9 @@ export function packageRegistar(router: Router) {
     // but for now I'm going to check for it to save time while testing.
     if (!ctx.params.packageName) return ctx.throw(Status.BadRequest);
 
-    const [name, version] = ctx.params.packageName.split("@");
+    const pkgFields = ctx.params.packageName.split("@");
+    if (pkgFields.length !== 2) return ctx.throw(Status.BadRequest);
+    const [name, version] = pkgFields;
 
     const pkg = await getPackage(name, true);
     if (!pkg) return ctx.throw(Status.NotFound);
@@ -82,6 +84,7 @@ export function packageRegistar(router: Router) {
     const existingPkg = await getPackage(body.name, true);
     const version = body?.version ?? "0.0.1";
 
+    // nest.land enforces semver.
     if (!valid(version)) return ctx.throw(Status.BadRequest);
 
     if (existingPkg && body.update) {
