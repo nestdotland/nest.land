@@ -7,7 +7,7 @@ import { ensureMaxPayload } from "../middleware/max_payload.ts";
 import { assertFields } from "../utils/assert_fields.ts";
 import { getUserWithApiKey } from "../utils/auth_header.ts";
 import { LOCAL_URI } from "../utils/arweave_api.ts";
-import { BLOCKED_NAMES } from "../utils/blocked_names.ts";
+import { isValidName } from "../utils/name_filter/mod.ts";
 
 // TODO(@zorbyte): Rename these from *Request to *Payload.
 interface PublishRequest {
@@ -34,7 +34,7 @@ const ongoingUploads = new Map<string, OngoingPublish>();
 
 // TODO(@zorbyte): There is a lot of repeated code, lots of it should be turned into middleware and state.
 export function packageRegistar(router: Router) {
-  router.get("/info/:packageId", async (ctx) => {
+  router.get("/info/:packageId", async ctx => {
     const pkgFields = ctx.params.packageId!.split("@");
 
     if (pkgFields.length < 2) {
@@ -50,7 +50,7 @@ export function packageRegistar(router: Router) {
     const pkg = await getPackage(name);
     if (!pkg) return ctx.throw(Status.NotFound);
 
-    const upload = pkg.uploads.find((u) => u.version === version);
+    const upload = pkg.uploads.find(u => u.version === version);
     if (!upload) return ctx.throw(Status.NotFound);
 
     ctx.response.body = {
@@ -61,11 +61,11 @@ export function packageRegistar(router: Router) {
     };
   });
 
-  router.get("/packages", async (ctx) => {
+  router.get("/packages", async ctx => {
     ctx.response.body = await getPackages();
   });
 
-  router.post("/publish", assertBody, async (ctx) => {
+  router.post("/publish", assertBody, async ctx => {
     const [user, apiKey] = await getUserWithApiKey(ctx);
     if (!apiKey) return ctx.throw(Status.BadRequest);
     if (!user) return ctx.throw(Status.Unauthorized);
@@ -78,12 +78,15 @@ export function packageRegistar(router: Router) {
       version: "string",
     });
 
-    if (
-      body.name.includes("@") ||
-      body.name.includes(" ") ||
-      BLOCKED_NAMES.has(body.name)
-    ) {
+    if (body.name.includes("@") || body.name.includes(" ")) {
       return ctx.throw(Status.BadRequest);
+    }
+
+    if (!isValidName(body.name)) {
+      return ctx.throw(
+        Status.BadRequest,
+        `{"status":400,"message":"The requested name was blocked. Please contact us if you think this was a mistake."}`,
+      );
     }
 
     const existingPkg = await getPackage(body.name);
@@ -95,7 +98,7 @@ export function packageRegistar(router: Router) {
     if (existingPkg && body.update) {
       if (existingPkg.owner !== user._id) ctx.throw(Status.Forbidden);
 
-      if (existingPkg.uploads.some((p) => p._id === version)) {
+      if (existingPkg.uploads.some(p => p._id === version)) {
         ctx.throw(Status.Conflict);
       }
     }
@@ -116,7 +119,7 @@ export function packageRegistar(router: Router) {
 
   // Upload pieces of the packet,
   // this should enforce maximum payload limits as well as prevent the server from being blocked.
-  router.post("/piece", assertBody, ensureMaxPayload, async (ctx) => {
+  router.post("/piece", assertBody, ensureMaxPayload, async ctx => {
     const [user, apiKey] = await getUserWithApiKey(ctx);
     if (!apiKey) return ctx.throw(Status.BadRequest);
     if (!user) return ctx.throw(Status.Unauthorized);
