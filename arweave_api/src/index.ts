@@ -18,6 +18,11 @@ let address: string;
 
 server.use(bodyParser());
 
+server.use((ctx, next) => {
+  if (ctx.method === "POST") return next();
+  ctx.body = "Pong!";
+})
+
 server.use(async ctx => {
   const transaction = await arweave.createTransaction(
     { data: ctx.request.body },
@@ -36,7 +41,7 @@ server.use(async ctx => {
 
 async function bootstrap() {
   address = await arweave.wallets.jwkToAddress(jwk);
-  server.listen(8082);
+  server.listen(8081);
 }
 
 bootstrap();

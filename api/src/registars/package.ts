@@ -6,11 +6,14 @@ import { ensureMaxPayload } from "../middleware/max_payload.ts";
 
 import { assertFields } from "../utils/assert_fields.ts";
 import { getUserWithApiKey } from "../utils/auth.ts";
+import { LOCAL_URI } from "../utils/arweave_api.ts";
 
+// TODO(@zorbyte): Rename these from *Request to *Payload.
 interface PublishRequest {
   name: string;
   update: boolean;
-  version?: string;
+  description: string;
+  version: string;
 }
 
 // TODO: Implement this for the /piece route.
@@ -26,6 +29,7 @@ interface PackageInfoRequest {
 
 interface OngoingPublish extends Required<PublishRequest> {
   token: string;
+  ownerId: string;
   apiKey: string;
   pieces: Record<string, string>;
 }
@@ -64,6 +68,8 @@ export function packageRegistar(router: Router) {
     assertFields(ctx, body, {
       name: "string",
       update: "boolean",
+      description: "string",
+      version: "string",
     });
 
     const existingPkg = await getPackage(body.name, true);
@@ -82,6 +88,8 @@ export function packageRegistar(router: Router) {
     ongoingUploads.set(token, {
       token,
       apiKey,
+      description: body.description,
+      ownerId: user._id,
       version,
       name: body.name,
       update: body.update,
@@ -122,8 +130,9 @@ export function packageRegistar(router: Router) {
       const fileMap = Object.fromEntries(
         await Promise.all(
           Object.entries(upload.pieces).map(async ([key, value]) => {
-            const res = await fetch("http://127.0.0.1:8082/", {
+            const res = await fetch(LOCAL_URI, {
               body: value,
+              method: "POST",
             });
 
             return [key, await res.text()];
@@ -131,10 +140,10 @@ export function packageRegistar(router: Router) {
         ),
       );
 
-      await createUpload(upload.name, {
-        _id: upload.version,
+      await createUpload(upload.name, upload.update, upload.ownerId, {
+        version: upload.version,
         displayName: upload.name,
-        description: "TODO: Allow description to be provided.",
+        description: upload.description,
         fileMap,
       });
     }

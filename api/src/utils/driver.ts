@@ -1,4 +1,4 @@
-import { MongoClient } from "../deps.ts";
+import { MongoClient, prerelease } from "../deps.ts";
 
 export const client = new MongoClient();
 client.connectWithUri("mongodb://localhost:27017");
@@ -10,8 +10,9 @@ export const packages = db.collection("packages");
 export const packageUploads = db.collection("packageUploads");
 
 export interface PackageUpload {
-  // _id is the version.
+  // _id is the name + version.
   _id: string;
+  version: string;
   displayName: string;
   description: string;
   documentation?: string;
@@ -42,7 +43,7 @@ export interface User {
   packages: Package[];
 }
 
-export async function createUser(user: User) {
+export async function createUser(user: Omit<User, "packages">) {
   await users.insertOne(user);
 }
 
@@ -85,19 +86,40 @@ export async function createPackage(pkg: Package) {
 
 export async function createUpload(
   pkg: Package | string,
-  upload: Omit<PackageUpload, "uploadedAt">,
+  update = false,
+  ownerId: string,
+  upload: Omit<PackageUpload, "uploadedAt" | "_id">,
 ) {
   const _id = typeof pkg !== "string" ? pkg._id : pkg;
+  const freshPkg = ((await getPackage(_id)) as Package) ?? {
+    _id,
+    owner: ownerId,
+    description: upload.description,
+    latestVersion: upload.version,
+    latestStableVersion: upload.version,
+    packageUploadIds: [],
+    uploads: [],
+  };
 
   const exists = !!(await packages.count({ _id }));
-  if (!!exists) throw new Error("Invalid package.");
+  if (!!exists) throw new Error("Package Upload already exists!");
 
   const _upload: PackageUpload = {
+    _id: `${_id}@${upload.version}`,
     uploadedAt: new Date(),
     ...upload,
   };
 
   await packageUploads.insertOne(_upload);
+
+  const isPre = prerelease(upload.version);
+  if (!isPre) freshPkg.latestStableVersion = upload.version;
+  freshPkg.latestVersion = upload.version;
+
+  freshPkg.packageUploadIds.push(_upload._id);
+
+  if (update) await packages.updateOne({ _id }, freshPkg);
+  else await createPackage(freshPkg);
 }
 
 export async function getPackages(getUploads = false) {
@@ -118,7 +140,7 @@ export async function getPackages(getUploads = false) {
 export async function getPackage(pkg: Package | string, getUploads = false) {
   const _id = typeof pkg !== "string" ? pkg._id : pkg;
 
-  const pkgRes = await packages.aggregate([
+  const pkgRes = (await packages.aggregate([
     { $match: { _id } },
     {
       $lookup: {
@@ -128,7 +150,7 @@ export async function getPackage(pkg: Package | string, getUploads = false) {
         as: "uploads",
       },
     },
-  ]) as Package[];
+  ])) as Package[];
 
   return pkgRes[0] as Package | void;
 }
