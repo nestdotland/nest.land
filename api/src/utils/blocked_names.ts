@@ -31,7 +31,6 @@ export const BLOCKED_NAMES = new Set([
   "module",
   "net",
   "os",
-  "std",
   "perf_hooks",
   "process",
   "querystring",
