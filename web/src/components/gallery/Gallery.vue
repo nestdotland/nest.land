@@ -81,7 +81,6 @@ export default {
     return {
       packages: [],
       loading: true,
-      statusMessage: "Loading packages... 🥚",
       searchPhrase: "",
       shownPackages: [],
       shownPackagesCount: "",

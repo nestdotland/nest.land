@@ -13,13 +13,13 @@
         <select v-model="selectedVersion">
           <option
             v-for="version in item.packageUploadIds"
-            :key="version._id"
-            :value="version._id"
-          >{{ version._id }}</option>
+            :key="version"
+            :value="version"
+          >{{ version }}</option>
         </select>
       </div>
       <a
-        :href="'https://x.nest.land/' + item._id + '@' + item.latestStableVersion"
+        :href="'https://x.nest.land/' + selectedVersion"
         class="card-footer-item has-text-dark"
       >Open Package</a>
     </footer>
@@ -32,20 +32,14 @@ export default {
   props: ["item"],
   data() {
     return {
-      package: this.item,
-      selectedVersion: this.package.latestStableVersion,
-      importURL:
-        "https://x.nest.land/" +
-        this.package._id +
-        "@" +
-        this.package.latestStableVersion,
+      package: {},
+      selectedVersion: "",
     };
   },
-  watch: {
-    selectedVersion: function() {
-      this.importURL =
-        "https://x.nest.land/" + this.package._id + "@" + this.selectedVersion;
-    },
+  created() {
+    this.package = this.item;
+    this.selectedVersion =
+      this.package._id + "@" + this.package.latestStableVersion;
   },
 };
 </script>
