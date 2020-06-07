@@ -1,4 +1,4 @@
-export const list = [
+export const LIST = [
   "4r5e",
   "5h1t",
   "5hit",
@@ -451,4 +451,4 @@ export const list = [
   "xxx",
 ];
 
-export default new RegExp(`(${list.map(el => el.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`, "gi");
+export const containsExpletive = new RegExp(`(${LIST.map(el => el.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`, "gi").test;

@@ -1,9 +1,11 @@
-import expletives from "./expletives.ts";
-import exact from "./exact.ts";
-import reserved from "./reserved.ts";
+import { containsExpletive } from "./expletives.ts";
+import { RESERVED } from "./reserved.ts";
 
 export function isValidName (input: string) {
-  return !expletives.test(input) && !exact.has(input) && !reserved.has(input);
+  if (containsExpletive(input)) return false;
+  if (RESERVED.has(input)) return false;
+
+  return true;
 }
 
 export default isValidName;
