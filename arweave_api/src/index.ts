@@ -14,7 +14,6 @@ const arweave = Arweave.init({
 });
 
 const server = new Koa();
-let address: string;
 
 server.use(bodyParser());
 
@@ -29,6 +28,7 @@ server.use(async ctx => {
     jwk,
   );
 
+  // TODO(@zorbyte): Support JS, JSON and others if required.
   transaction.addTag("Content-Type", "application/typescript");
 
   await arweave.transactions.sign(transaction, jwk);
@@ -39,9 +39,4 @@ server.use(async ctx => {
   ctx.body = `https://arweave.net/tx/${transaction.id}/data`;
 });
 
-async function bootstrap() {
-  address = await arweave.wallets.jwkToAddress(jwk);
-  server.listen(8081);
-}
-
-bootstrap();
+server.listen(8081);

@@ -12,6 +12,7 @@ module.exports = (req, res) => {
       response: req.body.data.token,
     },
   };
+
   request.post(verifyCaptchaOptions, function (err, response, body) {
     if (err) {
       return res.status(500).json(

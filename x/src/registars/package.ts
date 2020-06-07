@@ -17,7 +17,6 @@ interface PublishRequest {
   version: string;
 }
 
-// TODO: Implement this for the /piece route.
 interface PieceRequest {
   token: string;
   pieces: Record<string, string>;
@@ -35,15 +34,11 @@ const ongoingUploads = new Map<string, OngoingPublish>();
 
 // TODO(@zorbyte): There is a lot of repeated code, lots of it should be turned into middleware and state.
 export function packageRegistar(router: Router) {
-  router.get("/info/:packageId", async ctx => {
-    // TODO(@zorbyte): This shouldn't be required,
-    // but for now I'm going to check for it to save time while testing.
-    if (!ctx.params.packageId) return ctx.throw(Status.BadRequest);
+  router.get("/info/:packageId", async (ctx) => {
+    const pkgFields = ctx.params.packageId!.split("@");
 
-    const pkgFields = ctx.params.packageId.split("@");
-    if (!pkgFields.length) return ctx.throw(Status.BadRequest);
     if (pkgFields.length < 2) {
-      const pkg = await getPackage(ctx.params.packageId);
+      const pkg = await getPackage(ctx.params.packageId!);
       if (!pkg) return ctx.throw(Status.NotFound);
       ctx.response.body = pkg;
       return;
@@ -52,10 +47,10 @@ export function packageRegistar(router: Router) {
     if (pkgFields.length > 2) return ctx.throw(Status.BadRequest);
     const [name, version] = pkgFields;
 
-    const pkg = await getPackage(name, true);
+    const pkg = await getPackage(name);
     if (!pkg) return ctx.throw(Status.NotFound);
 
-    const upload = pkg.uploads.find(u => u.version === version);
+    const upload = pkg.uploads.find((u) => u.version === version);
     if (!upload) return ctx.throw(Status.NotFound);
 
     ctx.response.body = {
@@ -66,11 +61,11 @@ export function packageRegistar(router: Router) {
     };
   });
 
-  router.get("/packages", async ctx => {
-    ctx.response.body = await getPackages(true);
+  router.get("/packages", async (ctx) => {
+    ctx.response.body = await getPackages();
   });
 
-  router.post("/publish", assertBody, async ctx => {
+  router.post("/publish", assertBody, async (ctx) => {
     const [user, apiKey] = await getUserWithApiKey(ctx);
     if (!apiKey) return ctx.throw(Status.BadRequest);
     if (!user) return ctx.throw(Status.Unauthorized);
@@ -91,7 +86,7 @@ export function packageRegistar(router: Router) {
       return ctx.throw(Status.BadRequest);
     }
 
-    const existingPkg = await getPackage(body.name, true);
+    const existingPkg = await getPackage(body.name);
     const version = body?.version ?? "0.0.1";
 
     // nest.land enforces semver.
@@ -100,7 +95,7 @@ export function packageRegistar(router: Router) {
     if (existingPkg && body.update) {
       if (existingPkg.owner !== user._id) ctx.throw(Status.Forbidden);
 
-      if (existingPkg.uploads.some(p => p._id === version)) {
+      if (existingPkg.uploads.some((p) => p._id === version)) {
         ctx.throw(Status.Conflict);
       }
     }
@@ -121,7 +116,7 @@ export function packageRegistar(router: Router) {
 
   // Upload pieces of the packet,
   // this should enforce maximum payload limits as well as prevent the server from being blocked.
-  router.post("/piece", assertBody, ensureMaxPayload, async ctx => {
+  router.post("/piece", assertBody, ensureMaxPayload, async (ctx) => {
     const [user, apiKey] = await getUserWithApiKey(ctx);
     if (!apiKey) return ctx.throw(Status.BadRequest);
     if (!user) return ctx.throw(Status.Unauthorized);
@@ -145,7 +140,7 @@ export function packageRegistar(router: Router) {
 
     ongoingUploads.set(body.token, upload);
 
-    // TODO: Make it run uploads on each piece rather than the end.
+    // TODO(@zorbyte): Make it run uploads on each piece rather than the end.
     // Also consider making it run in the background, and making an endpoint where the CLI can check if it succeeded.
     if (body.end) {
       ongoingUploads.delete(body.token);

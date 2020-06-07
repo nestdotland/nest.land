@@ -3,7 +3,10 @@ import { $TSFIX } from "./types.d.ts";
 
 export type RouterRegistar = (router: Router) => void;
 
-export function setupRegistar(application: Application, registar: RouterRegistar): void;
+export function setupRegistar(
+  application: Application,
+  registar: RouterRegistar,
+): void;
 export function setupRegistar(
   location: string,
   application: Application,
@@ -17,19 +20,16 @@ export function setupRegistar(
   // In the case that loc is router, the router argument must be a route registar.
   const isLocationApp = location instanceof Application;
   const app = (isLocationApp ? location : application) as Application;
-  const realRegistar = typeof application === "function" ? application : registar!;
+  const realRegistar = typeof application === "function"
+    ? application
+    : registar!;
 
-  const subRouter = new Router();
+  const opts = !isLocationApp ? { prefix: location as string } : void 0;
+
+  const subRouter = new Router(opts);
 
   realRegistar(subRouter);
 
-  // TODO(@zorbyte): Fix Types here.
-  const routesArgs: $TSFIX[] = [subRouter.routes()];
-  if (!isLocationApp) routesArgs.unshift(location);
-
-  const allowedMethodsArgs: $TSFIX[] = [subRouter.allowedMethods()];
-  if (!isLocationApp) routesArgs.unshift(location);
-
-  app.use(...routesArgs);
-  app.use(...allowedMethodsArgs);
+  app.use(subRouter.routes());
+  app.use(subRouter.allowedMethods());
 }

@@ -1,4 +1,4 @@
-# API
+# x - API + CDN
 
 Requires major refactor!!! Looks pretty ugly right now.
 
