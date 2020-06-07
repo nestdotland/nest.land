@@ -23,7 +23,7 @@
       <div id="main-nav" class="navbar-menu" :class="burgerClass">
         <div class="navbar-end">
           <router-link class="navbar-item" to="gallery" active-class="active-link" exact>The Gallery</router-link>
-          <router-link class="navbar-item" to="/#start">Documentation</router-link>
+          <router-link class="navbar-item" to="/#docs">Documentation</router-link>
           <div class="navbar-item">
             <div class="buttons">
               <router-link class="button is-light is-primary" id="get-started-button" to="/#start">
@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       burgerToggled: false,
-      burgerClass: ""
+      burgerClass: "",
     };
   },
   methods: {
@@ -55,8 +55,8 @@ export default {
         this.burgerToggled = true;
         this.burgerClass = "is-active";
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -66,6 +66,8 @@ export default {
 }
 
 .navbar-item:hover,
+.navbar-item:focus,
+.navbar-item:focus-within,
 .navbar-burger {
   background: none !important;
 }
