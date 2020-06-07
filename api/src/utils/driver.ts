@@ -83,20 +83,21 @@ export async function createPackage(pkg: Package) {
   await users.insertOne(pkg);
 }
 
-export async function createUpload(pkg: Package | string) {
-  throw new Error("Not implemented!");
-
-  // @ts-ignore
+export async function createUpload(
+  pkg: Package | string,
+  upload: Omit<PackageUpload, "uploadedAt">,
+) {
   const _id = typeof pkg !== "string" ? pkg._id : pkg;
 
   const exists = !!(await packages.count({ _id }));
   if (!!exists) throw new Error("Invalid package.");
 
-  const upload: PackageUpload = {
+  const _upload: PackageUpload = {
     uploadedAt: new Date(),
-  } as any;
+    ...upload,
+  };
 
-  packageUploads.insertOne(upload);
+  await packageUploads.insertOne(_upload);
 }
 
 export async function getPackages(getUploads = false) {
@@ -129,5 +130,5 @@ export async function getPackage(pkg: Package | string, getUploads = false) {
     },
   ]) as Package[];
 
-  return pkgRes[0] as Package | void ;
+  return pkgRes[0] as Package | void;
 }
