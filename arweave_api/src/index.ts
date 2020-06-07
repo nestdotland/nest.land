@@ -3,10 +3,14 @@ import Koa from "koa";
 import bodyParser from "koa-bodyparser";
 import jwk from "./arweave.json";
 
+// Credits: https://github.com/ArweaveTeam/arweave-deploy/blob/master/src/app.ts#L25
 const arweave = Arweave.init({
-  host: "127.0.0.1",
-  port: 1984,
-  protocol: "http",
+  host: "arweave.net",
+  port: 443,
+  protocol: "https",
+  timeout: 20000,
+  logging: false,
+  logger: console.debug,
 });
 
 const server = new Koa();
@@ -27,7 +31,7 @@ server.use(async ctx => {
 
   if (res.status >= 300) return ctx.throw(500);
 
-  ctx.body = `http://127.0.0.1:1984/tx/${transaction.id}/data`;
+  ctx.body = `https://arweave.net/tx/${transaction.id}/data`;
 });
 
 async function bootstrap() {
