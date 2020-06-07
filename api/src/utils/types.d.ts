@@ -3,3 +3,4 @@ export interface State {
 }
 
 export type NextFunc = () => Promise<void>;
+export type $TSFIX = any;

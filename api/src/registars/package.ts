@@ -1,4 +1,4 @@
-import { Router, Context, Status, nanoid } from "../deps.ts";
+import { Router, Context, Status, nanoid, valid } from "../deps.ts";
 import { getPackages, getPackage, createUpload } from "../utils/driver.ts";
 
 import { assertBody } from "../middleware/assert_body.ts";
@@ -22,11 +22,6 @@ interface PieceRequest {
   pieces: Record<string, string>;
   end: boolean;
 }
-
-interface PackageInfoRequest {
-  getUploads: boolean;
-}
-
 interface OngoingPublish extends Required<PublishRequest> {
   token: string;
   ownerId: string;
@@ -39,27 +34,26 @@ const ongoingUploads = new Map<string, OngoingPublish>();
 
 // TODO(@zorbyte): There is a lot of repeated code, lots of it should be turned into middleware and state.
 export function packageRegistar(router: Router) {
-  router.get("/info/:packageName", assertBody, async (ctx) => {
-    const { body } = ctx.state as { body: PackageInfoRequest };
-    assertFields(ctx, body, {
-      getUploads: "boolean",
-    });
-
+  router.get("/info/:packageName", async ctx => {
     // TODO(@zorbyte): This shouldn't be required,
     // but for now I'm going to check for it to save time while testing.
     if (!ctx.params.packageName) return ctx.throw(Status.BadRequest);
 
-    const pkg = await getPackage(ctx.params.packageName, body.getUploads);
+    const [name, version] = ctx.params.packageName.split("@");
+
+    const pkg = await getPackage(name, true);
     if (!pkg) return ctx.throw(Status.NotFound);
+
+    pkg.uploads.find(u => u.version === name);
 
     ctx.response.body = pkg;
   });
 
-  router.get("/packages", async (ctx) => {
+  router.get("/packages", async ctx => {
     ctx.response.body = await getPackages(true);
   });
 
-  router.post("/publish", assertBody, async (ctx) => {
+  router.post("/publish", assertBody, async ctx => {
     const [user, apiKey] = await getUserWithApiKey(ctx);
     if (!apiKey) return ctx.throw(Status.BadRequest);
     if (!user) return ctx.throw(Status.Unauthorized);
@@ -72,13 +66,17 @@ export function packageRegistar(router: Router) {
       version: "string",
     });
 
+    if (body.name.includes("@") && body.name.includes(" ")) return ctx.throw(Status.BadRequest);
+
     const existingPkg = await getPackage(body.name, true);
     const version = body?.version ?? "0.0.1";
+
+    if (!valid(version)) return ctx.throw(Status.BadRequest);
 
     if (existingPkg && body.update) {
       if (existingPkg.owner !== user._id) ctx.throw(Status.Forbidden);
 
-      if (existingPkg.uploads.some((p) => p._id === version)) {
+      if (existingPkg.uploads.some(p => p._id === version)) {
         ctx.throw(Status.Conflict);
       }
     }
@@ -99,7 +97,7 @@ export function packageRegistar(router: Router) {
 
   // Upload pieces of the packet,
   // this should enforce maximum payload limits as well as prevent the server from being blocked.
-  router.post("/piece", assertBody, ensureMaxPayload, async (ctx) => {
+  router.post("/piece", assertBody, ensureMaxPayload, async ctx => {
     const [user, apiKey] = await getUserWithApiKey(ctx);
     if (!apiKey) return ctx.throw(Status.BadRequest);
     if (!user) return ctx.throw(Status.Unauthorized);

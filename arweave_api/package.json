@@ -4,7 +4,7 @@
   "description": "A bridge between the API",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tsc && node ."
   },
   "author": "zorbyte",
   "license": "MIT",
