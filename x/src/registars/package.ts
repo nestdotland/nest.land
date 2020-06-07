@@ -41,7 +41,7 @@ export function packageRegistar(router: Router) {
     if (!ctx.params.packageId) return ctx.throw(Status.BadRequest);
 
     const pkgFields = ctx.params.packageId.split("@");
-    if (!pkgFields.length) return ctx.throw(Status.BadRequest);
+
     if (pkgFields.length < 2) {
       const pkg = await getPackage(ctx.params.packageId);
       if (!pkg) return ctx.throw(Status.NotFound);

@@ -29,6 +29,7 @@ server.use(async ctx => {
     jwk,
   );
 
+  // TODO: Support JS, JSON and others if required.
   transaction.addTag("Content-Type", "application/typescript");
 
   await arweave.transactions.sign(transaction, jwk);
