@@ -1,7 +1,7 @@
 ## Client-Side API
 This API folder is dedicated to the client-side API. Because our registry API is not public, as of now, these serverless functions interface with our server-side API. In a future milestone, these functions will be converted to Deno.
 
-### Functions:
+### Functions
 
 ```
 https://nest.land/api/captcha
@@ -17,3 +17,7 @@ This function interfaces with our server-side API in order to return a new API k
 https://nest.land/api/packages
 ```
 This function utilizes the server-side API to return a JSON object with all of the packages to the user.
+
+### Todo
+
+Rewrite this in TypeScript, maybe using Deno otherwise consider using node-fetch - @zorbyte.
