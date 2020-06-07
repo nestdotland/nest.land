@@ -1,4 +1,4 @@
-import { Router, hash, nanoid, Status, Context } from "../deps.ts";
+import { Router, hash, nanoid, Status, Context, verify } from "../deps.ts";
 import { assertBody } from "../middleware/assert_body.ts";
 
 import { assertFields } from "../utils/assert_fields.ts";
@@ -10,7 +10,7 @@ interface UserAuthPayload {
 }
 
 export function authRegistar(router: Router) {
-  router.post("/signup", assertBody, async ctx => {
+  router.post("/signup", assertBody, async (ctx) => {
     const { body } = ctx.state as { body: UserAuthPayload };
     validateUserData(ctx, body);
 
@@ -32,12 +32,15 @@ export function authRegistar(router: Router) {
   });
 
   // TODO(@zorbyte): Make this more secure and less repetitive.
-  router.post("/getkey", async ctx => {
+  router.post("/getkey", async (ctx) => {
     const { body } = ctx.state as { body: UserAuthPayload };
     validateUserData(ctx, body);
 
     const user = await fetchUser(body.username);
     if (!user) return ctx.throw(Status.Unauthorized);
+    if (!(await verify(user.passwordHash, body.password))) {
+      return ctx.throw(Status.Unauthorized);
+    }
 
     ctx.response.body = { apiKey: user.apiKey };
   });

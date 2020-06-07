@@ -1,7 +1,9 @@
 import { Context, Status } from "../deps.ts";
 import { fetchUser, User } from "./driver.ts";
 
-export async function getUserWithApiKey(ctx: Context): Promise<[User | void, string | void]> {
+export async function getUserWithApiKey(
+  ctx: Context,
+): Promise<[User | void, string | void]> {
   const [bearer, apiKey] = ctx.request
     .headers.get("Authorization")
     ?.split(" ") ?? ["", ""];

@@ -29,9 +29,8 @@ app.use((ctx, next) => {
 
 app.addEventListener("listen", ({ hostname, port, secure }) => {
   log.info(
-    `Listening on: ${secure ? "https://" : "http://"}${
-      hostname ?? "localhost"
-    }:${port}`,
+    `Listening on: ${secure ? "https://" : "http://"}${hostname ??
+      "localhost"}:${port}`,
   );
 });
 

@@ -14,7 +14,7 @@ export type TypeOfTypes =
 export function assertFields<T extends Record<any, any>>(
   ctx: Context,
   body: T,
-  validations: { [P in keyof T]: TypeOfTypes; },
+  validations: { [P in keyof T]: TypeOfTypes },
 ) {
   for (const [key, typeToCheck] of Object.entries(validations)) {
     ctx.assert(
