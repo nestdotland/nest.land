@@ -1,10 +1,10 @@
 import { Context } from "../deps.ts";
 import { BAD_REQ_PARAMS } from "../utils/errors.ts";
-import { State } from "../utils/types.d.ts";
+import { State, NextFunc } from "../utils/types.d.ts";
 
 export async function assertBody(
   ctx: Context<State>,
-  next: () => Promise<void>,
+  next: NextFunc,
 ) {
   ctx.assert(ctx.request.hasBody, ...BAD_REQ_PARAMS);
   const body = await ctx.request.body({

@@ -18,10 +18,6 @@ await snelm.init();
 setupRegistar(router, packageRegistar);
 setupRegistar(router, authRegistar);
 
-router.get("/", (ctx) => {
-  ctx.response.body = JSON.stringify({ bruh: "cheese" });
-});
-
 app.use(router.routes());
 app.use(router.allowedMethods());
 
