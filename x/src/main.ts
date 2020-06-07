@@ -20,7 +20,7 @@ await snelm.init();
 
 setupRegistar("/api", app, packageRegistar);
 setupRegistar("/api", app, authRegistar);
-setupRegistar("/api", app, cdnRegistar);
+setupRegistar(app, cdnRegistar);
 
 app.use((ctx, next) => {
   ctx.response = snelm.snelm(ctx.request, ctx.response);
