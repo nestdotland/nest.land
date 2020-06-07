@@ -22,7 +22,7 @@ module.exports = (req, res) => {
       return res.status(500).json({ message: body["error-codes"].join(".") });
     }
     res.status(201).json(
-      { message: "Congratulations! We think you are human." },
+      { success: true },
     );
   });
 };

@@ -1,25 +1,27 @@
 const request = require("request");
 
 module.exports = (req, res) => {
-  const waitingOnOscar = true; // TODO: CHANGE THIS WHEN OSCAR IS DONE WITH API
+  const waitingOnOscar = false;
+  let uri;
+  if (process.env.DEBUG === "true") {
+    uri = "http://localhost:8080/packages";
+  } else {
+    uri = "https://api.nest.land/packages";
+  }
   if (waitingOnOscar) {
     return res.status(400).json({ errorMessage: "cheese" });
   } else {
     const requestOptions = {
-      uri: "https://api.nest.land/packages",
+      uri: uri,
       json: true,
-      form: {
-        // TODO: FILL THIS IN
-        // secret: process.env.CAPTCHA_SECRET
-      },
     };
-    request.post(requestOptions, function (err, response, body) {
+    request.get(requestOptions, function (err, response, body) {
       if (err) {
         return res.status(500).json(
           { errorMessage: "oops, something went wrong on our side" },
         );
       }
-      res.status(201).json({ data: body });
+      res.status(201).json({ body });
     });
   }
 };

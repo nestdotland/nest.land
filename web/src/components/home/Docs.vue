@@ -6,6 +6,14 @@
         <hr class="mini-hr" style="margin-bottom: 1.5rem" />
         <div class="columns is-multiline is-vcentered">
           <div class="column is-half">
+            <p>
+              In order to publish packages to the blockchain with our CLI, you must first generate an API key. See
+              <router-link to="/#start" class="has-text-dark">Getting Started</router-link>.
+            </p>
+            <hr />
+          </div>
+          <div class="column is-half"></div>
+          <div class="column is-half">
             <p class="title is-5">Installation</p>
             <p>
               It's very easy to begin using Nest when pushing new Deno packages! You can install our CLI,

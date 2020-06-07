@@ -15,6 +15,10 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Inconsolata");
 
+.label {
+  font-weight: 500 !important;
+}
+
 .nest-input {
   border: none !important;
   box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07) !important;

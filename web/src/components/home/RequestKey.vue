@@ -2,32 +2,36 @@
   <div class="hero is-light is-medium" id="start">
     <div class="hero-body">
       <div class="container">
-        <div class="columns is-vcentered">
-          <div class="column is-hidden-mobile">
-            <img src="../../assets/box_vector.png" alt="Box Vector" />
-          </div>
+        <div class="columns">
           <div class="column">
+            <img src="../../assets/box_vector.png" alt="Box Vector" />
             <div
               class="notification is-danger is-light"
               v-show="serverError !== ''"
             >{{ serverError }}</div>
+          </div>
+          <div class="column">
             <h1 class="title">Getting Started</h1>
             <p>
-              In order to publish packages to the blockchain with our CLI, you must first generate an API key. This key is your cryptographic identity on the blockchain, so don't lose it! After generating, see the
+              You'll need an API key to use our CLI! After generating, see the
               <router-link to="/#docs" class="has-text-dark">documentation</router-link>.
             </p>
             <hr />
-            <div class="field" v-show="verificationSucceeded !== true">
-              <div class="control">
-                <button
-                  class="button is-light is-primary is-medium is-fullwidth"
-                  :class="buttonStatusClass"
-                  id="generate-button"
-                  @click="recaptcha"
-                >Generate an API Key</button>
-              </div>
+            <div v-show="eggAPIKey === ''">
+              <log-in
+                v-show="hasAccount"
+                @toggle-has-account="toggleHasAccount"
+                @new-error="newError"
+                @update-user="updateUser"
+              ></log-in>
+              <sign-up
+                v-show="!hasAccount"
+                @toggle-has-account="toggleHasAccount"
+                @new-error="newError"
+                @update-user="updateUser"
+              ></sign-up>
             </div>
-            <div v-show="verificationSucceeded === true" id="token-group">
+            <div v-show="eggAPIKey !== ''" id="token-group">
               <h2 class="subtitle">Your key:</h2>
               <pre id="token-element"><code>{{ eggAPIKey }}</code></pre>
             </div>
@@ -40,44 +44,49 @@
 
 <script>
 import { HTTP } from "../../http-common";
+import LogIn from "../auth/LogIn.vue";
+import SignUp from "../auth/SignUp.vue";
 
 export default {
   name: "RequestKey",
+  components: {
+    LogIn,
+    SignUp,
+  },
   data() {
     return {
-      buttonStatusClass: "",
+      hasAccount: true,
+      userAccount: {},
       verificationSucceeded: false,
       serverError: "",
       eggAPIKey: "",
     };
   },
-  methods: {
-    async recaptcha() {
-      this.buttonStatusClass = "is-loading";
-      await this.$recaptchaLoaded();
-      const token = await this.$recaptcha("login");
-      try {
-        const response = await HTTP.post("captcha", {
-          data: {
-            token,
-          },
-        });
-        this.getToken(response);
-      } catch (err) {
-        this.serverError = err;
-      }
+  watch: {
+    userAccount: function() {
+      console.log("EMMITTED TO ACCOUNT");
+      this.getToken();
     },
-    async getToken(confirmation) {
+  },
+  methods: {
+    toggleHasAccount(condition) {
+      this.hasAccount = condition;
+    },
+    newError(e) {
+      this.serverError = e;
+    },
+    updateUser(newUser) {
+      this.userAccount = newUser;
+    },
+    async getToken() {
       try {
         const response = await HTTP.post("key", {
-          data: {
-            confirmation,
-          },
+          data: this.account,
         });
         this.eggAPIKey = response.data.token;
         this.verificationSucceeded = true;
       } catch (err) {
-        this.serverError = err;
+        this.newError(err);
       }
     },
   },
@@ -85,13 +94,6 @@ export default {
 </script>
 
 <style scoped>
-#generate-button {
-  font-family: "Inconsolata", monospace;
-}
-#generate-button::after {
-  border-color: transparent transparent black black !important;
-}
-
 #token-element {
   background-color: #fdbb2d;
 }

@@ -1,22 +1,23 @@
 <template>
   <div class="card">
     <div class="card-content">
-      <div class="media">
-        <div class="media-content">
-          <p class="title is-4 has-text-dark">{{ item._id }}</p>
-          <hr class="mini-hr" />
-        </div>
-        <div class="media-right">
-          <figure class="image is-48x48">
-            <img src="../assets/package_icon.png" alt="Package Icon" />
-          </figure>
-        </div>
-      </div>
       <div class="content">
-        <p>{{ item.description }}</p>
+        <p class="title is-4">{{ item._id }}</p>
+        <p class="subtitle is-6">{{ item.description }}</p>
+        <hr class="mini-hr" />
+        <p class="author-text">By: {{ item.owner }}</p>
       </div>
     </div>
     <footer class="card-footer">
+      <div class="select card-footer-item is-light">
+        <select v-model="selectedVersion">
+          <option
+            v-for="version in item.packageUploadIds"
+            :key="version._id"
+            :value="version._id"
+          >{{ version._id }}</option>
+        </select>
+      </div>
       <a
         :href="'https://x.nest.land/' + item._id + '@' + item.latestStableVersion"
         class="card-footer-item has-text-dark"
@@ -29,6 +30,23 @@
 export default {
   name: "Card",
   props: ["item"],
+  data() {
+    return {
+      package: this.item,
+      selectedVersion: this.package.latestStableVersion,
+      importURL:
+        "https://x.nest.land/" +
+        this.package._id +
+        "@" +
+        this.package.latestStableVersion,
+    };
+  },
+  watch: {
+    selectedVersion: function() {
+      this.importURL =
+        "https://x.nest.land/" + this.package._id + "@" + this.selectedVersion;
+    },
+  },
 };
 </script>
 
@@ -50,6 +68,14 @@ export default {
 }
 .card-footer-item {
   font-family: "Inconsolata", monospace;
+}
+.select {
+  width: 50% !important;
+  height: 100% !important;
+  margin: 0 !important;
+}
+.mini-hr {
+  margin-bottom: 20px !important;
 }
 
 .image {
