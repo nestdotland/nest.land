@@ -1,0 +1,16 @@
+[
+    {
+        "_id": "cheese",
+        "owner": "nanny_mcphee_420",
+        "latestStableVersion": "1.0.0",
+        "latestVersion": "2.0.0-rc.1",
+        "description": "yummy",
+        "packageUploadIds": [
+            "cheese@1.0.0",
+            "cheese@1.1.0",
+            "cheese@1.2.0",
+            "cheese@1.3.0",
+            "cheese@1.4.0"
+        ]
+    }
+]

@@ -22,13 +22,13 @@
                 v-show="hasAccount"
                 @toggle-has-account="toggleHasAccount"
                 @new-error="newError"
-                @update-user="updateUser"
+                @set-api-key="setAPIKey"
               ></log-in>
               <sign-up
                 v-show="!hasAccount"
                 @toggle-has-account="toggleHasAccount"
                 @new-error="newError"
-                @update-user="updateUser"
+                @set-api-key="setAPIKey"
               ></sign-up>
             </div>
             <div v-show="eggAPIKey !== ''" id="token-group">
@@ -43,7 +43,6 @@
 </template>
 
 <script>
-import { HTTP } from "../../http-common";
 import LogIn from "../auth/LogIn.vue";
 import SignUp from "../auth/SignUp.vue";
 
@@ -62,12 +61,6 @@ export default {
       eggAPIKey: "",
     };
   },
-  watch: {
-    userAccount: function() {
-      console.log("EMMITTED TO ACCOUNT");
-      this.getToken();
-    },
-  },
   methods: {
     toggleHasAccount(condition) {
       this.hasAccount = condition;
@@ -75,19 +68,9 @@ export default {
     newError(e) {
       this.serverError = e;
     },
-    updateUser(newUser) {
-      this.userAccount = newUser;
-    },
-    async getToken() {
-      try {
-        const response = await HTTP.post("key", {
-          data: this.account,
-        });
-        this.eggAPIKey = response.data.token;
-        this.verificationSucceeded = true;
-      } catch (err) {
-        this.newError(err);
-      }
+    setAPIKey(key) {
+      this.eggAPIKey = key;
+      this.verificationSucceeded = true;
     },
   },
 };

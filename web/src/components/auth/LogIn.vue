@@ -54,9 +54,8 @@ export default {
         this.$emit("new-error", err);
       }
       if (captchaResponse.data.success) {
-        // TODO: NEED TO AUTHENTICATE NOW AND RETURN AUTH
         try {
-          loginResponse = await HTTP.post("login", {
+          loginResponse = await HTTP.post("login-client", {
             data: {
               username: this.username,
               password: this.password,
@@ -65,11 +64,8 @@ export default {
         } catch (err) {
           this.$emit("new-error", err);
         }
-        if (loginResponse.data.success) {
-          this.$emit("update-user", {
-            username: this.username,
-            password: this.password,
-          });
+        if (loginResponse.data.key) {
+          this.$emit("set-api-key", loginResponse.data.key);
         } else {
           this.$emit("new-error", "Your username or password is incorrect.");
         }

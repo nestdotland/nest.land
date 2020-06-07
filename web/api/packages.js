@@ -4,9 +4,9 @@ module.exports = (req, res) => {
   const waitingOnOscar = false;
   let uri;
   if (process.env.DEBUG === "true") {
-    uri = "http://localhost:8080/packages";
+    uri = "http://localhost:8080/api/packages";
   } else {
-    uri = "https://api.nest.land/packages";
+    uri = "https://x.nest.land/api/packages";
   }
   if (waitingOnOscar) {
     return res.status(400).json({ errorMessage: "cheese" });

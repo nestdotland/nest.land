@@ -96,18 +96,38 @@ export default {
       this.buttonStatusClass = "is-loading";
       await this.$recaptchaLoaded();
       const token = await this.$recaptcha("login");
+      let captchaResponse, signupResponse;
       try {
-        const response = await HTTP.post("captcha", {
+        captchaResponse = await HTTP.post("captcha", {
           data: {
             token,
           },
         });
-        if (response.data.success === true) {
-          // NEED TO AUTHENTICATE NOW AND RETURN AUTH
-          this.$emit("update-user", {
-            username: this.username,
-            password: this.password,
-          });
+        if (captchaResponse.data.success) {
+          // try {
+          //   signupResponse = await HTTP.post("signup-client", {
+          //     data: {
+          //       username: this.username,
+          //       password: this.password,
+          //     },
+          //   });
+          // } catch (err) {
+          //   this.$emit("new-error", err);
+          // }
+          try {
+            signupResponse = await fetch("http://localhost:8080/api/signup", {
+              body: {
+                username: this.username,
+                password: this.password,
+              },
+              method: "POST",
+              mode: "no-cors",
+            });
+          } catch (err) {
+            this.$emit("new-error", err);
+          }
+          console.log(signupResponse.data);
+          this.$emit("set-api-key", signupResponse.data.key);
         } else {
           this.$emit("new-error", "We think that you are a bot. BE GONE, BOT!");
         }
