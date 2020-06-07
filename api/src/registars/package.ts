@@ -7,6 +7,7 @@ import { ensureMaxPayload } from "../middleware/max_payload.ts";
 import { assertFields } from "../utils/assert_fields.ts";
 import { getUserWithApiKey } from "../utils/auth_header.ts";
 import { LOCAL_URI } from "../utils/arweave_api.ts";
+import { BLOCKED_NAMES } from "../utils/blocked_names.ts";
 
 // TODO(@zorbyte): Rename these from *Request to *Payload.
 interface PublishRequest {
@@ -44,9 +45,13 @@ export function packageRegistar(router: Router) {
     const pkg = await getPackage(name, true);
     if (!pkg) return ctx.throw(Status.NotFound);
 
-    pkg.uploads.find(u => u.version === name);
+    const upload = pkg.uploads.find(u => u.version === version);
+    if (!upload) return ctx.throw(Status.NotFound);
 
-    ctx.response.body = pkg;
+    ctx.response.body = {
+      name: pkg._id,
+      displayName: upload._id,
+    };
   });
 
   router.get("/packages", async ctx => {
@@ -66,7 +71,13 @@ export function packageRegistar(router: Router) {
       version: "string",
     });
 
-    if (body.name.includes("@") && body.name.includes(" ")) return ctx.throw(Status.BadRequest);
+    if (
+      body.name.includes("@") ||
+      body.name.includes(" ") ||
+      BLOCKED_NAMES.has(body.name)
+    ) {
+      return ctx.throw(Status.BadRequest);
+    }
 
     const existingPkg = await getPackage(body.name, true);
     const version = body?.version ?? "0.0.1";
@@ -140,7 +151,6 @@ export function packageRegistar(router: Router) {
 
       await createUpload(upload.name, upload.update, upload.ownerId, {
         version: upload.version,
-        displayName: upload.name,
         description: upload.description,
         fileMap,
       });

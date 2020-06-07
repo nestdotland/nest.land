@@ -13,7 +13,6 @@ export interface PackageUpload {
   // _id is the name + version.
   _id: string;
   version: string;
-  displayName: string;
   description: string;
   documentation?: string;
   uploadedAt: Date;
