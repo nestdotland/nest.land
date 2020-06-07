@@ -39,7 +39,7 @@ export function authRegistar(router: Router) {
 
     const user = await fetchUser(body.username);
     if (!user) return ctx.throw(Status.Unauthorized);
-    if (!(await compare(user.passwordHash, body.password))) {
+    if (!(await compare(body.password, user.passwordHash))) {
       return ctx.throw(Status.Unauthorized);
     }
 
