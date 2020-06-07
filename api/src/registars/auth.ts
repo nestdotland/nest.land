@@ -16,7 +16,7 @@ export function authRegistar(router: Router) {
 
     const user = {
       _id: body.username,
-      // TODO(@zorbyte): Make API keys be generated on request, instead of intrinsic.
+      // TODO(@zorbyte): #36 Make API keys be generated on request, instead of intrinsic.
       apiKey: nanoid(16),
       passwordHash: await hash(body.password),
       packageIds: [],
