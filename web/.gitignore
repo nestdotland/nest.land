@@ -5,6 +5,7 @@ node_modules
 # local env files
 .env.local
 .env.*.local
+.env
 
 # Log files
 npm-debug.log*
@@ -20,3 +21,6 @@ yarn-error.log*
 *.sln
 *.sw?
 src/assets/undraw_heavy_box.svg
+
+# Vercel files
+.now/

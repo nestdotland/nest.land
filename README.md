@@ -34,6 +34,10 @@ See the [roadmap](/ROADMAP.md).
  - [tbaumer22](https://github.com/tbaumer22), Co-Founder, Frontend & UI/UX
  - [zorbyte](https://github.com/zorbyte), Co-Founder, Backend & CLI
 
+### Contributors
+ - [ebebbington](https://github.com/ebebbington)
+ - [justablob](https://github.com/justablob)
+
 ### Inspirations
 
  - [Deno Third-Party Modules](https://deno.land/x)

@@ -48,7 +48,7 @@ We'd also like to implement premium features to allow for profitability on the t
     - Refactor for more modularity.
     - Enforce cryptographic signing for all users (GPG keys).
     - All routes are ratelimited using a per-route token (paired with a cooldown) for storage in a client side bucket.
-    - Implement contributor keys to allow for multiple publish sources. (Paywall for more than 3 people, $5 per person)
+    - Implement contributor keys to allow for multiple publish sources.
       - Paywall for more than 3 people, $5 per person
     - GraphQL API instead of REST.
       - Depending on the libraries available for Deno, this may consitute a rewrite to rust for the API.

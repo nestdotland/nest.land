@@ -40,11 +40,11 @@
           <div class="container">
             <ul>
               <li class="nest-heading">
-                <a class="no-hover">100 Packages</a>
+                <a class="no-hover">{{ shownPackagesCount }}</a>
               </li>
-              <li class="nest-heading">
+              <!-- <li class="nest-heading">
                 <a class="no-hover">90 Authors</a>
-              </li>
+              </li>-->
             </ul>
           </div>
         </nav>
@@ -53,10 +53,15 @@
     <gradient-bar></gradient-bar>
     <div class="hero is-light is-small">
       <div class="hero-body">
+        <h1
+          v-show="shownPackages.length === 0 && !loading"
+          class="title is-3"
+        >Unable to find any packages 🥚</h1>
+        <h1 v-show="loading" class="title is-3">Loading packages... 🥚</h1>
         <div class="container">
           <div class="columns is-multiline">
-            <div class="column is-3" v-for="p in shownPackages" v-bind:key="p.id">
-              <card v-bind:item="p"></card>
+            <div class="column is-3" v-for="p in shownPackages" :key="p._id">
+              <card :item="p"></card>
             </div>
           </div>
         </div>
@@ -75,37 +80,52 @@ export default {
   data() {
     return {
       packages: [],
+      loading: true,
+      statusMessage: "Loading packages... 🥚",
       searchPhrase: "",
       shownPackages: [],
-      errorMessage: ""
+      shownPackagesCount: "",
+      errorMessage: "",
     };
   },
   components: {
     NestNav,
     GradientBar,
-    Card
+    Card,
   },
-  created() {
-    HTTP.get("packages")
-      .then(response => {
-        this.packages = response.data;
-        this.shownPackages = response.data;
-      })
-      .catch(error => {
-        this.errorMessage = error;
-      });
+  async created() {
+    this.debouncedSortPackages = this._.debounce(this.sortPackages, 500);
+    try {
+      const allPackages = await HTTP.get("packages");
+      this.packages = allPackages.data.body;
+      this.shownPackages = allPackages.data.body;
+      this.loading = false;
+      this.shownPackagesCount = allPackages.data.body.length + " Packages";
+    } catch (err) {
+      this.errorMessage = err;
+    }
   },
   watch: {
-    searchPhrase: function(value) {
+    searchPhrase: function() {
+      this.debouncedSortPackages();
+    },
+  },
+  methods: {
+    sortPackages() {
       let potentialMatches = [];
       for (let i = 0; i < this.packages.length; i++) {
-        if (this.packages[i]._id.search(value) !== -1) {
+        if (this.packages[i]._id.search(this.searchPhrase) !== -1) {
           potentialMatches.push(this.packages[i]);
         }
       }
       this.shownPackages = potentialMatches;
-    }
-  }
+      let singularOrPlural = " Packages";
+      if (this.shownPackages.length === 1) {
+        singularOrPlural = " Package";
+      }
+      this.shownPackagesCount = this.shownPackages.length + singularOrPlural;
+    },
+  },
 };
 </script>
 

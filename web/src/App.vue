@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: "App"
+  name: "App",
 };
 </script>
 
@@ -15,12 +15,28 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Inconsolata");
 
+.label {
+  font-weight: 500 !important;
+}
+
 .nest-input {
   border: none !important;
   box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07) !important;
 }
 
 .nest-gradient-hero {
+  background: linear-gradient(271deg, #22c1c3, #fdbb2d);
+  background-size: 400% 400%;
+
+  -webkit-animation: nestGradient 6s ease infinite;
+  -moz-animation: nestGradient 6s ease infinite;
+  animation: nestGradient 6s ease infinite;
+}
+.mini-hr {
+  height: 10px;
+  width: 20%;
+  border-radius: 2px;
+  margin-bottom: 0;
   background: linear-gradient(271deg, #22c1c3, #fdbb2d);
   background-size: 400% 400%;
 
@@ -103,6 +119,10 @@ export default {
   to {
     transform: translateY(-20px);
   }
+}
+
+.grecaptcha-badge {
+  display: none !important;
 }
 
 .nest-footprints-hero {
