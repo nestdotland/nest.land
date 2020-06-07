@@ -14,9 +14,9 @@ export async function assertBody(
     },
   });
 
-  if (!body) ctx.throw(...BAD_REQ_PARAMS);
+  if (!body || body.type !== "json") ctx.throw(...BAD_REQ_PARAMS);
 
-  ctx.state.body = body;
+  ctx.state.body = body.value;
 
   await next();
 }
