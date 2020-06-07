@@ -36,6 +36,7 @@ export const RESERVED = new Set([
   "querystring",
   "readline",
   "repl",
+  "std",
   "stream",
   "string_decoder",
   "sys",
