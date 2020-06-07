@@ -3,14 +3,14 @@ import { MongoClient, prerelease } from "../deps.ts";
 export const client = new MongoClient();
 client.connectWithUri("mongodb://localhost:27017");
 
-export const db = client.database("nest-land");
+export const db = client.database("nest_land");
 
 export const users = db.collection("users");
 export const packages = db.collection("packages");
 export const packageUploads = db.collection("packageUploads");
 
 export interface PackageUpload {
-  // _id is the name + version.
+  // _id is the name + version, delimeted by a '@'.
   _id: string;
   version: string;
   description: string;
