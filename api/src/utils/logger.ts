@@ -63,7 +63,7 @@ export function createChild(childName: string) {
 
 function formatLog(
   displayName: string,
-  opts: { method: string; colouriser: typeof gray; },
+  opts: { method: string; colouriser: typeof gray },
 ) {
   if (displayName.length > 11) displayName += " ";
   const currentTime = new Date();
@@ -72,5 +72,5 @@ function formatLog(
     bold(
       magenta(timeStr.slice(0, timeStr.indexOf(" "))),
     )
-    } ${displayName}${opts.colouriser(opts.method)}`;
+  } ${displayName}${opts.colouriser(opts.method)}`;
 }

@@ -1,0 +1,22 @@
+{
+  "name": "arweave_api",
+  "version": "0.0.1",
+  "description": "A bridge between the API",
+  "main": "./dist/index.js",
+  "scripts": {
+    "test": "tsc && node ."
+  },
+  "author": "zorbyte",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/koa": "^2.11.3",
+    "@types/koa-bodyparser": "^4.3.0",
+    "@types/node": "^14.0.11",
+    "typescript": "^3.9.5"
+  },
+  "dependencies": {
+    "arweave": "^1.7.1",
+    "koa": "^2.12.0",
+    "koa-bodyparser": "^4.3.0"
+  }
+}

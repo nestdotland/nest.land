@@ -16,3 +16,6 @@ export {
 } from "https://deno.land/x/oak@v5.0.0/mod.ts";
 export { Snelm } from "https://deno.land/x/snelm@1.2.0/mod.ts";
 export { MongoClient, ObjectId } from "https://deno.land/x/mongo@v0.7.0/mod.ts";
+export { default as nanoid } from "https://deno.land/x/nanoid/mod.ts";
+export { hash, verify } from "https://deno.land/x/argon2/lib/mod.ts";
+export { valid, prerelease } from "https://deno.land/x/semver/mod.ts";
