@@ -10,17 +10,13 @@ const log = createLogger();
 log.debug("Starting nest.land API");
 
 const app = new Application();
-const router = new Router();
 
 // Snelm security middleware.
 const snelm = new Snelm("oak");
 await snelm.init();
 
-setupRegistar(router, packageRegistar);
-setupRegistar(router, authRegistar);
-
-app.use(router.routes());
-app.use(router.allowedMethods());
+setupRegistar(app, packageRegistar);
+setupRegistar(app, authRegistar);
 
 app.use((ctx, next) => {
   ctx.response = snelm.snelm(ctx.request, ctx.response);
