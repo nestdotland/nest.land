@@ -1,0 +1,30 @@
+{
+  "name": "x-node",
+  "version": "0.0.1",
+  "main": "lib/index.js",
+  "author": "justablob",
+  "maintainers": [
+    "tbaumer22",
+    "zorbyte",
+    "justablob"
+  ],
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "typeorm": "^0.2.25"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.6",
+    "cross-env": "^7.0.2",
+    "ts-node-dev": "^1.0.0-pre.44",
+    "typescript": "^3.9.5"
+  },
+  "scripts": {
+    "dev": "tsnd --no-notify ./src",
+    "build": "tsc .",
+    "prod": "node ./lib"
+  }
+}
