@@ -1,7 +1,8 @@
-import t from "typeorm";
+import "reflect-metadata";
+import * as t from "typeorm";
 
-@t.Entity()
-class User {
+@t.Entity("users")
+export class User {
 
   @t.PrimaryColumn("varchar", { length: 20, nullable: false, unique: true })
   name: string;
@@ -15,13 +16,13 @@ class User {
   @t.Column("varchar", { array: true, length: 40 })
   packageNames: string[];
 
-  @t.Column("timestamp", { nullable: false, default: "current_timestamp" })
+  @t.CreateDateColumn()
   createdAt: number;
 
 }
 
-@t.Entity()
-class Package {
+@t.Entity("packages")
+export class Package {
 
   @t.PrimaryColumn("varchar", { length: 40, nullable: false, unique: true })
   name: string;
@@ -41,13 +42,13 @@ class Package {
   @t.Column("varchar", { array: true, length: 61 })
   packageUploadNames: string[];
 
-  @t.Column("timestamp", { nullable: false, default: "current_timestamp" })
+  @t.CreateDateColumn()
   createdAt: number;
 
 }
 
-@t.Entity()
-class PackageUpload {
+@t.Entity("package-uploads")
+export class PackageUpload {
 
   @t.PrimaryColumn("varchar", { length: 61, nullable: false, unique: true })
   name: string;
@@ -61,7 +62,43 @@ class PackageUpload {
   @t.Column("json")
   files: { [x: string]: string }
 
-  @t.Column("timestamp", { nullable: false, default: "current_timestamp" })
+  @t.CreateDateColumn()
   createdAt: number;
 
+}
+
+export async function connect () {
+  try {
+    const connection: t.Connection = await t.createConnection({
+      type: "postgres",
+
+      host: process.env.DB_HOST.split(":").slice(0, -1).join(":"),
+      port: parseInt(process.env.DB_HOST.split(":").slice(-1)[0]),
+      username: process.env.DB_USER,
+      password: process.env.DB_PASS,
+      database: process.env.DB_ROOT,
+
+      entities: [
+        User,
+        Package,
+        PackageUpload
+      ],
+
+      synchronize: false,
+      logging: process.env.NODE_ENV === "production" ? undefined : true
+    });
+
+    let repositories = {
+      User: connection.getRepository(User),
+      Package: connection.getRepository(Package),
+      PackageUpload: connection.getRepository(PackageUpload),
+    };
+
+    (connection as any).repositories = repositories;
+
+    return connection as t.Connection & { repositories: typeof repositories };
+  } catch (err) {
+    throw err;
+    throw new Error("Failed to create database connection.");
+  }
 }

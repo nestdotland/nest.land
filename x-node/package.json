@@ -13,18 +13,23 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "pg": "^8.2.1",
+    "reflect-metadata": "^0.1.13",
     "typeorm": "^0.2.25"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.6",
     "cross-env": "^7.0.2",
+    "ts-node": "^8.10.2",
     "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "^3.9.5"
   },
   "scripts": {
     "dev": "tsnd --no-notify ./src",
+    "dev:sync": "ts-node ./src/utils/syncDatabase",
     "build": "tsc .",
-    "prod": "node ./lib"
+    "prod": "node ./lib",
+    "prod:sync": "node ./lib/utils/syncDatabase"
   }
 }
