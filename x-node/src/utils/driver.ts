@@ -98,7 +98,6 @@ export async function connect () {
 
     return connection as t.Connection & { repositories: typeof repositories };
   } catch (err) {
-    throw err;
     throw new Error("Failed to create database connection.");
   }
 }
