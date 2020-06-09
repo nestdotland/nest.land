@@ -17,7 +17,7 @@ export class User {
   packageNames: string[];
 
   @t.CreateDateColumn()
-  createdAt: number;
+  createdAt: Date;
 
 }
 
@@ -30,20 +30,20 @@ export class Package {
   @t.Column("varchar", { length: 256, nullable: false })
   owner: string;
 
-  @t.Column("text", { nullable: false })
+  @t.Column("text", { nullable: true })
   description: string;
 
-  @t.Column("varchar", { length: 20, nullable: false })
+  @t.Column("varchar", { length: 20, nullable: true })
   latestVersion: string;
 
-  @t.Column("varchar", { length: 20, nullable: false })
+  @t.Column("varchar", { length: 20, nullable: true })
   latestStableVersion: string;
 
   @t.Column("varchar", { array: true, length: 61 })
   packageUploadNames: string[];
 
   @t.CreateDateColumn()
-  createdAt: number;
+  createdAt: Date;
 
 }
 
@@ -53,6 +53,12 @@ export class PackageUpload {
   @t.PrimaryColumn("varchar", { length: 61, nullable: false, unique: true })
   name: string;
 
+  @t.Column("varchar", { length: 40, nullable: false })
+  package: string;
+
+  @t.Column("varchar", { length: 20, nullable: false })
+  version: string;
+
   @t.Column("varchar", { length: 256, nullable: true })
   documentation: string;
 
@@ -60,7 +66,7 @@ export class PackageUpload {
   files: { [x: string]: string }
 
   @t.CreateDateColumn()
-  createdAt: number;
+  createdAt: Date;
 
 }
 
