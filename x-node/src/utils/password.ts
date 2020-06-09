@@ -65,7 +65,7 @@ export function verify (password: string, hashed: string): Promise<boolean> {
 
     return crypto.pbkdf2(password, salt, rounds, keylen, algo, (err, computedHash) => {
       if (err) return rej(err);
-      return res(hash.toString("utf8") === computedHash.toString("utf8"));
+      return res(crypto.timingSafeEqual(hash, computedHash));
     });
   });
 }

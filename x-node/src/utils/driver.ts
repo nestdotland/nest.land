@@ -53,10 +53,7 @@ export class PackageUpload {
   @t.PrimaryColumn("varchar", { length: 61, nullable: false, unique: true })
   name: string;
 
-  @t.Column("varchar", { length: 20, nullable: false })
-  version: string;
-
-  @t.Column("varchar", { length: 256, nullable: false })
+  @t.Column("varchar", { length: 256, nullable: true })
   documentation: string;
 
   @t.Column("json")
@@ -66,6 +63,8 @@ export class PackageUpload {
   createdAt: number;
 
 }
+
+export type DbConnection = t.Connection & { repositories: { User: t.Repository<User>, Package: t.Repository<Package>, PackageUpload: t.Repository<PackageUpload> } };
 
 export async function connect () {
   try {
@@ -96,7 +95,7 @@ export async function connect () {
 
     (connection as any).repositories = repositories;
 
-    return connection as t.Connection & { repositories: typeof repositories };
+    return connection as DbConnection;
   } catch (err) {
     throw new Error("Failed to create database connection.");
   }
