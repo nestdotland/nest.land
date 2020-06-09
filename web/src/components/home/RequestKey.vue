@@ -17,7 +17,7 @@
               <router-link to="/#docs" class="has-text-dark">documentation</router-link>.
             </p>
             <hr />
-            <div v-show="eggAPIKey === ''">
+            <div v-show="eggsAPIKey === ''">
               <log-in
                 v-show="hasAccount"
                 @toggle-has-account="toggleHasAccount"
@@ -31,9 +31,9 @@
                 @set-api-key="setAPIKey"
               ></sign-up>
             </div>
-            <div v-show="eggAPIKey !== ''" id="token-group">
+            <div v-show="eggsAPIKey !== ''" id="token-group">
               <h2 class="subtitle">Your key:</h2>
-              <pre id="token-element"><code>{{ eggAPIKey }}</code></pre>
+              <pre id="token-element"><code>{{ eggsAPIKey }}</code></pre>
             </div>
           </div>
         </div>
@@ -58,7 +58,7 @@ export default {
       userAccount: {},
       verificationSucceeded: false,
       serverError: "",
-      eggAPIKey: "",
+      eggsAPIKey: "",
     };
   },
   methods: {
@@ -69,7 +69,7 @@ export default {
       this.serverError = e;
     },
     setAPIKey(key) {
-      this.eggAPIKey = key;
+      this.eggsAPIKey = key;
       this.verificationSucceeded = true;
     },
   },

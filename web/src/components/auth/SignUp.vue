@@ -104,30 +104,31 @@ export default {
           },
         });
         if (captchaResponse.data.success) {
-          // try {
-          //   signupResponse = await HTTP.post("signup-client", {
-          //     data: {
-          //       username: this.username,
-          //       password: this.password,
-          //     },
-          //   });
-          // } catch (err) {
-          //   this.$emit("new-error", err);
-          // }
           try {
-            signupResponse = await fetch("http://localhost:8080/api/signup", {
-              body: {
+            signupResponse = await HTTP.post("signup-client", {
+              data: {
                 username: this.username,
                 password: this.password,
               },
-              method: "POST",
-              mode: "no-cors",
             });
+            this.$emit("set-api-key".signupResponse.body.apiKey);
           } catch (err) {
             this.$emit("new-error", err);
           }
-          console.log(signupResponse.data);
-          this.$emit("set-api-key", signupResponse.data.key);
+          // try {
+          //   signupResponse = await fetch("http://localhost:8080/api/signup", {
+          //     body: JSON.stringify({
+          //       username: this.username,
+          //       password: this.password,
+          //     }),
+          //     method: "POST",
+          //     mode: "no-cors",
+          //   });
+          //   console.log(signupResponse.data);
+          //   this.$emit("set-api-key", signupResponse.data.key);
+          // } catch (err) {
+          //   this.$emit("new-error", err);
+          // }
         } else {
           this.$emit("new-error", "We think that you are a bot. BE GONE, BOT!");
         }

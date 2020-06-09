@@ -50,27 +50,35 @@ export default {
             token,
           },
         });
+        if (captchaResponse.data.success) {
+          try {
+            loginResponse = await HTTP.post("login-client", {
+              data: {
+                username: this.username,
+                password: this.password,
+              },
+            });
+            this.$emit("set-api-key", loginResponse.body.key);
+            // loginResponse = await fetch("http://localhost:8080/api/getkey", {
+            //   headers: {
+            //     con
+            //   },
+            //   body: {
+            //     username: this.username,
+            //     password: this.password,
+            //   },
+            //   method: "POST",
+            //   mode: "no-cors",
+            // });
+            // console.log(loginResponse.data);
+          } catch (err) {
+            this.$emit("new-error", err);
+          }
+        } else {
+          this.$emit("new-error", "We think that you are a bot. BE GONE, BOT!");
+        }
       } catch (err) {
         this.$emit("new-error", err);
-      }
-      if (captchaResponse.data.success) {
-        try {
-          loginResponse = await HTTP.post("login-client", {
-            data: {
-              username: this.username,
-              password: this.password,
-            },
-          });
-        } catch (err) {
-          this.$emit("new-error", err);
-        }
-        if (loginResponse.data.key) {
-          this.$emit("set-api-key", loginResponse.data.key);
-        } else {
-          this.$emit("new-error", "Your username or password is incorrect.");
-        }
-      } else {
-        this.$emit("new-error", "We think that you are a bot. BE GONE, BOT!");
       }
     },
   },
