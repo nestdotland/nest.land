@@ -10,7 +10,7 @@ interface UserAuthPayload {
 }
 
 export function authRegistar(router: Router) {
-  router.post("/signup", assertBody, async ctx => {
+  router.post("/signup", assertBody, async (ctx) => {
     const { body } = ctx.state as { body: UserAuthPayload };
     validateUserData(ctx, body);
 
@@ -33,7 +33,7 @@ export function authRegistar(router: Router) {
   });
 
   // TODO(@zorbyte): Make this more secure and less repetitive.
-  router.post("/getkey", assertBody, async ctx => {
+  router.post("/getkey", assertBody, async (ctx) => {
     const { body } = ctx.state as { body: UserAuthPayload };
     validateUserData(ctx, body);
 

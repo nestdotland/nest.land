@@ -1,4 +1,5 @@
-export const BLOCKED_NAMES = new Set([
+export const RESERVED = new Set([
+  // std package names and Node.js default packages
   "_util",
   "archive",
   "async",
@@ -25,7 +26,6 @@ export const BLOCKED_NAMES = new Set([
   "dgram",
   "dns",
   "events",
-  "http",
   "https",
   "http2",
   "module",
@@ -36,6 +36,7 @@ export const BLOCKED_NAMES = new Set([
   "querystring",
   "readline",
   "repl",
+  "std",
   "stream",
   "string_decoder",
   "sys",
@@ -56,4 +57,7 @@ export const BLOCKED_NAMES = new Set([
   "uuid",
   "ws",
   "version",
+
+  // package names requested to be reserved
+  "libre",
 ]);
