@@ -36,7 +36,7 @@
     "dev": "tsnd --no-notify ./src",
     "dev:sync": "ts-node ./src/utils/syncDatabase",
     "build": "tsc",
-    "prod": "node ./lib",
-    "prod:sync": "node ./lib/utils/syncDatabase"
+    "prod": "node ./lib/src",
+    "prod:sync": "node ./lib/src/utils/syncDatabase"
   }
 }
