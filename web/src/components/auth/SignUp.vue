@@ -111,7 +111,7 @@ export default {
                 password: this.password,
               },
             });
-            this.$emit("set-api-key".signupResponse.body.apiKey);
+            this.$emit("set-api-key", signupResponse.body.apiKey);
           } catch (err) {
             this.$emit("new-error", err);
           }
