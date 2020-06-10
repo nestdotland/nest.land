@@ -182,6 +182,7 @@ export default (database: DbConnection, arweave: ArwConnection) => {
       ongoingUploads.delete(uploadToken);
 
       let fileMap = (await Promise.all(Object.entries(newUpload.pieces).map(async ([ file, content ]) => {
+        console.log(Buffer.from(content, "base64"));
         let arweaveLocation = await save(arweave, {
           name: file,
           type: getType(file),
@@ -206,8 +207,8 @@ export default (database: DbConnection, arweave: ArwConnection) => {
 
       let pkg = await database.repositories.Package.findOne({ name: newUpload.name });
       await database.repositories.Package.update({ name: pkg.name }, {
-        latestStableVersion: newUpload.latestStable ? newUpload.version : undefined,
-        latestVersion: newUpload.latest ? newUpload.version : undefined,
+        latestStableVersion: newUpload.latestStable ? `${newUpload.name}@${newUpload.version}` : undefined,
+        latestVersion: newUpload.latest ? `${newUpload.name}@${newUpload.version}` : undefined,
         packageUploadNames: [ ...pkg.packageUploadNames, packageUpload.name ],
       });
 
