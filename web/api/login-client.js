@@ -10,7 +10,8 @@ module.exports = (req, res) => {
     const requestTokenOptions = {
         uri: uri,
         headers: {
-            "X-Secret-Salt": process.env.API_KEY
+            "X-Secret-Salt": process.env.X_SECRET_SALT,
+            "X-Secret-Hash": process.env.X_SECRET_HASH
         },
         json: true,
         form: {
