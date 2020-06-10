@@ -22,11 +22,11 @@ async function start () {
 
   if (process.env.CLOSED === "yes") {
     server.use((req, res, next) => {
-      if (!req.headers["X-Secret-Salt"] || !req.headers["X-Secret-Hash"]) return res.sendStatus(401);
-       let serverHash = crypto.createHmac("sha384", process.env.SECRET).update(req.headers["X-Secret-Salt"].toString()).digest("hex");
-       if (serverHash !== req.headers["X-Secret-Hash"]) return res.sendStatus(401);
+      if (!req.headers["x-secret-salt"] || !req.headers["x-secret-hash"]) return res.sendStatus(401);
+        let serverHash = crypto.createHmac("sha384", process.env.SECRET).update(req.headers["x-secret-salt"].toString()).digest("hex");
+        if (serverHash !== req.headers["x-secret-hash"]) return res.sendStatus(401);
 
-       return next();
+        return next();
     });
   }
 

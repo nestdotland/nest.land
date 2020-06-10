@@ -81,7 +81,7 @@ export default (database: DbConnection, arweave: ArwConnection) => {
   });
 
   router.post("/publish", async (req, res) => {
-    let apiKey = req.headers["Authorization"]?.toString().replace(/^Bearer /, "");
+    let apiKey = req.headers["authorization"]?.toString().replace(/^Bearer /, "");
     if (!apiKey) return res.sendStatus(401);
 
     let dbUser = await database.repositories.User.findOne({ where: { apiKey: apiKey } });
@@ -157,12 +157,12 @@ export default (database: DbConnection, arweave: ArwConnection) => {
   });
 
   router.post("/piece", async (req, res) => {
-    let uploadToken = req.headers["X-UploadToken"].toString();
+    let uploadToken = req.headers["x-uploadtoken"].toString();
     if (!uploadToken) return res.sendStatus(401);
     if (!ongoingUploads.has(uploadToken)) return res.sendStatus(404);
 
-    if (!req.headers["Content-Length"]) return res.sendStatus(411);
-    if (parseInt(req.headers["Content-Length"].toString()) > 50 * 1024 ** 2) return res.send(413);
+    if (!req.headers["content-length"]) return res.sendStatus(411);
+    if (parseInt(req.headers["content-length"].toString()) > 50 * 1024 ** 2) return res.send(413);
 
     let { pieces, end } = req.body;
     if (typeof pieces !== "undefined" && typeof pieces !== "object") return res.sendStatus(400);
