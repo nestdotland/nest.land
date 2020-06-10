@@ -1,3 +1,4 @@
+import path from "path";
 import { getType } from "mime";
 import semver from "semver";
 import { Router } from "express";
@@ -188,7 +189,9 @@ export default (database: DbConnection, arweave: ArwConnection) => {
           data: Buffer.from(content, "base64"),
         });
 
-        return [ file, arweaveLocation ];
+        let fileLocation = arweaveLocation + path.extname(file);
+
+        return [ file, fileLocation ];
       }))).reduce((p, [ f, l ]) => {
         p[f] = l;
         return p;
