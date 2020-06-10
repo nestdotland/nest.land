@@ -58,19 +58,7 @@ export default {
                 password: this.password,
               },
             });
-            this.$emit("set-api-key", loginResponse.body.key);
-            // loginResponse = await fetch("http://localhost:8080/api/getkey", {
-            //   headers: {
-            //     con
-            //   },
-            //   body: {
-            //     username: this.username,
-            //     password: this.password,
-            //   },
-            //   method: "POST",
-            //   mode: "no-cors",
-            // });
-            // console.log(loginResponse.data);
+            this.$emit("set-api-key", loginResponse.data.body.apiKey);
           } catch (err) {
             this.$emit("new-error", err);
           }

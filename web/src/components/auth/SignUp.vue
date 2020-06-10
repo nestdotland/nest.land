@@ -111,24 +111,10 @@ export default {
                 password: this.password,
               },
             });
-            this.$emit("set-api-key", signupResponse.body.apiKey);
+            this.$emit("set-api-key", signupResponse.data.body.apiKey);
           } catch (err) {
             this.$emit("new-error", err);
           }
-          // try {
-          //   signupResponse = await fetch("http://localhost:8080/api/signup", {
-          //     body: JSON.stringify({
-          //       username: this.username,
-          //       password: this.password,
-          //     }),
-          //     method: "POST",
-          //     mode: "no-cors",
-          //   });
-          //   console.log(signupResponse.data);
-          //   this.$emit("set-api-key", signupResponse.data.key);
-          // } catch (err) {
-          //   this.$emit("new-error", err);
-          // }
         } else {
           this.$emit("new-error", "We think that you are a bot. BE GONE, BOT!");
         }

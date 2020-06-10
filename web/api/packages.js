@@ -1,14 +1,8 @@
 const request = require("request");
 
 module.exports = (req, res) => {
-  let uri;
-  if (process.env.DEBUG === "true") {
-    uri = "http://localhost:8080/api/packages";
-  } else {
-    uri = "https://x.nest.land/api/packages";
-  }
   const requestOptions = {
-    uri: uri,
+    uri: "https://x.nest.land/api/packages",
     headers: {
       "X-Secret-Salt": process.env.X_SECRET_SALT,
       "X-Secret-Hash": process.env.X_SECRET_HASH

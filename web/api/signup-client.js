@@ -1,20 +1,14 @@
 const request = require("request");
 
 module.exports = (req, res) => {
-    let uri;
-    if (process.env.DEBUG === "true") {
-        uri = "http://localhost:8080/api/signup";
-    } else {
-        uri = "https://x.nest.land/api/signup";
-    }
     const signupOptions = {
-        uri: uri,
+        uri: "https://x.nest.land/api/signup",
         headers: {
             "X-Secret-Salt": process.env.X_SECRET_SALT,
             "X-Secret-Hash": process.env.X_SECRET_HASH
         },
         json: true,
-        form: {
+        body: {
             username: req.body.data.username,
             password: req.body.data.password
         }
