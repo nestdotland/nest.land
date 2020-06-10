@@ -22,7 +22,7 @@
                     <font-awesome-icon :icon="['fas', 'trash-alt']" class="left-icon" />Permanently immutable
                   </li>
                   <li class="subtitle">
-                    <font-awesome-icon :icon="['fas', 'universal-access']" class="left-icon" />Easily accessible
+                    <font-awesome-icon :icon="['fas', 'globe-americas']" class="left-icon" />Globally accessible
                   </li>
                   <li class="subtitle">
                     <font-awesome-icon :icon="['fas', 'feather-alt']" class="left-icon" />Free
