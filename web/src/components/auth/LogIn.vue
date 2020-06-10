@@ -20,7 +20,7 @@
           :class="buttonStatusClass"
           id="generate-button"
           @click="recaptcha"
-        >Generate an API Key</button>
+        >Fetch your API Key</button>
       </div>
     </div>
     <a class="has-text-dark" @click="$emit('toggle-has-account', false)">No account? Sign up here.</a>
