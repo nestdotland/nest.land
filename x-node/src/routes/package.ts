@@ -205,7 +205,7 @@ export default (database: DbConnection, arweave: ArwConnection) => {
       await database.repositories.PackageUpload.save(packageUpload);
 
       let pkg = await database.repositories.Package.findOne({ name: newUpload.name });
-      await database.repositories.Package.update({ name: packageUpload.name }, {
+      await database.repositories.Package.update({ name: pkg.name }, {
         latestStableVersion: newUpload.latestStable ? newUpload.version : undefined,
         latestVersion: newUpload.latest ? newUpload.version : undefined,
         packageUploadNames: [ ...pkg.packageUploadNames, packageUpload.name ],
