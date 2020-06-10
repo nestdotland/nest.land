@@ -2,10 +2,9 @@
   <div class="card">
     <div class="card-content">
       <div class="content">
-        <p class="title is-4">{{ item._id }}</p>
-        <p class="subtitle is-6">{{ item.description }}</p>
+        <p class="title is-4">{{ item.name }}</p>
         <hr class="mini-hr" />
-        <p class="author-text">By: {{ item.owner }}</p>
+        <p class="subtitle is-6">{{ item.description }}</p>
       </div>
     </div>
     <footer class="card-footer">
@@ -39,7 +38,7 @@ export default {
   created() {
     this.package = this.item;
     this.selectedVersion =
-      this.package._id + "@" + this.package.latestStableVersion;
+      this.package.name + "@" + this.package.latestStableVersion;
   },
 };
 </script>

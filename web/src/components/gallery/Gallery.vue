@@ -51,13 +51,19 @@
       </div>
     </div>
     <gradient-bar></gradient-bar>
+    <div class="hero is-light is-medium" v-show="shownPackages.length === 0 || loading">
+      <div class="hero-body">
+        <div class="container">
+          <h1 v-show="loading" class="title is-3 has-text-centered">Loading packages... 🥚</h1>
+          <h1
+            v-show="shownPackages.length === 0 && !loading"
+            class="title is-3 has-text-centered"
+          >Unable to find any packages 🥚</h1>
+        </div>
+      </div>
+    </div>
     <div class="hero is-light is-small">
       <div class="hero-body">
-        <h1
-          v-show="shownPackages.length === 0 && !loading"
-          class="title is-3"
-        >Unable to find any packages 🥚</h1>
-        <h1 v-show="loading" class="title is-3">Loading packages... 🥚</h1>
         <div class="container">
           <div class="columns is-multiline">
             <div class="column is-3" v-for="p in shownPackages" :key="p._id">
@@ -87,6 +93,11 @@ export default {
       errorMessage: "",
     };
   },
+  props: {
+    search: {
+      type: String,
+    },
+  },
   components: {
     NestNav,
     GradientBar,
@@ -97,9 +108,15 @@ export default {
     try {
       const allPackages = await HTTP.get("packages");
       this.packages = allPackages.data.body;
-      this.shownPackages = allPackages.data.body;
+      console.log(this.packages);
+      // TODO [@tbaumer22]: Implement pagination/infinite scrolling
+      if (this.search === "") {
+        this.shownPackages = allPackages.data.body;
+      } else {
+        this.searchPhrase = this.search;
+      }
+      this.refreshPackageCount(allPackages.data.body.length);
       this.loading = false;
-      this.shownPackagesCount = allPackages.data.body.length + " Packages";
     } catch (err) {
       this.errorMessage = err;
     }
@@ -107,22 +124,30 @@ export default {
   watch: {
     searchPhrase: function() {
       this.debouncedSortPackages();
+      this.$router.replace({
+        query: {
+          search: this.searchPhrase,
+        },
+      });
     },
   },
   methods: {
     sortPackages() {
       let potentialMatches = [];
       for (let i = 0; i < this.packages.length; i++) {
-        if (this.packages[i]._id.search(this.searchPhrase) !== -1) {
+        if (this.packages[i].name.search(this.searchPhrase) !== -1) {
           potentialMatches.push(this.packages[i]);
         }
       }
       this.shownPackages = potentialMatches;
-      let singularOrPlural = " Packages";
-      if (this.shownPackages.length === 1) {
-        singularOrPlural = " Package";
+      this.refreshPackageCount(this.shownPackages.length);
+    },
+    refreshPackageCount(l) {
+      if (l === 1) {
+        this.shownPackagesCount = l + " Package";
+      } else {
+        this.shownPackagesCount = l + " Packages";
       }
-      this.shownPackagesCount = this.shownPackages.length + singularOrPlural;
     },
   },
 };
@@ -137,7 +162,6 @@ export default {
 
 .no-hover:hover {
   background: none !important;
-  border-bottom: 0 !important;
   cursor: default;
 }
 </style>

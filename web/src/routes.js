@@ -9,6 +9,7 @@ export const routes = [
   {
     path: "/gallery",
     component: Gallery,
+    props: (route) => ({ search: route.query.search })
   },
   {
     path: "*",
