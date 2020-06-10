@@ -21,7 +21,7 @@ async function start () {
   server.use(bodyParser.json());
 
   if (process.env.CLOSED === "yes") {
-    server.use((req, res, next) => {
+    server.use("/api/**", (req, res, next) => {
       if (!req.headers["x-secret-salt"] || !req.headers["x-secret-hash"]) return res.sendStatus(401);
         let serverHash = crypto.createHmac("sha384", process.env.SECRET).update(req.headers["x-secret-salt"].toString()).digest("hex");
         if (serverHash !== req.headers["x-secret-hash"]) return res.sendStatus(401);
