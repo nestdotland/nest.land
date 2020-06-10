@@ -1,4 +1,4 @@
-import mime from "mime";
+import { getType } from "mime";
 import semver from "semver";
 import { Router } from "express";
 import generateToken from "../utils/token";
@@ -184,7 +184,7 @@ export default (database: DbConnection, arweave: ArwConnection) => {
       let fileMap = (await Promise.all(Object.entries(newUpload.pieces).map(async ([ file, content ]) => {
         let arweaveLocation = await save(arweave, {
           name: file,
-          type: mime.getType(file),
+          type: getType(file),
           data: Buffer.from(content, "base64"),
         });
 
