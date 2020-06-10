@@ -182,7 +182,6 @@ export default (database: DbConnection, arweave: ArwConnection) => {
       ongoingUploads.delete(uploadToken);
 
       let fileMap = (await Promise.all(Object.entries(newUpload.pieces).map(async ([ file, content ]) => {
-        console.log(Buffer.from(content, "base64"));
         let arweaveLocation = await save(arweave, {
           name: file,
           type: getType(file),
