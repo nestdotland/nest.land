@@ -10,7 +10,7 @@
             A package registry for
             <span id="deno-text">Deno</span>,
             <br />on the
-            <a class="gradient-text" href="https://www.arweave.org/">permaweb</a>
+            <a class="gradient-text" href="https://www.arweave.org/">blockchain</a>
           </h1>
         </transition>
       </div>
@@ -24,8 +24,8 @@ import NestNav from "../Nav";
 export default {
   name: "Hero",
   components: {
-    NestNav
-  }
+    NestNav,
+  },
 };
 </script>
 
