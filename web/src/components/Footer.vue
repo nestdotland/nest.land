@@ -2,7 +2,7 @@
   <footer class="footer has-background-dark" id="symmetric-footer">
     <div class="content has-text-centered has-text-white">
       <p>
-        <b>Nest.land</b> by
+        <b>nest.land</b> by
         <a href="https://github.com/tbaumer22">tbaumer22</a> and
         <a href="https://github.com/zorbyte">zorbyte</a>.
         <br />Made with
@@ -34,9 +34,9 @@ export default {
   name: "NestFooter",
   data() {
     return {
-      isCheese: false
+      isCheese: false,
     };
-  }
+  },
 };
 </script>
 

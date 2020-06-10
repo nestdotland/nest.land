@@ -16,7 +16,7 @@
           <div class="column is-half">
             <p class="title is-5">Installation</p>
             <p>
-              It's very easy to begin using Nest when pushing new Deno packages! You can install our CLI,
+              It's very easy to begin using nest.land when pushing new Deno packages! You can install our CLI,
               <i>eggs</i>, via Deno.
             </p>
             <hr />

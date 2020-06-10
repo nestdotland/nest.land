@@ -4,7 +4,7 @@
       <div class="container">
         <div class="columns is-vcentered">
           <div class="column">
-            <h1 class="title">What is Nest.land?</h1>
+            <h1 class="title">What is nest.land?</h1>
             <p>
               Nest.land combines Deno with the
               <a
