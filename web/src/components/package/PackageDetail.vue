@@ -26,7 +26,12 @@
               <hr class="mini-hr" />
               <h2 class="title is-4 has-text-centered readme">README.md</h2>
               <div class="card is-fullwidth">
-                <div class="card-content">{{ packageReadme }}</div>
+                <div class="card-content">
+                  <iframe
+                    :src="'https://x.nest.land/' + selectedVersion + '/README.md'"
+                    width="100%"
+                  ></iframe>
+                </div>
               </div>
             </div>
             <div class="column is-4">
@@ -114,6 +119,7 @@ export default {
           },
         });
         this.packageInfo = packageDataResponse.data.body;
+        console.log(this.packageInfo);
       } catch (err) {
         this.$emit("new-error", err);
       }
