@@ -68,11 +68,13 @@ export const publish = new Command()
         matched.push(...matches);
       }
 
+      if (!matched.find(e => e.path === "/mod.ts")) throw new Error(red("No /mod.ts file found. This file is required."));
+
       let apiKey = await getAPIKey();
       if (!apiKey) throw new Error(red("No API Key file found. Please create one. Refer to the documentation on creating a " + bold("~/.nest-api-key") + " file."));
 
       let existingPackage = await fetch(`https://x.nest.land/api/package/${egg.name}`).catch(() => void 0);
-      let existingPackageBody: { name: string, owner: string, description: string, latestVersion?: string, latestStableVersion?: string, packageUploadNames: string[] } | undefined = await existingPackage?.json();
+      let existingPackageBody: { name: string, owner: string, description: string, latestVersion?: string, latestStableVersion?: string, packageUploadNames: string[] } | undefined = existingPackage?.ok && await existingPackage?.json();
 
       if (existingPackageBody && existingPackageBody.packageUploadNames.indexOf(`${egg.name}@${egg.version}`) !== -1) throw red("This version was already published. Please increment the version in egg.json.");
 
@@ -87,7 +89,8 @@ export const publish = new Command()
       let uploadResponse = await fetch("https://x.nest.land/api/publish", {
         method: "POST",
         headers: {
-          Authorization: apiKey,
+          "Content-Type": "application/json",
+          "Authorization": apiKey,
         },
         body: JSON.stringify({
           name: egg.name,
@@ -101,19 +104,27 @@ export const publish = new Command()
 
       let fileContents = matched.map(el => [ el, readFileBtoa(el.fullPath) ] as [ typeof el, string ]).reduce((p, c) => { p[c[0].path] = c[1]; return p; }, {} as { [x: string]: string });
 
-      let uploadResponseBody: { token: string, name: string, version: string, owner: string } = await uploadResponse.json();
+      if (!uploadResponse.ok) throw new Error(red("Something broke..."));
+      let uploadResponseBody: { token: string, name: string, version: string, owner: string } = uploadResponse.ok && await uploadResponse.json();
       let pieceResponse = await fetch("https://x.nest.land/api/piece", {
         method: "POST",
         headers: {
+          "Content-Type": "application/json",
           "X-UploadToken": uploadResponseBody.token,
         },
         body: JSON.stringify({
           pieces: fileContents,
-          end: true
+          end: true,
         }),
       }).catch(() => { throw new Error(red("Something broke...")) });
 
-
+      if (!pieceResponse.ok) throw new Error(red("Something broke..."));
+      let pieceResponseBody: { name: string, files: { [x: string]: string } } = await pieceResponse.json();
+      console.log(green(`Successfully published ${bold(pieceResponseBody.name)}!`));
+      console.log("\r\nFiles uploaded: ");
+      Object.entries(pieceResponseBody.files).map(el => {
+        console.log(`${el[0]} -> ${bold(`https://x.nest.land/${pieceResponseBody.name}${el[0]}`)}`);
+      });
     } else {
       throw new Error(red("You don't have an egg.json file! Please create this in the root of your repository, or see the documentation for more help."));
     }

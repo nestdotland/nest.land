@@ -1,8 +1,9 @@
 {
     "name": "eggs",
     "description": "The CLI used to publish and update packages in nest.land.",
-    "stable": false,
+    "stable": true,
     "files": [
+        "./mod.ts",
         "./src/**/*",
         "./README.md"
     ]

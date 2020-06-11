@@ -63,7 +63,7 @@
                   </div>
                 </div>
                 <div class="panel-block">
-                  <pre class="is-fullwidth"><code>https://x.nest.land/{{ selectedVersion }}</code></pre>
+                  <pre class="is-fullwidth"><code>https://x.nest.land/{{ selectedVersion }}/mod.ts</code></pre>
                 </div>
               </nav>
               <nav class="panel">
