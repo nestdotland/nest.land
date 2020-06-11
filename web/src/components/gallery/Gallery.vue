@@ -42,9 +42,6 @@
               <li class="nest-heading">
                 <a class="no-hover">{{ shownPackagesCount }}</a>
               </li>
-              <!-- <li class="nest-heading">
-                <a class="no-hover">90 Authors</a>
-              </li>-->
             </ul>
           </div>
         </nav>

@@ -4,7 +4,7 @@
       <p>
         <b>nest.land</b> by
         <a href="https://github.com/tbaumer22">tbaumer22</a>,&nbsp;
-        <a href="https://github.com/justablob">blob</a>,&nbsp;
+        <a href="https://github.com/justablob">blob</a>,&nbsp; & &nbsp;
         <a href="https://github.com/zorbyte">zorbyte</a>.
         <br />Made with
         <font-awesome-icon
@@ -16,7 +16,7 @@
         &nbsp; for Deno.
       </p>
       <p>
-        Nest.land is licensed under the
+        nest.land is licensed under the
         <a
           href="http://opensource.org/licenses/mit-license.php"
         >MIT License</a>.
