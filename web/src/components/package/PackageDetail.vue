@@ -14,7 +14,6 @@
       <div class="hero-body">
         <div class="container">
           <h1 class="title has-text-centered">{{ $route.params.id }}</h1>
-          <!--  TODO[@tbaumer22]: Fix gallery route in the nav when on this page and click gallery button  -->
         </div>
       </div>
     </div>
