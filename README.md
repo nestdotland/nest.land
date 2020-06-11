@@ -31,12 +31,13 @@ See the [roadmap](/ROADMAP.md).
 
 ### Authors
 
- - [tbaumer22](https://github.com/tbaumer22), Co-Founder, Frontend & UI/UX
- - [zorbyte](https://github.com/zorbyte), Co-Founder, Backend & CLI
+ - [tbaumer22](https://github.com/tbaumer22), Co-Founder, Frontend & CLI
+ - [zorbyte](https://github.com/zorbyte), Co-Founder, Project Planning
+ - [justablob](https://github.com/justablob), Backend
 
 ### Contributors
+
  - [ebebbington](https://github.com/ebebbington)
- - [justablob](https://github.com/justablob)
 
 ### Inspirations
 

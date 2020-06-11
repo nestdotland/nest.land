@@ -15,11 +15,13 @@ import {
   faHeart,
   faFeatherAlt,
   faTrashAlt,
-  faUniversalAccess,
+  faGlobeAmericas,
   faSearch,
   faFingerprint,
   faFistRaised,
   faCodeBranch,
+  faParachuteBox,
+  faBoxOpen
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -28,10 +30,12 @@ library.add(
   faHeart,
   faFeatherAlt,
   faTrashAlt,
-  faUniversalAccess,
+  faGlobeAmericas,
   faFingerprint,
   faFistRaised,
   faCodeBranch,
+  faParachuteBox,
+  faBoxOpen,
   faSearch,
   faGithub,
 );

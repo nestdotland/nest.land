@@ -4,7 +4,7 @@
       <div class="container">
         <div class="columns is-vcentered">
           <div class="column">
-            <h1 class="title">What is Nest.land?</h1>
+            <h1 class="title">What is nest.land?</h1>
             <p>
               Nest.land combines Deno with the
               <a
@@ -22,7 +22,7 @@
                     <font-awesome-icon :icon="['fas', 'trash-alt']" class="left-icon" />Permanently immutable
                   </li>
                   <li class="subtitle">
-                    <font-awesome-icon :icon="['fas', 'universal-access']" class="left-icon" />Easily accessible
+                    <font-awesome-icon :icon="['fas', 'globe-americas']" class="left-icon" />Globally accessible
                   </li>
                   <li class="subtitle">
                     <font-awesome-icon :icon="['fas', 'feather-alt']" class="left-icon" />Free

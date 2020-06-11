@@ -20,7 +20,7 @@
           :class="buttonStatusClass"
           id="generate-button"
           @click="recaptcha"
-        >Generate an API Key</button>
+        >Fetch your API Key</button>
       </div>
     </div>
     <a class="has-text-dark" @click="$emit('toggle-has-account', false)">No account? Sign up here.</a>
@@ -50,31 +50,23 @@ export default {
             token,
           },
         });
+        if (captchaResponse.data.success) {
+          try {
+            loginResponse = await HTTP.post("login-client", {
+              data: {
+                username: this.username,
+                password: this.password,
+              },
+            });
+            this.$emit("set-api-key", loginResponse.data.body.apiKey);
+          } catch (err) {
+            this.$emit("new-error", err);
+          }
+        } else {
+          this.$emit("new-error", "We think that you are a bot. BE GONE, BOT!");
+        }
       } catch (err) {
         this.$emit("new-error", err);
-      }
-      if (captchaResponse.data.success) {
-        // TODO: NEED TO AUTHENTICATE NOW AND RETURN AUTH
-        try {
-          loginResponse = await HTTP.post("login", {
-            data: {
-              username: this.username,
-              password: this.password,
-            },
-          });
-        } catch (err) {
-          this.$emit("new-error", err);
-        }
-        if (loginResponse.data.success) {
-          this.$emit("update-user", {
-            username: this.username,
-            password: this.password,
-          });
-        } else {
-          this.$emit("new-error", "Your username or password is incorrect.");
-        }
-      } else {
-        this.$emit("new-error", "We think that you are a bot. BE GONE, BOT!");
       }
     },
   },

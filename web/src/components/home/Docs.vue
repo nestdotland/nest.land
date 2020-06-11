@@ -16,13 +16,13 @@
           <div class="column is-half">
             <p class="title is-5">Installation</p>
             <p>
-              It's very easy to begin using Nest when pushing new Deno packages! You can install our CLI,
-              <i>egg</i>, via Deno.
+              It's very easy to begin using nest.land when pushing new Deno packages! You can install our CLI,
+              <i>eggs</i>, via Deno.
             </p>
             <hr />
           </div>
           <div class="column is-half">
-            <pre><code>$ deno install --allow-read --allow-run --allow-write -f --unstable https://x.nest.land/egg@0.0.1</code></pre>
+            <pre><code>$ deno install --allow-read --allow-run --allow-write -f --unstable https://x.nest.land/eggs@0.0.1</code></pre>
           </div>
           <div class="column is-half">
             <p class="title is-5">Publishing a Package</p>
@@ -38,9 +38,9 @@
             <hr />
           </div>
           <div class="column is-half">
-            <pre><code>$ egg publish [package name] [version] [key]</code></pre>
+            <pre><code>$ eggs publish [package name] [version] [key]</code></pre>
           </div>
-          <div class="column is-half">
+          <!-- <div class="column is-half">
             <p class="title is-5">Updating Nest.land packages</p>
             <p>
               Updating your Nest.land package versions is a breeze thanks to
@@ -51,8 +51,8 @@
             </p>
           </div>
           <div class="column is-half">
-            <pre><code>$ egg update</code></pre>
-          </div>
+            <pre><code>$ eggs update</code></pre>
+          </div>-->
         </div>
       </div>
     </div>
