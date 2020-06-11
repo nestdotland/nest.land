@@ -1,9 +1,9 @@
-import { path, existsSync } from "../deps.ts";
+import { path, existsSync, process } from "../deps.ts";
 
 export function getCurrentDirectoryBase() {
-    return path.basename(process.cwd());
+  return path.basename(process.cwd());
 }
 
-export function directoryExists(filePath) {
-    return existsSync(filePath);
+export function directoryExists(filePath: string) {
+  return existsSync(filePath);
 }
