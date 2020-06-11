@@ -1,7 +1,6 @@
 {
     "name": "eggs",
     "description": "The CLI used to publish and update packages in nest.land.",
-    "version": "0.1.0",
     "stable": false,
     "files": [
         "./src/**/*",

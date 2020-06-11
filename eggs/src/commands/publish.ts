@@ -8,10 +8,14 @@ import {
   lstatSync,
   expandGlobSync,
   path,
+  semver,
 } from "../deps.ts";
 import {
   pathExists,
 } from "../utilities/files.ts";
+import {
+  getAPIKey,
+} from "../utilities/key-check.ts";
 
 interface IEggConfig {
   name: string;
@@ -22,27 +26,33 @@ interface IEggConfig {
   files: string[];
 }
 
+function readFileBtoa (path: string) {
+  const decoder = new TextDecoder("utf-8");
+  const data = Deno.readFileSync(path);
+  return btoa(decoder.decode(data));
+}
+
 export const publish = new Command()
-  .description("Publish the current directory to the nest.land registry.")
+  .description("Publishes the current directory to the nest.land registry.")
   .action(async () => {
     if (pathExists("egg.json")) {
       const decoder = new TextDecoder("utf-8");
       const content = decoder.decode(await Deno.readFile("egg.json"));
-      let egg;
+      let egg: IEggConfig;
       try {
         egg = JSON.parse(content);
       } catch (err) {
         throw err;
       }
-      if (!egg.name) throw red("You must provide a name for your package!");
+      if (!egg.name) throw new Error(red("You must provide a name for your package!"));
       if (!egg.description) console.log(yellow("You haven't provided a description for your package, continuing without one..."));
       if (!egg.version) console.log(yellow("No version found. Generating a new version now..."));
-      if (!egg.files) throw red("No files to upload found. Please see the documentation to add this.");
+      if (!egg.files) throw new Error(red("No files to upload found. Please see the documentation to add this."));
       if (!egg.files.includes("./README.md")) console.log(yellow("No README found at project root, continuing without one..."));
-      
+
       let matched = [];
       for (let file of egg.files) {
-        let matches = 
+        let matches =
           [
             ...expandGlobSync(file, {
               root: Deno.cwd(),
@@ -50,28 +60,61 @@ export const publish = new Command()
             })
           ]
           .map(el => ({
-            path: path.relative(Deno.cwd(), el.path),
+            fullPath: el.path.replace(/\\/g, "/"),
+            path: "/" + path.relative(Deno.cwd(), el.path).replace(/\\/g, "/"),
             lstat: lstatSync(el.path),
           }))
           .filter(el => el.lstat.isFile);
         matched.push(...matches);
       }
-      console.log(matched);
 
-      const body = {
+      let apiKey = await getAPIKey();
+      if (!apiKey) throw new Error(red("No API Key file found. Please create one. Refer to the documentation on creating a " + bold("~/.nest-api-key") + " file."));
 
-      };
-      let pendingUploads = [];
-      for (let file of matched) {
-        let uploadResponse = await fetch("https://x.nest.land/publish", {
-          method: "POST",
-          headers: {
-            authorization: 
-          },
-        });
-        let uploadResponseBody: { token: string, name: string, version: string, owner: string } = await uploadResponse.json();
+      let existingPackage = await fetch(`https://x.nest.land/api/package/${egg.name}`).catch(() => void 0);
+      let existingPackageBody: { name: string, owner: string, description: string, latestVersion?: string, latestStableVersion?: string, packageUploadNames: string[] } | undefined = await existingPackage?.json();
+
+      if (existingPackageBody && existingPackageBody.packageUploadNames.indexOf(`${egg.name}@${egg.version}`) !== -1) throw red("This version was already published. Please increment the version in egg.json.");
+
+      if (!existingPackageBody && !egg.version) egg.version = "0.0.1";
+      if (existingPackageBody && !egg.version) {
+        let latestPublished = egg.stable ? existingPackageBody.latestStableVersion : existingPackageBody.latestVersion;
+        if (!latestPublished) latestPublished = existingPackageBody.packageUploadNames.slice(-1)[0];
+        let incOne = semver.inc(latestPublished.split("@")[1], "patch") || "0.0.1";
+        egg.version = incOne;
       }
+
+      let uploadResponse = await fetch("https://x.nest.land/api/publish", {
+        method: "POST",
+        headers: {
+          Authorization: apiKey,
+        },
+        body: JSON.stringify({
+          name: egg.name,
+          description: egg.description,
+          version: egg.version,
+          upload: true,
+          latest: true,
+          stable: egg.stable,
+        }),
+      }).catch(() => { throw new Error(red("Something broke...")) });
+
+      let fileContents = matched.map(el => [ el, readFileBtoa(el.fullPath) ] as [ typeof el, string ]).reduce((p, c) => { p[c[0].path] = c[1]; return p; }, {} as { [x: string]: string });
+
+      let uploadResponseBody: { token: string, name: string, version: string, owner: string } = await uploadResponse.json();
+      let pieceResponse = await fetch("https://x.nest.land/api/piece", {
+        method: "POST",
+        headers: {
+          "X-UploadToken": uploadResponseBody.token,
+        },
+        body: JSON.stringify({
+          pieces: fileContents,
+          end: true
+        }),
+      }).catch(() => { throw new Error(red("Something broke...")) });
+
+
     } else {
-      throw red("You don't have an egg.json file! Please create this in the root of your repository, or see the documentation for more help.");
+      throw new Error(red("You don't have an egg.json file! Please create this in the root of your repository, or see the documentation for more help."));
     }
   });
