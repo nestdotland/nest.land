@@ -31,7 +31,6 @@ export default (database: DbConnection, arweave: ArwConnection) => {
 
     let dbPackageCount = await database.repositories.Package.count();
     let dbPackages = await database.repositories.Package.find({
-      select: [ "name", "createdAt", "description", "owner", "packageUploadNames" ],
       skip: (page - 1) * limit,
       take: limit
     });
