@@ -44,7 +44,7 @@
                     <button
                       class="button is-primary is-light"
                       @click="selectedVersion = packageInfo.latestStableVersion; refreshContent()"
-                    >Latest Stable</button>
+                    >Stable</button>
                     <button
                       class="button is-warning is-light"
                       @click="selectedVersion = packageInfo.latestVersion; refreshContent()"
