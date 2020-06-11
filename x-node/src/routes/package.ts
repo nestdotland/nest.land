@@ -31,7 +31,7 @@ export default (database: DbConnection, arweave: ArwConnection) => {
 
     let dbPackageCount = await database.repositories.Package.count();
     let dbPackages = await database.repositories.Package.find({
-      select: [ "name", "createdAt", "description", "owner" ],
+      select: [ "name", "createdAt", "description", "owner", "packageUploadNames" ],
       skip: (page - 1) * limit,
       take: limit
     });
@@ -204,7 +204,6 @@ export default (database: DbConnection, arweave: ArwConnection) => {
       packageUpload.files = fileMap;
       packageUpload.package = newUpload.name;
       packageUpload.version = newUpload.version;
-      if (newUpload.documentation) packageUpload.documentation = newUpload.documentation;
       await database.repositories.PackageUpload.save(packageUpload);
 
       let pkg = await database.repositories.Package.findOne({ name: newUpload.name });
