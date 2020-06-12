@@ -1,4 +1,4 @@
-import { Command, Input, Confirm, List, yellow, bold, writeJson } from "../deps.ts";
+import { Command, Input, Confirm, List, writeJson } from "../deps.ts";
 
 export const init = new Command()
     .version("0.1.0")
