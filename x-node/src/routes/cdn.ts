@@ -21,7 +21,13 @@ export default (database: DbConnection) => {
     let dbFileName = (dbPackageUpload.prefix || "") + dbFile;
 
     if ((dbPackageUpload.malicious || dbPackage.malicious) && req.query.ignoreMalicious !== "yes") {
-      return res.type(".js").send(`throw new Error(\`WARNING! A MODULE YOU TRIED TO IMPORT (https://x.nest.land${req.url}) IS KNOWN TO NEST.LAND TO BE A MALICIOUS FILE. IF YOU WANT TO DISABLE THIS WARNING, PLEASE ADD "?ignoreMalicious=yes" TO THE IMPORT PATH.\`);`);
+      if (fileName.endsWith(".js") || fileName.endsWith(".ts")) {
+        return res.type(".js").send(`throw new Error(\`WARNING! THIS FILE (https://x.nest.land${req.url}) IS KNOWN TO NEST.LAND TO BE A MALICIOUS FILE. IF YOU WANT TO DISABLE THIS WARNING, PLEASE ADD "?ignoreMalicious=yes" TO THE URL.\`);`);
+      } else if (fileName.endsWith(".json")) {
+        return res.type(".json").send({ __error: `WARNING! THIS FILE (https://x.nest.land${req.url}) IS KNOWN TO NEST.LAND TO BE A MALICIOUS FILE. IF YOU WANT TO DISABLE THIS WARNING, PLEASE ADD "?ignoreMalicious=yes" TO THE URL.` });
+      } else {
+        return res.type(".txt").send(`WARNING! THIS FILE (https://x.nest.land${req.url}) IS KNOWN TO NEST.LAND TO BE A MALICIOUS FILE. IF YOU WANT TO DISABLE THIS WARNING, PLEASE ADD "?ignoreMalicious=yes" TO THE URL.`);
+      }
     } else {
       return res.redirect(dbFileName);
     }
