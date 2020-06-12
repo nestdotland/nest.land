@@ -59,6 +59,9 @@ export class PackageUpload {
   @t.Column("varchar", { length: 20, nullable: false })
   version: string;
 
+  @t.Column("varchar", { length: 256, nullable: true })
+  prefix: string;
+
   @t.Column("json")
   files: { [x: string]: string }
 

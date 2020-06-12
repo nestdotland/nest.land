@@ -1,7 +1,7 @@
 import Arweave from "arweave/node";
 import Credentials from "../../arweave-keyfile.json";
 
-export type ArwConnection = Arweave;
+export type ArwConnection = Arweave & { anchor: string };
 
 export async function connect () {
   const arweave = Arweave.init({
@@ -13,12 +13,18 @@ export async function connect () {
     logger: (...e) => console.log(...e),
   });
 
+  (arweave as any).anchor = (await arweave.api.get("tx_anchor")).data;
+
+  return arweave as ArwConnection;
+}
+
+export async function regenerateAnchor (arweave: ArwConnection) {
+  (arweave as any).anchor = (await arweave.api.get("tx_anchor")).data;
   return arweave;
 }
 
-export async function save (connection: Arweave, data: { name: string, type: string, data: Buffer }) {
-  const transaction = await connection.createTransaction({ data: data.data }, Credentials);
-  transaction.addTag("X-Filename", data.name);
+export async function save (connection: ArwConnection, data: { name: string, type: string, data: Buffer }) {
+  const transaction = await connection.createTransaction({ data: data.data, last_tx: connection.anchor }, Credentials);
   transaction.addTag("Content-Type", data.type);
 
   await connection.transactions.sign(transaction, Credentials);
@@ -26,5 +32,5 @@ export async function save (connection: Arweave, data: { name: string, type: str
 
   if (res.status >= 300) throw new Error("Transaction failed!");
 
-  return `https://arweave.net/tx/${transaction.id}/data`;
+  return transaction.id;
 }

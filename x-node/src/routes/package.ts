@@ -4,7 +4,7 @@ import semver from "semver";
 import { Router } from "express";
 import generateToken from "../utils/token";
 import isNameOkay from "../utils/reservedNames";
-import { ArwConnection, save } from "../utils/arweave";
+import { ArwConnection, save, regenerateAnchor } from "../utils/arweave";
 import { Package, PackageUpload, DbConnection } from "../utils/driver";
 
 interface OngoingUpload {
@@ -180,15 +180,12 @@ export default (database: DbConnection, arweave: ArwConnection) => {
       ongoingUploads.delete(uploadToken);
 
       let fileMap = (await Promise.all(Object.entries(newUpload.pieces).map(async ([ file, content ]) => {
-        let arweaveLocation = await save(arweave, {
+        let txId = await save(arweave, {
           name: file,
           type: getType(file),
           data: Buffer.from(content, "base64"),
         });
-
-        let fileLocation = arweaveLocation + path.extname(file);
-
-        return [ file, fileLocation ];
+        return [ file, txId ];
       }))).reduce((p, [ f, l ]) => {
         p[f] = l;
         return p;
@@ -196,9 +193,28 @@ export default (database: DbConnection, arweave: ArwConnection) => {
 
       delete newUpload.pieces;
 
+      let manifestId = await save(arweave, {
+        name: "manifest.json",
+        type: getType(".json"),
+        data: Buffer.from(JSON.stringify({
+          manifest: "arweave/paths",
+          version: "0.1.0",
+          paths: Object.entries(fileMap).reduce((p, [ f, l ]) => {
+            p[f] = { id: l };
+            return p;
+          }, {} as { [x: string]: { id: string } }),
+        })),
+      });
+
+      setTimeout(() => regenerateAnchor(arweave), 0);
+
       let packageUpload = new PackageUpload();
       packageUpload.name = `${newUpload.name}@${newUpload.version}`;
-      packageUpload.files = fileMap;
+      packageUpload.files = Object.entries(fileMap).reduce((p, [ f, l ]) => {
+        p[f] = f;
+        return p;
+      }, {} as { [x: string]: string });
+      packageUpload.prefix = `${arweave.api.config.protocol}://${arweave.api.config.host}/${manifestId}`;
       packageUpload.package = newUpload.name;
       packageUpload.version = newUpload.version;
       await database.repositories.PackageUpload.save(packageUpload);
