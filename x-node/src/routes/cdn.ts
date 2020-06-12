@@ -1,7 +1,8 @@
 import { Router } from "express";
+import { get as getTransaction, ArwConnection } from "../utils/arweave";
 import { DbConnection } from "../utils/driver";
 
-export default (database: DbConnection) => {
+export default (arweave: ArwConnection, database: DbConnection) => {
   const router = Router();
 
   router.get("/:filename*", async (req, res) => {
@@ -20,6 +21,9 @@ export default (database: DbConnection) => {
 
     let dbFileName = (dbPackageUpload.prefix || "") + dbFile;
 
+    let uploadedAgo = (Date.now() - dbPackageUpload.createdAt.getTime()) / 1000;
+
+
     if ((dbPackageUpload.malicious || dbPackage.malicious) && req.query.ignoreMalicious !== "yes") {
       if (fileName.endsWith(".js") || fileName.endsWith(".ts")) {
         return res.type(".js").send(`throw new Error(\`WARNING! THIS FILE (https://x.nest.land${req.url}) IS KNOWN TO NEST.LAND TO BE A MALICIOUS FILE. IF YOU WANT TO DISABLE THIS WARNING, PLEASE ADD "?ignoreMalicious=yes" TO THE URL.\`);`);
@@ -29,7 +33,12 @@ export default (database: DbConnection) => {
         return res.type(".txt").send(`WARNING! THIS FILE (https://x.nest.land${req.url}) IS KNOWN TO NEST.LAND TO BE A MALICIOUS FILE. IF YOU WANT TO DISABLE THIS WARNING, PLEASE ADD "?ignoreMalicious=yes" TO THE URL.`);
       }
     } else {
-      return res.redirect(dbFileName);
+      if (uploadedAgo < 3600) {
+        let data = getTransaction(arweave, dbPackageUpload.files[fileName].txId);
+        if (!data) return res.sendStatus(404);
+        res.type(req.path);
+        res.send(data);
+      } else return res.redirect(dbFileName);
     }
 
   });

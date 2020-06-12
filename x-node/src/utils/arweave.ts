@@ -23,6 +23,16 @@ export async function regenerateAnchor (arweave: ArwConnection) {
   return arweave;
 }
 
+export async function get (connection: ArwConnection, id: string): Promise<Uint8Array | null> {
+  try {
+    let transaction = await connection.transactions.getData(id, { decode: true, string: false });
+    if (!transaction) return null;
+    return Buffer.from(transaction);
+  } catch (err) {
+    return null;
+  }
+}
+
 export async function save (connection: ArwConnection, data: { name: string, type: string, data: Buffer }) {
   const transaction = await connection.createTransaction({ data: data.data, last_tx: connection.anchor }, Credentials);
   transaction.addTag("Content-Type", data.type);

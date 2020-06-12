@@ -72,7 +72,7 @@ export class PackageUpload {
   malicious: boolean;
 
   @t.Column("json")
-  files: { [x: string]: { inManifest: string, path: string } }
+  files: { [x: string]: { inManifest: string, txId: string } }
 
   @t.CreateDateColumn()
   createdAt: Date;
