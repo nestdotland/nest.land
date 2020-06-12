@@ -197,7 +197,7 @@ export default (database: DbConnection, arweave: ArwConnection) => {
 
       let manifestId = await save(arweave, {
         name: "manifest.json",
-        type: getType(".json"),
+        type: "application/x.arweave-manifest+json",
         data: Buffer.from(JSON.stringify({
           manifest: "arweave/paths",
           version: "0.1.0",
