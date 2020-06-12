@@ -20,7 +20,7 @@ export default (arweave: ArwConnection, database: DbConnection) => {
     let dbFile = dbPackageUpload.files[fileName];
     if (!dbFile) return res.sendStatus(404);
 
-    let dbFileName = (dbPackageUpload.prefix || "") + fileName;
+    let dbFileName = (dbPackageUpload.prefix || "") + dbFile.inManifest;
 
     let uploadedAgo = (Date.now() - dbPackageUpload.createdAt.getTime() + parseInt(process.env.TIME_OFFSET || "0")) / 1000 + parseInt(process.env.TIME_OFFSET || "0");
 
