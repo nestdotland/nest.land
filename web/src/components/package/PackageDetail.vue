@@ -27,10 +27,7 @@
               <h2 class="title is-4 has-text-centered readme">README.md</h2>
               <div class="card is-fullwidth">
                 <div class="card-content">
-                  <iframe
-                    :src="'https://x.nest.land/' + selectedVersion + '/README.md'"
-                    width="100%"
-                  ></iframe>
+                  <vue-markdown>{{ readmeResponse }}</vue-markdown>
                 </div>
               </div>
             </div>
@@ -85,10 +82,12 @@
 import NestNav from "../Nav";
 import { HTTP } from "../../http-common";
 import moment from "moment";
+import VueMarkdown from "vue-markdown";
 
 export default {
   components: {
     NestNav,
+    VueMarkdown
   },
   data() {
     return {
@@ -107,6 +106,7 @@ export default {
   async created() {
     await this.refreshContent();
     this.selectedVersion = this.packageInfo.latestStableVersion;
+    await this.refreshReadme();
     this.loading = false;
   },
   methods: {
@@ -119,7 +119,21 @@ export default {
           },
         });
         this.packageInfo = packageDataResponse.data.body;
-        console.log(this.packageInfo);
+      } catch (err) {
+        this.$emit("new-error", err);
+      }
+    },
+    async refreshReadme() {
+      try {
+        console.log("FETCHING");
+        const url = "https://x.nest.land/" + this.selectedVersion + "/README.md";
+        console.log(url)
+        const readmeResponse = await fetch(url, {
+          method: "GET",
+          mode: "no-cors",
+          redirect: "follow"
+        });
+        console.log(readmeResponse);
       } catch (err) {
         this.$emit("new-error", err);
       }
@@ -152,5 +166,9 @@ export default {
 
 pre.is-fullwidth {
   width: 100%;
+}
+
+#readmeIFrame {
+  height: 100%;
 }
 </style>
