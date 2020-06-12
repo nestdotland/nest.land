@@ -208,7 +208,13 @@ export default (database: DbConnection, arweave: ArwConnection) => {
         data: Buffer.from(JSON.stringify({
           manifest: "arweave/paths",
           version: "0.1.0",
-          paths: fileMap,
+          index: {
+            path: "mod.ts"
+          },
+          paths: Object.entries(fileMap).reduce((p, [ f, l ]) => {
+            p[f.replace(/^\//, "")] = { id: l.txId };
+            return p;
+          }, {} as { [x: string]: { id: string } }),
         })),
       });
       let packageUpload = new PackageUpload();
