@@ -21,8 +21,7 @@ export default (arweave: ArwConnection, database: DbConnection) => {
 
     let dbFileName = (dbPackageUpload.prefix || "") + dbFile;
 
-    let uploadedAgo = (Date.now() - dbPackageUpload.createdAt.getTime()) / 1000;
-
+    let uploadedAgo = (Date.now() - dbPackageUpload.createdAt.getTime() + parseInt(process.env.TIME_OFFSET || "0")) / 1000 + parseInt(process.env.TIME_OFFSET || "0");
 
     if ((dbPackageUpload.malicious || dbPackage.malicious) && req.query.ignoreMalicious !== "yes") {
       if (fileName.endsWith(".js") || fileName.endsWith(".ts")) {
@@ -33,8 +32,9 @@ export default (arweave: ArwConnection, database: DbConnection) => {
         return res.type(".txt").send(`WARNING! THIS FILE (https://x.nest.land${req.url}) IS KNOWN TO NEST.LAND TO BE A MALICIOUS FILE. IF YOU WANT TO DISABLE THIS WARNING, PLEASE ADD "?ignoreMalicious=yes" TO THE URL.`);
       }
     } else {
+      console.log(uploadedAgo);
       if (uploadedAgo < 3600) {
-        let data = getTransaction(arweave, dbPackageUpload.files[fileName].txId);
+        let data = await getTransaction(arweave, dbPackageUpload.files[fileName].txId);
         if (!data) return res.sendStatus(404);
         res.type(req.path);
         res.send(data);

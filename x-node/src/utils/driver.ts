@@ -16,7 +16,7 @@ export class User {
   @t.Column("varchar", { array: true, length: 40 })
   packageNames: string[];
 
-  @t.CreateDateColumn()
+  @t.CreateDateColumn({ type: "timestamp with time zone" })
   createdAt: Date;
 
 }
@@ -48,7 +48,7 @@ export class Package {
   @t.Column("boolean", { nullable: true })
   malicious: boolean;
 
-  @t.CreateDateColumn()
+  @t.CreateDateColumn({ type: "timestamp with time zone" })
   createdAt: Date;
 
 }
@@ -74,7 +74,7 @@ export class PackageUpload {
   @t.Column("json")
   files: { [x: string]: { inManifest: string, txId: string } }
 
-  @t.CreateDateColumn()
+  @t.CreateDateColumn({ type: "timestamp with time zone" })
   createdAt: Date;
 
 }
