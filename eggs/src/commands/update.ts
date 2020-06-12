@@ -7,13 +7,6 @@ import { Command, existsSync, denoStdLatestVersion } from "../deps.ts";
 const decoder = new TextDecoder("utf-8");
 
 /**
- * @var {string[]}
- *
- * The list of different dependency files we support and will try to read
- */
-const dependencyFilenames: string[] = ["deps.ts"];
-
-/**
  * To aid in getting the owner and GitHub repo name for a 3rd party modules
  */
 const denoDatabaseResponse = await fetch(
@@ -84,34 +77,29 @@ export const update = new Command()
     .useRawArgs(true)
     .action(async () => {
 
+        const args = Deno.args;
+
+        // Get dependency filename form args
+        // If --file is not present, defaults to deps.ts
+        const dependencyFilename = args.filter((arg, i) => {
+          return args[i - 1] === "--file"
+        })[0] || "deps.ts"; // Is possible to not be an actual file
+
         // Description:
-        //   - Gather the path to the user's dependency file
-        //   - Note: It is dynamic to support a variety of different files should the user wish
-        //     to use something other than `deps.ts`. For adding support for another dependency file,
-        //     update `dependencyFilenames`. The logic assigns the real path for the dependency file,
-        //     eg: "/home/user/project/deps.ts"
+        //   - Gather the path to the user's dependency file using the CLI arguments
         //
         // Rules:
         //   - Checks for a dependency inside the directory where the user is
         //
         // Exits:
-        //   - If no dependency file was found, throws an error and exits
+        //   - If no dependency file was found with that name, throws an error and exits
         let pathToDepFile = "";
-        dependencyFilenames.forEach(depFilename => {
-          let path = "";
-          try {
-            path = Deno.realPathSync("./" + depFilename)
-          } catch (err) {
-            // Dependency file doesnt exist
-            return
-          }
-          if (existsSync(path)) {
-            pathToDepFile = path
-          }
-        });
-        if (!pathToDepFile) {
-            console.error("No dependency file was found in your current working directory. Exiting...");
-            Deno.exit(1)
+        try {
+          pathToDepFile = Deno.realPathSync("./" + dependencyFilename)
+        } catch (err) {
+          // Dependency file doesnt exist
+          console.error("No dependency file was found in your current working directory. Exiting...");
+          Deno.exit(1)
         }
 
         // Description:
@@ -135,12 +123,18 @@ export const update = new Command()
         }
 
         // Description:
-        //   - If the user specifies certain dependencies to update, then we will only update those dependencies
-        //   - If no requested dependencies, update all
+        //   - If the user specifies certain dependencies to update using --deps, then we will only update those dependencies
+        //   - If no requested dependencies (--deps), exit
+        //   - If no --deps then update all
         //
         // Example:
         //   - Deno.args = ["update", ...]. Can include incorrect args such as --help: update http fs --help
-        const requestedDependencies: string[] = Deno.args.filter(arg => arg !== "update" && arg.indexOf("--") === -1)
+        const requestedDependencies: string[] = args.slice(args.findIndex(val => val === "--deps") + 1 || 100) // 100 to be empty when not found
+        if (args.indexOf("--deps") !== -1 && requestedDependencies.length === 0) {
+          console.error("Provide dependencies to update when using --deps. Exiting...")
+          Deno.exit(1)
+        }
+
         // Description:
         //   - For each import line in the users dependency file, collate the data ready to be re-written
         //     if it can be updated

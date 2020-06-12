@@ -11,10 +11,14 @@ Documentation for benchmarks of CLI commands.
 ## Update
 
 * Will find the dependency file **at the users current working directory**
-    * It will try checking for the following:
-        * `deps.ts`
-    * `deps.ts` is **currently** the only supported dependency file. The `update` determines which files to read in the `dependencyFilenames` variable.
-    * If none of the above files were found, the CLI exits
+    * If no `--file <filename>` is passed in, it will default to `deps.ts`
+    * If `--file` is passed in, it will error
+    * If `--file <filename>` is passed in, it will search that dependency file
+    
+* Will extract the dependencies from the command line
+    * If no `--deps <...deps>` is passed in, defaults to updating all
+    * If `--deps` is passed in, it will error
+    * If `--deps http fs` is passed in, it will only update those modules
     
 * Will pull all contents from that file, into an array of strings. Let's call this "dependencies to update".
     * Ignores any lines that don't include `https://` (eg the imported line)
@@ -31,7 +35,7 @@ Documentation for benchmarks of CLI commands.
     * The registry URL: `https://x.nest.land`
     * The imported version: `v0.1.0`
     * The name: `eggs`
-    * If there are dependencies requested (`eggs update http eggs`), only these will be checked and updated
+    * If there are dependencies requested (`eggs update --deps http eggs`), only these will be checked and updated
     
 * When the above information is gathered, we can now try get the latest version
     * If the registry is std, assigns Denos std latest version
