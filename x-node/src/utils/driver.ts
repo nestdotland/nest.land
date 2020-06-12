@@ -62,6 +62,9 @@ export class PackageUpload {
   @t.Column("varchar", { length: 256, nullable: true })
   prefix: string;
 
+  @t.Column("boolean", { nullable: true })
+  malicious: boolean;
+
   @t.Column("json")
   files: { [x: string]: string }
 

@@ -20,7 +20,12 @@ export default (database: DbConnection) => {
 
     let dbFileName = (dbPackageUpload.prefix || "") + dbFile;
 
-    return res.redirect(dbFileName);
+    if (dbPackageUpload.malicious && req.query.ignoreMalicious !== "yes") {
+      return res.type(".js").send(`throw new Error(\`WARNING! A MODULE YOU TRIED TO IMPORT (https://x.nest.land${req.url}) IS KNOWN TO NEST.LAND TO BE A MALICIOUS FILE. IF YOU WANT TO DISABLE THIS WARNING, PLEASE ADD "?ignoreMalicious=yes" TO THE IMPORT PATH.\`);`);
+    } else {
+      return res.redirect(dbFileName);
+    }
+
   });
 
   return router;
