@@ -12,11 +12,14 @@
             <p>
               It's very easy to begin using nest.land when pushing new Deno packages! You can install our CLI,
               <b>eggs</b>, via Deno.
+              <br />
+              <br />
             </p>
+            <p>Note: You need to upgrade to Deno v1.0.6 or newer in order to use our CLI.</p>
             <hr />
           </div>
           <div class="column is-half">
-            <pre><code>$ deno install --allow-read --allow-write --allow-net -n eggs https://x.nest.land/eggs@0.1.16/mod.ts</code></pre>
+            <pre><code>$ deno install --allow-read --allow-write --allow-net --unstable -n eggs https://x.nest.land/eggs@0.1.16/mod.ts</code></pre>
           </div>
           <div class="column is-half">
             <p class="title is-5">Linking your API key</p>
@@ -89,7 +92,7 @@
             <pre><code>$ eggs update --deps http fs // update fs and http in default deps.ts</code></pre>
           </div>
         </div>
-        <p class="subtitle is-5">More questions?</p>
+        <p class="subtitle is-5">Technical questions?</p>
         <p>Find us on Discord: tate#5885, zorbyte#4500, and blob#8718</p>
       </div>
     </div>
