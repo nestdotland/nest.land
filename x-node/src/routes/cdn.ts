@@ -32,7 +32,6 @@ export default (arweave: ArwConnection, database: DbConnection) => {
         return res.type(".txt").send(`WARNING! THIS FILE (https://x.nest.land${req.url}) IS KNOWN TO NEST.LAND TO BE A MALICIOUS FILE. IF YOU WANT TO DISABLE THIS WARNING, PLEASE ADD "?ignoreMalicious=yes" TO THE URL.`);
       }
     } else {
-      console.log(uploadedAgo);
       if (uploadedAgo < 3600) {
         let data = await getTransaction(arweave, dbPackageUpload.files[fileName].txId);
         if (!data) return res.sendStatus(404);
