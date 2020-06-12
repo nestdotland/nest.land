@@ -26,7 +26,7 @@ Then, use `link` to add it to the CLI:
 $ eggs link <key>
 ```
 
-Alternatively, you can manually create a `.nest-land-key` file at your user home directory.
+Alternatively, you can manually create a `.nest-api-key` file at your user home directory.
 
 ### Init
 
