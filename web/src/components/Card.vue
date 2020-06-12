@@ -2,14 +2,13 @@
   <div class="card">
     <div class="card-content">
       <div class="content">
-        <p class="title is-4">{{ item._id }}</p>
-        <p class="subtitle is-6">{{ item.description }}</p>
+        <p class="title is-4">{{ item.name }}</p>
         <hr class="mini-hr" />
-        <p class="author-text">By: {{ item.owner }}</p>
+        <p class="subtitle is-6">{{ item.description }}</p>
       </div>
     </div>
     <footer class="card-footer">
-      <div class="select card-footer-item is-light">
+      <!-- <div class="select card-footer-item is-light">
         <select v-model="selectedVersion">
           <option
             v-for="version in item.packageUploadIds"
@@ -17,11 +16,8 @@
             :value="version"
           >{{ version }}</option>
         </select>
-      </div>
-      <a
-        :href="'https://x.nest.land/' + selectedVersion"
-        class="card-footer-item has-text-dark"
-      >Open Package</a>
+      </div>-->
+      <router-link :to="'/package/' + item.name" class="card-footer-item has-text-dark">Open Package</router-link>
     </footer>
   </div>
 </template>
@@ -39,7 +35,7 @@ export default {
   created() {
     this.package = this.item;
     this.selectedVersion =
-      this.package._id + "@" + this.package.latestStableVersion;
+      this.package.name + "@" + this.package.latestStableVersion;
   },
 };
 </script>
