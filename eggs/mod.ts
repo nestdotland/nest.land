@@ -1,1 +1,1 @@
-// this is a stub.
+import "./src/main.ts";
