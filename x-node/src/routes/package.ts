@@ -122,6 +122,9 @@ export default (database: DbConnection, arweave: ArwConnection) => {
       pkg.packageUploadNames = [];
       await database.repositories.Package.insert(pkg);
       dbPackage = pkg;
+
+      dbUser.packageNames = [ ...dbUser.packageNames, pkg.name ];
+      await database.repositories.User.update({ name: dbUser.name }, { packageNames: dbUser.packageNames });
     };
 
     if (upload) {
