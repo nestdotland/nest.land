@@ -32,7 +32,7 @@ async function start () {
 
   server.use("/api", authRouter(database));
   server.use("/api", packageRouter(database, arweave));
-  server.use("/", cdnRouter(database));
+  server.use("/", cdnRouter(arweave, database));
 
   server.all("**", (req, res, next) => {
     return res.sendStatus(404);
