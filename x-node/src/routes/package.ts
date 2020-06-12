@@ -191,9 +191,9 @@ export default (database: DbConnection, arweave: ArwConnection) => {
         });
         return [ file, txId ];
       }))).reduce((p, [ f, l ]) => {
-        p[f] = { id: l, path: `${arweave.api.config.protocol}://${arweave.api.config.host}/tx/${l}/data.${f.split(".").slice(-1)[0]}` };
+        p[f] = { inManifest: f, path: `${arweave.api.config.protocol}://${arweave.api.config.host}/tx/${l}/data.${f.split(".").slice(-1)[0]}` };
         return p;
-      }, {} as { [x: string]: { id: string, path: string } });
+      }, {} as { [x: string]: { inManifest: string, path: string } });
 
       delete newUpload.pieces;
 
