@@ -181,6 +181,8 @@ export default (database: DbConnection, arweave: ArwConnection) => {
     if (end) {
       ongoingUploads.delete(uploadToken);
 
+      await regenerateAnchor(arweave);
+
       let fileMap = (await Promise.all(Object.entries(newUpload.pieces).map(async ([ file, content ]) => {
         let txId = await save(arweave, {
           name: file,
@@ -207,9 +209,6 @@ export default (database: DbConnection, arweave: ArwConnection) => {
           }, {} as { [x: string]: { id: string } }),
         })),
       });
-
-      setTimeout(() => regenerateAnchor(arweave), 0);
-
       let packageUpload = new PackageUpload();
       packageUpload.name = `${newUpload.name}@${newUpload.version}`;
       packageUpload.files = Object.entries(fileMap).reduce((p, [ f, l ]) => {
