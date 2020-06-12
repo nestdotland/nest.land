@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { get as getTransaction, ArwConnection } from "../utils/arweave";
 import { DbConnection } from "../utils/driver";
+import { get as getTemp, has as hasTemp } from "../utils/temp";
+import { get as getTransaction, ArwConnection } from "../utils/arweave";
 
 export default (arweave: ArwConnection, database: DbConnection) => {
   const router = Router();
@@ -16,10 +17,10 @@ export default (arweave: ArwConnection, database: DbConnection) => {
     if (!dbPackageUpload) return res.sendStatus(404);
 
     let fileName = "/" + fileNameParts.join("/");
-    let dbFile = dbPackageUpload.files[fileName] && fileName;
+    let dbFile = dbPackageUpload.files[fileName];
     if (!dbFile) return res.sendStatus(404);
 
-    let dbFileName = (dbPackageUpload.prefix || "") + dbFile;
+    let dbFileName = (dbPackageUpload.prefix || "") + dbFile.inManifest;
 
     let uploadedAgo = (Date.now() - dbPackageUpload.createdAt.getTime() + parseInt(process.env.TIME_OFFSET || "0")) / 1000 + parseInt(process.env.TIME_OFFSET || "0");
 
@@ -32,12 +33,15 @@ export default (arweave: ArwConnection, database: DbConnection) => {
         return res.type(".txt").send(`WARNING! THIS FILE (https://x.nest.land${req.url}) IS KNOWN TO NEST.LAND TO BE A MALICIOUS FILE. IF YOU WANT TO DISABLE THIS WARNING, PLEASE ADD "?ignoreMalicious=yes" TO THE URL.`);
       }
     } else {
-      console.log(uploadedAgo);
-      if (uploadedAgo < 3600) {
-        let data = await getTransaction(arweave, dbPackageUpload.files[fileName].txId);
+      if (hasTemp(dbFile.txId)) {
+        res.type(req.path);
+        return res.send(getTemp(dbFile.txId));
+      }
+      if (uploadedAgo < 1800) {
+        let data = await getTransaction(arweave, dbFile.txId);
         if (!data) return res.sendStatus(404);
         res.type(req.path);
-        res.send(data);
+        return res.send(data);
       } else return res.redirect(dbFileName);
     }
 
