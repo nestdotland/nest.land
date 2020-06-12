@@ -187,7 +187,7 @@ export default (database: DbConnection, arweave: ArwConnection) => {
       await regenerateAnchor(arweave);
 
       let fileMap = (await Promise.all(Object.entries(newUpload.pieces).map(async ([ file, content ]) => {
-        let fc = Buffer.from(content, "base64")
+        let fc = Buffer.from(content, "base64");
         let txId = await save(arweave, {
           name: file,
           type: getType(file),

@@ -1,3 +1,4 @@
+import { getType } from "mime";
 import { Router } from "express";
 import { DbConnection } from "../utils/driver";
 import { get as getTemp, has as hasTemp } from "../utils/temp";
@@ -34,13 +35,13 @@ export default (arweave: ArwConnection, database: DbConnection) => {
       }
     } else {
       if (hasTemp(dbFile.txId)) {
-        res.type(req.path);
+        res.type(getType(req.path));
         return res.send(getTemp(dbFile.txId));
       }
       if (uploadedAgo < 1800) {
         let data = await getTransaction(arweave, dbFile.txId);
         if (!data) return res.sendStatus(404);
-        res.type(req.path);
+        res.type(getType(req.path));
         return res.send(data);
       } else return res.redirect(dbFileName);
     }

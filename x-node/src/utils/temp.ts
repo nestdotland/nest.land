@@ -4,7 +4,7 @@ import path from "path";
 export function init (time = 60, age = 1800) {
   if (!fs.existsSync("./.tmp")) fs.mkdirSync("./.tmp");
 
-  const _timeout = () => {
+  const _interval = () => {
     fs.readdirSync("./.tmp").map(el => {
       let f = path.join("./.tmp", el);
       let stats = fs.statSync(f);
@@ -13,8 +13,8 @@ export function init (time = 60, age = 1800) {
     });
   };
 
-  setTimeout(_timeout, time * 1000);
-  _timeout();
+  setInterval(_interval, time * 1000);
+  _interval();
 }
 
 export function save (id: string, data: Buffer) {
