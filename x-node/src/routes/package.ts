@@ -191,9 +191,9 @@ export default (database: DbConnection, arweave: ArwConnection) => {
         });
         return [ file, txId ];
       }))).reduce((p, [ f, l ]) => {
-        p[f] = l;
+        p[f] = { id: l, path: `${arweave.api.config.protocol}://${arweave.api.config.host}/tx/${l}/data.${f.split(".").slice(-1)[0]}` };
         return p;
-      }, {} as { [x: string]: string });
+      }, {} as { [x: string]: { id: string, path: string } });
 
       delete newUpload.pieces;
 
@@ -203,18 +203,12 @@ export default (database: DbConnection, arweave: ArwConnection) => {
         data: Buffer.from(JSON.stringify({
           manifest: "arweave/paths",
           version: "0.1.0",
-          paths: Object.entries(fileMap).reduce((p, [ f, l ]) => {
-            p[f] = { id: l };
-            return p;
-          }, {} as { [x: string]: { id: string } }),
+          paths: fileMap,
         })),
       });
       let packageUpload = new PackageUpload();
       packageUpload.name = `${newUpload.name}@${newUpload.version}`;
-      packageUpload.files = Object.entries(fileMap).reduce((p, [ f, l ]) => {
-        p[f] = f;
-        return p;
-      }, {} as { [x: string]: string });
+      packageUpload.files = fileMap;
       packageUpload.prefix = `${arweave.api.config.protocol}://${arweave.api.config.host}/${manifestId}`;
       packageUpload.package = newUpload.name;
       packageUpload.version = newUpload.version;

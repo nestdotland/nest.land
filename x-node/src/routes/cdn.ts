@@ -15,7 +15,7 @@ export default (database: DbConnection) => {
     if (!dbPackageUpload) return res.sendStatus(404);
 
     let fileName = "/" + fileNameParts.join("/");
-    let dbFile = dbPackageUpload.files[fileName];
+    let dbFile = dbPackageUpload.files[fileName] && fileName;
     if (!dbFile) return res.sendStatus(404);
 
     let dbFileName = (dbPackageUpload.prefix || "") + dbFile;
