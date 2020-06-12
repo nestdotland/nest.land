@@ -4,8 +4,8 @@
       <p>
         <b>nest.land</b> by
         <a href="https://github.com/tbaumer22">tbaumer22</a>,&nbsp;
-        <a href="https://github.com/justablob">blob</a>,&nbsp; & &nbsp;
-        <a href="https://github.com/zorbyte">zorbyte</a>.
+        <a href="https://github.com/zorbyte">zorbyte</a>,&nbsp; & &nbsp;
+        <a href="https://github.com/justablob">blog</a>.
         <br />Made with
         <font-awesome-icon
           :icon="['fa', 'heart']"
