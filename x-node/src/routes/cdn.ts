@@ -37,7 +37,7 @@ export default (arweave: ArwConnection, database: DbConnection) => {
         res.type(req.path);
         return res.send(getTemp(dbFile.txId));
       }
-      if (uploadedAgo < 7200) {
+      if (uploadedAgo < 1800) {
         let data = await getTransaction(arweave, dbFile.txId);
         if (!data) return res.sendStatus(404);
         res.type(req.path);

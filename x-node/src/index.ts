@@ -18,7 +18,7 @@ async function start () {
   const arweave = await connectArweave();
   const database = await connectDatabase();
 
-  init(60, 1800);
+  init(60, 900);
 
   server.disable("x-powered-by");
   server.use(bodyParser.json());
