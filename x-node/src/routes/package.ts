@@ -1,11 +1,11 @@
-import path from "path";
-import { getType } from "mime";
 import semver from "semver";
+import { getType } from "mime";
 import { Router } from "express";
 import generateToken from "../utils/token";
 import isNameOkay from "../utils/reservedNames";
-import { ArwConnection, save, regenerateAnchor } from "../utils/arweave";
+import { save as saveTemp } from "../utils/temp";
 import { Package, PackageUpload, DbConnection } from "../utils/driver";
+import { ArwConnection, save, regenerateAnchor } from "../utils/arweave";
 
 interface OngoingUpload {
   token: string,
@@ -165,7 +165,7 @@ export default (database: DbConnection, arweave: ArwConnection) => {
     if (!ongoingUploads.has(uploadToken)) return res.sendStatus(404);
 
     if (!req.headers["content-length"]) return res.sendStatus(411);
-    if (parseInt(req.headers["content-length"].toString()) > 50 * 1024 ** 2) return res.send(413);
+    if (parseInt(req.headers["content-length"].toString()) > 20 * 1024 ** 2) return res.send(413);
 
     let { pieces, end } = req.body;
     if (typeof pieces !== "undefined" && typeof pieces !== "object") return res.sendStatus(400);
@@ -187,11 +187,13 @@ export default (database: DbConnection, arweave: ArwConnection) => {
       await regenerateAnchor(arweave);
 
       let fileMap = (await Promise.all(Object.entries(newUpload.pieces).map(async ([ file, content ]) => {
+        let fc = Buffer.from(content, "base64")
         let txId = await save(arweave, {
           name: file,
           type: getType(file),
-          data: Buffer.from(content, "base64"),
+          data: fc,
         });
+        saveTemp(txId, fc);
         return [ file, txId ];
       }))).reduce((p, [ f, l ]) => {
         p[f] = { inManifest: f, txId: l };

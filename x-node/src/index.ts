@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import dotenv from "dotenv";
 import express from "express";
+import { init } from "./utils/temp";
 import bodyParser from "body-parser";
 import { connect as connectArweave } from "./utils/arweave";
 import { connect as connectDatabase } from "./utils/driver";
@@ -16,6 +17,8 @@ async function start () {
   const server = express();
   const arweave = await connectArweave();
   const database = await connectDatabase();
+
+  init(60, 1800);
 
   server.disable("x-powered-by");
   server.use(bodyParser.json());
