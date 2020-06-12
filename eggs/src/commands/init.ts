@@ -1,9 +1,11 @@
-import { Command, Input, Confirm, List, writeJson } from "../deps.ts";
+import { Command, Input, Confirm, List, writeJson, yellow } from "../deps.ts";
+import { pathExists } from "../utilities/files.ts";
 
 export const init = new Command()
     .version("0.1.0")
     .description("Initiates a new package for the nest.land registry.")
     .action(async () => {
+        if (pathExists("egg.json")) console.warn(yellow("An egg.json file already exists here! Overriding..."));
         const pName: string = await Input.prompt({
             message: "Package name:",
             minLength: 2,
