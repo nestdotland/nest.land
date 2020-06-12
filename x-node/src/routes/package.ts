@@ -105,6 +105,8 @@ export default (database: DbConnection, arweave: ArwConnection) => {
     if (dbPackage && dbPackage.packageUploadNames.indexOf(`${name}@${version}`) !== -1) return res.sendStatus(409);
     if (dbPackage && dbPackage.owner !== dbUser.name) return res.sendStatus(403);
 
+    if (dbPackage && dbPackage.locked) return res.sendStatus(423);
+
     if (dbPackage && description) {
       dbPackage.description = description;
       await database.repositories.Package.update({ name: name }, { description: description });

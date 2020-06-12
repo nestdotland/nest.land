@@ -42,6 +42,12 @@ export class Package {
   @t.Column("varchar", { array: true, length: 61 })
   packageUploadNames: string[];
 
+  @t.Column("boolean", { nullable: true })
+  locked: boolean;
+
+  @t.Column("boolean", { nullable: true })
+  malicious: boolean;
+
   @t.CreateDateColumn()
   createdAt: Date;
 
