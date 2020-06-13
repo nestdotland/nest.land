@@ -27,7 +27,7 @@
               <h2 class="title is-4 has-text-centered readme">README.md</h2>
               <div class="card is-fullwidth">
                 <div class="card-content">
-                  <vue-markdown>{{ readmeResponse }}</vue-markdown>
+                  <vue-markdown :source="packageReadme" id="readme"></vue-markdown>
                 </div>
               </div>
             </div>
@@ -40,17 +40,17 @@
                   <div class="buttons has-addons nest-button-group">
                     <button
                       class="button is-primary is-light"
-                      @click="selectedVersion = packageInfo.latestStableVersion; refreshContent()"
+                      @click="selectedVersion = packageInfo.latestStableVersion; refreshContent(); refreshReadme()"
                     >Stable</button>
                     <button
                       class="button is-warning is-light"
-                      @click="selectedVersion = packageInfo.latestVersion; refreshContent()"
+                      @click="selectedVersion = packageInfo.latestVersion; refreshContent(); refreshReadme()"
                     >Latest</button>
                   </div>
                 </div>
                 <div class="panel-block">
                   <div class="select is-light has-light-arrow is-fullwidth">
-                    <select v-model="selectedVersion" @change="refreshContent()">
+                    <select v-model="selectedVersion" @change="refreshContent(); refreshReadme()">
                       <option
                         v-for="version in packageInfo.packageUploadNames"
                         :key="version"
@@ -93,7 +93,7 @@ export default {
     return {
       packageInfo: Object,
       selectedVersion: "",
-      packageReadme: "",
+      packageReadme: "Loading...",
       loading: true,
     };
   },
@@ -130,10 +130,9 @@ export default {
         console.log(url)
         const readmeResponse = await fetch(url, {
           method: "GET",
-          mode: "no-cors",
           redirect: "follow"
         });
-        console.log(readmeResponse);
+        this.packageReadme = await readmeResponse.text();
       } catch (err) {
         this.$emit("new-error", err);
       }
@@ -142,7 +141,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .readme {
   margin-top: 1.5rem !important;
 }
@@ -168,7 +167,67 @@ pre.is-fullwidth {
   width: 100%;
 }
 
-#readmeIFrame {
-  height: 100%;
+#readme {
+  h1 {
+    display: block;
+    font-size: 2em;
+    margin-top: 0.67em;
+    margin-bottom: 0.67em;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-top: 0.83em;
+    margin-bottom: 0.83em;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  h3 {
+    display: block;
+    font-size: 1.17em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  h4 {
+    display: block;
+    font-size: 1em;
+    margin-top: 1.33em;
+    margin-bottom: 1.33em;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  h5 {
+    display: block;
+    font-size: .83em;
+    margin-top: 1.67em;
+    margin-bottom: 1.67em;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  h6 {
+    display: block;
+    font-size: .67em;
+    margin-top: 2.33em;
+    margin-bottom: 2.33em;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  p {
+    display: block;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  a {
+    color: black;
+  }
+  .toc-anchor {
+    opacity: 30%;
+  }
 }
 </style>
