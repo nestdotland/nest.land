@@ -13,7 +13,7 @@ export const init = new Command()
         });
         const pDesc: string = await Input.prompt({
             message: "Package description:",
-            maxLength: 2^32 - 1,
+            maxLength: 4294967295,
         });
         const pStable: boolean = await Confirm.prompt("Is this a stable version?");
         const pFiles: string[] = await List.prompt("Enter the files and relative directories that nest.land will publish separated by a comma.");
