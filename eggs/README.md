@@ -9,7 +9,7 @@
 
 ## Installation
 
-**Note: You need to upgrade to Deno v1.0.6 or newer in order to use our CLI.**
+**Note: You need to upgrade to Deno v1.1.0 or newer in order to use our CLI.**
 ```
 deno install --allow-read --allow-write --allow-net --unstable -n eggs https://x.nest.land/eggs@0.1.16/mod.ts
 ```

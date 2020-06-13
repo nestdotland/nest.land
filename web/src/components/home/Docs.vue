@@ -15,7 +15,7 @@
               <br />
               <br />
             </p>
-            <p>Note: You need to upgrade to Deno v1.0.6 or newer in order to use our CLI.</p>
+            <p>Note: You need to upgrade to Deno v1.1.0 or newer in order to use our CLI.</p>
             <hr />
           </div>
           <div class="column is-half">
