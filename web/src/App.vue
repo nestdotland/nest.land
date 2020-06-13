@@ -15,6 +15,10 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Inconsolata");
 
+.has-text-underlined {
+  text-decoration: underline;
+}
+
 .label {
   font-weight: 500 !important;
 }

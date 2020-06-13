@@ -25,7 +25,7 @@
             <p class="title is-5">Linking your API key</p>
             <p>
               In order to publish packages to the blockchain with our CLI, you must first generate an API key. See
-              <router-link to="/#start" class="has-text-dark">Getting Started</router-link>.
+              <router-link to="/#start" class="has-text-dark has-text-underlined">Getting Started</router-link>.
               <br />
               <br />
             </p>
@@ -78,7 +78,7 @@
             <p>
               More detailed information about this service is avaliable on our CLI
               <a
-                class="has-text-dark"
+                class="has-text-dark has-text-underlined"
                 href="https://github.com/nestlandofficial/nest.land/tree/master/eggs"
               >README</a>.
             </p>
