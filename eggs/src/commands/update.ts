@@ -3,7 +3,7 @@
  *     --allow-net, --allow-read, --allow-write
  */
 
-import { Command, existsSync, denoStdLatestVersion } from "../deps.ts";
+import { Command, existsSync } from "../deps.ts";
 const decoder = new TextDecoder("utf-8");
 
 /**
@@ -50,6 +50,13 @@ async function getLatestVersionOfGitHubRepo (owner: string, repo: string): Promi
     const urlSplit = url.split("/");
     const latestRelease = urlSplit[urlSplit.length - 1];
     return latestRelease;
+}
+
+async function getLatestStdVersion (): Promise<string> {
+  const res = await fetch("https://raw.githubusercontent.com/denoland/deno_website2/master/deno_std_versions.json");
+  const versions = await res.json();
+  const latestVersion = versions[0];
+  return latestVersion
 }
 
 /**
@@ -177,7 +184,7 @@ export const update = new Command()
             let latestRelease = "";
             if (line.indexOf("https://deno.land/std") > 0) {
                 // Collate data for std modules
-                latestRelease = denoStdLatestVersion;
+                latestRelease = await getLatestStdVersion();
             }
             if (line.indexOf("https://deno.land/x/") > 0) {
                 // Collate data for deno.land 3rd party modules
