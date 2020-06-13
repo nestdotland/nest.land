@@ -11,7 +11,7 @@
 
 **Note: You need to upgrade to Deno v1.1.0 or newer in order to use our CLI.**
 ```
-deno install --allow-read --allow-write --allow-net --unstable -n eggs https://x.nest.land/eggs@0.1.0/mod.ts
+deno install --allow-read --allow-write --allow-net --allow-env --unstable -n eggs https://x.nest.land/eggs@0.1.0/mod.ts
 ```
 For more information, see the [documentation](https://nest.land/#docs).
 
