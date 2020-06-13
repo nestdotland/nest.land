@@ -2,26 +2,22 @@
   <div class="card">
     <div class="card-content">
       <div class="content">
-        <p class="title is-4">{{ item._id }}</p>
-        <p class="subtitle is-6">{{ item.description }}</p>
+        <p class="title is-4">{{ item.name }}</p>
         <hr class="mini-hr" />
-        <p class="author-text">By: {{ item.owner }}</p>
+        <p class="subtitle is-6">{{ item.description }}</p>
       </div>
     </div>
     <footer class="card-footer">
-      <div class="select card-footer-item is-light">
+      <!-- <div class="select card-footer-item is-light">
         <select v-model="selectedVersion">
           <option
             v-for="version in item.packageUploadIds"
-            :key="version._id"
-            :value="version._id"
-          >{{ version._id }}</option>
+            :key="version"
+            :value="version"
+          >{{ version }}</option>
         </select>
-      </div>
-      <a
-        :href="'https://x.nest.land/' + item._id + '@' + item.latestStableVersion"
-        class="card-footer-item has-text-dark"
-      >Open Package</a>
+      </div>-->
+      <router-link :to="'/package/' + item.name" class="card-footer-item has-text-dark">Open Package</router-link>
     </footer>
   </div>
 </template>
@@ -32,20 +28,14 @@ export default {
   props: ["item"],
   data() {
     return {
-      package: this.item,
-      selectedVersion: this.package.latestStableVersion,
-      importURL:
-        "https://x.nest.land/" +
-        this.package._id +
-        "@" +
-        this.package.latestStableVersion,
+      package: {},
+      selectedVersion: "",
     };
   },
-  watch: {
-    selectedVersion: function() {
-      this.importURL =
-        "https://x.nest.land/" + this.package._id + "@" + this.selectedVersion;
-    },
+  created() {
+    this.package = this.item;
+    this.selectedVersion =
+      this.package.name + "@" + this.package.latestStableVersion;
   },
 };
 </script>

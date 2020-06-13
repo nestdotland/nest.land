@@ -24,3 +24,5 @@ src/assets/undraw_heavy_box.svg
 
 # Vercel files
 .now/
+
+.vercel

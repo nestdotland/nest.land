@@ -14,26 +14,26 @@
             <h1 class="title">Getting Started</h1>
             <p>
               You'll need an API key to use our CLI! After generating, see the
-              <router-link to="/#docs" class="has-text-dark">documentation</router-link>.
+              <router-link to="/#docs" class="has-text-dark has-text-underlined">documentation</router-link>.
             </p>
             <hr />
-            <div v-show="eggAPIKey === ''">
+            <div v-show="eggsAPIKey === ''">
               <log-in
                 v-show="hasAccount"
                 @toggle-has-account="toggleHasAccount"
                 @new-error="newError"
-                @update-user="updateUser"
+                @set-api-key="setAPIKey"
               ></log-in>
               <sign-up
                 v-show="!hasAccount"
                 @toggle-has-account="toggleHasAccount"
                 @new-error="newError"
-                @update-user="updateUser"
+                @set-api-key="setAPIKey"
               ></sign-up>
             </div>
-            <div v-show="eggAPIKey !== ''" id="token-group">
+            <div v-show="eggsAPIKey !== ''" id="token-group">
               <h2 class="subtitle">Your key:</h2>
-              <pre id="token-element"><code>{{ eggAPIKey }}</code></pre>
+              <pre id="token-element"><code>{{ eggsAPIKey }}</code></pre>
             </div>
           </div>
         </div>
@@ -43,7 +43,6 @@
 </template>
 
 <script>
-import { HTTP } from "../../http-common";
 import LogIn from "../auth/LogIn.vue";
 import SignUp from "../auth/SignUp.vue";
 
@@ -59,14 +58,8 @@ export default {
       userAccount: {},
       verificationSucceeded: false,
       serverError: "",
-      eggAPIKey: "",
+      eggsAPIKey: "",
     };
-  },
-  watch: {
-    userAccount: function() {
-      console.log("EMMITTED TO ACCOUNT");
-      this.getToken();
-    },
   },
   methods: {
     toggleHasAccount(condition) {
@@ -75,19 +68,9 @@ export default {
     newError(e) {
       this.serverError = e;
     },
-    updateUser(newUser) {
-      this.userAccount = newUser;
-    },
-    async getToken() {
-      try {
-        const response = await HTTP.post("key", {
-          data: this.account,
-        });
-        this.eggAPIKey = response.data.token;
-        this.verificationSucceeded = true;
-      } catch (err) {
-        this.newError(err);
-      }
+    setAPIKey(key) {
+      this.eggsAPIKey = key;
+      this.verificationSucceeded = true;
     },
   },
 };

@@ -1,27 +1,20 @@
 const request = require("request");
 
 module.exports = (req, res) => {
-  const waitingOnOscar = false;
-  let uri;
-  if (process.env.DEBUG === "true") {
-    uri = "http://localhost:8080/packages";
-  } else {
-    uri = "https://api.nest.land/packages";
-  }
-  if (waitingOnOscar) {
-    return res.status(400).json({ errorMessage: "cheese" });
-  } else {
-    const requestOptions = {
-      uri: uri,
-      json: true,
-    };
-    request.get(requestOptions, function (err, response, body) {
-      if (err) {
-        return res.status(500).json(
-          { errorMessage: "oops, something went wrong on our side" },
-        );
-      }
-      res.status(201).json({ body });
-    });
-  }
+  const requestOptions = {
+    uri: "https://x.nest.land/api/packages",
+    headers: {
+      "X-Secret-Salt": process.env.X_SECRET_SALT,
+      "X-Secret-Hash": process.env.X_SECRET_HASH
+    },
+    json: true,
+  };
+  request.get(requestOptions, function (err, response, body) {
+    if (err) {
+      return res.status(500).json(
+        { errorMessage: err },
+      );
+    }
+    res.status(201).json({ body });
+  });
 };

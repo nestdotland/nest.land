@@ -22,7 +22,12 @@
 
       <div id="main-nav" class="navbar-menu" :class="burgerClass">
         <div class="navbar-end">
-          <router-link class="navbar-item" to="gallery" active-class="active-link" exact>The Gallery</router-link>
+          <router-link
+            class="navbar-item"
+            to="/gallery"
+            active-class="active-link"
+            exact
+          >The Gallery</router-link>
           <router-link class="navbar-item" to="/#docs">Documentation</router-link>
           <div class="navbar-item">
             <div class="buttons">

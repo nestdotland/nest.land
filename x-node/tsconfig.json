@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "module": "commonjs",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "lib": [],
+    "target": "es6",
+    "outDir": "./lib",
+  },
+  "include": [
+    "./src/**/*.ts",
+  ]
+}
