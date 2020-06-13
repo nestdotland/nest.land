@@ -33,10 +33,10 @@ export class Package {
   @t.Column("text", { nullable: true })
   description: string;
 
-  @t.Column("varchar", { length: 20, nullable: true })
+  @t.Column("varchar", { length: 61, nullable: true })
   latestVersion: string;
 
-  @t.Column("varchar", { length: 20, nullable: true })
+  @t.Column("varchar", { length: 61, nullable: true })
   latestStableVersion: string;
 
   @t.Column("varchar", { array: true, length: 61 })
