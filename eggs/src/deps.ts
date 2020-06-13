@@ -6,4 +6,5 @@ export { existsSync, expandGlobSync, writeJson } from "https://deno.land/std/fs/
 export { bold, green, yellow, red } from "https://deno.land/std/fmt/colors.ts";
 export { VERSION as denoStdLatestVersion } from "https://deno.land/std@0.56.0/version.ts";
 export { assertEquals } from "https://deno.land/std@v0.56.0/testing/asserts.ts";
+export * as base64 from "https://denopkg.com/chiefbiiko/base64/mod.ts";
 export const lstatSync = Deno.lstatSync;

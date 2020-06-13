@@ -9,6 +9,7 @@ import {
   expandGlobSync,
   path,
   semver,
+  base64,
 } from "../deps.ts";
 import {
   pathExists,
@@ -27,9 +28,8 @@ interface IEggConfig {
 }
 
 function readFileBtoa (path: string) {
-  const decoder = new TextDecoder("utf-8");
   const data = Deno.readFileSync(path);
-  return btoa(decoder.decode(data));
+  return base64.fromUint8Array(data);
 }
 
 export const publish = new Command()
