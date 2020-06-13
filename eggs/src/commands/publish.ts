@@ -48,7 +48,7 @@ export const publish = new Command()
       if (!egg.description) console.log(yellow("You haven't provided a description for your package, continuing without one..."));
       if (!egg.version) console.log(yellow("No version found. Generating a new version now..."));
       if (!egg.files) throw new Error(red("No files to upload found. Please see the documentation to add this."));
-      if (!egg.files.includes("./README.md")) console.log(yellow("No README found at project root, continuing without one..."));
+      if (!egg.files.some(e => /README\.md/g.test(e))) console.log(yellow("No README found at project root, continuing without one..."));
 
       let matched = [];
       for (let file of egg.files) {
