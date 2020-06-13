@@ -22,14 +22,11 @@
         <div class="container">
           <div class="columns">
             <div class="column is-8">
-              <p class="subtitle">{{ packageInfo.description }}</p>
-              <hr class="mini-hr" />
-              <h2 class="title is-4 has-text-centered readme">README.md</h2>
-              <div class="card is-fullwidth">
-                <div class="card-content">
-                  <vue-markdown :source="packageReadme" id="readme"></vue-markdown>
-                </div>
+              <div v-show="packageReadme === 'Loading README...'" >
+                <p class="subtitle">{{ packageInfo.description }}</p>
+                <hr class="mini-hr" />
               </div>
+              <vue-markdown :source="packageReadme" :toc="true" id="readme"></vue-markdown>
             </div>
             <div class="column is-4">
               <nav class="panel">
@@ -93,7 +90,7 @@ export default {
     return {
       packageInfo: Object,
       selectedVersion: "",
-      packageReadme: "Loading...",
+      packageReadme: "Loading README...",
       loading: true,
     };
   },
@@ -168,6 +165,10 @@ pre.is-fullwidth {
 }
 
 #readme {
+  :first-child {
+    margin-top: 0;
+    padding-top: 0;
+  }
   h1 {
     display: block;
     font-size: 2em;
@@ -223,8 +224,23 @@ pre.is-fullwidth {
     margin-left: 0;
     margin-right: 0;
   }
+  li {
+    display: list-item;
+    ul {
+      margin-top: 0;
+    }
+  }
+  ul {
+    display: block;
+    list-style-type: disc;
+    margin-top: 1em;
+    margin-bottom: 1 em;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 40px;
+  }
   a {
-    color: black;
+    color: #00d1b2;
   }
   .toc-anchor {
     opacity: 30%;
