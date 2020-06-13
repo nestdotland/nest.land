@@ -23,7 +23,7 @@
         >Fetch your API Key</button>
       </div>
     </div>
-    <a class="has-text-dark" @click="$emit('toggle-has-account', false)">No account? Sign up here.</a>
+    <a class="has-text-dark has-text-underlined" @click="$emit('toggle-has-account', false)">No account? Sign up</a>
   </div>
 </template>
 

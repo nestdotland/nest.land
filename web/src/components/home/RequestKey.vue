@@ -14,7 +14,7 @@
             <h1 class="title">Getting Started</h1>
             <p>
               You'll need an API key to use our CLI! After generating, see the
-              <router-link to="/#docs" class="has-text-dark">documentation</router-link>.
+              <router-link to="/#docs" class="has-text-dark has-text-underlined">documentation</router-link>.
             </p>
             <hr />
             <div v-show="eggsAPIKey === ''">

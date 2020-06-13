@@ -15,7 +15,7 @@
               <br />
               <br />
             </p>
-            <p>Note: You need to upgrade to Deno v1.0.6 or newer in order to use our CLI.</p>
+            <p>Note: You need to upgrade to Deno v1.1.0 or newer in order to use our CLI.</p>
             <hr />
           </div>
           <div class="column is-half">
@@ -25,7 +25,7 @@
             <p class="title is-5">Linking your API key</p>
             <p>
               In order to publish packages to the blockchain with our CLI, you must first generate an API key. See
-              <router-link to="/#start" class="has-text-dark">Getting Started</router-link>.
+              <router-link to="/#start" class="has-text-dark has-text-underlined">Getting Started</router-link>.
               <br />
               <br />
             </p>
@@ -33,7 +33,7 @@
             <hr />
           </div>
           <div class="column is-half">
-            <pre><code>$ eggs link [key]</code></pre>
+            <pre><code>$ eggs link --key [your key]</code></pre>
           </div>
           <div class="column is-half">
             <p class="title is-5">Initializing a package</p>
@@ -78,7 +78,7 @@
             <p>
               More detailed information about this service is avaliable on our CLI
               <a
-                class="has-text-dark"
+                class="has-text-dark has-text-underlined"
                 href="https://github.com/nestlandofficial/nest.land/tree/master/eggs"
               >README</a>.
             </p>

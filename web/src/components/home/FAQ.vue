@@ -62,7 +62,7 @@
           Have more questions? Ask them on our
           <a
             href="https://opencollective.com/nest-land"
-            class="has-text-light"
+            class="has-text-light has-text-underlined"
           >Open Collective</a>!
         </p>
       </div>
