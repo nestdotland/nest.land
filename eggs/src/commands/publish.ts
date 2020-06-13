@@ -125,6 +125,7 @@ export const publish = new Command()
       Object.entries(pieceResponseBody.files).map(el => {
         console.log(`${el[0]} -> ${bold(`https://x.nest.land/${pieceResponseBody.name}${el[0]}`)}`);
       });
+      console.log(green("You can now find your package on our registry at" + bold("https://nest.land/gallery!")));
     } else {
       throw new Error(red("You don't have an egg.json file! Please create this in the root of your repository, or see the documentation for more help."));
     }
