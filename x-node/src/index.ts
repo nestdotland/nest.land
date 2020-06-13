@@ -43,6 +43,7 @@ async function start () {
 
   server.use((err, req, res, next) => {
     try {
+      console.error(err);
       return res.sendStatus(500);
     } catch (err) {
       return console.error(err);
