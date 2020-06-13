@@ -81,7 +81,7 @@ export const publish = new Command()
       if (!existingPackageBody && !egg.version) egg.version = "0.0.1";
       if (existingPackageBody && !egg.version) {
         let latestPublished = egg.stable ? existingPackageBody.latestStableVersion : existingPackageBody.latestVersion;
-        if (!latestPublished) latestPublished = existingPackageBody.packageUploadNames.slice(-1)[0];
+        if (!latestPublished) latestPublished = existingPackageBody.packageUploadNames.slice(-1)[0] || "@0.0.0";
         let incOne = semver.inc(latestPublished.split("@")[1], "patch") || "0.0.1";
         egg.version = incOne;
       }
