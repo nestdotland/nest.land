@@ -33,7 +33,7 @@
             <hr />
           </div>
           <div class="column is-half">
-            <pre><code>$ eggs link [key]</code></pre>
+            <pre><code>$ eggs link --key [your key]</code></pre>
           </div>
           <div class="column is-half">
             <p class="title is-5">Initializing a package</p>

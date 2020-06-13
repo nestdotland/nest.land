@@ -11,8 +11,8 @@
                 class="has-text-dark has-text-underlined"
                 href="https://www.arweave.org/"
               >Arweave Blockchain</a>. With us, you can
-              publish Deno packages to the permaweb, where they can never be deleted. This avoids a major pitfall
-              for web-based package imports while allowing the developer to maximize on the potential of Deno's URL-based imports!
+              publish your Deno packages to the permaweb, where they can <b>never</b> be deleted. This avoids a major pitfall
+              for web-based package imports while allowing the developer to maximize on the potential of Deno's import design!
             </p>
             <hr />
             <div class="columns">
