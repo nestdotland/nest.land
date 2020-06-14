@@ -1,21 +1,33 @@
 import { Router } from "express";
-import generateToken from "../utils/token";
+import { generateToken } from "../utils/token";
 import { hash, verify } from "../utils/password";
 import { User, DbConnection } from "../utils/driver";
 
+interface GenericAuthBody {
+  username: string;
+  password: string;
+}
+
+interface NewPasswordBody {
+  username: string;
+  password: string;
+  newPassword: string;
+}
 
 export default (database: DbConnection) => {
   const router = Router();
 
   router.post("/signup", async (req, res) => {
-    let { username, password }: { username: string, password: string } = req.body;
+    const { username, password }: GenericAuthBody = req.body;
     if (!username || !password) return res.sendStatus(400);
     if (typeof username !== "string" || typeof password !== "string") return res.sendStatus(400);
 
     if (username.length > 20) return res.sendStatus(400);
-    if (await database.repositories.User.findOne({ where: { name: username } })) return res.sendStatus(409);
+    if (await database.repositories.User.findOne({ where: { name: username } })) {
+      return res.sendStatus(409);
+    }
 
-    let user = new User();
+    const user = new User();
     user.name = username;
     user.password = await hash(password);
     user.apiKey = generateToken();
@@ -31,19 +43,24 @@ export default (database: DbConnection) => {
   });
 
   router.post("/newpassword", async (req, res) => {
-    const { username, password, newPassword }: { username: string, password: string, newPassword: string } = req.body;
+    const { username, password, newPassword }: NewPasswordBody = req.body;
     if (!username || !password || !newPassword) return res.sendStatus(400);
-    if (typeof username !== "string" || typeof password !== "string" || typeof newPassword !== "string") return res.sendStatus(400);
+    if (
+      typeof username !== "string" ||
+      typeof password !== "string" ||
+      typeof newPassword !== "string"
+    )
+      return res.sendStatus(400);
 
     if (username.length > 20) return res.sendStatus(400);
 
-    let dbUser = await database.repositories.User.findOne({ where: { name: username } });
+    const dbUser = await database.repositories.User.findOne({ where: { name: username } });
     if (!dbUser) return res.sendStatus(404);
 
-    let passwordMatch = await verify(password, dbUser.password);
+    const passwordMatch = await verify(password, dbUser.password);
     if (!passwordMatch) return res.sendStatus(401);
 
-    let newPasswordHash = await hash(newPassword);
+    const newPasswordHash = await hash(newPassword);
 
     await database.repositories.User.update({ name: dbUser.name }, { password: newPasswordHash });
 
@@ -54,15 +71,15 @@ export default (database: DbConnection) => {
   });
 
   router.post("/getkey", async (req, res) => {
-    const { username, password }: { username: string, password: string } = req.body;
+    const { username, password }: GenericAuthBody = req.body;
     if (!username || !password) return res.sendStatus(400);
 
     if (username.length > 20) return res.sendStatus(400);
 
-    let dbUser = await database.repositories.User.findOne({ where: { name: username } });
+    const dbUser = await database.repositories.User.findOne({ where: { name: username } });
     if (!dbUser) return res.sendStatus(404);
 
-    let passwordMatch = await verify(password, dbUser.password);
+    const passwordMatch = await verify(password, dbUser.password);
     if (!passwordMatch) return res.sendStatus(401);
 
     return res.status(200).send({
@@ -73,18 +90,18 @@ export default (database: DbConnection) => {
   });
 
   router.post("/newkey", async (req, res) => {
-    const { username, password }: { username: string, password: string } = req.body;
+    const { username, password }: GenericAuthBody = req.body;
     if (!username || !password) return res.sendStatus(400);
 
     if (username.length > 20) return res.sendStatus(400);
 
-    let dbUser = await database.repositories.User.findOne({ where: { name: username } });
+    const dbUser = await database.repositories.User.findOne({ where: { name: username } });
     if (!dbUser) return res.sendStatus(404);
 
-    let passwordMatch = await verify(password, dbUser.password);
+    const passwordMatch = await verify(password, dbUser.password);
     if (!passwordMatch) return res.sendStatus(401);
 
-    let newApiKey = generateToken();
+    const newApiKey = generateToken();
 
     await database.repositories.User.update({ name: dbUser.name }, { apiKey: newApiKey });
 

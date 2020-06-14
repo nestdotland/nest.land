@@ -1,9 +1,4 @@
-import { path, existsSync } from "../deps.ts";
+import { join } from "../deps.ts";
 
-export function homedir () {
-  return Deno.dir("home") || "/";
-}
-
-export function pathExists (filePath: string) {
-  return existsSync(filePath);
-}
+export const HOME_DIR = Deno.dir("home") || "/";
+export const KEY_LOC = join(HOME_DIR, ".nest-api-key");

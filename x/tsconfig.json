@@ -1,4 +1,5 @@
 {
+  "extends": "../etc/tsconfig.base.json",
   "compilerOptions": {
     "allowJs": true,
     "module": "commonjs",
@@ -9,7 +10,7 @@
     "resolveJsonModule": true,
     "lib": [],
     "target": "es6",
-    "outDir": "./lib",
+    "outDir": "./dist",
   },
   "include": [
     "./src/**/*.ts",

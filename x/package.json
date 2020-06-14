@@ -1,7 +1,7 @@
 {
-  "name": "x-node",
+  "name": "x",
   "version": "0.0.1",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "author": "justablob",
   "maintainers": [
     "tbaumer22",
@@ -38,7 +38,7 @@
     "dev": "tsnd --no-notify ./src",
     "dev:sync": "ts-node ./src/utils/syncDatabase",
     "build": "tsc",
-    "prod": "node ./lib/src",
-    "prod:sync": "node ./lib/src/utils/syncDatabase"
+    "prod": "node ./dist/src",
+    "prod:sync": "node ./dist/src/utils/syncDatabase"
   }
 }

@@ -3,106 +3,102 @@ import * as t from "typeorm";
 
 @t.Entity("users")
 export class User {
-
   @t.PrimaryColumn("varchar", { length: 20, nullable: false, unique: true })
-  name: string;
+  name!: string;
 
   @t.Column("varchar", { length: 256, nullable: false })
-  password: string;
+  password!: string;
 
   @t.Column("varchar", { length: 256, nullable: false })
-  apiKey: string;
+  apiKey!: string;
 
   @t.Column("varchar", { array: true, length: 40 })
-  packageNames: string[];
+  packageNames!: string[];
 
   @t.CreateDateColumn({ type: "timestamp with time zone" })
-  createdAt: Date;
-
+  createdAt!: Date;
 }
 
 @t.Entity("packages")
 export class Package {
-
   @t.PrimaryColumn("varchar", { length: 40, nullable: false, unique: true })
-  name: string;
+  name!: string;
 
   @t.Column("varchar", { length: 256, nullable: false })
-  owner: string;
+  owner!: string;
 
   @t.Column("text", { nullable: true })
-  description: string;
+  description!: string;
 
   @t.Column("varchar", { length: 61, nullable: true })
-  latestVersion: string;
+  latestVersion!: string | null;
 
   @t.Column("varchar", { length: 61, nullable: true })
-  latestStableVersion: string;
+  latestStableVersion!: string | null;
 
   @t.Column("varchar", { array: true, length: 61 })
-  packageUploadNames: string[];
+  packageUploadNames!: string[];
 
   @t.Column("boolean", { nullable: true })
-  locked: boolean;
+  locked!: boolean;
 
   @t.Column("boolean", { nullable: true })
-  malicious: boolean;
+  malicious!: boolean;
 
   @t.CreateDateColumn({ type: "timestamp with time zone" })
-  createdAt: Date;
-
+  createdAt!: Date;
 }
 
 @t.Entity("package-uploads")
 export class PackageUpload {
-
   @t.PrimaryColumn("varchar", { length: 61, nullable: false, unique: true })
-  name: string;
+  name!: string;
 
   @t.Column("varchar", { length: 40, nullable: false })
-  package: string;
+  package!: string;
 
   @t.Column("varchar", { length: 20, nullable: false })
-  version: string;
+  version!: string;
 
   @t.Column("varchar", { length: 256, nullable: true })
-  prefix: string;
+  prefix!: string;
 
   @t.Column("boolean", { nullable: true })
-  malicious: boolean;
+  malicious!: boolean;
 
   @t.Column("json")
-  files: { [x: string]: { inManifest: string, txId: string } }
+  files!: { [x: string]: { inManifest: string; txId: string } };
 
   @t.CreateDateColumn({ type: "timestamp with time zone" })
-  createdAt: Date;
-
+  createdAt!: Date;
 }
 
-export type DbConnection = t.Connection & { repositories: { User: t.Repository<User>, Package: t.Repository<Package>, PackageUpload: t.Repository<PackageUpload> } };
+export type DbConnection = t.Connection & {
+  repositories: {
+    User: t.Repository<User>;
+    Package: t.Repository<Package>;
+    PackageUpload: t.Repository<PackageUpload>;
+  };
+};
 
-export async function connect () {
+export async function connect() {
   try {
     const connection: t.Connection = await t.createConnection({
       type: "postgres",
 
-      host: process.env.DB_HOST.split(":").slice(0, -1).join(":"),
-      port: parseInt(process.env.DB_HOST.split(":").slice(-1)[0]),
+      host: process.env.DB_HOST!.split(":").slice(0, -1).join(":"),
+      port: parseInt(process.env.DB_HOST!.split(":").slice(-1)[0]),
       username: process.env.DB_USER,
       password: process.env.DB_PASS,
       database: process.env.DB_ROOT,
 
-      entities: [
-        User,
-        Package,
-        PackageUpload
-      ],
+      entities: [User, Package, PackageUpload],
 
       synchronize: false,
-      logging: process.env.NODE_ENV === "production" ? undefined : true
+      logging: process.env.NODE_ENV === "production" ? undefined : true,
     });
 
-    let repositories = {
+    const repositories = {
       User: connection.getRepository(User),
       Package: connection.getRepository(Package),
       PackageUpload: connection.getRepository(PackageUpload),
