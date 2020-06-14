@@ -15,6 +15,13 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Inconsolata");
 
+@media screen and (max-width: 769px) {
+  .reverse-column-order {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}
+
 .has-text-underlined {
   text-decoration: underline;
 }
