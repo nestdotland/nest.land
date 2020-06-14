@@ -5,7 +5,15 @@ export const init = new Command()
     .version("0.1.0")
     .description("Initiates a new package for the nest.land registry.")
     .action(async () => {
-        if (pathExists("egg.json")) console.warn(yellow("An egg.json file already exists here! Overriding..."));
+        let previousConfig: Config = {}
+
+        if (pathExists("egg.json")) {
+            console.warn(yellow("An egg.json file already exists here! Overriding..."))
+            const decoder = new TextDecoder("utf-8");
+            const content = decoder.decode(await Deno.readFile("egg.json"));
+            previousConfig = JSON.parse(content);
+        };
+
         const pName: string = await Input.prompt({
             message: "Package name:",
             minLength: 2,
@@ -20,9 +28,16 @@ export const init = new Command()
 
         const eggJson = {
             name: pName,
-            description: pDesc,
+            description: pDesc || previousConfig.description,
             stable: pStable,
-            files: pFiles
+            files: (JSON.stringify(pFiles) === '[""]' ? previousConfig.files : pFiles)
         };
         await writeJson("egg.json", eggJson);
     });
+
+interface Config {
+    name?: string;
+    description?: string;
+    stable?: boolean;
+    files?: string[]
+}
