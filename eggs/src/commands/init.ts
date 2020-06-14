@@ -5,7 +5,7 @@ export const init = new Command()
     .version("0.1.0")
     .description("Initiates a new package for the nest.land registry.")
     .action(async () => {
-        let previousConfig: Config = {}
+        let previousConfig: Config = {};
 
         if (pathExists("egg.json")) {
             console.warn(yellow("An egg.json file already exists here! Overriding..."))
