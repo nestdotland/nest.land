@@ -25,6 +25,10 @@
         <a href="https://github.com/nestlandofficial/nest.land" class="footer-icon">
           <font-awesome-icon :icon="['fab', 'github']" />
         </a>
+        <span class="footer-icon-separator"></span>
+        <a href="https://viewblock.io/arweave/address/tySYSW93nDky1sbCO56PmyEyspbyYx7x9ZXMNueKOOg" class="footer-icon">
+          <font-awesome-icon :icon="['fas', 'cubes']" />
+        </a>
       </p>
     </div>
   </footer>
