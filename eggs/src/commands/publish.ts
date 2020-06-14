@@ -10,9 +10,9 @@ import {
   relative,
   exists,
 } from "../deps.ts";
-import { getAPIKey } from "../utilities/key-check.ts";
+import { getAPIKey } from "../utilities/keyCheck.ts";
 
-interface IEggConfig {
+interface EggConfig {
   name: string;
   description?: string;
   version?: string;
@@ -21,18 +21,30 @@ interface IEggConfig {
   files: string[];
 }
 
-function readFileBtoa(path: string) {
-  const data = Deno.readFileSync(path);
-  return base64.fromUint8Array(data);
+interface ExistingPackageBody {
+  name: string;
+  owner: string;
+  description: string;
+  latestVersion?: string;
+  latestStableVersion?: string;
+  packageUploadNames: string[];
 }
+
+interface UploadRespBody {
+  token: string;
+  name: string;
+  version: string;
+  owner: string;
+}
+
+const decoder = new TextDecoder("utf-8");
 
 export const publish = new Command()
   .description("Publishes the current directory to the nest.land registry.")
   .action(async () => {
     if (await exists("egg.json")) {
-      const decoder = new TextDecoder("utf-8");
       const content = decoder.decode(await Deno.readFile("egg.json"));
-      let egg: IEggConfig;
+      let egg: EggConfig;
       try {
         egg = JSON.parse(content);
       } catch (err) {
@@ -73,9 +85,10 @@ export const publish = new Command()
 
       const matched = [];
       for (const file of egg.files) {
-        for await (
-          const glob of expandGlob(file, { root: Deno.cwd(), extended: true })
-        ) {
+        for await (const glob of expandGlob(file, {
+          root: Deno.cwd(),
+          extended: true,
+        })) {
           const potentialMatch = {
             fullPath: glob.path.replace(/\\/g, "/"),
             path: "/" + relative(Deno.cwd(), glob.path).replace(/\\/g, "/"),
@@ -94,8 +107,10 @@ export const publish = new Command()
       if (!apiKey) {
         throw new Error(
           red(
-            "No API Key file found. Please create one. Refer to the documentation on creating a " +
-              bold("~/.nest-api-key") + " file.",
+            "No API Key file found. Please create one." +
+              `Refer to the documentation on creating a ${bold(
+                "~/.nest-api-key",
+              )} file.`,
           ),
         );
       }
@@ -105,20 +120,14 @@ export const publish = new Command()
         `https://x.nest.land/api/package/${egg.name}`,
       ).catch(() => void 0);
 
-      const existingPackageBody: {
-        name: string;
-        owner: string;
-        description: string;
-        latestVersion?: string;
-        latestStableVersion?: string;
-        packageUploadNames: string[];
-      } | undefined = existingPackage?.ok && await existingPackage?.json();
+      const existingPackageBody: ExistingPackageBody | undefined =
+        existingPackage?.ok && (await existingPackage?.json());
 
       if (
         existingPackageBody &&
         existingPackageBody.packageUploadNames.indexOf(
-            `${egg.name}@${egg.version}`,
-          ) !== -1
+          `${egg.name}@${egg.version}`,
+        ) !== -1
       ) {
         throw red(
           "This version was already published. Please increment the version in egg.json.",
@@ -135,8 +144,8 @@ export const publish = new Command()
             existingPackageBody.packageUploadNames.slice(-1)[0] || "@0.0.0";
         }
 
-        const incOne = semver.inc(latestPublished.split("@")[1], "patch") ||
-          "0.0.1";
+        const incOne =
+          semver.inc(latestPublished.split("@")[1], "patch") || "0.0.1";
 
         egg.version = incOne;
       }
@@ -145,7 +154,7 @@ export const publish = new Command()
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": apiKey,
+          Authorization: apiKey,
         },
         body: JSON.stringify({
           name: egg.name,
@@ -156,23 +165,24 @@ export const publish = new Command()
           stable: egg.stable,
         }),
       }).catch((err) => {
-        throw new Error(red(`Something broke... ${err}`));
+        throw new Error(
+          red(
+            `An error occurred while initiating the publish:\n${
+              err?.stack ?? err
+            }`,
+          ),
+        );
       });
 
-      const fileContents = matched.map((el) =>
-        [el, readFileBtoa(el.fullPath)] as [typeof el, string]
-      ).reduce((p, c) => {
-        p[c[0].path] = c[1];
-        return p;
-      }, {} as { [x: string]: string });
+      const fileContents: Record<string, string> = Object.fromEntries(
+        await Promise.all(
+          matched.map(async (el) => [el.path, await readFileBtoa(el.fullPath)]),
+        ),
+      );
 
       if (!uploadResponse.ok) throw new Error(red("Something broke..."));
-      const uploadResponseBody: {
-        token: string;
-        name: string;
-        version: string;
-        owner: string;
-      } = uploadResponse.ok && await uploadResponse.json();
+      const uploadResponseBody: UploadRespBody =
+        uploadResponse.ok && (await uploadResponse.json());
 
       const pieceResponse = await fetch("https://x.nest.land/api/piece", {
         method: "POST",
@@ -184,14 +194,21 @@ export const publish = new Command()
           pieces: fileContents,
           end: true,
         }),
-      }).catch(() => {
-        throw new Error(red("Something broke..."));
+      }).catch((err) => {
+        throw new Error(
+          red(`Failed to upload package piece:\n${err?.stack ?? err}`),
+        );
       });
 
-      if (!pieceResponse.ok) throw new Error(red("Something broke..."));
+      if (!pieceResponse.ok) {
+        throw new Error(
+          red(`Server responded with code ${pieceResponse.status}`),
+        );
+      }
+
       const pieceResponseBody: {
         name: string;
-        files: { [x: string]: string };
+        files: Record<string, string>;
       } = await pieceResponse.json();
 
       console.log(
@@ -200,15 +217,15 @@ export const publish = new Command()
       console.log("\r\nFiles uploaded: ");
       Object.entries(pieceResponseBody.files).map((el) => {
         console.log(
-          `${el[0]} -> ${
-            bold(`https://x.nest.land/${pieceResponseBody.name}${el[0]}`)
-          }`,
+          `${el[0]} -> ${bold(
+            `https://x.nest.land/${pieceResponseBody.name}${el[0]}`,
+          )}`,
         );
       });
       console.log(
         green(
-          "You can now find your package on our registry at" +
-            bold("https://nest.land/gallery!"),
+          "You can now find your package on our registry at " +
+            bold("https://nest.land/gallery"),
         ),
       );
     } else {
@@ -219,3 +236,8 @@ export const publish = new Command()
       );
     }
   });
+
+async function readFileBtoa(path: string) {
+  const data = await Deno.readFile(path);
+  return base64.fromUint8Array(data);
+}
