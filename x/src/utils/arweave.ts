@@ -3,51 +3,58 @@ import Arweave from "arweave/node";
 // @ts-expect-error
 import Credentials from "../../arweave-keyfile.json";
 
-export type ArwConnection = Arweave & { anchor: string };
+export type ArConn = Arweave & { anchor: string };
 
 export async function connect() {
-  const arweave = Arweave.init({
+  const conn = Arweave.init({
     host: "arweave.net",
     port: 443,
     protocol: "https",
     timeout: 20000,
     logging: process.env.NODE_ENV === "development",
-    logger: (...e: any[]) => console.log(...e),
-  });
+    logger: (...args: any[]) => console.log(...args),
+  }) as ArConn;
 
-  (arweave as any).anchor = (await arweave.api.get("tx_anchor")).data;
+  conn.anchor = await regenerateAnchor(conn);
 
-  return arweave as ArwConnection;
+  return conn;
 }
 
-export async function regenerateAnchor(arweave: ArwConnection) {
-  (arweave as any).anchor = (await arweave.api.get("tx_anchor")).data;
-  return arweave;
+export async function regenerateAnchor(conn: ArConn) {
+  const { data } = await conn.api.get("tx_anchor");
+  return data as string;
 }
 
-export async function get(connection: ArwConnection, id: string): Promise<Uint8Array | null> {
+export async function get(conn: ArConn, id: string) {
   try {
-    let transaction = await connection.transactions.getData(id, { decode: true, string: false });
-    if (!transaction) return null;
-    return Buffer.from(transaction);
-  } catch (err) {
-    return null;
-  }
+    const transaction = await conn.transactions.getData(id, {
+      decode: true,
+      string: false,
+    });
+
+    if (!transaction) return;
+    return typeof transaction === "string"
+      ? (Buffer.from(transaction) as Uint8Array)
+      : transaction;
+  } catch {}
 }
 
-export async function save(
-  connection: ArwConnection,
-  data: { name: string; type: string; data: Buffer },
-) {
-  const transaction = await connection.createTransaction(
-    { data: data.data, last_tx: connection.anchor },
+interface SaveOpts {
+  name: string;
+  type: string;
+  data: Uint8Array;
+}
+
+export async function save(conn: ArConn, data: SaveOpts) {
+  const transaction = await conn.createTransaction(
+    { data: data.data, last_tx: conn.anchor },
     Credentials,
   );
 
   transaction.addTag("Content-Type", data.type);
 
-  await connection.transactions.sign(transaction, Credentials);
-  const res = await connection.transactions.post(transaction);
+  await conn.transactions.sign(transaction, Credentials);
+  const res = await conn.transactions.post(transaction);
 
   if (res.status >= 300) throw new Error("Transaction failed!");
 

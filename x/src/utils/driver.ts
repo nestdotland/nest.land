@@ -1,89 +1,23 @@
 import "reflect-metadata";
-import * as t from "typeorm";
 
-@t.Entity("users")
-export class User {
-  @t.PrimaryColumn("varchar", { length: 20, nullable: false, unique: true })
-  name!: string;
+import { createConnection, Connection, Repository } from "typeorm";
+import { User } from "./entities/User";
+import { Package } from "./entities/Package";
+import { PackageUpload } from "./entities/PackageUpload";
+import { isDev } from "./util";
 
-  @t.Column("varchar", { length: 256, nullable: false })
-  password!: string;
-
-  @t.Column("varchar", { length: 256, nullable: false })
-  apiKey!: string;
-
-  @t.Column("varchar", { array: true, length: 40 })
-  packageNames!: string[];
-
-  @t.CreateDateColumn({ type: "timestamp with time zone" })
-  createdAt!: Date;
-}
-
-@t.Entity("packages")
-export class Package {
-  @t.PrimaryColumn("varchar", { length: 40, nullable: false, unique: true })
-  name!: string;
-
-  @t.Column("varchar", { length: 256, nullable: false })
-  owner!: string;
-
-  @t.Column("text", { nullable: true })
-  description!: string;
-
-  @t.Column("varchar", { length: 61, nullable: true })
-  latestVersion!: string | null;
-
-  @t.Column("varchar", { length: 61, nullable: true })
-  latestStableVersion!: string | null;
-
-  @t.Column("varchar", { array: true, length: 61 })
-  packageUploadNames!: string[];
-
-  @t.Column("boolean", { nullable: true })
-  locked!: boolean;
-
-  @t.Column("boolean", { nullable: true })
-  malicious!: boolean;
-
-  @t.CreateDateColumn({ type: "timestamp with time zone" })
-  createdAt!: Date;
-}
-
-@t.Entity("package-uploads")
-export class PackageUpload {
-  @t.PrimaryColumn("varchar", { length: 61, nullable: false, unique: true })
-  name!: string;
-
-  @t.Column("varchar", { length: 40, nullable: false })
-  package!: string;
-
-  @t.Column("varchar", { length: 20, nullable: false })
-  version!: string;
-
-  @t.Column("varchar", { length: 256, nullable: true })
-  prefix!: string;
-
-  @t.Column("boolean", { nullable: true })
-  malicious!: boolean;
-
-  @t.Column("json")
-  files!: { [x: string]: { inManifest: string; txId: string } };
-
-  @t.CreateDateColumn({ type: "timestamp with time zone" })
-  createdAt!: Date;
-}
-
-export type DbConnection = t.Connection & {
-  repositories: {
-    User: t.Repository<User>;
-    Package: t.Repository<Package>;
-    PackageUpload: t.Repository<PackageUpload>;
+export interface DBConn extends Connection {
+  // TypeORM repositories.
+  repos: {
+    user: Repository<User>;
+    pkg: Repository<Package>;
+    pkgUpload: Repository<PackageUpload>;
   };
-};
+}
 
 export async function connect() {
   try {
-    const connection: t.Connection = await t.createConnection({
+    const conn = (await createConnection({
       type: "postgres",
 
       host: process.env.DB_HOST!.split(":").slice(0, -1).join(":"),
@@ -95,18 +29,16 @@ export async function connect() {
       entities: [User, Package, PackageUpload],
 
       synchronize: false,
-      logging: process.env.NODE_ENV === "production" ? undefined : true,
-    });
+      logging: isDev ? "all" : ["warn"],
+    })) as DBConn;
 
-    const repositories = {
-      User: connection.getRepository(User),
-      Package: connection.getRepository(Package),
-      PackageUpload: connection.getRepository(PackageUpload),
+    conn.repos = {
+      user: conn.getRepository(User),
+      pkg: conn.getRepository(Package),
+      pkgUpload: conn.getRepository(PackageUpload),
     };
 
-    (connection as any).repositories = repositories;
-
-    return connection as DbConnection;
+    return conn;
   } catch (err) {
     throw new Error("Failed to create database connection.");
   }

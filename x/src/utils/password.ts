@@ -28,7 +28,9 @@ interface PassData {
 function split(hashed: string): PassData {
   const splitHash = hashed.split("$").slice(1, -1);
   const meta = splitHash[0].split(":");
-  const [salt, hash] = splitHash[1].split(":").map((el) => Buffer.from(el, "base64"));
+  const [salt, hash] = splitHash[1]
+    .split(":")
+    .map((el) => Buffer.from(el, "base64"));
 
   const algo = meta[0] as AlgoKey;
   const rounds = parseInt(meta[1]);
@@ -73,9 +75,16 @@ export function verify(password: string, hashed: string): Promise<boolean> {
     const { algo, rounds, salt, hash } = split(hashed);
     const keylen: number = ALGOS[algo].keylen;
 
-    return crypto.pbkdf2(password, salt, rounds, keylen, algo, (err, computedHash) => {
-      if (err) return rej(err);
-      return res(crypto.timingSafeEqual(hash, computedHash));
-    });
+    return crypto.pbkdf2(
+      password,
+      salt,
+      rounds,
+      keylen,
+      algo,
+      (err, computedHash) => {
+        if (err) return rej(err);
+        return res(crypto.timingSafeEqual(hash, computedHash));
+      },
+    );
   });
 }

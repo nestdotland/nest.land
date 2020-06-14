@@ -1,7 +1,8 @@
-import { promises, constants } from "fs";
+import { promises } from "fs";
 import { join } from "path";
+import { exists } from "./util";
 
-const { mkdir, readFile, access, unlink, stat, readdir, writeFile } = promises;
+const { mkdir, readFile, unlink, stat, readdir, writeFile } = promises;
 
 export async function init(time = 60, age = 1800) {
   if (!(await exists("./.tmp"))) await mkdir("./.tmp");
@@ -33,13 +34,4 @@ export async function get(id: string) {
 export function has(id: string) {
   const f = join("./.tmp", id);
   return exists(f);
-}
-
-async function exists(path: string) {
-  try {
-    await access(path, constants.F_OK);
-    return true;
-  } catch {
-    return false;
-  }
 }

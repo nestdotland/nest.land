@@ -2,17 +2,9 @@
   "extends": "../etc/tsconfig.base.json",
   "compilerOptions": {
     "allowJs": true,
-    "module": "commonjs",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "esModuleInterop": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "lib": [],
-    "target": "es6",
-    "outDir": "./dist",
+    "outDir": "./dist"
   },
-  "include": [
-    "./src/**/*.ts",
-  ]
+  "include": ["./src/**/*.ts"]
 }

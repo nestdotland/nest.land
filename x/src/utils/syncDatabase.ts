@@ -1,9 +1,12 @@
-import dotenv from "dotenv";
+import { config } from "dotenv";
 import { connect } from "./driver";
 
-dotenv.config();
+config();
 
-connect().then(async (connection) => {
-  await connection.synchronize();
+async function sync() {
+  const conn = await connect();
+  await conn.synchronize();
   process.exit();
-});
+}
+
+sync();

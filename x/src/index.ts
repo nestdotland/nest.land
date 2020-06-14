@@ -1,51 +1,57 @@
-import crypto from "crypto";
-import dotenv from "dotenv";
+import { createHmac } from "crypto";
+import { config } from "dotenv";
 import express, { Request, Response } from "express";
 import { init } from "./utils/temp";
 import bodyParser from "body-parser";
 import { connect as connectArweave } from "./utils/arweave";
 import { connect as connectDatabase } from "./utils/driver";
 
-import cdnRouter from "./routes/cdn";
-import authRouter from "./routes/auth";
-import packageRouter from "./routes/package";
+import { cdnRouter } from "./routers/cdn";
+import { authRouter } from "./routers/auth";
+import { packageRouter } from "./routers/package";
 
-dotenv.config();
+config();
 
 async function start() {
   const server = express();
-  const arweave = await connectArweave();
-  const database = await connectDatabase();
+  const arConn = await connectArweave();
+  const dbConn = await connectDatabase();
 
   init(60, 900);
 
   server.disable("x-powered-by");
   server.use(bodyParser.json({ limit: "50mb" }));
 
+  // Protect the API with a secret salt and hash when the API is closed down.
   if (process.env.CLOSED === "yes") {
     server.use("/api/**", (req, res, next) => {
-      if (!req.headers["x-secret-salt"] || !req.headers["x-secret-hash"])
+      if (!req.headers["x-secret-salt"] || !req.headers["x-secret-hash"]) {
         return res.sendStatus(401);
+      }
 
-      let serverHash = crypto
-        .createHmac("sha384", process.env.SECRET!)
+      const serverHash = createHmac("sha384", process.env.SECRET!)
         .update(req.headers["x-secret-salt"].toString())
         .digest("hex");
 
-      if (serverHash !== req.headers["x-secret-hash"]) return res.sendStatus(401);
+      if (serverHash !== req.headers["x-secret-hash"]) {
+        return res.sendStatus(401);
+      }
 
-      return next();
+      next();
     });
   }
 
-  server.use("/api", authRouter(database));
-  server.use("/api", packageRouter(database, arweave));
-  server.use("/", cdnRouter(arweave, database));
+  // Register routers.
+  server.use("/api", authRouter(dbConn));
+  server.use("/api", packageRouter(dbConn, arConn));
+  server.use("/", cdnRouter(dbConn, arConn));
 
+  // Route not found.
   server.all("**", (_req, res) => {
     return res.sendStatus(404);
   });
 
+  // Error middleware.
   server.use((err: any, _req: Request, res: Response) => {
     try {
       console.error(err);
@@ -56,7 +62,9 @@ async function start() {
   });
 
   server.listen(parseInt(process.env.PORT!), process.env.HOST!, () => {
-    console.log(`Started x.nest.land on http://${process.env.HOST}:${process.env.PORT}`);
+    console.log(
+      `Started x.nest.land on http://${process.env.HOST}:${process.env.PORT}`,
+    );
   });
 }
 
