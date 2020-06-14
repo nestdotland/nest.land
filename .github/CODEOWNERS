@@ -1,0 +1,9 @@
+# Everything and configs.
+x/                                                      @zorbyte, @justablob
+eggs/                                                   @zorbyte, @justablob, @tbaumer22
+eggs/src/commands/update.ts                             @ebebbington
+web/                                                    @tbaumer22
+etc/                                                    @zorbyte
+.prettierrc                                             @zorbyte
+README.md                                               @zorbyte @tbaumer22
+.github/                                                @tbaumer22 @zorbyte
