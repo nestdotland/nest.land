@@ -9,8 +9,10 @@ import { connect as connectDatabase } from "./utils/driver";
 import { cdnRouter } from "./routers/cdn";
 import { authRouter } from "./routers/auth";
 import { packageRouter } from "./routers/package";
+import { validateEnv } from "./utils/util";
 
 config();
+validateEnv();
 
 async function start() {
   const server = express();
@@ -22,7 +24,7 @@ async function start() {
   server.disable("x-powered-by");
   server.use(bodyParser.json({ limit: "50mb" }));
 
-  // Protect the API with a secret salt and hash when the API is closed down.
+  // Protect the API with a secret salt and hash when the API is closed to the public.
   if (process.env.CLOSED === "yes") {
     server.use("/api/**", (req, res, next) => {
       if (!req.headers["x-secret-salt"] || !req.headers["x-secret-hash"]) {

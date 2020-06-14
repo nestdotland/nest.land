@@ -1,7 +1,8 @@
 import Arweave from "arweave/node";
 
 // @ts-expect-error
-import Credentials from "../../arweave-keyfile.json";
+import jwk from "../../arweave-keyfile.json";
+import { isDev } from "./util";
 
 export type ArConn = Arweave & { anchor: string };
 
@@ -11,7 +12,7 @@ export async function connect() {
     port: 443,
     protocol: "https",
     timeout: 20000,
-    logging: process.env.NODE_ENV === "development",
+    logging: isDev,
     logger: (...args: any[]) => console.log(...args),
   }) as ArConn;
 
@@ -48,12 +49,12 @@ interface SaveOpts {
 export async function save(conn: ArConn, data: SaveOpts) {
   const transaction = await conn.createTransaction(
     { data: data.data, last_tx: conn.anchor },
-    Credentials,
+    jwk,
   );
 
   transaction.addTag("Content-Type", data.type);
 
-  await conn.transactions.sign(transaction, Credentials);
+  await conn.transactions.sign(transaction, jwk);
   const res = await conn.transactions.post(transaction);
 
   if (res.status >= 300) throw new Error("Transaction failed!");

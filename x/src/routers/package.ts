@@ -164,7 +164,7 @@ export function packageRouter(dbConn: DBConn, arConn: ArConn) {
       where: { name: name },
     });
 
-    const pkgFullName = `${name}@${version}`;
+    const pkgUploadName = `${name}@${version}`;
     let firstPublish = false;
 
     // The user has not published before.
@@ -187,7 +187,9 @@ export function packageRouter(dbConn: DBConn, arConn: ArConn) {
         { packageNames: user.packageNames },
       );
     } else {
-      if (!pkg.packageUploadNames.includes(pkgFullName)) {
+      // If the package doesn't have the upload even when the entry exists.
+      // Send a 409 error.
+      if (!pkg.packageUploadNames.includes(pkgUploadName)) {
         return res.sendStatus(409);
       }
 
@@ -226,13 +228,13 @@ export function packageRouter(dbConn: DBConn, arConn: ArConn) {
       return res.status(202).send({
         success: true,
         token: uploadToken,
-        name: pkgFullName,
+        name: pkgUploadName,
         owner: user.name,
       });
     } else {
       return res.status(200).send({
         success: true,
-        name: pkgFullName,
+        name: pkgUploadName,
         owner: user.name,
       });
     }
@@ -331,28 +333,30 @@ export function packageRouter(dbConn: DBConn, arConn: ArConn) {
         ),
       });
 
-      const pkgFullName = `${ongoingUpload.name}@${ongoingUpload.version}`;
+      const pkgUploadName = `${ongoingUpload.name}@${ongoingUpload.version}`;
 
       // Create a new package upload using the data from the ongoing upload.
       const packageUpload = new PackageUpload();
-      packageUpload.name = pkgFullName;
+      packageUpload.name = pkgUploadName;
       packageUpload.files = fileMap;
       packageUpload.prefix = `${arConn.api.config.protocol}://${arConn.api.config.host}/${manifestId}`;
       packageUpload.package = ongoingUpload.name;
       packageUpload.version = ongoingUpload.version;
       await dbConn.repos.pkgUpload.save(packageUpload);
 
-      const pkg = (await dbConn.repos.pkg.findOne({
+      const pkg = await dbConn.repos.pkg.findOne({
         name: ongoingUpload.name,
-      }))!;
+      });
+
+      if (!pkg) return res.sendStatus(404);
 
       await dbConn.repos.pkg.update(
         { name: pkg.name },
         {
           latestStableVersion: ongoingUpload.latestStable
-            ? pkgFullName
+            ? pkgUploadName
             : void 0,
-          latestVersion: ongoingUpload.latest ? pkgFullName : void 0,
+          latestVersion: ongoingUpload.latest ? pkgUploadName : void 0,
           packageUploadNames: [...pkg.packageUploadNames, packageUpload.name],
         },
       );

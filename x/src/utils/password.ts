@@ -54,7 +54,7 @@ export function hash(password: string): Promise<string> {
     const salt = crypto.randomBytes(DEFAULT_SALT_LENGTH);
     const algo = DEFAULT_ALGO;
     const rounds = DEFAULT_ROUNDS;
-    const keylen: number = ALGOS[algo].keylen;
+    const keylen = ALGOS[algo].keylen;
 
     return crypto.pbkdf2(password, salt, rounds, keylen, algo, (err, hash) => {
       if (err) return rej(err);
@@ -73,7 +73,7 @@ export function hash(password: string): Promise<string> {
 export function verify(password: string, hashed: string): Promise<boolean> {
   return new Promise((res, rej) => {
     const { algo, rounds, salt, hash } = split(hashed);
-    const keylen: number = ALGOS[algo].keylen;
+    const keylen = ALGOS[algo].keylen;
 
     return crypto.pbkdf2(
       password,

@@ -37,7 +37,7 @@ export function cdnRouter(dbConn: DBConn, arConn: ArConn) {
     const file = pkgUpload.files[fileName];
     if (!file) return res.sendStatus(404);
 
-    const dbFileName = `${pkgUpload.prefix ?? ""}${file.inManifest}`;
+    const alternativeFileName = `${pkgUpload.prefix ?? ""}${file.inManifest}`;
 
     const elapsedTimeSinceUpload =
       Date.now() -
@@ -79,7 +79,7 @@ export function cdnRouter(dbConn: DBConn, arConn: ArConn) {
         if (!data) return res.sendStatus(404);
         if (contentType) res.type(contentType);
         return res.send(data);
-      } else return res.redirect(dbFileName);
+      } else return res.redirect(alternativeFileName);
     }
   });
 
