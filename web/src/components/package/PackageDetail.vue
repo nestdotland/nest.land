@@ -20,7 +20,7 @@
     <div class="hero">
       <div class="hero-body">
         <div class="container">
-          <div class="columns">
+          <div class="columns reverse-column-order">
             <div class="column is-8">
               <div v-show="packageReadme === 'Loading README...'" >
                 <p class="subtitle">{{ packageInfo.description }}</p>
