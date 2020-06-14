@@ -11,6 +11,7 @@ interface OngoingUpload {
   token: string,
   owner: string,
   description?: string,
+  repository?: string,
   documentation?: string,
   version: string,
   name: string,
@@ -87,11 +88,12 @@ export default (database: DbConnection, arweave: ArwConnection) => {
     let dbUser = await database.repositories.User.findOne({ where: { apiKey: apiKey } });
     if (!dbUser) return res.sendStatus(401);
 
-    let { name, description, documentation, version, latest, stable, upload } = req.body;
+    let { name, description, documentation, repository, version, latest, stable, upload } = req.body;
     if (typeof name !== "string" || name.length > 40) return res.sendStatus(400);
     if (typeof upload !== "undefined" && typeof upload !== "boolean") return res.sendStatus(400);
     if (description && typeof description !== "string") return res.sendStatus(400);
     if (documentation && typeof documentation !== "string") return res.sendStatus(400);
+    if (repository && typeof repository !== "string") return res.sendStatus(400);
     if (version && (typeof version !== "string" || version.length > 20)) return res.sendStatus(400);
 
     if (name.indexOf("@") !== -1 || name.indexOf(" ") !== -1) return res.sendStatus(403);
@@ -136,6 +138,7 @@ export default (database: DbConnection, arweave: ArwConnection) => {
         name: name,
         version: version,
         description: description,
+        repository: repository,
         documentation: documentation,
         latest: latest,
         latestStable: latest && stable,

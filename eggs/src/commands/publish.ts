@@ -21,6 +21,7 @@ import {
 interface IEggConfig {
   name: string;
   description?: string;
+  repository?: string;
   version?: string;
   stable?: boolean;
 
@@ -46,6 +47,7 @@ export const publish = new Command()
       }
       if (!egg.name) throw new Error(red("You must provide a name for your package!"));
       if (!egg.description) console.log(yellow("You haven't provided a description for your package, continuing without one..."));
+      if (!egg.repository) console.log(yellow("You haven't provided a repository for your package, continuing without one..."));
       if (!egg.version) console.log(yellow("No version found. Generating a new version now..."));
       if (!egg.files) throw new Error(red("No files to upload found. Please see the documentation to add this."));
       if (!egg.files.includes("./README.md")) console.log(yellow("No README found at project root, continuing without one..."));
@@ -95,6 +97,7 @@ export const publish = new Command()
         body: JSON.stringify({
           name: egg.name,
           description: egg.description,
+          repository: egg.repository,
           version: egg.version,
           upload: true,
           latest: true,
