@@ -8,7 +8,7 @@ export const init = new Command()
         let previousConfig: Config = {};
 
         if (pathExists("egg.json")) {
-            console.warn(yellow("An egg.json file already exists here! Overriding..."))
+            console.warn(yellow("An egg.json file already exists here! Overriding..."));
             const decoder = new TextDecoder("utf-8");
             const content = decoder.decode(await Deno.readFile("egg.json"));
             previousConfig = JSON.parse(content);
