@@ -32,7 +32,7 @@ export const init = new Command()
             stable: pStable,
             files: (JSON.stringify(pFiles) === '[""]' ? previousConfig.files : pFiles)
         };
-        await writeJson("egg.json", eggJson);
+        await writeJson("egg.json", eggJson, { spaces: 2 });
     });
 
 interface Config {

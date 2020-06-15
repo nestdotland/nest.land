@@ -20,13 +20,13 @@
     <div class="hero">
       <div class="hero-body">
         <div class="container">
-          <div class="columns">
+          <div class="columns reverse-column-order">
             <div class="column is-8">
               <div v-show="packageReadme === 'Loading README...'" >
                 <p class="subtitle">{{ packageInfo.description }}</p>
                 <hr class="mini-hr" />
               </div>
-              <vue-markdown :source="packageReadme" :toc="true" id="readme"></vue-markdown>
+              <vue-markdown :source="packageReadme" :toc="true" :toc-anchor-link-space="false" id="readme"></vue-markdown>
             </div>
             <div class="column is-4">
               <nav class="panel">
@@ -243,7 +243,9 @@ pre.is-fullwidth {
     color: #00d1b2;
   }
   .toc-anchor {
-    opacity: 30%;
+    color: #cccccc;
+    position: absolute;
+    left: -25px;
   }
 }
 </style>
