@@ -24,5 +24,5 @@ export const init = new Command()
             stable: pStable,
             files: pFiles
         };
-        await writeJson("egg.json", eggJson);
+        await writeJson("egg.json", eggJson, { spaces: 2 });
     });
