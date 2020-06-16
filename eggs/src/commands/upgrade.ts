@@ -12,7 +12,16 @@ export const upgrade = new Command()
   .description("Upgrade the current nest.land CLI.")
   .action(async () => {
     let upgradeProcess = Deno.run({
-      cmd: ["deno", "install", "--unstable", "-A", "-f", "-n", "eggs", `https://x.nest.land/eggs@${version}/mod.ts`],
+      cmd: [
+        "deno",
+        "install",
+        "--unstable",
+        "-A",
+        "-f",
+        "-n",
+        "eggs",
+        `https://x.nest.land/eggs@${version}/mod.ts`,
+      ],
       stdout: "piped",
       stderr: "piped",
     });
