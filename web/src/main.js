@@ -21,7 +21,8 @@ import {
   faFistRaised,
   faCodeBranch,
   faParachuteBox,
-  faBoxOpen
+  faBoxOpen,
+  faCubes
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -37,6 +38,7 @@ library.add(
   faParachuteBox,
   faBoxOpen,
   faSearch,
+  faCubes,
   faGithub,
 );
 
