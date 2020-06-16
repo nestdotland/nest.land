@@ -6,5 +6,5 @@ export { existsSync, expandGlobSync, writeJson } from "https://deno.land/std/fs/
 export { bold, green, yellow, red } from "https://deno.land/std/fmt/colors.ts";
 export { assertEquals } from "https://deno.land/std@v0.56.0/testing/asserts.ts";
 export * as base64 from "https://denopkg.com/chiefbiiko/base64/mod.ts";
-export { version } from "https://raw.githubusercontent.com/nestlandofficial/nest.land/master/eggs/version.ts";
+export { version } from "https://raw.githubusercontent.com/nestlandofficial/nest.land/master/eggs/src/version.ts";
 export const lstatSync = Deno.lstatSync;
