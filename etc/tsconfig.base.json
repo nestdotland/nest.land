@@ -1,9 +1,9 @@
-  
 {
   "compilerOptions": {
     "allowJs": false,
     "alwaysStrict": true,
-    "declaration": true,
+    "declaration": false,
+    "sourceMap": false,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,
@@ -20,11 +20,10 @@
     "pretty": true,
     "removeComments": true,
     "resolveJsonModule": true,
-    "sourceMap": true,
     "strict": true,
     "strictBindCallApply": true,
     "strictNullChecks": true,
     "target": "es2020",
     "skipLibCheck": true
-  },
+  }
 }

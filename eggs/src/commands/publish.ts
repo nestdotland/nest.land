@@ -99,6 +99,7 @@ export const publish = new Command()
         }
       }
 
+      // TODO: Fix this.
       if (!matched.find((e) => e.path === "/mod.ts")) {
         throw new Error(red("No /mod.ts file found. This file is required."));
       }

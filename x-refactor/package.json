@@ -1,0 +1,45 @@
+{
+  "name": "xql",
+  "version": "0.1.0",
+  "description": "nest x written from scratch",
+  "main": "./dist/main.js",
+  "scripts": {
+    "dev": "nodemon",
+    "test": "ava --timeout=2m"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nestlandofficial/nest.land.git"
+  },
+  "author": "zorbyte",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nestlandofficial/nest.land/issues"
+  },
+  "homepage": "https://github.com/nestlandofficial/nest.land#readme",
+  "dependencies": {
+    "arweave": "^1.7.1",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "module-alias": "^2.2.2",
+    "pino": "^6.3.2",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.25"
+  },
+  "devDependencies": {
+    "@ava/typescript": "^1.1.1",
+    "@types/express": "^4.17.6",
+    "@types/node": "^14.0.13",
+    "@types/pino": "^6.3.0",
+    "ava": "^3.9.0",
+    "nodemon": "^2.0.4",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5"
+  },
+  "_moduleAliases": {
+    "@entities": "./src/database/entities",
+    "@lib": "./src/lib",
+    "@root": "./src"
+  }
+}
