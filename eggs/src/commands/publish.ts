@@ -23,6 +23,7 @@ interface IEggConfig {
   description?: string;
   version?: string;
   stable?: boolean;
+  unlisted?: boolean;
 
   files: string[];
 }
@@ -78,13 +79,16 @@ export const publish = new Command()
 
       if (existingPackageBody && existingPackageBody.packageUploadNames.indexOf(`${egg.name}@${egg.version}`) !== -1) throw red("This version was already published. Please increment the version in egg.json.");
 
-      if (!existingPackageBody && !egg.version) egg.version = "0.0.1";
-      if (existingPackageBody && !egg.version) {
-        let latestPublished = egg.stable ? existingPackageBody.latestStableVersion : existingPackageBody.latestVersion;
-        if (!latestPublished) latestPublished = existingPackageBody.packageUploadNames.slice(-1)[0] || "@0.0.0";
-        let incOne = semver.inc(latestPublished.split("@")[1], "patch") || "0.0.1";
-        egg.version = incOne;
+      let latestServerVersion = "0.0.0";
+      if (existingPackageBody) {
+        latestServerVersion = egg.stable ? existingPackageBody.latestStableVersion : existingPackageBody.latestVersion || "0.0.0";
+
+        existingPackageBody.packageUploadNames.forEach((el) => {
+          if (semver.cmp)
+        })
       }
+      latestServerVersion = semver.inc(latestServerVersion, "patch");
+      egg.version = egg.version || latestServerVersion;
 
       let uploadResponse = await fetch("https://x.nest.land/api/publish", {
         method: "POST",
@@ -96,6 +100,7 @@ export const publish = new Command()
           name: egg.name,
           description: egg.description,
           version: egg.version,
+          unlisted: egg.unlisted,
           upload: true,
           latest: true,
           stable: egg.stable,
