@@ -81,14 +81,15 @@ export const publish = new Command()
 
       let latestServerVersion = "0.0.0";
       if (existingPackageBody) {
-        latestServerVersion = egg.stable ? existingPackageBody.latestStableVersion : existingPackageBody.latestVersion || "0.0.0";
+        latestServerVersion = (egg.stable ? existingPackageBody.latestStableVersion : existingPackageBody.latestVersion) || "0.0.0";
 
         existingPackageBody.packageUploadNames.forEach((el) => {
-          if (semver.cmp)
-        })
+          if (semver.compare(el.split("@")[1], latestServerVersion) === 1) latestServerVersion = el.split("@")[1];
+        });
       }
-      latestServerVersion = semver.inc(latestServerVersion, "patch");
-      egg.version = egg.version || latestServerVersion;
+      egg.version = egg.version || semver.inc(latestServerVersion, "patch") as string;
+
+      let isLatest = semver.compare(egg.version, latestServerVersion) === 1;
 
       let uploadResponse = await fetch("https://x.nest.land/api/publish", {
         method: "POST",
@@ -102,7 +103,7 @@ export const publish = new Command()
           version: egg.version,
           unlisted: egg.unlisted,
           upload: true,
-          latest: true,
+          latest: isLatest,
           stable: egg.stable,
         }),
       }).catch(() => { throw new Error(red("Something broke...")) });

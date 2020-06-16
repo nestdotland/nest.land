@@ -29,10 +29,11 @@ export default (database: DbConnection, arweave: ArwConnection) => {
     let limit = Math.max(0, Math.min(999999999999, parseInt(req.params.limit || "999999999999", 10)));
     let page = parseInt(req.params.page || "1", 10);
 
-    let dbPackageCount = await database.repositories.Package.count();
+    let dbPackageCount = await database.repositories.Package.count({ where: [{ unlisted: null }, { unlisted: false }] });
     let dbPackages = await database.repositories.Package.find({
+      where: [{ unlisted: null }, { unlisted: false }],
       skip: (page - 1) * limit,
-      take: limit
+      take: limit,
     });
 
     let body = {

@@ -48,6 +48,9 @@ export class Package {
   @t.Column("boolean", { nullable: true })
   malicious: boolean;
 
+  @t.Column("boolean", { nullable: true })
+  unlisted: boolean;
+
   @t.CreateDateColumn({ type: "timestamp with time zone" })
   createdAt: Date;
 
