@@ -4,6 +4,7 @@ import {
   red,
   bold,
   path,
+  version,
 } from "../deps.ts";
 
 export const upgrade = new Command()
@@ -11,7 +12,7 @@ export const upgrade = new Command()
   .description("Upgrade the current nest.land CLI.")
   .action(async () => {
     let upgradeProcess = Deno.run({
-      cmd: ["deno", "install", "--unstable", "-A", "-f", "-n", "eggs", "https://x.nest.land/eggs@0.1.0/mod.ts"],
+      cmd: ["deno", "install", "--unstable", "-A", "-f", "-n", "eggs", `https://x.nest.land/eggs@${version}/mod.ts`],
       stdout: "piped",
       stderr: "piped",
     });
