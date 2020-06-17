@@ -72,33 +72,33 @@ export function analyzeURL(url: string) {
   let registry = tmpSplit[2];
   let moduleName: string;
   let versionURL: string;
-  let owner = ""
+  let owner = "";
 
   switch (registry) {
     case "x.nest.land": // https://x.nest.land/remove-forever@v1.0.0/mod.ts
       moduleName = stripVersion(tmpSplit[3]);
-      tmpSplit[3] = moduleName + versionSuffix;
+      tmpSplit[3] = `${moduleName}@${versionSuffix}`;
       versionURL = tmpSplit.join("/");
       break;
 
     case "deno.land": // https://deno.land/x/remove_forever@v1.0.0/mod.ts
       moduleName = stripVersion(tmpSplit[4]);
-      tmpSplit[4] = moduleName + versionSuffix;
+      tmpSplit[4] = `${moduleName}@${versionSuffix}`;
       versionURL = tmpSplit.join("/");
-      registry = `${registry}/${tmpSplit[3]}`
+      registry = `${registry}/${tmpSplit[3]}`;
       break;
 
     case "raw.githubusercontent.com": // https://raw.githubusercontent.com/oganexon/deno-remove-forever/v1.0.0/mod.ts
       moduleName = tmpSplit[4];
       tmpSplit[5] = versionSuffix;
       versionURL = tmpSplit.join("/");
-      owner = tmpSplit[3]
+      owner = tmpSplit[3];
       break;
 
     default:
       moduleName = "";
       versionURL = "";
-      throw new Error(`Unsupported registry: ${registry}`)
+      throw new Error(`Unsupported registry: ${registry}`);
   }
   return { moduleName, versionURL, registry, owner };
 }
@@ -120,6 +120,9 @@ export async function getLatestVersion(
 
     case "raw.githubusercontent.com":
       return getLatestVersionOfGitHubRepo(owner, moduleName);
+
+    default:
+      throw new Error(`Unsupported registry: ${registry}`);
   }
 }
 

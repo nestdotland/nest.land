@@ -12,7 +12,7 @@ import {
 import { getLatestVersion, analyzeURL } from "../utilities/registries.ts";
 import { homedir } from "../utilities/files.ts";
 
-const installPrefix = "__";
+const installPrefix = "eggs-";
 
 const configPath = path.join(homedir(), "/.eggs-global-modules.json");
 
@@ -96,19 +96,21 @@ async function installModule(_: any, ...args: string[]) {
 
   const url = args[indexOfURL];
   let { moduleName, versionURL, registry, owner } = analyzeURL(url);
+  let installName: string
 
   if (indexOfName < 0) {
     args.splice(indexOfURL, 0, installPrefix + moduleName);
     args.splice(indexOfURL, 0, "-n");
+    installName = moduleName
   } else {
-    moduleName = args[indexOfName + 1];
-    args[indexOfName + 1] = installPrefix + moduleName;
+    installName = args[indexOfName + 1];
+    args[indexOfName + 1] = installPrefix + installName;
   }
 
-  const execName = installPrefix + moduleName;
+  const execName = installPrefix + installName;
 
-  installModuleHandler(args);
-  installUpdateHandler(moduleName, execName);
+  await installModuleHandler(args);
+  await installUpdateHandler(installName, execName);
 
   args[indexOfURL] = versionURL;
 
@@ -116,9 +118,10 @@ async function installModule(_: any, ...args: string[]) {
   const config: any = configExists ? await readJson(configPath) : {};
 
   config[execName] = {
-    moduleName,
-    version: getLatestVersion(registry, moduleName, owner),
     registry,
+    moduleName,
+    owner,
+    version: await getLatestVersion(registry, moduleName, owner),
     args,
     lastUpdateCheck: Date.now(),
   };
@@ -131,6 +134,7 @@ async function installModuleHandler(args: string[]) {
     cmd: [
       "deno",
       "install",
+      "-f",
       ...args,
     ],
   });
