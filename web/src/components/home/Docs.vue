@@ -91,6 +91,16 @@
             <br />
             <pre><code>$ eggs update --deps http fs // update fs and http in default deps.ts</code></pre>
           </div>
+          <div class="column is-half">
+            <p class="title is-5">Upgrading the CLI</p>
+            <p>
+              To upgrade the eggs CLI, use the command shown:
+            </p>
+            <hr />
+          </div>
+          <div class="column is-half">
+            <pre><code>$ eggs upgrade</code></pre>
+          </div>
         </div>
         <p class="subtitle is-5">Technical questions?</p>
         <p>Find us on Discord: tate#5885, zorbyte#4500, and blob#8718</p>
