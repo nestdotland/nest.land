@@ -5,6 +5,7 @@
     * [Init](#init)
     * [Publish](#publish)
     * [Update](#update)
+    * [Upgrade](#upgrade)
 * [Contributing](#contributing)
 
 ## Installation
@@ -137,6 +138,14 @@ Note: It may take some time for the transaction to process in Arweave. Until the
     * `--allow-net` (fetch requests)
     * `--allow-read` (reading dependency file)
     * `--allow-write` (re-writing the dependency file with updated versions)
+
+### Upgrade
+
+To upgrade the eggs CLI, use the command shown:
+
+```
+$ eggs upgrade
+```
 
 ## Contributing
 
