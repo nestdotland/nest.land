@@ -3,6 +3,7 @@ import { link } from "./commands/link.ts";
 import { init } from "./commands/init.ts";
 import { publish } from "./commands/publish.ts";
 import { update } from "./commands/update.ts";
+import { install } from "./commands/install.ts";
 
 export async function commandHandler() {
   await new Command()
@@ -14,5 +15,6 @@ export async function commandHandler() {
     .command("init", init)
     .command("publish", publish)
     .command("update", update)
+    .command("install [OPTIONS] <cmd>", install)
     .parse(Deno.args);
 }
