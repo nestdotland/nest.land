@@ -1,3 +1,18 @@
+<br />
+<p align="center">
+  <a href="https://github.com/nestlandofficial/nest.land">
+    <img src="https://github.com/nestlandofficial/nest.land/raw/master/web/src/assets/nest_light.png" alt="logo" width="110">
+  </a>
+
+  <h3 align="center">Eggs CLI</h3>
+
+  <p align="center">
+    The CLI used to publish and update packages in nest.land.
+ </p>
+</p>
+
+[![nest badge](https://nest.land/badge.svg)](https://nest.land/package/eggs)
+
 # Contents
 * [Installation](#installation)
 * [List Of Commands](#list-of-commands)
@@ -11,7 +26,7 @@
 
 **Note: You need to upgrade to Deno v1.1.0 or newer in order to use our CLI.**
 ```
-deno install --allow-read --allow-write --allow-net --allow-env --unstable -n eggs https://x.nest.land/eggs@0.1.0/mod.ts
+deno install -A -f --unstable -n eggs https://x.nest.land/eggs@0.1.0/mod.ts
 ```
 For more information, see the [documentation](https://nest.land/#docs).
 

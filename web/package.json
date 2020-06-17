@@ -20,6 +20,7 @@
     "moment": "^2.26.0",
     "node-sass": "^4.14.1",
     "sass-loader": "^8.0.2",
+    "semver": "^7.3.2",
     "vue": "^2.6.11",
     "vue-lodash": "^2.1.2",
     "vue-markdown": "^2.2.4",
