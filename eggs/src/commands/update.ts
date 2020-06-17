@@ -3,7 +3,8 @@
  *     --allow-net, --allow-read, --allow-write
  */
 
-import { Command, existsSync } from "../deps.ts";
+import { Command } from "../deps.ts";
+import { getLatestStdVersion, getLatestVersionFromNestRegistry, getLatestXVersion } from "../utilities/registries.ts";
 const decoder = new TextDecoder("utf-8");
 
 /**
@@ -28,54 +29,6 @@ interface ModuleToUpdate {
   replaceStatement: string;
   replaceWith: string;
   updated: boolean;
-}
-
-/**
- * @method getLatestVersionOfGitHubRepo
- *
- * @description
- * Get the latest tag/release of a GitHub repository
- *
- * @param {string} owner Owner of the repository
- * @param {string} repo Repository name
- *
- * @example
- * const latestVersion = await getLatestVersionOfGitHubRepo("nestlandofficial", "nest.land");
- *
- * @returns {string} The latest version
- */
-async function getLatestVersionOfGitHubRepo (owner: string, repo: string): Promise<string> {
-    const res = await fetch("https://github.com/" + owner + "/" + repo + "/releases/latest");
-    const url = res.url;
-    const urlSplit = url.split("/");
-    const latestRelease = urlSplit[urlSplit.length - 1];
-    return latestRelease;
-}
-
-async function getLatestStdVersion (): Promise<string> {
-  const res = await fetch("https://raw.githubusercontent.com/denoland/deno_website2/master/deno_std_versions.json");
-  const versions = await res.json();
-  const latestVersion = versions[0];
-  return latestVersion
-}
-
-/**
- * @method getLatestVersionFromNestRegistry
- *
- * @description
- * Gets the latest release version of a package on https://x.nest.land
- *
- * @param {string} dependencyName The dependency name
- *
- * @example
- * const latestVersion = await getLatestVersionFromNestRegistry("eggs"); // "v0.1.7"
- *
- * @returns {string} The latest version
- */
-async function getLatestVersionFromNestRegistry (dependencyName: string): Promise<string> {
-    const res = await fetch("https://x.nest.land/api/package/" + dependencyName);
-    const json = await res.json();
-    return json.latestVersion.split("@")[1]
 }
 
 export const update = new Command()
@@ -188,9 +141,7 @@ export const update = new Command()
             }
             if (line.indexOf("https://deno.land/x/") > 0) {
                 // Collate data for deno.land 3rd party modules
-                const owner = denoRegistry[name].owner;
-                const repo = denoRegistry[name].repo;
-                latestRelease = await getLatestVersionOfGitHubRepo(owner, repo);
+                latestRelease = await getLatestXVersion(name)
             }
             if (line.indexOf("https://x.nest.land") > 0) {
                 latestRelease = await getLatestVersionFromNestRegistry(name);

@@ -1,6 +1,20 @@
-import { Command, bold, yellow, red, installUpdateHandler } from "../deps.ts";
+import {
+  Command,
+  bold,
+  yellow,
+  red,
+  installUpdateHandler,
+  path,
+  writeJson,
+  readJson,
+  exists,
+} from "../deps.ts";
+import { getLatestVersion, analyzeURL } from "../utilities/registries.ts";
+import { homedir } from "../utilities/files.ts";
 
 const installPrefix = "__";
+
+const configPath = path.join(homedir(), "/.eggs-global-modules.json");
 
 const desc = `${
   yellow(
@@ -76,28 +90,43 @@ async function installModule(_: any, ...args: string[]) {
   const indexOfName = args.indexOf("-n");
 
   if (indexOfURL < 0) {
-    console.error(red("You need to pass in a module URL!"));
+    console.error(red("You need to pass in a module URL."));
     Deno.exit(1);
   }
 
   const url = args[indexOfURL];
-  let name: string;
+  let { moduleName, versionURL, registry, owner } = analyzeURL(url);
 
   if (indexOfName < 0) {
-    const tmpSplit = url.split("@"); // Expected: ["import ... https://...[std|<module>]", "<version>/..."]
-    if (tmpSplit.length !== 2) { // eg not versioned
-      console.log("Not versioned");
-    }
-    name = tmpSplit[0].split("/").pop() || "";
-    args.splice(indexOfURL, 0, installPrefix + name);
+    args.splice(indexOfURL, 0, installPrefix + moduleName);
     args.splice(indexOfURL, 0, "-n");
   } else {
-    name = args[indexOfName + 1];
-    args[indexOfName + 1] = installPrefix + name;
+    moduleName = args[indexOfName + 1];
+    args[indexOfName + 1] = installPrefix + moduleName;
   }
 
-  console.log(name);
+  const execName = installPrefix + moduleName;
 
+  installModuleHandler(args);
+  installUpdateHandler(moduleName, execName);
+
+  args[indexOfURL] = versionURL;
+
+  const configExists = await exists(configPath);
+  const config: any = configExists ? await readJson(configPath) : {};
+
+  config[execName] = {
+    moduleName,
+    version: getLatestVersion(registry, moduleName, owner),
+    registry,
+    args,
+    lastUpdateCheck: Date.now(),
+  };
+
+  writeJson(configPath, config, { spaces: 2 });
+}
+
+async function installModuleHandler(args: string[]) {
   const installation = Deno.run({
     cmd: [
       "deno",
@@ -108,6 +137,4 @@ async function installModule(_: any, ...args: string[]) {
 
   const status = await installation.status();
   installation.close();
-
-  installUpdateHandler(name, installPrefix + name, url)
 }
