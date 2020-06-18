@@ -21,6 +21,7 @@ import {
 interface IEggConfig {
   name: string;
   description?: string;
+  repository?: string;
   version?: string;
   stable?: boolean;
   unlisted?: boolean;
@@ -100,6 +101,7 @@ export const publish = new Command()
         body: JSON.stringify({
           name: egg.name,
           description: egg.description,
+          repository: egg.repository,
           version: egg.version,
           unlisted: egg.unlisted,
           upload: true,

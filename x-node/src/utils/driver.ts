@@ -39,6 +39,9 @@ export class Package {
   @t.Column("text", { nullable: true })
   description: string;
 
+  @t.Column("text", { nullable: true })
+  repository: string;
+
   @t.Column("varchar", { length: 61, nullable: true })
   latestVersion: string;
 

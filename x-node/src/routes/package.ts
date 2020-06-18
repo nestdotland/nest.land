@@ -89,8 +89,9 @@ export default (database: DbConnection, arweave: ArwConnection) => {
     let dbUser = await database.repositories.User.findOne({ where: { apiKey: apiKey } });
     if (!dbUser) return res.sendStatus(401);
 
-    let { name, description, documentation, version, latest, stable, upload, unlisted } = req.body;
+    let { name, description, documentation, version, latest, stable, upload, unlisted, repository } = req.body;
     if (typeof name !== "string" || name.length > 40 || name.length < 2) return res.sendStatus(400);
+    if (name && typeof repository !== "string") return res.sendStatus(400);
     if (typeof upload !== "undefined" && typeof upload !== "boolean") return res.sendStatus(400);
     if (typeof unlisted !== "undefined" && typeof unlisted !== "boolean") return res.sendStatus(400);
     if (description && typeof description !== "string") return res.sendStatus(400);
@@ -115,8 +116,13 @@ export default (database: DbConnection, arweave: ArwConnection) => {
     if (dbPackage && dbPackage.locked) return res.sendStatus(423);
 
     if (dbPackage && description) {
-      dbPackage.description = description;
-      await database.repositories.Package.update({ name: name }, { description: description });
+      dbPackage.description = (description === "none") ? null : description;
+      await database.repositories.Package.update({ name: name }, { description: dbPackage.description });
+    }
+
+    if (dbPackage && repository) {
+      dbPackage.repository = (repository === "none") ? null : repository;
+      await database.repositories.Package.update({ name: name }, { repository: dbPackage.repository });
     }
 
     if (dbPackage && typeof unlisted !== "undefined") {
@@ -132,7 +138,8 @@ export default (database: DbConnection, arweave: ArwConnection) => {
       pkg.latestVersion = null;
       pkg.latestStableVersion = null;
       pkg.unlisted = unlisted;
-      if (description) pkg.description = description;
+      if (repository && repository !== "none") pkg.repository = repository;
+      if (description && description !== "none") pkg.description = description;
       pkg.packageUploadNames = [];
       await database.repositories.Package.insert(pkg);
       dbPackage = pkg;
