@@ -1,3 +1,18 @@
+<br />
+<p align="center">
+  <a href="https://github.com/nestlandofficial/nest.land">
+    <img src="https://github.com/nestlandofficial/nest.land/raw/master/web/src/assets/nest_light.png" alt="logo" width="110">
+  </a>
+
+  <h3 align="center">Eggs CLI</h3>
+
+  <p align="center">
+    The CLI used to publish and update packages in nest.land.
+ </p>
+</p>
+
+[![nest badge](https://nest.land/badge.svg)](https://nest.land/package/eggs)
+
 # Contents
 * [Installation](#installation)
 * [List Of Commands](#list-of-commands)
