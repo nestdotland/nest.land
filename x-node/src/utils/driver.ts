@@ -92,9 +92,6 @@ export class PackageUpload {
   @t.Column("json")
   files: { [x: string]: { inManifest: string, txId: string } };
 
-  @t.UpdateDateColumn({ type: "timestamp with time zone" })
-  updatedAt: Date;
-
   @t.CreateDateColumn({ type: "timestamp with time zone" })
   createdAt: Date;
 
