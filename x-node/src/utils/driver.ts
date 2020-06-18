@@ -60,6 +60,9 @@ export class Package {
   @t.Column("boolean", { nullable: true })
   unlisted?: boolean;
 
+  @t.UpdateDateColumn({ type: "timestamp with time zone" })
+  updatedAt: Date;
+
   @t.CreateDateColumn({ type: "timestamp with time zone" })
   createdAt: Date;
 
@@ -87,7 +90,10 @@ export class PackageUpload {
   malicious?: boolean;
 
   @t.Column("json")
-  files: { [x: string]: { inManifest: string, txId: string } }
+  files: { [x: string]: { inManifest: string, txId: string } };
+
+  @t.UpdateDateColumn({ type: "timestamp with time zone" })
+  updatedAt: Date;
 
   @t.CreateDateColumn({ type: "timestamp with time zone" })
   createdAt: Date;
