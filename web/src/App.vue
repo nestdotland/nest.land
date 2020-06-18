@@ -15,6 +15,16 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Inconsolata");
 
+::selection {
+  background: #20b39c;
+  color: #fff;
+}
+
+::-moz-selection {
+  background: #20b39c;
+  color: #fff;
+}
+
 @media screen and (max-width: 769px) {
   .reverse-column-order {
     display: flex;
