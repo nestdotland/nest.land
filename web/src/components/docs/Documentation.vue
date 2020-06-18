@@ -15,15 +15,9 @@
 
         <div class="DocsNavContent">
 
-          <h1>Documentation</h1>
+          <a href="/docs" class="Title">Documentation</a>
 
           <ul>
-
-            <li>
-
-              <router-link to="/docs/" class="HomeLink" exact>Home</router-link>
-
-            </li>
 
             <li v-for="topicItem in topics" :key="topicItem.id">
 
@@ -184,7 +178,7 @@
         .DocsNavContent
           position: fixed
 
-          h1
+          .Title
             font-size: 1.8em
             color: rgba(0, 0, 0, .7)
             font-weight: 600
@@ -268,6 +262,25 @@
 
           p
             margin: 1em 0
+
+          blockquote
+            padding: .67em 14px
+            border-left: 4px solid rgba(#00947e, .65)
+            margin: .67em 0
+            background-color: rgba(#f5f5f5, .6)
+
+            p
+              margin: 0
+              opacity: .9
+
+          table
+            border-collapse: collapse
+            border-style: hidden
+            margin-bottom: 20px
+
+            td, th
+              border: 1px solid #dbdbdb
+              padding: 6px 20px
 
           pre code.language-shell
             padding-left: 25px
