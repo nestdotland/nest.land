@@ -67,6 +67,7 @@
                   <font-awesome-icon class="icon-margin-right" :icon="['fas', 'box-open']" />Package info
                 </p>
                 <div class="panel-block">Author: {{ packageInfo.owner }}</div>
+                <a v-if="packageInfo.repository !== ''" class="panel-block" :href="packageInfo.repository">Repository</a>
                 <div class="panel-block">Published on: {{ packageInfo.createdAt | formatDate }}</div>
               </nav>
             </div>

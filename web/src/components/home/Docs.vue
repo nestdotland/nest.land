@@ -19,7 +19,7 @@
             <hr />
           </div>
           <div class="column is-half">
-            <pre><code>$ deno install -A -f --unstable -n eggs https://x.nest.land/eggs@0.1.0/mod.ts</code></pre>
+            <pre><code>$ deno install -A -f --unstable -n eggs https://x.nest.land/eggs@0.1.3/mod.ts</code></pre>
           </div>
           <div class="column is-half">
             <p class="title is-5">Linking your API key</p>

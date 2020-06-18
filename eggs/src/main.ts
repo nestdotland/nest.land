@@ -7,7 +7,7 @@ import { update } from "./commands/update.ts";
 export async function commandHandler() {
   await new Command()
     .name("eggs")
-    .version("0.1.0")
+    .version("0.1.2")
     .description("nest.land - A package registry for Deno, on the permaweb")
     .command("link", link)
     .option("-k, --key <value:string>", "Your API Key")
