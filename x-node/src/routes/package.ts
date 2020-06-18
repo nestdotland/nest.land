@@ -13,6 +13,7 @@ interface OngoingUpload {
   owner: string,
   description?: string,
   documentation?: string,
+  entry: string,
   version: string,
   name: string,
   latest: boolean,
@@ -90,9 +91,10 @@ export default (database: DbConnection, arweave: ArwConnection) => {
     let dbUser = await database.repositories.User.findOne({ where: { apiKey: apiKey } });
     if (!dbUser) return res.sendStatus(401);
 
-    let { name, description, documentation, version, latest, stable, upload, unlisted, repository } = req.body;
+    let { name, description, documentation, version, latest, stable, upload, unlisted, repository, entry } = req.body;
     if (typeof name !== "string" || name.length > 40 || name.length < 2) return res.sendStatus(400);
-    if (name && typeof repository !== "string") return res.sendStatus(400);
+    if (repository && typeof repository !== "string") return res.sendStatus(400);
+    if (entry && typeof entry !== "string") return res.sendStatus(400);
     if (typeof upload !== "undefined" && typeof upload !== "boolean") return res.sendStatus(400);
     if (typeof unlisted !== "undefined" && typeof unlisted !== "boolean") return res.sendStatus(400);
     if (description && typeof description !== "string") return res.sendStatus(400);
@@ -104,6 +106,8 @@ export default (database: DbConnection, arweave: ArwConnection) => {
 
     if (!version) version = "0.0.1";
     if (!semver.valid(version)) return res.sendStatus(400);
+
+    if (!entry) entry = "/mod.ts";
 
     let nzName = normalize(name);
     if (!nzName) return res.sendStatus(400);
@@ -144,7 +148,7 @@ export default (database: DbConnection, arweave: ArwConnection) => {
       pkg.packageUploadNames = [];
       await database.repositories.Package.insert(pkg);
       dbPackage = pkg;
-      dbUser.packageNames = [ ...dbUser.packageNames, pkg.name ];
+      dbUser.packageNames = [ ...(dbUser.packageNames || []), pkg.name ];
       await database.repositories.User.update({ name: dbUser.name }, { packageNames: dbUser.packageNames });
     };
 
@@ -159,6 +163,7 @@ export default (database: DbConnection, arweave: ArwConnection) => {
         description: description,
         documentation: documentation,
         latest: latest,
+        entry: entry,
         latestStable: latest && stable,
         added: Date.now(),
         pieces: {},
@@ -230,7 +235,7 @@ export default (database: DbConnection, arweave: ArwConnection) => {
           manifest: "arweave/paths",
           version: "0.1.0",
           index: {
-            path: "mod.ts"
+            path: newUpload.entry.replace(/^\//, ""),
           },
           paths: Object.entries(fileMap).reduce((p, [ f, l ]) => {
             p[f.replace(/^\//, "")] = { id: l.txId };
@@ -244,13 +249,14 @@ export default (database: DbConnection, arweave: ArwConnection) => {
       packageUpload.prefix = `${arweave.api.config.protocol}://${arweave.api.config.host}/${manifestId}`;
       packageUpload.package = newUpload.name;
       packageUpload.version = newUpload.version;
+      packageUpload.entry = newUpload.entry;
       await database.repositories.PackageUpload.save(packageUpload);
 
       let pkg = await database.repositories.Package.findOne({ name: newUpload.name });
       await database.repositories.Package.update({ name: pkg.name }, {
         latestStableVersion: newUpload.latestStable ? `${newUpload.name}@${newUpload.version}` : undefined,
         latestVersion: newUpload.latest ? `${newUpload.name}@${newUpload.version}` : undefined,
-        packageUploadNames: [ ...pkg.packageUploadNames, packageUpload.name ],
+        packageUploadNames: [ ...(pkg.packageUploadNames || []), packageUpload.name ],
       });
 
       return res.status(201).send({

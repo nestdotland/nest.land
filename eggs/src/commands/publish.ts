@@ -16,10 +16,12 @@ import {
 } from "../utilities/files.ts";
 import {
   getAPIKey,
-} from "../utilities/key-check.ts";
+  ENDPOINT,
+} from "../utilities/keyfile.ts";
 
 interface IEggConfig {
   name: string;
+  entry?: string;
   description?: string;
   repository?: string;
   version?: string;
@@ -70,19 +72,21 @@ export const publish = new Command()
         matched.push(...matches);
       }
 
-      if (!matched.find(e => e.path === "/mod.ts")) throw new Error(red("No /mod.ts file found. This file is required."));
+      if (egg.entry) egg.entry = egg.entry?.replace(/^[.]/, "").replace(/^[^/]/, s => `/${s}`);
+
+      if (!matched.find(e => e.path === egg.entry || "/mod.ts")) throw new Error(red(`No ${egg.entry || "/mod.ts"} found. This file is required.`));
 
       let apiKey = await getAPIKey();
       if (!apiKey) throw new Error(red("No API Key file found. Please create one. Refer to the documentation on creating a " + bold("~/.nest-api-key") + " file."));
 
-      let existingPackage = await fetch(`https://x.nest.land/api/package/${egg.name}`).catch(() => void 0);
+      let existingPackage = await fetch(`${ENDPOINT}/api/package/${egg.name}`).catch(() => void 0);
       let existingPackageBody: { name: string, owner: string, description: string, latestVersion?: string, latestStableVersion?: string, packageUploadNames: string[] } | undefined = existingPackage?.ok && await existingPackage?.json();
 
       if (existingPackageBody && existingPackageBody.packageUploadNames.indexOf(`${egg.name}@${egg.version}`) !== -1) throw red("This version was already published. Please increment the version in egg.json.");
 
       let latestServerVersion = "0.0.0";
       if (existingPackageBody) {
-        latestServerVersion = (egg.stable ? existingPackageBody.latestStableVersion : existingPackageBody.latestVersion) || "0.0.0";
+        latestServerVersion = (egg.stable ? existingPackageBody.latestStableVersion : existingPackageBody.latestVersion)?.split("@")[1] || "0.0.0";
 
         existingPackageBody.packageUploadNames.forEach((el) => {
           if (semver.compare(el.split("@")[1], latestServerVersion) === 1) latestServerVersion = el.split("@")[1];
@@ -92,7 +96,7 @@ export const publish = new Command()
 
       let isLatest = semver.compare(egg.version, latestServerVersion) === 1;
 
-      let uploadResponse = await fetch("https://x.nest.land/api/publish", {
+      let uploadResponse = await fetch(`${ENDPOINT}/api/publish`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -105,6 +109,7 @@ export const publish = new Command()
           version: egg.version,
           unlisted: egg.unlisted,
           upload: true,
+          entry: egg.entry,
           latest: isLatest,
           stable: egg.stable,
         }),
@@ -114,7 +119,7 @@ export const publish = new Command()
 
       if (!uploadResponse.ok) throw new Error(red("Something broke when publishing... " + uploadResponse.status));
       let uploadResponseBody: { token: string, name: string, version: string, owner: string } = uploadResponse.ok && await uploadResponse.json();
-      let pieceResponse = await fetch("https://x.nest.land/api/piece", {
+      let pieceResponse = await fetch(`${ENDPOINT}/api/piece`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -131,9 +136,9 @@ export const publish = new Command()
       console.log(green(`Successfully published ${bold(pieceResponseBody.name)}!`));
       console.log("\r\nFiles uploaded: ");
       Object.entries(pieceResponseBody.files).map(el => {
-        console.log(`${el[0]} -> ${bold(`https://x.nest.land/${pieceResponseBody.name}${el[0]}`)}`);
+        console.log(`${el[0]} -> ${bold(`${ENDPOINT}/${pieceResponseBody.name}${el[0]}`)}`);
       });
-      console.log(green("You can now find your package on our registry at" + bold("https://nest.land/gallery!")));
+      console.log(green("You can now find your package on our registry at " + bold("https://nest.land/gallery!")));
     } else {
       throw new Error(red("You don't have an egg.json file! Please create this in the root of your repository, or see the documentation for more help."));
     }
