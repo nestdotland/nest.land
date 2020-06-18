@@ -18,7 +18,7 @@ export const routes = [
     component: PackageDetail
   },
   {
-    path: "/docs/:page?",
+    path: "/docs",
     component: Documentation
   },
   {

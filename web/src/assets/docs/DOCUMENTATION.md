@@ -14,5 +14,3 @@ After you generate your API key, you need to add it in the CLI. To do this, type
 ```shell script
 eggs link --key [your key]
 ```
-
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>

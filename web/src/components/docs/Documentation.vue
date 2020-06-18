@@ -2,11 +2,16 @@
 
   <div class="Documentation">
 
-    <nest-nav />
+    <div class="NavContainer">
+
+      <div class="greyBg" :style="{ width: docsNavWidth + 'px' }"></div>
+      <nest-nav />
+
+    </div>
 
     <div class="DocsContent">
 
-      <div class="DocsNav">
+      <div class="DocsNav" ref="docsNav">
 
         <div class="DocsNavContent">
 
@@ -20,9 +25,9 @@
 
             </li>
 
-            <li>
+            <li v-for="topicItem in topics" :key="topicItem.id">
 
-              <router-link to="/docs/test">Test</router-link>
+              <router-link :to="'/docs#' + topicItem.id" :class="{ active: topicItem.id === activeTopic }">{{ topicItem.innerText | removeHash }}</router-link>
 
             </li>
 
@@ -34,7 +39,7 @@
 
       <div class="DocsContainer">
 
-        <vue-markdown :source="docsData" :toc="true" :toc-anchor-link-space="false" class="Markdown" />
+        <vue-markdown :source="docsData" :toc="true" :toc-anchor-link-space="false" ref="docsContent" class="Markdown" />
 
       </div>
 
@@ -59,11 +64,13 @@
       VueMarkdown
 
     },
-    props: {
+    data () {
 
-      page: {
+      return {
 
-        type: String
+        docsNavWidth: 0,
+        activeTopic: '',
+        topics: []
 
       }
 
@@ -77,9 +84,68 @@
       }
 
     },
+    filters: {
+
+      removeHash (val) {
+
+        return val.replace('#', '')
+
+      }
+
+    },
+    methods: {
+
+      updateDocsNavWidth () {
+
+        this.docsNavWidth = this.$refs.docsNav.offsetWidth
+
+      },
+      scroll () {
+
+        for (const el of this.$refs.docsContent.$el.childNodes)
+          if(el.tagName !== undefined && el.tagName.toLowerCase() === 'h1') {
+
+            const { top, left, right, bottom } = el.getBoundingClientRect()
+
+            if(
+              top >= 0 &&
+              left >= 0 &&
+              right <= (window.innerWidth || document.documentElement.clientWidth) &&
+              bottom <= (window.innerHeight || document.documentElement.clientHeight)
+            ) {
+
+              this.activeTopic = el.id
+              break
+
+            }
+
+          }
+
+      }
+
+    },
+    created () {
+
+      window.addEventListener('resize', this.updateDocsNavWidth)
+      window.addEventListener('scroll', this.scroll)
+
+    },
+    destroyed () {
+
+      window.removeEventListener('resize', this.updateDocsNavWidth)
+      window.removeEventListener('scroll', this.scroll)
+
+    },
     mounted () {
 
-      console.log(this.$route.params)
+      //update the grey part of the nav overlay on resize
+      this.updateDocsNavWidth()
+      this.scroll()
+      this.topics = Array.from(this.$refs.docsContent.$el.childNodes).filter(el => {
+
+        return (el.tagName !== undefined && el.tagName.toLowerCase() === 'h1')
+
+      })
 
     }
 
@@ -90,15 +156,21 @@
 <style lang="sass" scoped>
 
   .Documentation
-    .navbar
-      position: fixed
-      background-color: transparent
-      top: 0
-      left: 0
-      right: 0
+    .NavContainer
+      position: relative
+
+      .greyBg
+        position: absolute
+        z-index: 1;
+        background-color: #f5f5f5
+        height: 100%
+
+      .navbar
+        z-index: 10;
+        background-color: transparent
 
     .DocsContent
-      $topPadding: 65px
+      $topPadding: 35px
       display: flex
       align-items: stretch
 
@@ -141,7 +213,7 @@
                 &:hover
                   color: rgba(0, 0, 0, .9)
 
-                &.router-link-active
+                &.active
                   color: #00947e
 
                   &::before
@@ -150,9 +222,53 @@
 
       .DocsContainer
         width: 70vw
-        padding: $topPadding 25px
+        padding: $topPadding 3.5%
 
         .Markdown::v-deep
+
+          h1, h2, h3, h4, h5, h6
+            position: relative
+            display: block
+
+          .toc-anchor
+            color: #cccccc
+            position: absolute
+            left: -30px
+            transition: all .3s
+
+            &:hover
+              color: #00947e
+
+          a
+            color: #00947e
+
+          h1
+            font-size: 2em
+            margin: .67em 0
+
+          h2
+            font-size: 1.5em
+            margin: .83em 0
+
+          h3
+            font-size: 1.17em
+            margin: 1em 0
+
+          h4
+            font-size: 1em
+            margin: 1.33em 0
+
+          h5
+            font-size: .83em
+            margin: 1.67em 0
+
+          h6
+            font-size: .67em
+            margin: 2.33em 0
+
+          p
+            margin: 1em 0
+
           pre code.language-shell
             padding-left: 25px
             position: relative
