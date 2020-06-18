@@ -38,6 +38,8 @@
                     <button
                       class="button is-primary is-light"
                       @click="selectedVersion = packageInfo.latestStableVersion; refreshContent(); refreshReadme()"
+                      :title="packageInfo.latestStableVersion === null ? 'No stable version available yet': null"
+                      :disabled="packageInfo.latestStableVersion === null"
                     >Stable</button>
                     <button
                       class="button is-warning is-light"
@@ -105,6 +107,8 @@ export default {
   async created() {
     await this.refreshContent();
     this.selectedVersion = this.packageInfo.latestStableVersion;
+    if(this.selectedVersion === null)
+      this.selectedVersion = this.packageInfo.latestVersion;
     await this.refreshReadme();
     this.loading = false;
   },
