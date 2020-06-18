@@ -35,6 +35,7 @@ export default (database: DbConnection, arweave: ArwConnection) => {
       where: [{ unlisted: null }, { unlisted: false }],
       skip: (page - 1) * limit,
       take: limit,
+      order: { createdAt: "DESC" }
     });
 
     let body = {
