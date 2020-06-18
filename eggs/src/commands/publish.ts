@@ -108,11 +108,11 @@ export const publish = new Command()
           latest: isLatest,
           stable: egg.stable,
         }),
-      }).catch(() => { throw new Error(red("Something broke...")) });
+      }).catch(() => { throw new Error(red("Something broke when publishing...")) });
 
       let fileContents = matched.map(el => [ el, readFileBtoa(el.fullPath) ] as [ typeof el, string ]).reduce((p, c) => { p[c[0].path] = c[1]; return p; }, {} as { [x: string]: string });
 
-      if (!uploadResponse.ok) throw new Error(red("Something broke..."));
+      if (!uploadResponse.ok) throw new Error(red("Something broke when publishing... " + uploadResponse.status));
       let uploadResponseBody: { token: string, name: string, version: string, owner: string } = uploadResponse.ok && await uploadResponse.json();
       let pieceResponse = await fetch("https://x.nest.land/api/piece", {
         method: "POST",
@@ -124,9 +124,9 @@ export const publish = new Command()
           pieces: fileContents,
           end: true,
         }),
-      }).catch(() => { throw new Error(red("Something broke...")) });
+      }).catch(() => { throw new Error(red("Something broke when sending pieces...")) });
 
-      if (!pieceResponse.ok) throw new Error(red("Something broke..."));
+      if (!pieceResponse.ok) throw new Error(red("Something broke when sending pieces... " + pieceResponse.status));
       let pieceResponseBody: { name: string, files: { [x: string]: string } } = await pieceResponse.json();
       console.log(green(`Successfully published ${bold(pieceResponseBody.name)}!`));
       console.log("\r\nFiles uploaded: ");
