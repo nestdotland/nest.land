@@ -70,37 +70,45 @@ export async function getLatestVersionFromNestRegistry(
 export function analyzeURL(url: string) {
   const tmpSplit = url.split("/");
   let registry = tmpSplit[2];
-  let moduleName: string;
-  let versionURL: string;
   let owner = "";
 
   switch (registry) {
     case "x.nest.land": // https://x.nest.land/remove-forever@v1.0.0/mod.ts
-      moduleName = stripVersion(tmpSplit[3]);
-      tmpSplit[3] = `${moduleName}@${versionSuffix}`;
-      versionURL = tmpSplit.join("/");
-      break;
+      return { registry, owner, ...analyzeXNestLand(tmpSplit) };
 
     case "deno.land": // https://deno.land/x/remove_forever@v1.0.0/mod.ts
-      moduleName = stripVersion(tmpSplit[4]);
-      tmpSplit[4] = `${moduleName}@${versionSuffix}`;
-      versionURL = tmpSplit.join("/");
-      registry = `${registry}/${tmpSplit[3]}`;
-      break;
+      return { owner, ...analyzeDenoLand(tmpSplit) };
 
     case "raw.githubusercontent.com": // https://raw.githubusercontent.com/oganexon/deno-remove-forever/v1.0.0/mod.ts
-      moduleName = tmpSplit[4];
-      tmpSplit[5] = versionSuffix;
-      versionURL = tmpSplit.join("/");
-      owner = tmpSplit[3];
-      break;
+      return { registry, ...analyzeRawGithubusercontent(tmpSplit) };
 
     default:
-      moduleName = "";
-      versionURL = "";
       throw new Error(`Unsupported registry: ${registry}`);
   }
-  return { moduleName, versionURL, registry, owner };
+}
+
+function analyzeXNestLand(split: string[]) { // https://x.nest.land/remove-forever@v1.0.0/mod.ts
+  const { moduleName, version } = splitVersion(split[3]);
+  split[3] = `${moduleName}@${versionSuffix}`;
+  const versionURL = split.join("/");
+  return { moduleName, version, versionURL };
+}
+
+function analyzeDenoLand(split: string[]) { // https://deno.land/x/remove_forever@v1.0.0/mod.ts
+  const { moduleName, version } = splitVersion(split[4]);
+  split[4] = `${moduleName}@${versionSuffix}`;
+  const versionURL = split.join("/");
+  const registry = `deno.land/${split[3]}`;
+  return { moduleName, version, versionURL, registry };
+}
+
+function analyzeRawGithubusercontent(split: string[]) { // https://raw.githubusercontent.com/oganexon/deno-remove-forever/v1.0.0/mod.ts
+  const moduleName = split[4];
+  const version = split[5];
+  split[5] = versionSuffix;
+  const versionURL = split.join("/");
+  const owner = split[3];
+  return { moduleName, version, versionURL, owner };
 }
 
 export async function getLatestVersion(
@@ -126,6 +134,7 @@ export async function getLatestVersion(
   }
 }
 
-function stripVersion(moduleName: string) {
-  return moduleName.split("@")[0];
+function splitVersion(text: string) {
+  const tmpSplit = text.split("@");
+  return { moduleName: tmpSplit[0], version: tmpSplit[1] };
 }
