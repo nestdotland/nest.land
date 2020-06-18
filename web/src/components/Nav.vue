@@ -28,7 +28,11 @@
             active-class="active-link"
             exact
           >The Gallery</router-link>
-          <router-link class="navbar-item" to="/#docs">Documentation</router-link>
+          <router-link
+             class="navbar-item"
+             to="/docs"
+             active-class="active-link"
+          >Documentation</router-link>
           <div class="navbar-item">
             <div class="buttons">
               <router-link class="button is-light is-primary" id="get-started-button" to="/#start">
