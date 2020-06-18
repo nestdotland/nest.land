@@ -1,4 +1,5 @@
 import { Router } from "express";
+import normalize from "../utils/normalize";
 import generateToken from "../utils/token";
 import { hash, verify } from "../utils/password";
 import { User, DbConnection } from "../utils/driver";
@@ -12,11 +13,17 @@ export default (database: DbConnection) => {
     if (!username || !password) return res.sendStatus(400);
     if (typeof username !== "string" || typeof password !== "string") return res.sendStatus(400);
 
-    if (username.length > 20) return res.sendStatus(400);
-    if (await database.repositories.User.findOne({ where: { name: username } })) return res.sendStatus(409);
+    if (username.length > 20 || username.length < 3) return res.sendStatus(400);
+
+    let nzName = normalize(username);
+    if (!nzName) return res.sendStatus(400);
+
+    if (await database.repositories.User.findOne({ where: { normalizedName: nzName } })) return res.sendStatus(409);
+
 
     let user = new User();
     user.name = username;
+    user.normalizedName = nzName;
     user.password = await hash(password);
     user.apiKey = generateToken();
     user.packageNames = [];

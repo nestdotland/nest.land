@@ -2,6 +2,7 @@
     "name": "eggs",
     "description": "The CLI used to publish and update packages in nest.land.",
     "stable": true,
+    "unlisted": false,
     "files": [
         "./mod.ts",
         "./src/**/*",
