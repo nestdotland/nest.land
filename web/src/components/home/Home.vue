@@ -6,7 +6,6 @@
     <!-- <featured-packages></featured-packages>  Disabling for now. Will add back after release when more packages are added.  -->
     <f-a-q></f-a-q>
     <request-key></request-key>
-    <docs></docs>
   </div>
 </template>
 
@@ -17,7 +16,6 @@ import Intro from "./Intro";
 // import FeaturedPackages from "./FeaturedPackages";
 import FAQ from "./FAQ";
 import RequestKey from "./RequestKey";
-import Docs from "./Docs";
 
 export default {
   components: {
@@ -27,7 +25,6 @@ export default {
     // FeaturedPackages,
     FAQ,
     RequestKey,
-    Docs,
   },
 };
 </script>

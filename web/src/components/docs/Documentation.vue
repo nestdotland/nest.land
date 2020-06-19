@@ -251,6 +251,7 @@
           h4
             font-size: 1em
             margin: 1.33em 0
+            font-weight: 600
 
           h5
             font-size: .83em
@@ -282,18 +283,25 @@
               border: 1px solid #dbdbdb
               padding: 6px 20px
 
-          pre code.language-shell
-            padding-left: 25px
-            position: relative
+          code
+            color: #4a4a4a
 
-            &::before
-              content: '$'
-              color: #00947e
-              font-size: 1.2em
-              font-weight: 500
-              position: absolute
-              top: 50%
-              left: 0
-              transform: translateY(-50%)
+          pre
+            margin: 10px 0
+
+            code.language-shell
+              padding-left: 25px
+              position: relative
+              color: currentColor
+
+              &::before
+                content: '$'
+                color: #00947e
+                font-size: 1.2em
+                font-weight: 500
+                position: absolute
+                top: 50%
+                left: 0
+                transform: translateY(-50%)
 
 </style>
