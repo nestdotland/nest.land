@@ -1,6 +1,3 @@
-/** Running this script requires the following permissions:
- *  --allow-net, --allow-read, --allow-write */
-
 import { Command, semver, getLatestVersion, analyzeURL } from "../deps.ts";
 const decoder = new TextDecoder("utf-8");
 
@@ -25,14 +22,7 @@ export const update = new Command<Options, Arguments>()
 async function updateModules(options: Options, requestedModules: string[]) {
   const dependencyFilename = options.file;
 
-  // Description:
-  //   - Gather the path to the user's dependency file using the CLI arguments
-  //
-  // Rules:
-  //   - Checks for a dependency inside the directory where the user is
-  //
-  // Exits:
-  //   - If no dependency file was found with that name, throws an error and exits
+  /** Gather the path to the user's dependency file using the CLI arguments */
   let pathToDepFile = "";
   try {
     pathToDepFile = Deno.realPathSync("./" + dependencyFilename);
@@ -44,15 +34,8 @@ async function updateModules(options: Options, requestedModules: string[]) {
     Deno.exit(1);
   }
 
-  // Description:
-  //   - Creates an array of strings from each line inside the dependency file.
-  //
-  // Rules:
-  //   - Only extracts lines that contain "https://" to strip out non-import lines.
-  //   - We only need the information around import statements
-  //
-  // Exits:
-  //   - If no lines import from a URL (specifically lines containing "https://")
+  /** Creates an array of strings from each line inside the dependency file.
+   * Only extracts lines that contain "https://" to strip out non-import lines. */
   const dependencyFileContents: string[] = decoder
     .decode(Deno.readFileSync(Deno.realPathSync(pathToDepFile)))
     .split("\n")
@@ -66,21 +49,15 @@ async function updateModules(options: Options, requestedModules: string[]) {
     Deno.exit(1);
   }
 
-  // Description:
-  //   - For each import line in the users dependency file, collate the data ready to be re-written
-  //     if it can be updated
-  //
-  // Rules:
-  //   - Only looks at dependencies imported from: deno.land/x/, deno.land/std and x.nest.land
-  //   - Skips the dependency if it is not versioned (no need to try to update it)
-  //
+  /** For each import line in the users dependency file, collate the data ready to be re-written
+   * if it can be updated.
+   * Skips the dependency if it is not versioned (no need to try to update it) */
   const dependenciesToUpdate: Array<ModuleToUpdate> = [];
   for (const line of dependencyFileContents) {
     let { moduleName, versionURL, registry, owner, version } = analyzeURL(line);
-    // Edge case: dependency isn't a module, for example: from "https://deno.land/std@version/version.ts";, will return -> version.ts";
-    /* if (line.match(/https:\/\/deno\.land\/std(.*)\/version\.ts/)) {
-                
-    } */
+
+    // TODO Edge case: dependency isn't a module, for example: from "https://deno.land/std@version/version.ts";, will return -> "version.ts";
+    // Issue: "Mandarine.TS" is a module while "version.ts" isn't
 
     // Now we have the name, ignore dependency if requested dependencies are set and it isn't one requested
     if (

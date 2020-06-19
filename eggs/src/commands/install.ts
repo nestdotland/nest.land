@@ -10,12 +10,12 @@ import {
   semver,
   getLatestVersion,
   analyzeURL,
-  globalModulesConfigPath
+  globalModulesConfigPath,
 } from "../deps.ts";
 
 const installPrefix = "eggs-";
 
-const configPath = globalModulesConfigPath()
+const configPath = globalModulesConfigPath();
 
 const desc = `${
   yellow(
@@ -100,13 +100,13 @@ async function installModule(_: any, ...args: string[]) {
 
   const url = args[indexOfURL];
   let { moduleName, versionURL, registry, owner, version } = analyzeURL(url);
-  let installName: string
+  let installName: string;
 
   /** If no exec name is given, provide one */
   if (indexOfName < 0) {
     args.splice(indexOfURL, 0, installPrefix + moduleName);
     args.splice(indexOfURL, 0, "-n");
-    installName = moduleName
+    installName = moduleName;
   } else {
     installName = args[indexOfName + 1];
     args[indexOfName + 1] = installPrefix + installName;
@@ -114,7 +114,9 @@ async function installModule(_: any, ...args: string[]) {
 
   const execName = installPrefix + installName;
 
-  const result = await Promise.allSettled([installUpdateHandler(installName, execName), installModuleHandler(args)])
+  const result = await Promise.allSettled(
+    [installUpdateHandler(installName, execName), installModuleHandler(args)],
+  );
 
   if (result[0].status === "rejected") {
     console.error(red(`Installation failed: ${result[0].reason}`));
@@ -136,7 +138,8 @@ async function installModule(_: any, ...args: string[]) {
     moduleName,
     installName,
     owner,
-    version: semver.valid(version) ?? await getLatestVersion(registry, moduleName, owner),
+    version: semver.valid(version) ??
+      await getLatestVersion(registry, moduleName, owner),
     args,
     lastUpdateCheck: Date.now(),
   };
@@ -159,6 +162,6 @@ async function installModuleHandler(args: string[]) {
   installation.close();
 
   if (status.success === false || status.code !== 0) {
-    throw new Error("Module handler installation failed.")
+    throw new Error("Module handler installation failed.");
   }
 }

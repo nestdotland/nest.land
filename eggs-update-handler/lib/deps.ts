@@ -5,4 +5,4 @@ export * as semver from "https://deno.land/x/semver@v1.0.0/mod.ts";
 export { Table } from "https://deno.land/x/cliffy@v0.9.0/table.ts";
 
 export * as path from "https://deno.land/std@v0.56.0/path/mod.ts";
-export { existsSync} from "https://deno.land/std@v0.56.0/fs/mod.ts";
+export { existsSync } from "https://deno.land/std@v0.56.0/fs/mod.ts";

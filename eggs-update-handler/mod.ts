@@ -1,7 +1,7 @@
 const oneDay = 1000 * 60 * 60 * 24;
 
 /** Install update handler cli to check for updates and notify user */
-export * from "./lib/config.ts"
+export * from "./lib/config.ts";
 
 export async function installUpdateHandler(
   moduleName: string,
@@ -27,6 +27,6 @@ export async function installUpdateHandler(
   installation.close();
 
   if (status.success === false || status.code !== 0) {
-    throw new Error("Update handler installation failed.")
+    throw new Error("Update handler installation failed.");
   }
 }
