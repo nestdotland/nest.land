@@ -18,6 +18,10 @@ export const routes = [
     component: PackageDetail
   },
   {
+    path: "/package/:id/files/*",
+    component: PackageDetail
+  },
+  {
     path: "/docs",
     component: Documentation
   },

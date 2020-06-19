@@ -22,7 +22,9 @@ import {
   faCodeBranch,
   faParachuteBox,
   faBoxOpen,
-  faCubes
+  faCubes,
+  faFolder,
+  faLevelUpAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -40,6 +42,8 @@ library.add(
   faSearch,
   faCubes,
   faGithub,
+  faFolder,
+  faLevelUpAlt,
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

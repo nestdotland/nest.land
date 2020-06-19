@@ -20,7 +20,8 @@
     <div class="hero">
       <div class="hero-body">
         <div class="container">
-          <div class="columns reverse-column-order">
+
+          <div class="columns reverse-column-order" v-if="!isFileBrowse">
             <div class="column is-8">
               <div v-show="packageReadme === 'Loading README...'" >
                 <p class="subtitle">{{ packageInfo.description }}</p>
@@ -71,10 +72,29 @@
                 </p>
                 <div class="panel-block">Author: {{ packageInfo.owner }}</div>
                 <a v-if="packageInfo.repository !== '' && packageInfo.repository !== null" class="panel-block" :href="packageInfo.repository">Repository</a>
+                <router-link v-if="!noVersion" class="panel-block" :to="$route.path + '/files/'">Browse files</router-link>
                 <div class="panel-block">Published on: {{ packageInfo.createdAt | formatDate }}</div>
               </nav>
             </div>
+
           </div>
+
+          <div v-else-if="!noVersion">
+
+            <nav class="panel">
+
+              <p class="panel-heading">
+
+                <font-awesome-icon class="icon-margin-right" :icon="['fa', 'folder']" />Browse package files
+
+              </p>
+
+              <router-link class="panel-block" :to="'/package/' + $route.params.id"><font-awesome-icon class="icon-margin-right" :icon="['fa', 'level-up-alt']" />Go back to package review</router-link>
+
+            </nav>
+
+          </div>
+
         </div>
       </div>
     </div>
@@ -110,16 +130,34 @@ export default {
     },
   },
   async created() {
+
+    //https://x.nest.land/api/package/opine/0.10.2
+
     await this.refreshContent();
     this.selectedVersion = this.packageInfo.latestStableVersion;
+
     if(this.selectedVersion === null)
       this.selectedVersion = this.packageInfo.latestVersion;
+
     if(this.packageInfo.latestStableVersion === null && this.packageInfo.latestVersion === null && this.packageInfo.packageUploadNames.length === 0) {
+
       this.packageReadme = '# No version published yet';
       this.noVersion = true;
+
     }
+
     await this.refreshReadme();
     this.loading = false;
+
+  },
+  computed: {
+
+    isFileBrowse () {
+
+      return this.$route.path.toLowerCase().includes('/files/')
+
+    }
+
   },
   methods: {
     async refreshContent() {
