@@ -1,4 +1,13 @@
-import { Command, semver, getLatestVersion, analyzeURL } from "../deps.ts";
+import {
+  Command,
+  semver,
+  getLatestVersion,
+  analyzeURL,
+  readJson,
+  writeJson,
+  globalModulesConfigPath,
+  versionSubstitute
+} from "../deps.ts";
 const decoder = new TextDecoder("utf-8");
 
 /** What the constructed dependency objects should contain */
@@ -16,12 +25,68 @@ export const update = new Command<Options, Arguments>()
     "Set dependency filename",
     { default: "deps.ts" },
   )
-  .option("-g, --global", "Update global modules")
-  .action(updateModules);
+  .option("-g, --global", "Update global modules", { conflicts: ["file"] })
+  .action(async (options: Options, requestedModules: string[] = []) => {
+    if (options.global) {
+      await updateGlobalModules(options, requestedModules);
+    } else {
+      await updateLocalModules(options, requestedModules);
+    }
+  });
 
-async function updateModules(
+async function updateGlobalModules(
   options: Options,
-  requestedModules: string[] = [],
+  requestedModules: string[],
+) {
+  const configPath = globalModulesConfigPath()
+  const config = await readConfig(configPath);
+
+  for (const execName of config) {
+    const module = config[execName];
+
+    if (
+      requestedModules.length && requestedModules.indexOf(execName) === -1
+    ) {
+      continue;
+    }
+
+  // Get latest release
+    const latestRelease = await getLatestVersion(module.registry, module.moduleName, module.owner);
+
+    // Basic safety net
+    if (
+      !module.version || semver.eq(module.version, latestRelease) || !semver.valid(module.version)
+    ) {
+      continue;
+    }
+
+    // Update the dependency
+    const indexOfURL = module.args.findIndex((arg: string) => arg.match(/http/));
+    module.args[indexOfURL].replace(versionSubstitute, latestRelease)
+    const installation = Deno.run({cmd: module.args});
+  
+    const status = await installation.status();
+    installation.close();
+
+    if (status.success === false || status.code !== 0) {
+      throw new Error(`Update failed for ${execName}`);
+    }
+
+    config[execName].version = latestRelease
+    
+    console.log(`${execName} updated.`);
+  }
+
+  // Re-write the file
+  writeJson(configPath, config)
+
+  console.info("Updated your dependencies!");
+  Deno.exit();
+}
+
+async function updateLocalModules(
+  options: Options,
+  requestedModules: string[],
 ) {
   /** Gather the path to the user's dependency file using the CLI arguments */
   let pathToDepFile = "";
@@ -108,6 +173,16 @@ async function updateModules(
 
   console.info("Updated your dependencies!");
   Deno.exit();
+}
+
+async function readConfig(configPath: string): Promise<any> {
+  try {
+    const config = await readJson(configPath);
+    return config;
+  } catch {
+    console.error("config file doesn't exist.");
+    Deno.exit(1);
+  }
 }
 
 type Arguments = [string[]];

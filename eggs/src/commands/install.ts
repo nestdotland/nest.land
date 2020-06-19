@@ -128,7 +128,7 @@ async function installModule(_: any, ...args: string[]) {
   }
 
   /** After installation, the URL is ready to be updated */
-  args[indexOfURL] = versionURL;
+  args[args.findIndex((arg) => arg.match(/http/))] = versionURL;
 
   const configExists = await exists(configPath);
   const config: any = configExists ? await readJson(configPath) : {};

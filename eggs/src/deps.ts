@@ -7,5 +7,5 @@ export { bold, green, yellow, red } from "https://deno.land/std@v0.56.0/fmt/colo
 export { assertEquals } from "https://deno.land/std@v0.56.0/testing/asserts.ts";
 export * as base64 from "https://denopkg.com/chiefbiiko/base64/mod.ts";
 export { installUpdateHandler, globalModulesConfigPath } from "https://x.nest.land/eggs-update-handler@0.4.0/mod.ts";
-export { getLatestVersion, analyzeURL } from "https://x.nest.land/eggs-update-handler@0.4.0/lib/registries.ts";
+export { getLatestVersion, analyzeURL, versionSubstitute } from "https://x.nest.land/eggs-update-handler@0.4.0/lib/registries.ts";
 export const lstatSync = Deno.lstatSync;
