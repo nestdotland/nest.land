@@ -4,17 +4,17 @@ import {
   yellow,
   red,
   installUpdateHandler,
-  path,
   writeJson,
   readJson,
   exists,
+  semver
 } from "../deps.ts";
 import { getLatestVersion, analyzeURL } from "../utilities/registries.ts";
-import { homedir } from "../utilities/files.ts";
+import { globalModulesConfigPath } from "../utilities/files.ts";
 
 const installPrefix = "eggs-";
 
-const configPath = path.join(homedir(), "/.eggs-global-modules.json");
+const configPath = globalModulesConfigPath()
 
 const desc = `${
   yellow(
@@ -75,10 +75,12 @@ export const install = new Command()
   .option("-q, --quiet", "Suppress diagnostic output")
   .option("--root <root>", "Installation root")
   .option("--unstable", "Enable unstable APIs")
+  /** Unknown options cannot be parsed */
   .useRawArgs()
   .action(installModule);
 
 async function installModule(_: any, ...args: string[]) {
+  /** help option need to be parsed manually */
   if (["-h", "--help", "help"].includes(args[0])) {
     Deno.stdout.writeSync(
       new TextEncoder().encode(install.getHelpCommand().getHelp()),
@@ -95,9 +97,10 @@ async function installModule(_: any, ...args: string[]) {
   }
 
   const url = args[indexOfURL];
-  let { moduleName, versionURL, registry, owner } = analyzeURL(url);
+  let { moduleName, versionURL, registry, owner, version } = analyzeURL(url);
   let installName: string
 
+  /** If no exec name is given, provide one */
   if (indexOfName < 0) {
     args.splice(indexOfURL, 0, installPrefix + moduleName);
     args.splice(indexOfURL, 0, "-n");
@@ -109,9 +112,14 @@ async function installModule(_: any, ...args: string[]) {
 
   const execName = installPrefix + installName;
 
-  await installModuleHandler(args);
-  await installUpdateHandler(installName, execName);
+  try {
+    await Promise.all([installModuleHandler(args), installUpdateHandler(installName, execName)])
+  } catch (err) {
+    console.error(red(`Installation failed: ${err}`));
+    Deno.exit(1);
+  }
 
+  /** After installation, the URL is ready to be updated */
   args[indexOfURL] = versionURL;
 
   const configExists = await exists(configPath);
@@ -121,7 +129,7 @@ async function installModule(_: any, ...args: string[]) {
     registry,
     moduleName,
     owner,
-    version: await getLatestVersion(registry, moduleName, owner),
+    version: semver.valid(version) ?? await getLatestVersion(registry, moduleName, owner),
     args,
     lastUpdateCheck: Date.now(),
   };

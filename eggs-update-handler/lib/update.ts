@@ -1,5 +1,6 @@
-import { readJson, writeJson, path, semver, colors, Table } from "./deps.ts";
+import { readJson, writeJson, semver, colors, Table } from "./deps.ts";
 import { getLatestVersion } from "../../eggs/src/utilities/registries.ts";
+import { globalModulesConfigPath } from "../../eggs/src/utilities/files.ts";
 
 export class UpdateNotifier {
   moduleName = "";
@@ -9,6 +10,7 @@ export class UpdateNotifier {
   installationArgs: string[] = [];
   lastUpdateCheck = Date.now();
   config: any = {};
+  configPath = globalModulesConfigPath()
 
   constructor(
     public execName: string,
@@ -76,7 +78,7 @@ Run ${colors.magenta("eggs update -g " + this.execName)} to update`;
 
   async readConfig(): Promise<any> {
     try {
-      const config = await readJson(this.configPath());
+      const config = await readJson(this.configPath);
       return config;
     } catch {
       box(
@@ -89,12 +91,7 @@ Run ${colors.magenta("eggs update -g " + this.execName)} to update`;
   }
 
   async writeConfig(config: any) {
-    await writeJson(this.configPath(), config, { spaces: 2 });
-  }
-
-  configPath() {
-    const homedir = Deno.dir("home") || "/";
-    return path.join(homedir, "/.eggs-global-modules.json");
+    await writeJson(this.configPath, config, { spaces: 2 });
   }
 
   needCheck() {

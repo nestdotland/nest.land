@@ -15,7 +15,7 @@ export async function installUpdateHandler(
       "-A",
       "-n",
       moduleName,
-      "https://x.nest.land/eggs-update-handler@0.3.1/cli.ts",
+      "https://x.nest.land/eggs-update-handler@0.3.2/cli.ts",
       execName,
       updateCheckInterval.toString(),
     ],

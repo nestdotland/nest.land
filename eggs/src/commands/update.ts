@@ -1,7 +1,8 @@
 /** Running this script requires the following permissions:
  *  --allow-net, --allow-read, --allow-write */
 
-import { Command, semver, analyzeURL, getLatestVersion } from "../deps.ts";
+import { Command, semver } from "../deps.ts";
+import { analyzeURL, getLatestVersion } from "../utilities/registries.ts";
 const decoder = new TextDecoder("utf-8");
 
 /** What the constructed dependency objects should contain */
