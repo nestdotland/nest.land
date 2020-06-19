@@ -44,11 +44,13 @@
                     <button
                       class="button is-warning is-light"
                       @click="selectedVersion = packageInfo.latestVersion; refreshContent(); refreshReadme()"
+                      :disabled="noVersion"
+                      :title="noVersion ? 'No versions published yet': null"
                     >Latest</button>
                   </div>
                 </div>
                 <div class="panel-block">
-                  <div class="select is-light has-light-arrow is-fullwidth">
+                  <div class="select is-light has-light-arrow is-fullwidth" v-if="!noVersion">
                     <select v-model="selectedVersion" @change="refreshContent(); refreshReadme()">
                       <option
                         v-for="(version, id) in packageVersions"
@@ -57,8 +59,9 @@
                       >{{ $route.params.id + '@' + version }}</option>
                     </select>
                   </div>
+                  <p v-if="noVersion">No version available</p>
                 </div>
-                <div class="panel-block">
+                <div class="panel-block" v-if="!noVersion">
                   <pre class="is-fullwidth"><code>https://x.nest.land/{{ selectedVersion }}/mod.ts</code></pre>
                 </div>
               </nav>
@@ -67,7 +70,7 @@
                   <font-awesome-icon class="icon-margin-right" :icon="['fas', 'box-open']" />Package info
                 </p>
                 <div class="panel-block">Author: {{ packageInfo.owner }}</div>
-                <a v-if="packageInfo.repository !== ''" class="panel-block" :href="packageInfo.repository">Repository</a>
+                <a v-if="packageInfo.repository !== '' && packageInfo.repository !== null" class="panel-block" :href="packageInfo.repository">Repository</a>
                 <div class="panel-block">Published on: {{ packageInfo.createdAt | formatDate }}</div>
               </nav>
             </div>
@@ -97,6 +100,7 @@ export default {
       packageVersions: [],
       packageReadme: "Loading README...",
       loading: true,
+      noVersion: false,
     };
   },
   filters: {
@@ -110,6 +114,10 @@ export default {
     this.selectedVersion = this.packageInfo.latestStableVersion;
     if(this.selectedVersion === null)
       this.selectedVersion = this.packageInfo.latestVersion;
+    if(this.packageInfo.latestStableVersion === null && this.packageInfo.latestVersion === null && this.packageInfo.packageUploadNames.length === 0) {
+      this.packageReadme = '# No version published yet';
+      this.noVersion = true;
+    }
     await this.refreshReadme();
     this.loading = false;
   },
@@ -129,6 +137,8 @@ export default {
       }
     },
     async refreshReadme() {
+      if(this.noVersion)
+        return;
       try {
         console.log("FETCHING");
         const url = "https://x.nest.land/" + this.selectedVersion + "/README.md";
