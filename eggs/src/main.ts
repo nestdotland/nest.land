@@ -15,6 +15,6 @@ export async function commandHandler() {
     .command("init", init)
     .command("publish", publish)
     .command("update", update)
-    .command("install [OPTIONS] <cmd>", install)
+    .command("install", install)
     .parse(Deno.args);
 }

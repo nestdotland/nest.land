@@ -15,19 +15,16 @@ export async function installUpdateHandler(
       "-A",
       "-n",
       moduleName,
-      "https://x.nest.land/eggs-update-handler@0.3.2/cli.ts",
+      "https://x.nest.land/eggs-update-handler@0.3.8/cli.ts",
       execName,
       updateCheckInterval.toString(),
     ],
-    stderr: "null",
-    stdout: "null",
   });
 
   const status = await installation.status();
   installation.close();
 
   if (status.success === false || status.code !== 0) {
-    console.error("Update handler installation failed.");
     throw new Error("Update handler installation failed.")
   }
 }

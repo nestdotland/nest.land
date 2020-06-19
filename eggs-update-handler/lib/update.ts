@@ -1,6 +1,6 @@
 import { readJson, writeJson, semver, colors, Table } from "./deps.ts";
-import { getLatestVersion } from "../../eggs/src/utilities/registries.ts";
-import { globalModulesConfigPath } from "../../eggs/src/utilities/files.ts";
+import { getLatestVersion } from "./registries.ts";
+import { globalModulesConfigPath } from "./files.ts";
 
 export class UpdateNotifier {
   moduleName = "";

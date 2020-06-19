@@ -51,6 +51,7 @@ These must be added to the path manually if required.`;
 export const install = new Command()
   .version("0.1.0")
   .description(desc)
+  .arguments("[OPTIONS] <cmd>")
   .option("-A, --allow-all", "Allow all permissions")
   .option("--allow-env", "Allow environment access")
   .option("--allow-hrtime", "Allow high resolution time measurement")
@@ -112,10 +113,14 @@ async function installModule(_: any, ...args: string[]) {
 
   const execName = installPrefix + installName;
 
-  try {
-    await Promise.all([installModuleHandler(args), installUpdateHandler(installName, execName)])
-  } catch (err) {
-    console.error(red(`Installation failed: ${err}`));
+  const result = await Promise.allSettled([installUpdateHandler(installName, execName), installModuleHandler(args)])
+
+  if (result[0].status === "rejected") {
+    console.error(red(`Installation failed: ${result[0].reason}`));
+    Deno.exit(1);
+  }
+  if (result[1].status === "rejected") {
+    console.error(red(`Installation failed: ${result[1].reason}`));
     Deno.exit(1);
   }
 
@@ -145,8 +150,14 @@ async function installModuleHandler(args: string[]) {
       "-f",
       ...args,
     ],
+    stderr: "null",
+    stdout: "null",
   });
 
   const status = await installation.status();
   installation.close();
+
+  if (status.success === false || status.code !== 0) {
+    throw new Error("Module handler installation failed.")
+  }
 }
