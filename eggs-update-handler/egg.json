@@ -1,0 +1,12 @@
+{
+  "name": "eggs-update-handler",
+  "description": "Utility module to handle global updates",
+  "version": "0.3.1",
+  "stable": false,
+  "files": [
+    "README.md",
+    "mod.ts",
+    "cli.ts",
+    "lib/*"
+  ]
+}

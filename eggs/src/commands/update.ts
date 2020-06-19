@@ -1,17 +1,10 @@
 /** Running this script requires the following permissions:
- *     --allow-net, --allow-read, --allow-write */
+ *  --allow-net, --allow-read, --allow-write */
 
-import { Command, semver } from "../deps.ts";
-import {
-  analyzeURL,
-  getLatestVersion,
-} from "../utilities/registries.ts";
+import { Command, semver, analyzeURL, getLatestVersion } from "../deps.ts";
 const decoder = new TextDecoder("utf-8");
 
-/** @interface ModuleToUpdate
- *
- * @description
- * What the constructed dependency objects should contain */
+/** What the constructed dependency objects should contain */
 interface ModuleToUpdate {
   line: string;
   versionURL: string;
