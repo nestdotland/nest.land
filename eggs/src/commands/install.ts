@@ -90,7 +90,7 @@ async function installModule(_: any, ...args: string[]) {
     Deno.exit();
   }
 
-  const indexOfURL = args.findIndex((arg) => arg.match(/http/));
+  const indexOfURL = args.findIndex((arg) => arg.match(/http:\/\//));
   const indexOfName = args.indexOf("-n");
 
   if (indexOfURL < 0) {

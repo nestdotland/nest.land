@@ -6,7 +6,7 @@ import {
   readJson,
   writeJson,
   globalModulesConfigPath,
-  versionSubstitute
+  versionSubstitute,
 } from "../deps.ts";
 const decoder = new TextDecoder("utf-8");
 
@@ -25,7 +25,7 @@ export const update = new Command<Options, Arguments>()
     "Set dependency filename",
     { default: "deps.ts" },
   )
-  .option("-g, --global", "Update global modules", { conflicts: ["file"] })
+  .option("-g, --global", "Update global modules")
   .action(async (options: Options, requestedModules: string[] = []) => {
     if (options.global) {
       await updateGlobalModules(options, requestedModules);
@@ -38,10 +38,10 @@ async function updateGlobalModules(
   options: Options,
   requestedModules: string[],
 ) {
-  const configPath = globalModulesConfigPath()
+  const configPath = globalModulesConfigPath();
   const config = await readConfig(configPath);
 
-  for (const execName of config) {
+  for (const execName in config) {
     const module = config[execName];
 
     if (
@@ -50,21 +50,41 @@ async function updateGlobalModules(
       continue;
     }
 
-  // Get latest release
-    const latestRelease = await getLatestVersion(module.registry, module.moduleName, module.owner);
+    // Get latest release
+    const latestRelease = await getLatestVersion(
+      module.registry,
+      module.moduleName,
+      module.owner,
+    );
 
     // Basic safety net
     if (
-      !module.version || semver.eq(module.version, latestRelease) || !semver.valid(module.version)
+      !module.version || semver.eq(module.version, latestRelease) ||
+      !semver.valid(module.version)
     ) {
       continue;
     }
 
     // Update the dependency
-    const indexOfURL = module.args.findIndex((arg: string) => arg.match(/http/));
-    module.args[indexOfURL].replace(versionSubstitute, latestRelease)
-    const installation = Deno.run({cmd: module.args});
-  
+    const indexOfURL = module.args.findIndex((arg: string) =>
+      arg.match(/https:\/\//)
+    );
+
+    const newArgs = module.args.slice()
+    newArgs[indexOfURL] = newArgs[indexOfURL].replace(
+      versionSubstitute,
+      latestRelease,
+    );
+
+    const installation = Deno.run({
+      cmd: [
+        "deno",
+        "install",
+        "-f",
+        ...newArgs,
+      ],
+    });
+
     const status = await installation.status();
     installation.close();
 
@@ -72,13 +92,13 @@ async function updateGlobalModules(
       throw new Error(`Update failed for ${execName}`);
     }
 
-    config[execName].version = latestRelease
-    
+    module.version = latestRelease;
+
     console.log(`${execName} updated.`);
   }
 
   // Re-write the file
-  writeJson(configPath, config)
+  await writeJson(configPath, config, { spaces: 2 });
 
   console.info("Updated your dependencies!");
   Deno.exit();
