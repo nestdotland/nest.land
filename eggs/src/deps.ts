@@ -6,5 +6,6 @@ export { existsSync, expandGlobSync, writeJson, readJson, exists } from "https:/
 export { bold, green, yellow, red } from "https://deno.land/std@v0.56.0/fmt/colors.ts";
 export { assertEquals } from "https://deno.land/std@v0.56.0/testing/asserts.ts";
 export * as base64 from "https://denopkg.com/chiefbiiko/base64/mod.ts";
-export { installUpdateHandler } from "https://x.nest.land/eggs-update-handler@0.3.8/mod.ts";
+export { installUpdateHandler, globalModulesConfigPath } from "https://x.nest.land/eggs-update-handler@0.3.9/mod.ts";
+export { getLatestVersion, analyzeURL } from "https://x.nest.land/eggs-update-handler@0.3.9/lib/registries.ts";
 export const lstatSync = Deno.lstatSync;

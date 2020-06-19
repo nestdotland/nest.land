@@ -1,16 +1,17 @@
 import { readJson, writeJson, semver, colors, Table } from "./deps.ts";
 import { getLatestVersion } from "./registries.ts";
-import { globalModulesConfigPath } from "./files.ts";
+import { globalModulesConfigPath } from "./config.ts";
 
 export class UpdateNotifier {
   moduleName = "";
+  installName = "";
   owner = "";
   currentVersion = "";
   registry = "";
   installationArgs: string[] = [];
   lastUpdateCheck = Date.now();
   config: any = {};
-  configPath = globalModulesConfigPath()
+  configPath = globalModulesConfigPath();
 
   constructor(
     public execName: string,
@@ -24,6 +25,7 @@ export class UpdateNotifier {
 
     if (module) {
       this.moduleName = module.moduleName;
+      this.installName = module.installName;
       this.owner = module.owner;
       this.currentVersion = module.version;
       this.registry = module.registry;
@@ -52,6 +54,7 @@ export class UpdateNotifier {
         // Unsupported registry or user offline
         return;
       }
+
       const current = semver.coerce(this.currentVersion) || "0.0.1";
       const latest = semver.coerce(latestVersion) || "0.0.1";
 
@@ -71,7 +74,7 @@ export class UpdateNotifier {
       colors.red(this.moduleName)
     } available! ${colors.yellow(from)} → ${colors.green(to)}
 Registry ${colors.cyan(this.registry)}
-Run ${colors.magenta("eggs update -g " + this.execName)} to update`;
+Run ${colors.magenta("eggs update -g " + this.installName)} to update`;
 
     box(notification);
   }

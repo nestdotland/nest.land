@@ -1,3 +1,5 @@
+import { splitVersion, fetchTimeout } from "./utilities.ts";
+
 export const versionSubstitute = "${version}";
 
 /** Gets latest version from supported registries */
@@ -51,8 +53,8 @@ let denoRegistry: any;
 /** Fetches the deno registry only if needed */
 export async function getDenoRegistry() {
   if (denoRegistry) return denoRegistry;
-  const denoDatabaseResponse = await fetch(
-    "https://raw.githubusercontent.com/denoland/deno_website2/master/database.json",
+  const denoDatabaseResponse = await fetchTimeout(
+    "https://raw.githubusercontent.com/denoland/deno_website2/master/database.json", 5000
   );
   denoRegistry = await denoDatabaseResponse.json();
   return denoRegistry;
@@ -63,8 +65,8 @@ export async function getLatestVersionOfGitHubRepo(
   owner: string,
   repo: string,
 ): Promise<string> {
-  const res = await fetch(
-    "https://github.com/" + owner + "/" + repo + "/releases/latest",
+  const res = await fetchTimeout(
+    "https://github.com/" + owner + "/" + repo + "/releases/latest", 5000
   );
   const url = res.url;
   const urlSplit = url.split("/");
@@ -74,8 +76,8 @@ export async function getLatestVersionOfGitHubRepo(
 
 /** Gets the latest release version of standard deno modules */
 export async function getLatestStdVersion(): Promise<string> {
-  const res = await fetch(
-    "https://raw.githubusercontent.com/denoland/deno_website2/master/deno_std_versions.json",
+  const res = await fetchTimeout(
+    "https://raw.githubusercontent.com/denoland/deno_website2/master/deno_std_versions.json", 5000
   );
   const versions = await res.json();
   const latestVersion = versions[0];
@@ -95,9 +97,12 @@ export async function getLatestXVersion(
 export async function getLatestVersionFromNestRegistry(
   dependencyName: string,
 ): Promise<string> {
-  const res = await fetch("https://x.nest.land/api/package/" + dependencyName);
+  const res = await fetchTimeout("https://x.nest.land/api/package/" + dependencyName, 5000);
   const json = await res.json();
-  return json.latestVersion.split("@")[1];
+  /** json.latestVersion is the latest in date but not the most up-to-date */
+  const latestVersion = json.packageUploadNames.sort().pop()
+  // return json.latestVersion.split("@")[1];
+  return latestVersion.split("@")[1];
 }
 
 /** Analyzes x.nest.land url
@@ -128,9 +133,4 @@ export function analyzeRawGithubusercontent(split: string[]) {
   const versionURL = split.join("/");
   const owner = split[3];
   return { moduleName, version, versionURL, owner };
-}
-
-function splitVersion(text: string) {
-  const tmpSplit = text.split("@");
-  return { moduleName: tmpSplit[0], version: tmpSplit[1] };
 }

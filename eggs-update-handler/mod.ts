@@ -1,6 +1,8 @@
 const oneDay = 1000 * 60 * 60 * 24;
 
 /** Install update handler cli to check for updates and notify user */
+export * from "./lib/config.ts"
+
 export async function installUpdateHandler(
   moduleName: string,
   execName: string,
@@ -15,7 +17,7 @@ export async function installUpdateHandler(
       "-A",
       "-n",
       moduleName,
-      "https://x.nest.land/eggs-update-handler@0.3.8/cli.ts",
+      "https://x.nest.land/eggs-update-handler@0.3.9/cli.ts",
       execName,
       updateCheckInterval.toString(),
     ],

@@ -7,10 +7,11 @@ import {
   writeJson,
   readJson,
   exists,
-  semver
+  semver,
+  getLatestVersion,
+  analyzeURL,
+  globalModulesConfigPath
 } from "../deps.ts";
-import { getLatestVersion, analyzeURL } from "../utilities/registries.ts";
-import { globalModulesConfigPath } from "../utilities/files.ts";
 
 const installPrefix = "eggs-";
 
@@ -133,6 +134,7 @@ async function installModule(_: any, ...args: string[]) {
   config[execName] = {
     registry,
     moduleName,
+    installName,
     owner,
     version: semver.valid(version) ?? await getLatestVersion(registry, moduleName, owner),
     args,
@@ -150,7 +152,6 @@ async function installModuleHandler(args: string[]) {
       "-f",
       ...args,
     ],
-    stderr: "null",
     stdout: "null",
   });
 
