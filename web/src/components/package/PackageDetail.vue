@@ -26,7 +26,7 @@
                 <p class="subtitle">{{ packageInfo.description }}</p>
                 <hr class="mini-hr" />
               </div>
-              <vue-markdown :source="packageReadme" :toc="true" :toc-anchor-link-space="false" id="readme"></vue-markdown>
+              <vue-markdown :source="packageReadme" :toc="true" :toc-anchor-link-space="false" class="readme"></vue-markdown>
             </div>
             <div class="column is-4">
               <nav class="panel">
@@ -153,6 +153,9 @@ export default {
 </script>
 
 <style lang="scss">
+
+@import "../../styles/Markdown.sass";
+
 .readme {
   margin-top: 1.5rem !important;
 }
@@ -178,88 +181,11 @@ pre.is-fullwidth {
   width: 100%;
 }
 
-#readme {
+.readme {
   :first-child {
     margin-top: 0;
     padding-top: 0;
   }
-  h1 {
-    display: block;
-    font-size: 2em;
-    margin-top: 0.67em;
-    margin-bottom: 0.67em;
-    margin-left: 0;
-    margin-right: 0;
-  }
-  h2 {
-    display: block;
-    font-size: 1.5em;
-    margin-top: 0.83em;
-    margin-bottom: 0.83em;
-    margin-left: 0;
-    margin-right: 0;
-  }
-  h3 {
-    display: block;
-    font-size: 1.17em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    margin-left: 0;
-    margin-right: 0;
-  }
-  h4 {
-    display: block;
-    font-size: 1em;
-    margin-top: 1.33em;
-    margin-bottom: 1.33em;
-    margin-left: 0;
-    margin-right: 0;
-  }
-  h5 {
-    display: block;
-    font-size: .83em;
-    margin-top: 1.67em;
-    margin-bottom: 1.67em;
-    margin-left: 0;
-    margin-right: 0;
-  }
-  h6 {
-    display: block;
-    font-size: .67em;
-    margin-top: 2.33em;
-    margin-bottom: 2.33em;
-    margin-left: 0;
-    margin-right: 0;
-  }
-  p {
-    display: block;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    margin-left: 0;
-    margin-right: 0;
-  }
-  li {
-    display: list-item;
-    ul {
-      margin-top: 0;
-    }
-  }
-  ul {
-    display: block;
-    list-style-type: disc;
-    margin-top: 1em;
-    margin-bottom: 1 em;
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: 40px;
-  }
-  a {
-    color: #00d1b2;
-  }
-  .toc-anchor {
-    color: #cccccc;
-    position: absolute;
-    left: -25px;
-  }
+  @include markdown();
 }
 </style>

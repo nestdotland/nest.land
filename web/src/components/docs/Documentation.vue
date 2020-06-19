@@ -149,6 +149,8 @@
 
 <style lang="sass" scoped>
 
+  @import "../../styles/Markdown.sass"
+
   .Documentation
     .NavContainer
       position: relative
@@ -237,89 +239,6 @@
           padding: 0 10vw 15px
 
         .Markdown::v-deep
-
-          h1, h2, h3, h4, h5, h6
-            position: relative
-            display: block
-
-          .toc-anchor
-            color: #cccccc
-            position: absolute
-            left: -30px
-            transition: all .3s
-
-            &:hover
-              color: #00947e
-
-          a
-            color: #00947e
-
-          h1
-            font-size: 2em
-            margin: .67em 0
-
-          h2
-            font-size: 1.5em
-            margin: .83em 0
-
-          h3
-            font-size: 1.17em
-            margin: 1em 0
-
-          h4
-            font-size: 1em
-            margin: 1.33em 0
-            font-weight: 600
-
-          h5
-            font-size: .83em
-            margin: 1.67em 0
-
-          h6
-            font-size: .67em
-            margin: 2.33em 0
-
-          p
-            margin: 1em 0
-
-          blockquote
-            padding: .67em 14px
-            border-left: 4px solid rgba(#00947e, .65)
-            margin: .67em 0
-            background-color: rgba(#f5f5f5, .6)
-
-            p
-              margin: 0
-              opacity: .9
-
-          table
-            border-collapse: collapse
-            border-style: hidden
-            margin-bottom: 20px
-
-            td, th
-              border: 1px solid #dbdbdb
-              padding: 6px 20px
-
-          code
-            color: #4a4a4a
-
-          pre
-            margin: 10px 0
-
-            code.language-shell
-              padding-left: 25px
-              position: relative
-              color: currentColor
-
-              &::before
-                content: '$'
-                color: #00947e
-                font-size: 1.2em
-                font-weight: 500
-                position: absolute
-                top: 50%
-                left: 0
-                transform: translateY(-50%)
+          +markdown()
 
 </style>
