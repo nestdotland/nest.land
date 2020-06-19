@@ -13,7 +13,7 @@ import {
   globalModulesConfigPath,
 } from "../deps.ts";
 
-const installPrefix = "eggs-";
+const installPrefix = "eggs--";
 
 const configPath = globalModulesConfigPath();
 
@@ -90,7 +90,7 @@ async function installModule(_: any, ...args: string[]) {
     Deno.exit();
   }
 
-  const indexOfURL = args.findIndex((arg) => arg.match(/http:\/\//));
+  const indexOfURL = args.findIndex((arg) => arg.match(/https:\/\//));
   const indexOfName = args.indexOf("-n");
 
   if (indexOfURL < 0) {
@@ -128,7 +128,7 @@ async function installModule(_: any, ...args: string[]) {
   }
 
   /** After installation, the URL is ready to be updated */
-  args[args.findIndex((arg) => arg.match(/http/))] = versionURL;
+  args[args.findIndex((arg) => arg.match(/https:\/\//))] = versionURL;
 
   const configExists = await exists(configPath);
   const config: any = configExists ? await readJson(configPath) : {};
@@ -156,6 +156,7 @@ async function installModuleHandler(args: string[]) {
       ...args,
     ],
     stdout: "null",
+    stderr: "null",
   });
 
   const status = await installation.status();
