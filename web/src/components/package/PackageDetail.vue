@@ -91,7 +91,8 @@
 
               <router-link class="panel-block" :to="'/package/' + $route.params.id"><font-awesome-icon class="icon-margin-right" :icon="['fa', 'level-up-alt']" />Go back to package review</router-link>
 
-              <router-link class="panel-block fileItem" v-for="file in fileSystem" :to="'/package/' + $route.params.id + '/files/'" :key="file.id"><font-awesome-icon class="icon-margin-right" :icon="['fa', getFileItemType(file.fileName) === 'md' ? 'book-open' : 'file-code']" />{{ file.fileName }}</router-link>
+              <router-link class="panel-block fileItem" v-for="dir in currentDirectories" :to="{ path: removeSlashFunc(dir) }" :key="dir.id" append><font-awesome-icon class="icon-margin-right" :icon="['fa', 'folder']" />{{ dir | removeSlash }}</router-link>
+              <router-link class="panel-block fileItem" v-for="file in currentFiles" :to="{ path: file.fileName }" :key="file.id" append><font-awesome-icon class="icon-margin-right" :icon="['fa', getFileItemType(file.fileName) === 'md' ? 'book-open' : 'file-code']" />{{ file.fileName }}</router-link>
 
             </nav>
 
@@ -132,6 +133,11 @@ export default {
       if (!createdAt) return "";
       return moment(String(createdAt)).format("LL");
     },
+    removeSlash (val) {
+
+      return val.replace(new RegExp('/', 'g'), '')
+
+    },
   },
   async created() {
 
@@ -167,6 +173,11 @@ export default {
       return this.$route.path.toLowerCase().includes('/files/')
 
     },
+    filesLocation () {
+
+      return this.$route.path.split('/files')[1]
+
+    },
     fileSystem () {
 
       let fileSystemData = []
@@ -182,6 +193,26 @@ export default {
       }
 
       return fileSystemData
+
+    },
+    currentFiles () {
+
+      return this.fileSystem.filter(file => {
+
+        return file.fileLocation === this.filesLocation
+
+      })
+
+    },
+    currentDirectories () {
+
+      const dirs = []
+
+      for(const file of this.fileSystem)
+        if(!dirs.includes(file.fileLocation) && file.fileLocation !== this.filesLocation && file.fileLocation.includes(this.filesLocation) && ((file.fileLocation.replace(this.filesLocation, '').match(new RegExp('/', 'g')) || []).length === 1 || (file.fileLocation.replace(this.filesLocation + '/', '').match(new RegExp('/', 'g')) || []).length === 1))
+          dirs.push(file.fileLocation)
+
+      return dirs
 
     }
 
@@ -235,6 +266,11 @@ export default {
         return 'dir'
 
       return fileName.split('.')[fileName.split('.').length - 1]
+
+    },
+    removeSlashFunc (val) {
+
+      return val.replace(new RegExp('/', 'g'), '')
 
     }
 
