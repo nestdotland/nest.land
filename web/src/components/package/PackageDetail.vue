@@ -79,7 +79,7 @@
 
           </div>
 
-          <div v-else-if="!noVersion">
+          <div class="fileSystem" v-else-if="!noVersion">
 
             <nav class="panel">
 
@@ -90,6 +90,8 @@
               </p>
 
               <router-link class="panel-block" :to="'/package/' + $route.params.id"><font-awesome-icon class="icon-margin-right" :icon="['fa', 'level-up-alt']" />Go back to package review</router-link>
+
+              <router-link class="panel-block fileItem" v-for="file in fileSystem" :to="'/package/' + $route.params.id + '/files/'" :key="file.id"><font-awesome-icon class="icon-margin-right" :icon="['fa', getFileItemType(file.fileName) === 'md' ? 'book-open' : 'file-code']" />{{ file.fileName }}</router-link>
 
             </nav>
 
@@ -107,6 +109,7 @@ import { HTTP } from "../../http-common";
 import moment from "moment";
 import VueMarkdown from "vue-markdown";
 import * as semverSort from "semver/functions/sort";
+import axios from "axios";
 
 export default {
   components: {
@@ -121,6 +124,7 @@ export default {
       packageReadme: "Loading README...",
       loading: true,
       noVersion: false,
+      files: {},
     };
   },
   filters: {
@@ -130,8 +134,6 @@ export default {
     },
   },
   async created() {
-
-    //https://x.nest.land/api/package/opine/0.10.2
 
     await this.refreshContent();
     this.selectedVersion = this.packageInfo.latestStableVersion;
@@ -149,12 +151,37 @@ export default {
     await this.refreshReadme();
     this.loading = false;
 
+    if(this.isFileBrowse) {
+
+      await axios
+        .get(`https://x.nest.land/api/package/${ this.packageInfo.name }/${ this.selectedVersion.split('@')[1] }`)
+        .then(response => this.files = response.data.files)
+
+    }
+
   },
   computed: {
 
     isFileBrowse () {
 
       return this.$route.path.toLowerCase().includes('/files/')
+
+    },
+    fileSystem () {
+
+      let fileSystemData = []
+
+      for(const file in this.files) {
+
+        const
+          fileName = file.split('/')[file.split('/').length - 1],
+          fileLocation = file.replace(fileName, '')
+
+        fileSystemData.push({ fileName, fileLocation })
+
+      }
+
+      return fileSystemData
 
     }
 
@@ -175,9 +202,12 @@ export default {
       }
     },
     async refreshReadme() {
+
       if(this.noVersion)
         return;
+
       try {
+
         console.log("FETCHING");
         const url = "https://x.nest.land/" + this.selectedVersion + "/README.md";
         console.log(url)
@@ -186,8 +216,11 @@ export default {
           redirect: "follow"
         });
         this.packageReadme = await readmeResponse.text();
+
       } catch (err) {
+
         this.$emit("new-error", err);
+
       }
     },
     sortPackages(packageList) {
@@ -195,7 +228,16 @@ export default {
         packageList[i] = packageList[i].split("@")[1];
       }
       return semverSort(packageList).reverse();
+    },
+    getFileItemType (fileName) {
+
+      if(fileName.split('.').length < 1)
+        return 'dir'
+
+      return fileName.split('.')[fileName.split('.').length - 1]
+
     }
+
   },
 };
 </script>
@@ -235,5 +277,13 @@ pre.is-fullwidth {
     padding-top: 0;
   }
   @include markdown();
+}
+
+.fileSystem .panel-block {
+  padding: 0.5em 1.25em;
+}
+
+.fileSystem .fileItem {
+  padding: 0.5em 1.75em;
 }
 </style>
