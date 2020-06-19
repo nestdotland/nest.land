@@ -155,18 +155,29 @@
 
       .greyBg
         position: absolute
-        z-index: 1;
+        z-index: 1
         background-color: #f5f5f5
         height: 100%
 
+        @media screen and (max-width: 769px)
+          display: none
+
       .navbar
-        z-index: 10;
+        z-index: 50
         background-color: transparent
+
+        @media screen and (max-width: 769px)
+          z-index: 30
+          background-color: #fff
 
     .DocsContent
       $topPadding: 35px
       display: flex
       align-items: stretch
+
+      @media screen and (max-width: 769px)
+        display: block
+        align-items: normal
 
       .DocsNav
         $width: 30vw
@@ -174,6 +185,9 @@
         position: relative
         padding: $topPadding 15px $topPadding $width / 4
         background-color: #f5f5f5
+
+        @media screen and (max-width: 769px)
+          display: none
 
         .DocsNavContent
           position: fixed
@@ -217,6 +231,10 @@
       .DocsContainer
         width: 70vw
         padding: $topPadding 3.5%
+
+        @media screen and (max-width: 769px)
+          width: 100%
+          padding: 0 10vw 15px
 
         .Markdown::v-deep
 
