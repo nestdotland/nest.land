@@ -13,19 +13,20 @@ export const update = new Command<Options, Arguments>()
   .arguments("[deps...:string]")
   .option(
     "--file <file:string>",
-    "Set dependency filename, defaults to deps.ts",
+    "Set dependency filename",
     { default: "deps.ts" },
   )
   .option("-g, --global", "Update global modules")
   .action(updateModules);
 
-async function updateModules(options: Options, requestedModules: string[]) {
-  const dependencyFilename = options.file;
-
+async function updateModules(
+  options: Options,
+  requestedModules: string[] = [],
+) {
   /** Gather the path to the user's dependency file using the CLI arguments */
   let pathToDepFile = "";
   try {
-    pathToDepFile = Deno.realPathSync("./" + dependencyFilename);
+    pathToDepFile = Deno.realPathSync("./" + options.file);
   } catch (err) {
     // Dependency file doesn't exist
     console.error(
@@ -37,11 +38,10 @@ async function updateModules(options: Options, requestedModules: string[]) {
   /** Creates an array of strings from each line inside the dependency file.
    * Only extracts lines that contain "https://" to strip out non-import lines. */
   const dependencyFileContents: string[] = decoder
-    .decode(Deno.readFileSync(Deno.realPathSync(pathToDepFile)))
+    .decode(Deno.readFileSync(pathToDepFile))
     .split("\n")
-    .filter((line) => {
-      return line.indexOf("https://") > 0;
-    });
+    .filter((line) => line.indexOf("https://") > 0);
+
   if (dependencyFileContents.length === 0) {
     console.warn(
       "Your dependency file does not contain any imported modules. Exiting...",
@@ -70,7 +70,9 @@ async function updateModules(options: Options, requestedModules: string[]) {
     const latestRelease = await getLatestVersion(registry, moduleName, owner);
 
     // Basic safety net
-    if (semver.eq(version, latestRelease) || !semver.valid(version)) {
+    if (
+      !version || semver.eq(version, latestRelease) || !semver.valid(version)
+    ) {
       continue;
     }
 
@@ -80,6 +82,7 @@ async function updateModules(options: Options, requestedModules: string[]) {
       versionURL,
       latestRelease,
     });
+    console.log(`${dependenciesToUpdate.length} dependencies out of date`);
   }
 
   // If no modules are needed to update then exit

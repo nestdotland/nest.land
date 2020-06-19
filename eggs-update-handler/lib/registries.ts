@@ -19,6 +19,7 @@ export async function getLatestVersion(
       return getLatestStdVersion();
 
     case "raw.githubusercontent.com":
+    case "denopkg.com":
       return getLatestVersionOfGitHubRepo(owner, moduleName);
 
     default:
@@ -41,6 +42,9 @@ export function analyzeURL(url: string) {
 
     case "raw.githubusercontent.com":
       return { registry, ...analyzeRawGithubusercontent(tmpSplit) };
+
+    case "denopkg.com":
+      return { registry, ...analyzeDenopkg(tmpSplit) };
 
     default:
       throw new Error(`Unsupported registry: ${registry}`);
@@ -112,7 +116,7 @@ export async function getLatestVersionFromNestRegistry(
 }
 
 /** Analyzes x.nest.land url
- * https://x.nest.land/[NAME]@[VERSION]/[MODULE] */
+ * https://x.nest.land/[NAME]@[VERSION]/[...].ts */
 export function analyzeXNestLand(split: string[]) {
   const { moduleName, version } = splitVersion(split[3]);
   split[3] = `${moduleName}@${versionSubstitute}`;
@@ -121,20 +125,42 @@ export function analyzeXNestLand(split: string[]) {
 }
 
 /** Analyzes deno.land url
- * https://deno.land/[x or std]/[NAME]@[VERSION]/[MODULE] */
+ * https://deno.land/std@[VERSION]/[...].ts
+ * https://deno.land/x/[NAME]@[VERSION]/[...].ts */
 export function analyzeDenoLand(split: string[]) {
-  const { moduleName, version } = splitVersion(split[4]);
-  split[4] = `${moduleName}@${versionSubstitute}`;
-  const versionURL = split.join("/");
-  const registry = `deno.land/${split[3]}`;
-  return { moduleName, version, versionURL, registry };
+  const { moduleName: xOrStd } = splitVersion(split[3]);
+  if (xOrStd === "x") {
+    const { moduleName, version } = splitVersion(split[4]);
+    split[4] = `${moduleName}@${versionSubstitute}`;
+    const versionURL = split.join("/");
+    const registry = "deno.land/x";
+    return { moduleName, version, versionURL, registry };
+  }
+  if (xOrStd === "std") {
+    const { version } = splitVersion(split[3]);
+    split[3] = `std@${versionSubstitute}`;
+    const versionURL = split.join("/");
+    const registry = "deno.land/std";
+    return { moduleName: "std", version, versionURL, registry };
+  }
+  throw new Error(`Unable to parse deno.land url: ${split.join("/")}`);
 }
 
 /** Analyzes raw.githubusercontent url
- * https://raw.githubusercontent.com/[OWNER]/[NAME]/[VERSION]/[MODULE] */
+ * https://raw.githubusercontent.com/[OWNER]/[NAME]/[VERSION]/[...].ts */
 export function analyzeRawGithubusercontent(split: string[]) {
   const moduleName = split[4];
   const version = split[5];
+  split[5] = versionSubstitute;
+  const versionURL = split.join("/");
+  const owner = split[3];
+  return { moduleName, version, versionURL, owner };
+}
+
+/** Analyzes denopkg url
+ * https://denopkg.com/[OWNER]/[NAME]@[VERSION]/[...].ts */
+export function analyzeDenopkg(split: string[]) {
+  const { moduleName, version } = splitVersion(split[4]);
   split[5] = versionSubstitute;
   const versionURL = split.join("/");
   const owner = split[3];
