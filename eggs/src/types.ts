@@ -1,4 +1,5 @@
 export type ConfigFormats = "yaml" | "yml" | "json";
+
 export interface Config {
     name?: string;
     description?: string;
