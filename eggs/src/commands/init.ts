@@ -1,5 +1,6 @@
 import { Command, Input, Confirm, List, writeJson, yellow } from "../deps.ts";
 import { pathExists } from "../utilities/files.ts";
+import { Config, ConfigFormats } from "../types.ts";
 
 export const init = new Command()
     .version("0.1.0")
@@ -25,7 +26,7 @@ export const init = new Command()
         });
         const pStable: boolean = await Confirm.prompt("Is this a stable version?");
         const pFiles: string[] = await List.prompt("Enter the files and relative directories that nest.land will publish separated by a comma.");
-
+        const pFormat: ConfigFormats = await Input.prompt("Which config format do you prefer?");
         const eggJson = {
             name: pName,
             description: pDesc || previousConfig.description,
@@ -34,10 +35,3 @@ export const init = new Command()
         };
         await writeJson("egg.json", eggJson, { spaces: 2 });
     });
-
-interface Config {
-    name?: string;
-    description?: string;
-    stable?: boolean;
-    files?: string[]
-}
