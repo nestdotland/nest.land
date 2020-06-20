@@ -1,6 +1,7 @@
 import semver from "semver";
 import { getType } from "mime";
 import { Router } from "express";
+import normalize from "../utils/normalize";
 import generateToken from "../utils/token";
 import isNameOkay from "../utils/reservedNames";
 import { save as saveTemp } from "../utils/temp";
@@ -12,6 +13,7 @@ interface OngoingUpload {
   owner: string,
   description?: string,
   documentation?: string,
+  entry: string,
   version: string,
   name: string,
   latest: boolean,
@@ -29,10 +31,12 @@ export default (database: DbConnection, arweave: ArwConnection) => {
     let limit = Math.max(0, Math.min(999999999999, parseInt(req.params.limit || "999999999999", 10)));
     let page = parseInt(req.params.page || "1", 10);
 
-    let dbPackageCount = await database.repositories.Package.count();
+    let dbPackageCount = await database.repositories.Package.count({ where: [{ unlisted: null }, { unlisted: false }] });
     let dbPackages = await database.repositories.Package.find({
+      where: [{ unlisted: null }, { unlisted: false }],
       skip: (page - 1) * limit,
-      take: limit
+      take: limit,
+      order: { updatedAt: "DESC" }
     });
 
     let body = {
@@ -87,9 +91,12 @@ export default (database: DbConnection, arweave: ArwConnection) => {
     let dbUser = await database.repositories.User.findOne({ where: { apiKey: apiKey } });
     if (!dbUser) return res.sendStatus(401);
 
-    let { name, description, documentation, version, latest, stable, upload } = req.body;
-    if (typeof name !== "string" || name.length > 40) return res.sendStatus(400);
+    let { name, description, documentation, version, latest, stable, upload, unlisted, repository, entry } = req.body;
+    if (typeof name !== "string" || name.length > 40 || name.length < 2) return res.sendStatus(400);
+    if (repository && typeof repository !== "string") return res.sendStatus(400);
+    if (entry && typeof entry !== "string") return res.sendStatus(400);
     if (typeof upload !== "undefined" && typeof upload !== "boolean") return res.sendStatus(400);
+    if (typeof unlisted !== "undefined" && typeof unlisted !== "boolean") return res.sendStatus(400);
     if (description && typeof description !== "string") return res.sendStatus(400);
     if (documentation && typeof documentation !== "string") return res.sendStatus(400);
     if (version && (typeof version !== "string" || version.length > 20)) return res.sendStatus(400);
@@ -100,30 +107,48 @@ export default (database: DbConnection, arweave: ArwConnection) => {
     if (!version) version = "0.0.1";
     if (!semver.valid(version)) return res.sendStatus(400);
 
-    let dbPackage = await database.repositories.Package.findOne({ where: { name: name } });
+    if (!entry) entry = "/mod.ts";
 
+    let nzName = normalize(name);
+    if (!nzName) return res.sendStatus(400);
+
+    let dbPackage = await database.repositories.Package.findOne({ where: { normalizedName: nzName } });
+
+    if (dbPackage && dbPackage.name !== name) return res.sendStatus(409);
     if (dbPackage && dbPackage.packageUploadNames.indexOf(`${name}@${version}`) !== -1) return res.sendStatus(409);
     if (dbPackage && dbPackage.owner !== dbUser.name) return res.sendStatus(403);
 
     if (dbPackage && dbPackage.locked) return res.sendStatus(423);
 
     if (dbPackage && description) {
-      dbPackage.description = description;
-      await database.repositories.Package.update({ name: name }, { description: description });
+      dbPackage.description = (description === "none") ? null : description;
+      await database.repositories.Package.update({ name: name }, { description: dbPackage.description });
+    }
+
+    if (dbPackage && repository) {
+      dbPackage.repository = (repository === "none") ? null : repository;
+      await database.repositories.Package.update({ name: name }, { repository: dbPackage.repository });
+    }
+
+    if (dbPackage && typeof unlisted !== "undefined") {
+      dbPackage.unlisted = unlisted;
+      await database.repositories.Package.update({ name: name }, { unlisted: unlisted });
     }
 
     if (!dbPackage) {
       let pkg = new Package();
       pkg.name = name;
+      pkg.normalizedName = nzName;
       pkg.owner = dbUser.name;
       pkg.latestVersion = null;
       pkg.latestStableVersion = null;
-      if (description) pkg.description = description;
+      pkg.unlisted = unlisted;
+      if (repository && repository !== "none") pkg.repository = repository;
+      if (description && description !== "none") pkg.description = description;
       pkg.packageUploadNames = [];
       await database.repositories.Package.insert(pkg);
       dbPackage = pkg;
-
-      dbUser.packageNames = [ ...dbUser.packageNames, pkg.name ];
+      dbUser.packageNames = [ ...(dbUser.packageNames || []), pkg.name ];
       await database.repositories.User.update({ name: dbUser.name }, { packageNames: dbUser.packageNames });
     };
 
@@ -138,6 +163,7 @@ export default (database: DbConnection, arweave: ArwConnection) => {
         description: description,
         documentation: documentation,
         latest: latest,
+        entry: entry,
         latestStable: latest && stable,
         added: Date.now(),
         pieces: {},
@@ -209,7 +235,7 @@ export default (database: DbConnection, arweave: ArwConnection) => {
           manifest: "arweave/paths",
           version: "0.1.0",
           index: {
-            path: "mod.ts"
+            path: newUpload.entry.replace(/^\//, ""),
           },
           paths: Object.entries(fileMap).reduce((p, [ f, l ]) => {
             p[f.replace(/^\//, "")] = { id: l.txId };
@@ -223,13 +249,14 @@ export default (database: DbConnection, arweave: ArwConnection) => {
       packageUpload.prefix = `${arweave.api.config.protocol}://${arweave.api.config.host}/${manifestId}`;
       packageUpload.package = newUpload.name;
       packageUpload.version = newUpload.version;
+      packageUpload.entry = newUpload.entry;
       await database.repositories.PackageUpload.save(packageUpload);
 
       let pkg = await database.repositories.Package.findOne({ name: newUpload.name });
       await database.repositories.Package.update({ name: pkg.name }, {
         latestStableVersion: newUpload.latestStable ? `${newUpload.name}@${newUpload.version}` : undefined,
         latestVersion: newUpload.latest ? `${newUpload.name}@${newUpload.version}` : undefined,
-        packageUploadNames: [ ...pkg.packageUploadNames, packageUpload.name ],
+        packageUploadNames: [ ...(pkg.packageUploadNames || []), packageUpload.name ],
       });
 
       return res.status(201).send({

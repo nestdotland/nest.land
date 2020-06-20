@@ -7,13 +7,16 @@ export class User {
   @t.PrimaryColumn("varchar", { length: 20, nullable: false, unique: true })
   name: string;
 
+  @t.PrimaryColumn("varchar", { length: 20, nullable: false, unique: true })
+  normalizedName: string;
+
   @t.Column("varchar", { length: 256, nullable: false })
   password: string;
 
   @t.Column("varchar", { length: 256, nullable: false })
   apiKey: string;
 
-  @t.Column("varchar", { array: true, length: 40 })
+  @t.Column("varchar", { array: true, length: 40, nullable: true })
   packageNames: string[];
 
   @t.CreateDateColumn({ type: "timestamp with time zone" })
@@ -27,26 +30,38 @@ export class Package {
   @t.PrimaryColumn("varchar", { length: 40, nullable: false, unique: true })
   name: string;
 
+  @t.PrimaryColumn("varchar", { length: 40, nullable: false, unique: true })
+  normalizedName: string;
+
   @t.Column("varchar", { length: 256, nullable: false })
   owner: string;
 
   @t.Column("text", { nullable: true })
-  description: string;
+  description?: string;
+
+  @t.Column("text", { nullable: true })
+  repository?: string;
 
   @t.Column("varchar", { length: 61, nullable: true })
-  latestVersion: string;
+  latestVersion?: string;
 
   @t.Column("varchar", { length: 61, nullable: true })
-  latestStableVersion: string;
+  latestStableVersion?: string;
 
-  @t.Column("varchar", { array: true, length: 61 })
+  @t.Column("varchar", { array: true, length: 61, nullable: true })
   packageUploadNames: string[];
 
   @t.Column("boolean", { nullable: true })
-  locked: boolean;
+  locked?: boolean;
 
   @t.Column("boolean", { nullable: true })
-  malicious: boolean;
+  malicious?: boolean;
+
+  @t.Column("boolean", { nullable: true })
+  unlisted?: boolean;
+
+  @t.UpdateDateColumn({ type: "timestamp with time zone" })
+  updatedAt: Date;
 
   @t.CreateDateColumn({ type: "timestamp with time zone" })
   createdAt: Date;
@@ -62,17 +77,20 @@ export class PackageUpload {
   @t.Column("varchar", { length: 40, nullable: false })
   package: string;
 
+  @t.Column("varchar", { length: 60, nullable: true })
+  entry?: string;
+
   @t.Column("varchar", { length: 20, nullable: false })
   version: string;
 
   @t.Column("varchar", { length: 256, nullable: true })
-  prefix: string;
+  prefix?: string;
 
   @t.Column("boolean", { nullable: true })
-  malicious: boolean;
+  malicious?: boolean;
 
   @t.Column("json")
-  files: { [x: string]: { inManifest: string, txId: string } }
+  files: { [x: string]: { inManifest: string, txId: string } };
 
   @t.CreateDateColumn({ type: "timestamp with time zone" })
   createdAt: Date;
