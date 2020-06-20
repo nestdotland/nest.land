@@ -72,7 +72,7 @@ async function updateGlobalModules(
       arg.match(/https:\/\//)
     );
 
-    const newArgs = module.args.slice()
+    const newArgs = module.args.slice();
     newArgs[indexOfURL] = newArgs[indexOfURL].replace(
       versionSubstitute,
       latestRelease,
@@ -96,7 +96,11 @@ async function updateGlobalModules(
 
     module.version = latestRelease;
 
-    console.log(`${execName} (${module.moduleName}) ${yellow(module.version)} → ${green(latestRelease)}`);
+    console.log(
+      `${execName} (${module.moduleName}) ${yellow(module.version)} → ${
+        green(latestRelease)
+      }`,
+    );
   }
 
   // Re-write the file
