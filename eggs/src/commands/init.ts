@@ -3,11 +3,10 @@ import { pathExists } from "../utilities/files.ts";
 import { Config, ConfigFormats } from "../types.ts";
 import { writeConfig } from "../utilities/writeconfig.ts";
 
-function detectConfig(): ConfigFormats | boolean {
-  if(pathExists("egg.yaml") return "yaml";
+function detectConfig(): ConfigFormats {
+  if(pathExists("egg.yaml")) return "yaml";
   else if (pathExists("egg.yml")) return "yml";
-  else if (pathExists("egg.json")) return "json";
-  else return false;
+  return "json";
 }
 
 export const init = new Command()
@@ -15,12 +14,16 @@ export const init = new Command()
     .description("Initiates a new package for the nest.land registry.")
     .action(async () => {
         let previousConfig: Config = {};
-        let previousConfigFormat: ConfigFormats | boolean = detectConfig();
-        if (previousConfigFormat) {
+        let previousConfigFormat: ConfigFormats = detectConfig();
+        if (pathExists("egg.yaml") || pathExists("egg.json") || pathExists("egg.yml")) {
             console.warn(yellow("An egg config file already exists here! Overriding..."));
             const decoder = new TextDecoder("utf-8");
             const content = decoder.decode(await Deno.readFile(`egg.${previousConfigFormat}`));
-            if(["yaml", "yml"].includes(previousConfigFormat)) previousConfig = parse(content);
+            if(["yaml", "yml"].includes(previousConfigFormat)) {
+              let yamlConfig = parse(content);
+              // @ts-ignore
+              previousConfig = typeof yamlConfig == "object" ? yamlConfig : {};
+            }
             else previousConfig = JSON.parse(content);
         };
 
