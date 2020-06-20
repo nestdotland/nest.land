@@ -40,6 +40,8 @@
                     <div class="filesTitle" v-if="filesLocation === '' || filesLocation === '/'">Browse package files</div>
                     <div class="filesTitle" v-else><router-link v-for="fileLocation in filesLocationList" :key="fileLocation.id" :to="'/package/' + $route.params.id + '/files' + fileLocation.href">{{ fileLocation.display }}</router-link></div>
 
+                    <a :href="'https://doc.deno.land/https/x.nest.land/' + selectedVersion + filesLocation" target="_blank" rel="noopener noreferrer" class="FileDocumentation" v-if="fileView && (currentFileExtension === 'ts' || currentFileExtension === 'js')">View Documentation</a>
+
                   </div>
 
                   <router-link class="panel-block" :to="parentDir"><font-awesome-icon class="icon-margin-right" :icon="['fa', 'level-up-alt']" />{{ filesLocation === '' || filesLocation === '/' ? 'Return to package review' : 'Go up' }}</router-link>
@@ -51,11 +53,21 @@
 
                   </div>
 
-                  <vue-code-highlight v-else-if="currentFileExtension !== 'md'">
+                  <div class="CodeHighlight" v-else-if="currentFileExtension !== 'md'">
 
-                    {{ currentFileContent }}
+                    <div class="Lines">
 
-                  </vue-code-highlight>
+                      <span v-for="line in fileContentLines" :key="line.id" :id="'L' + line"><a :href="'#L' + line">{{ line }}</a></span>
+
+                    </div>
+
+                    <vue-code-highlight class="Code">
+
+                      {{ currentFileContent }}
+
+                    </vue-code-highlight>
+
+                  </div>
 
                   <vue-markdown :source="currentFileContent" :toc="true" :toc-anchor-link-space="false" class="Markdown" v-else></vue-markdown>
 
@@ -265,6 +277,11 @@ export default {
 
       return fileName.split('.')[fileName.split('.').length - 1]
 
+    },
+    fileContentLines () {
+
+      return this.currentFileContent.split(/\r\n|\r|\n/).length
+
     }
 
   },
@@ -425,6 +442,23 @@ pre.is-fullwidth {
   }
   .Markdown {
     padding: 1em 3em;
+  }
+  .panel-heading {
+    position: relative;
+    padding: 0.75em 1em;
+    .FileDocumentation {
+
+      position: absolute;
+      font-size: .7em;
+      float: right;
+      color: #00947e;
+      display: inline-block;
+      vertical-align: bottom;
+      right: 1em;
+      top: 50%;
+      transform: translateY(-50%);
+
+    }
   }
 
 }
