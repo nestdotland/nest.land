@@ -20,7 +20,6 @@
     <div class="hero">
       <div class="hero-body">
         <div class="container">
-
           <div class="columns reverse-column-order">
             <div class="column is-8">
               <div v-show="packageReadme === 'Loading README...'" >
@@ -28,53 +27,33 @@
                 <hr class="mini-hr" />
               </div>
               <vue-markdown :source="packageReadme" :toc="true" :toc-anchor-link-space="false" class="Markdown" v-if="!isFileBrowse"></vue-markdown>
-
               <div class="fileSystem" v-else-if="!noVersion">
-
                 <div class="panel">
-
                   <div class="panel-heading">
-
                     <font-awesome-icon class="icon-margin-right" :icon="['fa', 'folder']" />
-
                     <div class="filesTitle" v-if="filesLocation === '' || filesLocation === '/'">Browse package files</div>
                     <div class="filesTitle" v-else><router-link v-for="fileLocation in filesLocationList" :key="fileLocation.id" :to="'/package/' + $route.params.id + '/files' + fileLocation.href">{{ fileLocation.display }}</router-link></div>
-
                     <a :href="'https://doc.deno.land/https/x.nest.land/' + selectedVersion + filesLocation" target="_blank" rel="noopener noreferrer" class="FileDocumentation" v-if="fileView && (currentFileExtension === 'ts' || currentFileExtension === 'js')">View Documentation</a>
-
                   </div>
-
                   <router-link class="panel-block" :to="parentDir"><font-awesome-icon class="icon-margin-right" :icon="['fa', 'level-up-alt']" />{{ filesLocation === '' || filesLocation === '/' ? 'Return to package review' : 'Go up' }}</router-link>
-
                   <div v-if="!fileView">
-
                     <router-link class="panel-block fileItem" v-for="dir in currentDirectories" :to="{ path: removeSlashFunc(dir) }" :key="dir.id" append><font-awesome-icon class="icon-margin-right" :icon="['fa', 'folder']" />{{ dir | removeSlash }}</router-link>
-                    <router-link class="panel-block fileItem" v-for="file in currentFiles" :to="{ path: file.fileName }" :key="file.id" append><font-awesome-icon class="icon-margin-right" :icon="['fa', getFileItemType(file.fileName) === 'md' ? 'book-open' : 'file-code']" />{{ file.fileName }}</router-link>
-
+                    <router-link class="panel-block fileItem" v-for="file in currentFiles" :to="{ path: file.fileName }" :key="file.id" @click.native="openFile" append><font-awesome-icon class="icon-margin-right" :icon="['fa', getFileItemType(file.fileName) === 'md' ? 'book-open' : (['png', 'jpg', 'gif', 'jpeg'].includes(getFileItemType(file.fileName)) ? 'image' : 'file-code')]" />{{ file.fileName }}</router-link>
                   </div>
-
+                  <div v-else-if="['png', 'jpg', 'gif', 'jpeg'].includes(currentFileExtension)" class="ImageContainer">
+                    <img :src="currentFileURL" class="ImagePreview">
+                  </div>
                   <div class="CodeHighlight" v-else-if="currentFileExtension !== 'md'">
-
                     <div class="Lines">
-
                       <span v-for="line in fileContentLines" :key="line.id" :id="'L' + line"><a :href="'#L' + line">{{ line }}</a></span>
-
                     </div>
-
                     <vue-code-highlight class="Code">
-
                       {{ currentFileContent }}
-
                     </vue-code-highlight>
-
                   </div>
-
                   <vue-markdown :source="currentFileContent" :toc="true" :toc-anchor-link-space="false" class="Markdown" v-else></vue-markdown>
-
                 </div>
-
               </div>
-
             </div>
             <div class="column is-4">
               <nav class="panel">
@@ -85,13 +64,13 @@
                   <div class="buttons has-addons nest-button-group">
                     <button
                       class="button is-primary is-light"
-                      @click="selectedVersion = packageInfo.latestStableVersion; refreshContent(); refreshReadme(); reloadFiles()"
+                      @click="selectedVersion = packageInfo.latestStableVersion; refreshContent(); refreshReadme(); reloadFiles(); loadCurrentFile()"
                       :title="packageInfo.latestStableVersion === null ? 'No stable version available yet': null"
                       :disabled="packageInfo.latestStableVersion === null"
                     >Stable</button>
                     <button
                       class="button is-warning is-light"
-                      @click="selectedVersion = packageInfo.latestVersion; refreshContent(); refreshReadme(); reloadFiles()"
+                      @click="selectedVersion = packageInfo.latestVersion; refreshContent(); refreshReadme(); reloadFiles(); loadCurrentFile()"
                       :disabled="noVersion"
                       :title="noVersion ? 'No versions published yet': null"
                     >Latest</button>
@@ -99,7 +78,7 @@
                 </div>
                 <div class="panel-block">
                   <div class="select is-light has-light-arrow is-fullwidth" v-if="!noVersion">
-                    <select v-model="selectedVersion" @change="refreshContent(); refreshReadme(); reloadFiles()">
+                    <select v-model="selectedVersion" @change="refreshContent(); refreshReadme(); reloadFiles(); loadCurrentFile()">
                       <option
                         v-for="(version, id) in packageVersions"
                         :key="id"
@@ -123,7 +102,6 @@
                 <div class="panel-block"><font-awesome-icon class="icon-margin-right" :icon="['fa', 'calendar-alt']" />Published on: {{ packageInfo.createdAt | formatDate }}</div>
               </nav>
             </div>
-
           </div>
         </div>
       </div>
@@ -158,6 +136,7 @@ export default {
       files: {},
       fileView: false,
       currentFileContent: '',
+      currentFileURL: '',
     };
   },
   filters: {
@@ -189,6 +168,7 @@ export default {
     await this.refreshReadme();
     await this.reloadFiles();
     await this.loadCurrentFile();
+    this.checkIfDirOrFileExists();
     this.loading = false;
 
   },
@@ -366,9 +346,27 @@ export default {
       if(!this.fileView)
         return
 
+      this.currentFileURL = `https://x.nest.land/${ this.selectedVersion }/${ routeWithoutSlashEnding.split('/files/')[1] }`
       await axios
-        .get(`https://x.nest.land/${ this.selectedVersion }/${ routeWithoutSlashEnding.split('/files/')[1] }`)
+        .get(this.currentFileURL)
         .then(response => this.currentFileContent = response.data)
+        .catch(() => this.$router.push(`/package/${ this.$route.params.id }/files`))
+
+    },
+    openFile () {
+
+      this.currentFileContent = 'Loading file...'
+
+    },
+    checkIfDirOrFileExists () {
+
+      if(!this.isFileBrowse)
+        return
+
+      const dirExists = Object.keys(this.files).filter(key => key.includes(this.filesLocation)).length > 0
+
+      if(!(this.filesLocation in this.files) && !dirExists)
+        this.$router.push(`/package/${ this.$route.params.id }/files`)
 
     }
 
@@ -378,6 +376,7 @@ export default {
     async $route () {
 
       await this.loadCurrentFile()
+      this.checkIfDirOrFileExists()
 
     }
 
@@ -392,16 +391,13 @@ export default {
 .readme {
   margin-top: 1.5rem !important;
 }
-
 .icon-margin-right {
   margin-right: 10px;
 }
-
 .has-light-arrow::after {
   border-image-source: linear-gradient(180deg, #22c1c3, #fdbb2d) !important;
   border-image-slice: 1 !important;
 }
-
 .nest-button-group {
   margin: 0 auto;
 }
@@ -409,11 +405,9 @@ export default {
   margin-bottom: 0;
   font-family: "Inconsolata", monospace;
 }
-
 pre.is-fullwidth {
   width: 100%;
 }
-
 .Markdown {
   :first-child {
     margin-top: 0;
@@ -421,25 +415,16 @@ pre.is-fullwidth {
   }
   @include markdown();
 }
-
 .fileSystem {
-
   .filesTitle {
-
     display: inline-block;
-
     a {
-
       color: #00947e;
-
     }
-
   }
-
   .panel-block {
     padding: 0.5em 1.25em;
   }
-
   .fileItem {
     padding: 0.5em 1.75em;
   }
@@ -450,7 +435,6 @@ pre.is-fullwidth {
     position: relative;
     padding: 0.75em 1em;
     .FileDocumentation {
-
       position: absolute;
       font-size: .7em;
       float: right;
@@ -460,9 +444,17 @@ pre.is-fullwidth {
       right: 1em;
       top: 50%;
       transform: translateY(-50%);
-
     }
   }
-
+  .ImageContainer {
+    width: 100%;
+    overflow: hidden;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+    .ImagePreview {
+      display: block;
+      width: 100%;
+    }
+  }
 }
 </style>
