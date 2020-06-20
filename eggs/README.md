@@ -14,13 +14,15 @@
 [![nest badge](https://nest.land/badge.svg)](https://nest.land/package/eggs)
 
 # Contents
-* [Installation](#installation)
-* [List Of Commands](#list-of-commands)
-    * [Link](#link)
-    * [Init](#init)
-    * [Publish](#publish)
-    * [Update](#update)
-* [Contributing](#contributing)
+- [Contents](#contents)
+  - [Installation](#installation)
+  - [List Of Commands](#list-of-commands)
+    - [Link](#link)
+    - [Init](#init)
+    - [Publish](#publish)
+    - [Update](#update)
+    - [Install](#install)
+  - [Contributing](#contributing)
 
 ## Installation
 
@@ -64,94 +66,68 @@ Note: It may take some time for the transaction to process in Arweave. Until the
 
 ### Update
 
-* Will find the dependency file **at the user's current working directory**
-    * If no `--file <filename>` is passed in, it will default to `deps.ts`
-    * If `--file` is passed in, it will error
-    * If `--file <filename>` is passed in, it will search that dependency file
-    
-* Will extract the dependencies from the command line
-    * If no `--deps <...deps>` is passed in, defaults to updating all
-    * If `--deps` is passed in, it will error
-    * If `--deps http fs` is passed in, it will only update those modules
-    
-* Will pull all contents from that file, into an array of strings. Let's call this "dependencies to update".
-    * Ignores any lines that don't include `https://` (eg the imported line)
-    * If this array is empty (no dependencies), the CLI will exit
-    * An example of how this array would look is:
-      ```typescript
-      [
-          "import { something } from 'https://deno.land/std@v0.56.0/http/mod.ts'",
-          "export { eggs } from 'https://x.nest.land/eggs@v0.1.0/mod.ts'"
-      ]
-      ```
-      
-* Will loop through each dependency to update, reading the following from the line:
-    * The registry URL: `https://x.nest.land`
-    * The imported version: `v0.1.0`
-    * The name: `eggs`
-    * If there are dependencies requested (`eggs update --deps http eggs`), only these will be checked and updated
-    
-* When the above information is gathered, we can now try get the latest version
-    * If the registry is std, assigns Denos std latest version
-    * If the registry is deno.land 3rd party, fetches Deno's `database.json`, get the module owner and repo name by the module name, sends a fetch request to that repository, extracts the latest version from the URL
-    * If the registry is x.nest.land, sends a fetch request to Nest's API: `GET /api/package/:name`, and grabs the latest version from the response
-    * Else if the registry is none of the above, the current iteration is skipped
-    
-* After each successful iteration, we construct the data to replace for the module, and what to replace it with, for example:
-  ```typescript
-  interface ModuleToUpdate {
-    name: string // "eggs"
-    importedVersion: string // "v0.1.0" or "0.1.0"
-    latestRelease: string // "v.0.1.0" or "0.1.0"
-    isStd: boolean // If the module is std
-    updated: boolean // If the dependency is updated in the dependency file
-    replaceStatement: string // "eggs@v0.1.0" or "std@0.55.0/fs"
-    replaceWith: string // "eggs@v0.1.7" or "std@0.56.0/fs"
-  }
-  ```
-  Example result:
-  ```
-  ┌───────┬───────────┬─────────────────┬───────────────┬───────┬──────────────────────┬──────────────────────┬─────────┐
-  │ (idx) │   name    │ importedVersion │ latestRelease │ isStd │   replaceStatement   │     replaceWith      │ updated │
-  ├───────┼───────────┼─────────────────┼───────────────┼───────┼──────────────────────┼──────────────────────┼─────────┤
-  │   0   │   "fs"    │    "0.55.0"     │   "0.56.0"    │ true  │   "std@0.55.0/fs"    │   "std@0.56.0/fs"    │  false  │
-  │   1   │ "version" │    "0.54.0"     │   "0.56.0"    │ true  │ "std@0.54.0/version" │ "std@0.56.0/version" │  false  │
-  │   2   │  "drash"  │    "v1.0.2"     │   "v1.0.5"    │ false │    "drash@v1.0.2"    │    "drash@v1.0.5"    │  false  │
-  │   3   │  "eggs"   │    "v0.1.0"     │   "v0.1.7"    │ false │    "eggs@v0.1.0"     │    "eggs@v0.1.7"     │  false  │
-  └───────┴───────────┴─────────────────┴───────────────┴───────┴──────────────────────┴──────────────────────┴─────────┘
+You can easily update your dependencies and global scripts with the `update` command.
+```
+$ eggs update [deps] <options>
+```
 
-  ```
+Your dependencies are by default checked in the `deps.ts` file (current working directory). You can change this with `--file`
+```shell
+$ eggs update # default to deps.ts
+$ eggs update --file dependencies.ts 
+```
 
-* This process carries on until all dependency lines are read, and we gather all the information needed
+In regular mode, all your dependencies are updated. You can choose which ones will be modified by adding them as arguments.
+```shell
+$ eggs update # Updates everything
+$ eggs update http fs eggs # Updates only http, fs, eggs
+```
 
-* Once the file contents of the users dependency file is read, we decode the contents of the dependency file, loop through each `dependencyToUpdate` and replace the `replaceStatement` with the `replaceWith` 
+Scripts installed with `eggs install` can also be updated with the `-g` parameter.
+```shell
+$ eggs update -g # Updates every script installed with eggs install
+$ eggs update eggs denon -g # Updates only eggs, denon
+```
 
-* Then it will write that above content (which is essentially a duplicate version of their dependency file with updated versions), back into their dependency file
+Several registries are supported. The current ones are:
+ - x.nest.land
+ - deno.land/x
+ - deno.land/std
+ - raw.githubusercontent.com
+ - denopkg.com
 
-* CLI exits
+If you want to add a registry, open an issue by specifying the registry url and we'll add it.
 
-**Cautions**
+An example of updated file:
+```ts
+import * as colors from "https://deno.land/std@v0.55.0/fmt/colors.ts";
+import * as bcrypt from "https://deno.land/x/bcrypt@v0.2.0/mod.ts"
+import * as eggs from "https://x.nest.land/eggs@v0.1.0/mod.ts"
+import * as http from "https://deno.land/std/http/mod.ts"
+```
+⬇️⬇️⬇️
+```ts
+import * as colors from "https://deno.land/std@0.58.0/fmt/colors.ts";
+import * as bcrypt from "https://deno.land/x/bcrypt@v0.2.1/mod.ts"
+import * as eggs from "https://x.nest.land/eggs@0.1.3/mod.ts"
+import * as http from "https://deno.land/std/http/mod.ts"
+```
 
-* There may be a time where the deps are too out of date. They need to be out of date for `update` to update them,
-  so just bump them up to the release before the latest std
+### Install
 
-**How it Works**
+Just like `deno install`, you can install scripts globally with eggs. By installing it this way, you will be notified if an update is available for your script. 
 
-* This benchmark uses a separate `deps.ts` file. The reason for this is so we can have a 'realworld' example, where many dependencies are used, and from various registries
+The verification is smart, it can't be done more than once a day. To install a script, simply replace `deno` with `eggs`.
 
-* All but 1 dependency are out of date, to fully represent the test, as the `update` would update all the out of date dependencies
+```shell
+$ deno install --allow-write --allow-read -n [NAME] https://x.nest.land/[MODULE]@[VERSION]/cli.ts
+```
+⬇️⬇️⬇️
+```shell
+$ eggs install --allow-write --allow-read -n [NAME] https://x.nest.land/[MODULE]@[VERSION]/cli.ts
+```
 
-* This benchmark shows the execution time for running `update` against 14 separate dependencies, all varying from:
-    * deno.land/std/
-    * deno.land/x/
-    * x.nest.land
-
-**How to Run**
-
-* Requires the following Deno permissions:
-    * `--allow-net` (fetch requests)
-    * `--allow-read` (reading dependency file)
-    * `--allow-write` (re-writing the dependency file with updated versions)
+The supported registries are the same as for the update command.
 
 ## Contributing
 
