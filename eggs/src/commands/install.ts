@@ -17,13 +17,9 @@ const installPrefix = "eggs--";
 
 const configPath = globalModulesConfigPath();
 
-const desc = `${
-  yellow(
-    `A simple wrapper around the ${
-      bold("deno install")
-    } command for handling updates.`,
-  )
-}
+const desc = `A simple wrapper around the ${
+  bold("deno install")
+} command to handle global script updates.
 
 Installs a script as an executable in the installation root's bin directory.
   eggs install --allow-net --allow-read https://deno.land/std/http/file_server.ts
@@ -52,7 +48,7 @@ These must be added to the path manually if required.`;
 export const install = new Command()
   .version("0.1.0")
   .description(desc)
-  .arguments("[OPTIONS] <cmd>")
+  .arguments("[OPTIONS...:string]")
   .option("-A, --allow-all", "Allow all permissions")
   .option("--allow-env", "Allow environment access")
   .option("--allow-hrtime", "Allow high resolution time measurement")
