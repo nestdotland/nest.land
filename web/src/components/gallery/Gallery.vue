@@ -31,9 +31,7 @@
           </div>
           <p class="subtitle">
             Trying to add a package? See
-            <router-link to="/#start">Getting Started</router-link>
-            or read our
-            <router-link to="/docs">docs</router-link>.
+            <router-link to="/#start">Getting Started</router-link>.
           </p>
         </div>
       </div>
