@@ -31,7 +31,9 @@
           </div>
           <p class="subtitle">
             Trying to add a package? See
-            <router-link to="/#start">Getting Started</router-link>.
+            <router-link to="/#start">Getting Started</router-link>
+            or read our
+            <router-link to="/docs">docs</router-link>.
           </p>
         </div>
       </div>
@@ -150,7 +152,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .nest-heading {
   font-size: 0.9em;
   font-weight: 400;
@@ -160,5 +162,21 @@ export default {
 .no-hover:hover {
   background: none !important;
   cursor: default;
+}
+.control .icon.is-small.is-left {
+  transition: all .17s;
+}
+.subtitle {
+  width: 30%;
+  text-align: center;
+  display: inline-block;
+  text-shadow: -1px 9px 8px rgba(50, 50, 93, 0.12), 0 5px 15px rgba(0, 0, 0, 0.18);
+  @media screen and (max-width: 720px) {
+    width: 100%;
+  }
+  a {
+    color: #00947e !important;
+    text-shadow: -1px 9px 8px rgba(#00947e, 0.12), 0 5px 15px rgba(#00947e, 0.18);
+  }
 }
 </style>
