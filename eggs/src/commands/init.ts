@@ -28,7 +28,7 @@ export const init = new Command()
         const pStable: boolean = await Confirm.prompt("Is this a stable version?");
         const pFiles: string[] = await List.prompt("Enter the files and relative directories that nest.land will publish separated by a comma.");
         const pFormat: string = await Input.prompt({
-          message: "Config format",
+          message: "Config format: ",
           maxLength: 10,
           minLength: 2,
         });
