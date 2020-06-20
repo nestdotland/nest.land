@@ -2,13 +2,13 @@
 
 Welcome to [nest.land](https://nest.land)!
 
-Nest.land is a first-of-its-kind decentralized package registry and CDN built for [Deno](https://deno.land).
+Nest.land is a first-of-its-kind decentralized module registry and CDN built for [Deno](https://deno.land).
 
-Using the power of blockchain, you can publish your Deno modules to the [Arweave Permaweb](https://www.arweave.org/) through nest.land, where they can **never** be deleted. With this feature, you can make sure that your users will always have the required resources for their projects, via Deno's web-based package imports. 
+Using the power of blockchain, you can publish your Deno modules to the [Arweave Permaweb](https://www.arweave.org/) through nest.land, where they can **never** be deleted. With this feature, you can make sure that your users will always have the required resources for their projects, via Deno's web-based module imports. 
 
 # Installation
 
-To initialize and publish your first package to nest.land, you will need our CLI, **eggs**. You can install it using this command:
+To initialize and publish your first module to nest.land, you will need our CLI, **eggs**. You can install it using this command:
 
 ```shell script
 deno install -A -f --unstable -n eggs https://x.nest.land/eggs@0.1.3/mod.ts
@@ -18,28 +18,28 @@ Please make sure to use the `-A` flag to grant all permissions to eggs, so you c
   
 # Linking your API key
 
-In order to publish packages to the blockchain with our CLI, you must first generate an API key. See [Getting Started](/#start).
+In order to publish modules to the blockchain with our CLI, you must first generate an API key. See [Getting Started](/#start).
 
 After you generate your API key, you need to add it in the CLI. To do this, type:
 ```shell script
 eggs link --key [your key]
 ```
 
-# Initializing a package
+# Initializing a module
 
-You'll need to initialize a package with eggs in order to publish it. To do this, you need to type the following command in the root directory of your project:
+You'll need to initialize a module with eggs in order to publish it. To do this, you need to type the following command in the root directory of your project:
 ```shell script
 eggs init
 ```
 By doing this, you'll be prompted with a setup screen, where you will be asked to enter:
-#### Package name
-The name of your new package
-#### Package description
-The description of your new package
+#### module name
+The name of your new module
+#### module description
+The description of your new module
 #### Is this a stable version?
-Whether the current version of your package is stable or not. You will be able to update this with each new publish
+Whether the current version of your module is stable or not. You will be able to update this with each new publish
 #### Enter the files and relative directories that nest.land will publish separated by a comma.
-All the files you want to publish with your package. You should include your README.md file here next to all the imported / required files of your module. 
+All the files you want to publish with your module. You should include your README.md file here next to all the imported / required files of your module. 
 
 # Configuration
 
@@ -49,8 +49,8 @@ After you've initialized a project, you'll see a brand new `egg.json` file. This
 Here is a template `egg.json` file with all available fields:
 ```json
 {
-    "name": "package-name",
-    "description": "Your brief package description",
+    "name": "module-name",
+    "description": "Your brief module description",
     "version": "0.0.1",
     "entry": "./src/main.ts",
     "stable": true,
@@ -66,17 +66,17 @@ Here is a template `egg.json` file with all available fields:
 ## Field information:
 
 - name:
-    - The name of your package.
+    - The name of your module.
     - Required: true
 - description:
-    - A description of your package that will appear on the gallery.
+    - A description of your module that will appear on the gallery.
     - Required: true
 - version: 
-    - Your package version.
+    - Your module version.
     - Required: false
-        - If not specified, we automatically increment your package version by `0.0.1` on each publish.
+        - If not specified, we automatically increment your module version by `0.0.1` on each publish.
 - entry:
-    - The "index file" of your project. This is what users will see when they try to import your package from our registry!
+    - The "index file" of your project. This is what users will see when they try to import your module from our registry!
     - Required: false
         - Defaults to `./mod.ts`
 - stable:
@@ -84,7 +84,7 @@ Here is a template `egg.json` file with all available fields:
     - Required: false
         - Defaults to false
 - unlisted:
-    - Should people be able to find this package/version on the gallery?
+    - Should people be able to find this module/version on the gallery?
     - Required: false
         - Defaults to false
 - repository:
@@ -95,15 +95,15 @@ Here is a template `egg.json` file with all available fields:
     - All the files that should be uploaded to nest.land.
     - Required: true
 
-# Publishing a package
+# Publishing a module
 
-To publish a package, just navigate to the root of your package and use the command shown:
+To publish a module, just navigate to the root of your module and use the command shown:
 ```shell script
 eggs publish
 ```
-Boom! After this, you'll be returned a link to your package on our [Gallery](gallery).
+Boom! After this, you'll be returned a link to your module on our [Gallery](gallery).
 
-> Note: The same command is used to publish a new version to an existing package!
+> Note: The same command is used to publish a new version to an existing module!
 
 ## Badge
 
@@ -112,7 +112,7 @@ In addition, you'll have the option of adding our official badge, courtesy of [@
 ![nest badge](https://nest.land/badge.svg)
 
 ```
-[![nest badge](https://nest.land/badge.svg)](https://nest.land/package/your-package)
+[![nest badge](https://nest.land/badge.svg)](https://nest.land/module/your-module)
 ```
 
 # Updating all of your dependencies
