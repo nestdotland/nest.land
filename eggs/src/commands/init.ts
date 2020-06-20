@@ -1,19 +1,27 @@
-import { Command, Input, Confirm, List, writeJson, yellow } from "../deps.ts";
+import { Command, Input, Confirm, List, writeJson, yellow, parse } from "../deps.ts";
 import { pathExists } from "../utilities/files.ts";
 import { Config, ConfigFormats } from "../types.ts";
 import { writeConfig } from "../utilities/writeconfig.ts";
+
+function detectConfig(): ConfigFormats | boolean {
+  if(pathExists("egg.yaml") return "yaml";
+  else if (pathExists("egg.yml")) return "yml";
+  else if (pathExists("egg.json")) return "json";
+  else return false;
+}
 
 export const init = new Command()
     .version("0.1.0")
     .description("Initiates a new package for the nest.land registry.")
     .action(async () => {
         let previousConfig: Config = {};
-
-        if (pathExists("egg.json")) {
-            console.warn(yellow("An egg.json file already exists here! Overriding..."));
+        let previousConfigFormat: ConfigFormats | boolean = detectConfig();
+        if (previousConfigFormat) {
+            console.warn(yellow("An egg config file already exists here! Overriding..."));
             const decoder = new TextDecoder("utf-8");
-            const content = decoder.decode(await Deno.readFile("egg.json"));
-            previousConfig = JSON.parse(content);
+            const content = decoder.decode(await Deno.readFile(`egg.${previousConfigFormat}`));
+            if(["yaml", "yml"].includes(previousConfigFormat)) previousConfig = parse(content);
+            else previousConfig = JSON.parse(content);
         };
 
         const pName: string = await Input.prompt({
