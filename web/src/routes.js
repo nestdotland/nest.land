@@ -18,7 +18,7 @@ export const routes = [
     component: PackageDetail
   },
   {
-    path: "/package/:id/files/*",
+    path: "/package/:id/*",
     component: PackageDetail
   },
   {

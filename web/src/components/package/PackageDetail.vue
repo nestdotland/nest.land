@@ -72,7 +72,7 @@
                 </p>
                 <div class="panel-block">Author: {{ packageInfo.owner }}</div>
                 <a v-if="packageInfo.repository !== '' && packageInfo.repository !== null" class="panel-block" :href="packageInfo.repository">Repository</a>
-                <router-link v-if="!noVersion" class="panel-block" :to="$route.path + '/files/'">Browse files</router-link>
+                <router-link v-if="!noVersion" class="panel-block" :to="{ path: 'files' }" append>Browse files</router-link>
                 <div class="panel-block">Published on: {{ packageInfo.createdAt | formatDate }}</div>
               </nav>
             </div>
@@ -83,13 +83,16 @@
 
             <nav class="panel">
 
-              <p class="panel-heading">
+              <div class="panel-heading">
 
-                <font-awesome-icon class="icon-margin-right" :icon="['fa', 'folder']" />Browse package files
+                <font-awesome-icon class="icon-margin-right" :icon="['fa', 'folder']" />
 
-              </p>
+                <div class="filesTitle" v-if="filesLocation === '/'">Browse package files</div>
+                <div class="filesTitle" v-else><router-link v-for="fileLocation in filesLocationList" :key="fileLocation.id" :to="'/package/' + $route.params.id + '/files' + fileLocation.href">{{ fileLocation.display }}</router-link></div>
 
-              <router-link class="panel-block" :to="'/package/' + $route.params.id"><font-awesome-icon class="icon-margin-right" :icon="['fa', 'level-up-alt']" />Go back to package review</router-link>
+              </div>
+
+              <router-link class="panel-block" to="./"><font-awesome-icon class="icon-margin-right" :icon="['fa', 'level-up-alt']" />{{ filesLocation === '/' ? 'Go back to package review' : 'Go up' }}</router-link>
 
               <router-link class="panel-block fileItem" v-for="dir in currentDirectories" :to="{ path: removeSlashFunc(dir) }" :key="dir.id" append><font-awesome-icon class="icon-margin-right" :icon="['fa', 'folder']" />{{ dir | removeSlash }}</router-link>
               <router-link class="panel-block fileItem" v-for="file in currentFiles" :to="{ path: file.fileName }" :key="file.id" append><font-awesome-icon class="icon-margin-right" :icon="['fa', getFileItemType(file.fileName) === 'md' ? 'book-open' : 'file-code']" />{{ file.fileName }}</router-link>
@@ -157,25 +160,40 @@ export default {
     await this.refreshReadme();
     this.loading = false;
 
-    if(this.isFileBrowse) {
-
-      await axios
-        .get(`https://x.nest.land/api/package/${ this.packageInfo.name }/${ this.selectedVersion.split('@')[1] }`)
-        .then(response => this.files = response.data.files)
-
-    }
+    await axios
+      .get(`https://x.nest.land/api/package/${ this.packageInfo.name }/${ this.selectedVersion.split('@')[1] }`)
+      .then(response => this.files = response.data.files)
 
   },
   computed: {
 
     isFileBrowse () {
 
-      return this.$route.path.toLowerCase().includes('/files/')
+      return this.$route.path.toLowerCase().includes('/files')
 
     },
     filesLocation () {
 
       return this.$route.path.split('/files')[1]
+
+    },
+    filesLocationList () {
+
+      let
+        filesWithRoute = [{ display: '/', href: '/' }],
+        locations = '/'
+
+      for(const fileLoc of this.filesLocation.split('/')) {
+
+        if(fileLoc === '')
+          continue
+
+        locations += `${ fileLoc.replace(new RegExp('/', 'g'), '') }/`
+        filesWithRoute.push({ display: fileLoc.replace(new RegExp('/', 'g'), '') + '/', href: locations })
+
+      }
+
+      return filesWithRoute
 
     },
     fileSystem () {
@@ -199,9 +217,9 @@ export default {
 
       return this.fileSystem.filter(file => {
 
-        return file.fileLocation === this.filesLocation
+        return file.fileLocation.replace(new RegExp('/$'), '') === this.filesLocation.replace(new RegExp('/$'), '')
 
-      })
+      }).sort((a, b) => a.fileName.localeCompare(b.fileName))
 
     },
     currentDirectories () {
@@ -209,10 +227,10 @@ export default {
       const dirs = []
 
       for(const file of this.fileSystem)
-        if(!dirs.includes(file.fileLocation) && file.fileLocation !== this.filesLocation && file.fileLocation.includes(this.filesLocation) && ((file.fileLocation.replace(this.filesLocation, '').match(new RegExp('/', 'g')) || []).length === 1 || (file.fileLocation.replace(this.filesLocation + '/', '').match(new RegExp('/', 'g')) || []).length === 1))
-          dirs.push(file.fileLocation)
+        if(!dirs.includes(file.fileLocation.replace(this.filesLocation, '')) && file.fileLocation !== this.filesLocation && file.fileLocation.replace(this.filesLocation, '') !== '/' && file.fileLocation.includes(this.filesLocation) && ((file.fileLocation.replace(this.filesLocation, '').match(new RegExp('/', 'g')) || []).length === 1 || (file.fileLocation.replace(this.filesLocation + '/', '').match(new RegExp('/', 'g')) || []).length === 1))
+          dirs.push(file.fileLocation.replace(this.filesLocation, ''))
 
-      return dirs
+      return dirs.sort((a, b) => a.localeCompare(b))
 
     }
 
@@ -315,11 +333,27 @@ pre.is-fullwidth {
   @include markdown();
 }
 
-.fileSystem .panel-block {
-  padding: 0.5em 1.25em;
-}
+.fileSystem {
 
-.fileSystem .fileItem {
-  padding: 0.5em 1.75em;
+  .filesTitle {
+
+    display: inline-block;
+
+    a {
+
+      color: #00947e;
+
+    }
+
+  }
+
+  .panel-block {
+    padding: 0.5em 1.25em;
+  }
+
+  .fileItem {
+    padding: 0.5em 1.75em;
+  }
+
 }
 </style>
