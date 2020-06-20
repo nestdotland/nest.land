@@ -27,6 +27,8 @@ import {
   faLevelUpAlt,
   faFileCode,
   faBookOpen,
+  faUser,
+  faCalendarAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -48,6 +50,8 @@ library.add(
   faLevelUpAlt,
   faFileCode,
   faBookOpen,
+  faUser,
+  faCalendarAlt,
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

@@ -27,7 +27,7 @@
                 <p class="subtitle">{{ packageInfo.description }}</p>
                 <hr class="mini-hr" />
               </div>
-              <vue-markdown :source="packageReadme" :toc="true" :toc-anchor-link-space="false" class="readme" v-if="!isFileBrowse"></vue-markdown>
+              <vue-markdown :source="packageReadme" :toc="true" :toc-anchor-link-space="false" class="Markdown" v-if="!isFileBrowse"></vue-markdown>
 
               <div class="fileSystem" v-else-if="!noVersion">
 
@@ -44,8 +44,20 @@
 
                   <router-link class="panel-block" :to="parentDir"><font-awesome-icon class="icon-margin-right" :icon="['fa', 'level-up-alt']" />{{ filesLocation === '' || filesLocation === '/' ? 'Return to package review' : 'Go up' }}</router-link>
 
-                  <router-link class="panel-block fileItem" v-for="dir in currentDirectories" :to="{ path: removeSlashFunc(dir) }" :key="dir.id" append><font-awesome-icon class="icon-margin-right" :icon="['fa', 'folder']" />{{ dir | removeSlash }}</router-link>
-                  <router-link class="panel-block fileItem" v-for="file in currentFiles" :to="{ path: file.fileName }" :key="file.id" append><font-awesome-icon class="icon-margin-right" :icon="['fa', getFileItemType(file.fileName) === 'md' ? 'book-open' : 'file-code']" />{{ file.fileName }}</router-link>
+                  <div v-if="!fileView">
+
+                    <router-link class="panel-block fileItem" v-for="dir in currentDirectories" :to="{ path: removeSlashFunc(dir) }" :key="dir.id" append><font-awesome-icon class="icon-margin-right" :icon="['fa', 'folder']" />{{ dir | removeSlash }}</router-link>
+                    <router-link class="panel-block fileItem" v-for="file in currentFiles" :to="{ path: file.fileName }" :key="file.id" append><font-awesome-icon class="icon-margin-right" :icon="['fa', getFileItemType(file.fileName) === 'md' ? 'book-open' : 'file-code']" />{{ file.fileName }}</router-link>
+
+                  </div>
+
+                  <vue-code-highlight v-else-if="currentFileExtension !== 'md'">
+
+                    {{ currentFileContent }}
+
+                  </vue-code-highlight>
+
+                  <vue-markdown :source="currentFileContent" :toc="true" :toc-anchor-link-space="false" class="Markdown" v-else></vue-markdown>
 
                 </div>
 
@@ -93,10 +105,10 @@
                 <p class="panel-heading">
                   <font-awesome-icon class="icon-margin-right" :icon="['fas', 'box-open']" />Package info
                 </p>
-                <div class="panel-block">Author: {{ packageInfo.owner }}</div>
-                <a v-if="packageInfo.repository !== '' && packageInfo.repository !== null" class="panel-block" :href="packageInfo.repository">Repository</a>
-                <router-link v-if="!noVersion" class="panel-block" :to="'/package/' + $route.params.id + '/files'" append>Browse files</router-link>
-                <div class="panel-block">Published on: {{ packageInfo.createdAt | formatDate }}</div>
+                <div class="panel-block"><font-awesome-icon class="icon-margin-right" :icon="['fa', 'user']" />Author: {{ packageInfo.owner }}</div>
+                <a v-if="packageInfo.repository !== '' && packageInfo.repository !== null" class="panel-block" :href="packageInfo.repository"><font-awesome-icon class="icon-margin-right" :icon="['fa', 'code-branch']" />Repository</a>
+                <router-link v-if="!noVersion" class="panel-block" :to="'/package/' + $route.params.id + '/files'"><font-awesome-icon class="icon-margin-right" :icon="['fa', 'folder']" />Browse files</router-link>
+                <div class="panel-block"><font-awesome-icon class="icon-margin-right" :icon="['fa', 'calendar-alt']" />Published on: {{ packageInfo.createdAt | formatDate }}</div>
               </nav>
             </div>
 
@@ -114,11 +126,14 @@ import moment from "moment";
 import VueMarkdown from "vue-markdown";
 import * as semverSort from "semver/functions/sort";
 import axios from "axios";
+import { component as VueCodeHighlight } from "vue-code-highlight";
+import "../../styles/CodeHighlightTheme.sass";
 
 export default {
   components: {
     NestNav,
-    VueMarkdown
+    VueMarkdown,
+    VueCodeHighlight,
   },
   data() {
     return {
@@ -129,6 +144,8 @@ export default {
       loading: true,
       noVersion: false,
       files: {},
+      fileView: false,
+      currentFileContent: '',
     };
   },
   filters: {
@@ -159,6 +176,7 @@ export default {
 
     await this.refreshReadme();
     await this.reloadFiles();
+    await this.loadCurrentFile();
     this.loading = false;
 
   },
@@ -201,9 +219,10 @@ export default {
 
         const
           fileName = file.split('/')[file.split('/').length - 1],
-          fileLocation = file.replace(fileName, '')
+          fileLocation = file.replace(fileName, ''),
+          fileSize = 0
 
-        fileSystemData.push({ fileName, fileLocation })
+        fileSystemData.push({ fileName, fileLocation, fileSize })
 
       }
 
@@ -236,6 +255,15 @@ export default {
       const routeWithoutSlashEnding = this.$route.path.endsWith('/') ? this.$route.path.replace(new RegExp('/$'), '') : this.$route.path
 
       return routeWithoutSlashEnding.substr(0, routeWithoutSlashEnding.lastIndexOf('/'))
+
+    },
+    currentFileExtension () {
+
+      const
+        routeWithoutSlashEnding = this.$route.path.endsWith('/') ? this.$route.path.replace(new RegExp('/$'), '') : this.$route.path,
+        fileName = routeWithoutSlashEnding.split('/')[routeWithoutSlashEnding.split('/').length - 1]
+
+      return fileName.split('.')[fileName.split('.').length - 1]
 
     }
 
@@ -302,9 +330,38 @@ export default {
 
       return val.replace(new RegExp('/', 'g'), '')
 
+    },
+    async loadCurrentFile () {
+
+      const
+        routeWithoutSlashEnding = this.$route.path.endsWith('/') ? this.$route.path.replace(new RegExp('/$'), '') : this.$route.path,
+        fileName = routeWithoutSlashEnding.split('/')[routeWithoutSlashEnding.split('/').length - 1]
+
+      this.fileView = false
+
+      for(const file of this.fileSystem)
+        if (fileName === file.fileName)
+          this.fileView = true
+
+      if(!this.fileView)
+        return
+
+      await axios
+        .get(`https://x.nest.land/${ this.selectedVersion }/${ routeWithoutSlashEnding.split('/files/')[1] }`)
+        .then(response => this.currentFileContent = response.data)
+
     }
 
   },
+  watch: {
+
+    async $route () {
+
+      await this.loadCurrentFile()
+
+    }
+
+  }
 };
 </script>
 
@@ -337,7 +394,7 @@ pre.is-fullwidth {
   width: 100%;
 }
 
-.readme {
+.Markdown {
   :first-child {
     margin-top: 0;
     padding-top: 0;
@@ -365,6 +422,9 @@ pre.is-fullwidth {
 
   .fileItem {
     padding: 0.5em 1.75em;
+  }
+  .Markdown {
+    padding: 1em 3em;
   }
 
 }
