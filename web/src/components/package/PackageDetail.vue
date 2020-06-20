@@ -215,10 +215,13 @@ export default {
         if(fileLoc === '')
           continue
 
-        locations += `${ fileLoc.replace(new RegExp('/', 'g'), '') }/`
+        locations += fileLoc.replace(new RegExp('/', 'g'), '') + '/'
         filesWithRoute.push({ display: fileLoc.replace(new RegExp('/', 'g'), '') + '/', href: locations })
 
       }
+
+      if(filesWithRoute.length > 1)
+        filesWithRoute[filesWithRoute.length - 1].display = filesWithRoute[filesWithRoute.length - 1].display.replace(new RegExp('/', 'g'), '')
 
       return filesWithRoute
 
