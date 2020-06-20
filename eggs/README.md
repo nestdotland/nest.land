@@ -14,15 +14,14 @@
 [![nest badge](https://nest.land/badge.svg)](https://nest.land/package/eggs)
 
 # Contents
-- [Contents](#contents)
-  - [Installation](#installation)
-  - [List Of Commands](#list-of-commands)
-    - [Link](#link)
-    - [Init](#init)
-    - [Publish](#publish)
-    - [Update](#update)
-    - [Install](#install)
-  - [Contributing](#contributing)
+- [Installation](#installation)
+- [List Of Commands](#list-of-commands)
+  - [Link](#link)
+  - [Init](#init)
+  - [Publish](#publish)
+  - [Update](#update)
+  - [Install](#install)
+- [Contributing](#contributing)
 
 ## Installation
 
