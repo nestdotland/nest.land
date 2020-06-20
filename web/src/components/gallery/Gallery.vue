@@ -1,6 +1,6 @@
 <template>
   <div class="gallery">
-    <div class="hero is-medium is-light">
+    <div class="hero is-medium is-light nest-footprints-hero">
       <div class="notification is-danger is-light" v-show="errorMessage !== ''">{{ errorMessage }}</div>
       <div class="hero-head">
         <nest-nav></nest-nav>
@@ -125,7 +125,7 @@ export default {
         query: {
           search: this.searchPhrase,
         },
-      });
+      }).catch(() => {});
     },
   },
   methods: {
