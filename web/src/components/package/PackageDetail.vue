@@ -21,13 +21,36 @@
       <div class="hero-body">
         <div class="container">
 
-          <div class="columns reverse-column-order" v-if="!isFileBrowse">
+          <div class="columns reverse-column-order">
             <div class="column is-8">
               <div v-show="packageReadme === 'Loading README...'" >
                 <p class="subtitle">{{ packageInfo.description }}</p>
                 <hr class="mini-hr" />
               </div>
-              <vue-markdown :source="packageReadme" :toc="true" :toc-anchor-link-space="false" class="readme"></vue-markdown>
+              <vue-markdown :source="packageReadme" :toc="true" :toc-anchor-link-space="false" class="readme" v-if="!isFileBrowse"></vue-markdown>
+
+              <div class="fileSystem" v-else-if="!noVersion">
+
+                <div class="panel">
+
+                  <div class="panel-heading">
+
+                    <font-awesome-icon class="icon-margin-right" :icon="['fa', 'folder']" />
+
+                    <div class="filesTitle" v-if="filesLocation === '' || filesLocation === '/'">Browse package files</div>
+                    <div class="filesTitle" v-else><router-link v-for="fileLocation in filesLocationList" :key="fileLocation.id" :to="'/package/' + $route.params.id + '/files' + fileLocation.href">{{ fileLocation.display }}</router-link></div>
+
+                  </div>
+
+                  <router-link class="panel-block" :to="parentDir"><font-awesome-icon class="icon-margin-right" :icon="['fa', 'level-up-alt']" />{{ filesLocation === '' || filesLocation === '/' ? 'Return to package review' : 'Go up' }}</router-link>
+
+                  <router-link class="panel-block fileItem" v-for="dir in currentDirectories" :to="{ path: removeSlashFunc(dir) }" :key="dir.id" append><font-awesome-icon class="icon-margin-right" :icon="['fa', 'folder']" />{{ dir | removeSlash }}</router-link>
+                  <router-link class="panel-block fileItem" v-for="file in currentFiles" :to="{ path: file.fileName }" :key="file.id" append><font-awesome-icon class="icon-margin-right" :icon="['fa', getFileItemType(file.fileName) === 'md' ? 'book-open' : 'file-code']" />{{ file.fileName }}</router-link>
+
+                </div>
+
+              </div>
+
             </div>
             <div class="column is-4">
               <nav class="panel">
@@ -38,13 +61,13 @@
                   <div class="buttons has-addons nest-button-group">
                     <button
                       class="button is-primary is-light"
-                      @click="selectedVersion = packageInfo.latestStableVersion; refreshContent(); refreshReadme()"
+                      @click="selectedVersion = packageInfo.latestStableVersion; refreshContent(); refreshReadme(); reloadFiles()"
                       :title="packageInfo.latestStableVersion === null ? 'No stable version available yet': null"
                       :disabled="packageInfo.latestStableVersion === null"
                     >Stable</button>
                     <button
                       class="button is-warning is-light"
-                      @click="selectedVersion = packageInfo.latestVersion; refreshContent(); refreshReadme()"
+                      @click="selectedVersion = packageInfo.latestVersion; refreshContent(); refreshReadme(); reloadFiles()"
                       :disabled="noVersion"
                       :title="noVersion ? 'No versions published yet': null"
                     >Latest</button>
@@ -52,7 +75,7 @@
                 </div>
                 <div class="panel-block">
                   <div class="select is-light has-light-arrow is-fullwidth" v-if="!noVersion">
-                    <select v-model="selectedVersion" @change="refreshContent(); refreshReadme()">
+                    <select v-model="selectedVersion" @change="refreshContent(); refreshReadme(); reloadFiles()">
                       <option
                         v-for="(version, id) in packageVersions"
                         :key="id"
@@ -72,35 +95,12 @@
                 </p>
                 <div class="panel-block">Author: {{ packageInfo.owner }}</div>
                 <a v-if="packageInfo.repository !== '' && packageInfo.repository !== null" class="panel-block" :href="packageInfo.repository">Repository</a>
-                <router-link v-if="!noVersion" class="panel-block" :to="{ path: 'files' }" append>Browse files</router-link>
+                <router-link v-if="!noVersion" class="panel-block" :to="'/package/' + $route.params.id + '/files'" append>Browse files</router-link>
                 <div class="panel-block">Published on: {{ packageInfo.createdAt | formatDate }}</div>
               </nav>
             </div>
 
           </div>
-
-          <div class="fileSystem" v-else-if="!noVersion">
-
-            <nav class="panel">
-
-              <div class="panel-heading">
-
-                <font-awesome-icon class="icon-margin-right" :icon="['fa', 'folder']" />
-
-                <div class="filesTitle" v-if="filesLocation === '/'">Browse package files</div>
-                <div class="filesTitle" v-else><router-link v-for="fileLocation in filesLocationList" :key="fileLocation.id" :to="'/package/' + $route.params.id + '/files' + fileLocation.href">{{ fileLocation.display }}</router-link></div>
-
-              </div>
-
-              <router-link class="panel-block" to="./"><font-awesome-icon class="icon-margin-right" :icon="['fa', 'level-up-alt']" />{{ filesLocation === '/' ? 'Go back to package review' : 'Go up' }}</router-link>
-
-              <router-link class="panel-block fileItem" v-for="dir in currentDirectories" :to="{ path: removeSlashFunc(dir) }" :key="dir.id" append><font-awesome-icon class="icon-margin-right" :icon="['fa', 'folder']" />{{ dir | removeSlash }}</router-link>
-              <router-link class="panel-block fileItem" v-for="file in currentFiles" :to="{ path: file.fileName }" :key="file.id" append><font-awesome-icon class="icon-margin-right" :icon="['fa', getFileItemType(file.fileName) === 'md' ? 'book-open' : 'file-code']" />{{ file.fileName }}</router-link>
-
-            </nav>
-
-          </div>
-
         </div>
       </div>
     </div>
@@ -158,11 +158,8 @@ export default {
     }
 
     await this.refreshReadme();
+    await this.reloadFiles();
     this.loading = false;
-
-    await axios
-      .get(`https://x.nest.land/api/package/${ this.packageInfo.name }/${ this.selectedVersion.split('@')[1] }`)
-      .then(response => this.files = response.data.files)
 
   },
   computed: {
@@ -232,6 +229,14 @@ export default {
 
       return dirs.sort((a, b) => a.localeCompare(b))
 
+    },
+    //we use this cuz utilizing "./" in the router-link does not work always, because is based on router history
+    parentDir () {
+
+      const routeWithoutSlashEnding = this.$route.path.endsWith('/') ? this.$route.path.replace(new RegExp('/$'), '') : this.$route.path
+
+      return routeWithoutSlashEnding.substr(0, routeWithoutSlashEnding.lastIndexOf('/'))
+
     }
 
   },
@@ -271,6 +276,13 @@ export default {
         this.$emit("new-error", err);
 
       }
+    },
+    async reloadFiles () {
+
+      await axios
+        .get(`https://x.nest.land/api/package/${ this.packageInfo.name }/${ this.selectedVersion.split('@')[1] }`)
+        .then(response => this.files = response.data.files)
+
     },
     sortPackages(packageList) {
       for (let i = 0; i < packageList.length; i++) {
