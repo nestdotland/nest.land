@@ -26,7 +26,7 @@
                 <p class="subtitle">{{ packageInfo.description }}</p>
                 <hr class="mini-hr" />
               </div>
-              <vue-markdown :source="packageReadme" :toc="true" :toc-anchor-link-space="false" id="readme"></vue-markdown>
+              <vue-markdown :source="packageReadme" :toc="true" :toc-anchor-link-space="false" class="readme"></vue-markdown>
             </div>
             <div class="column is-4">
               <nav class="panel">
@@ -44,11 +44,13 @@
                     <button
                       class="button is-warning is-light"
                       @click="selectedVersion = packageInfo.latestVersion; refreshContent(); refreshReadme()"
+                      :disabled="noVersion"
+                      :title="noVersion ? 'No versions published yet': null"
                     >Latest</button>
                   </div>
                 </div>
                 <div class="panel-block">
-                  <div class="select is-light has-light-arrow is-fullwidth">
+                  <div class="select is-light has-light-arrow is-fullwidth" v-if="!noVersion">
                     <select v-model="selectedVersion" @change="refreshContent(); refreshReadme()">
                       <option
                         v-for="(version, id) in packageVersions"
@@ -57,8 +59,9 @@
                       >{{ $route.params.id + '@' + version }}</option>
                     </select>
                   </div>
+                  <p v-if="noVersion">No version available</p>
                 </div>
-                <div class="panel-block">
+                <div class="panel-block" v-if="!noVersion">
                   <pre class="is-fullwidth"><code>https://x.nest.land/{{ selectedVersion }}/mod.ts</code></pre>
                 </div>
               </nav>
@@ -67,7 +70,7 @@
                   <font-awesome-icon class="icon-margin-right" :icon="['fas', 'box-open']" />Package info
                 </p>
                 <div class="panel-block">Author: {{ packageInfo.owner }}</div>
-                <a v-if="packageInfo.repository !== ''" class="panel-block" :href="packageInfo.repository">Repository</a>
+                <a v-if="packageInfo.repository !== '' && packageInfo.repository !== null" class="panel-block" :href="packageInfo.repository">Repository</a>
                 <div class="panel-block">Published on: {{ packageInfo.createdAt | formatDate }}</div>
               </nav>
             </div>
@@ -97,6 +100,7 @@ export default {
       packageVersions: [],
       packageReadme: "Loading README...",
       loading: true,
+      noVersion: false,
     };
   },
   filters: {
@@ -110,6 +114,10 @@ export default {
     this.selectedVersion = this.packageInfo.latestStableVersion;
     if(this.selectedVersion === null)
       this.selectedVersion = this.packageInfo.latestVersion;
+    if(this.packageInfo.latestStableVersion === null && this.packageInfo.latestVersion === null && this.packageInfo.packageUploadNames.length === 0) {
+      this.packageReadme = '# No version published yet';
+      this.noVersion = true;
+    }
     await this.refreshReadme();
     this.loading = false;
   },
@@ -129,6 +137,8 @@ export default {
       }
     },
     async refreshReadme() {
+      if(this.noVersion)
+        return;
       try {
         console.log("FETCHING");
         const url = "https://x.nest.land/" + this.selectedVersion + "/README.md";
@@ -153,6 +163,9 @@ export default {
 </script>
 
 <style lang="scss">
+
+@import "../../styles/Markdown.sass";
+
 .readme {
   margin-top: 1.5rem !important;
 }
@@ -178,88 +191,11 @@ pre.is-fullwidth {
   width: 100%;
 }
 
-#readme {
+.readme {
   :first-child {
     margin-top: 0;
     padding-top: 0;
   }
-  h1 {
-    display: block;
-    font-size: 2em;
-    margin-top: 0.67em;
-    margin-bottom: 0.67em;
-    margin-left: 0;
-    margin-right: 0;
-  }
-  h2 {
-    display: block;
-    font-size: 1.5em;
-    margin-top: 0.83em;
-    margin-bottom: 0.83em;
-    margin-left: 0;
-    margin-right: 0;
-  }
-  h3 {
-    display: block;
-    font-size: 1.17em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    margin-left: 0;
-    margin-right: 0;
-  }
-  h4 {
-    display: block;
-    font-size: 1em;
-    margin-top: 1.33em;
-    margin-bottom: 1.33em;
-    margin-left: 0;
-    margin-right: 0;
-  }
-  h5 {
-    display: block;
-    font-size: .83em;
-    margin-top: 1.67em;
-    margin-bottom: 1.67em;
-    margin-left: 0;
-    margin-right: 0;
-  }
-  h6 {
-    display: block;
-    font-size: .67em;
-    margin-top: 2.33em;
-    margin-bottom: 2.33em;
-    margin-left: 0;
-    margin-right: 0;
-  }
-  p {
-    display: block;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    margin-left: 0;
-    margin-right: 0;
-  }
-  li {
-    display: list-item;
-    ul {
-      margin-top: 0;
-    }
-  }
-  ul {
-    display: block;
-    list-style-type: disc;
-    margin-top: 1em;
-    margin-bottom: 1 em;
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: 40px;
-  }
-  a {
-    color: #00d1b2;
-  }
-  .toc-anchor {
-    color: #cccccc;
-    position: absolute;
-    left: -25px;
-  }
+  @include markdown();
 }
 </style>
