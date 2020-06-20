@@ -4,6 +4,7 @@ import { init } from "./commands/init.ts";
 import { publish } from "./commands/publish.ts";
 import { update } from "./commands/update.ts";
 import { install } from "./commands/install.ts";
+import { upgrade } from "./commands/upgrade.ts";
 
 export async function commandHandler() {
   await new Command()
@@ -16,5 +17,6 @@ export async function commandHandler() {
     .command("publish", publish)
     .command("update", update)
     .command("install", install)
+    .command("upgrade", upgrade)
     .parse(Deno.args);
 }

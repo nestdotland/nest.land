@@ -8,4 +8,5 @@ export { assertEquals } from "https://deno.land/std@v0.56.0/testing/asserts.ts";
 export * as base64 from "https://denopkg.com/chiefbiiko/base64/mod.ts";
 export { installUpdateHandler, globalModulesConfigPath } from "https://x.nest.land/eggs-update-handler@0.4.1/mod.ts";
 export { getLatestVersion, analyzeURL, versionSubstitute } from "https://x.nest.land/eggs-update-handler@0.4.1/lib/registries.ts";
+export { version } from "https://raw.githubusercontent.com/nestlandofficial/nest.land/master/eggs/src/version.ts";
 export const lstatSync = Deno.lstatSync;

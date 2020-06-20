@@ -14,14 +14,16 @@
 [![nest badge](https://nest.land/badge.svg)](https://nest.land/package/eggs)
 
 # Contents
-- [Installation](#installation)
-- [List Of Commands](#list-of-commands)
-  - [Link](#link)
-  - [Init](#init)
-  - [Publish](#publish)
-  - [Update](#update)
-  - [Install](#install)
-- [Contributing](#contributing)
+
+* [Installation](#installation)
+* [List Of Commands](#list-of-commands)
+    * [Link](#link)
+    * [Init](#init)
+    * [Publish](#publish)
+    * [Update](#update)
+    * [Install](#install)
+    * [Upgrade](#upgrade)
+* [Contributing](#contributing)
 
 ## Installation
 
@@ -127,6 +129,14 @@ $ eggs install --allow-write --allow-read -n [NAME] https://x.nest.land/[MODULE]
 ```
 
 The supported registries are the same as for the update command.
+
+### Upgrade
+
+To upgrade the eggs CLI, use the command shown:
+
+```
+$ eggs upgrade
+```
 
 ## Contributing
 
