@@ -1,5 +1,7 @@
 import {
   Command,
+  yellow,
+  green,
   semver,
   getLatestVersion,
   analyzeURL,
@@ -94,13 +96,13 @@ async function updateGlobalModules(
 
     module.version = latestRelease;
 
-    console.log(`${execName} updated.`);
+    console.log(`${execName} (${module.moduleName}) ${yellow(module.version)} → ${green(latestRelease)}`);
   }
 
   // Re-write the file
   await writeJson(configPath, config, { spaces: 2 });
 
-  console.info("Updated your dependencies!");
+  console.info("\nUpdated your dependencies!");
   Deno.exit();
 }
 
@@ -167,12 +169,13 @@ async function updateLocalModules(
       versionURL,
       latestRelease,
     });
-    console.log(`${dependenciesToUpdate.length} dependencies out of date`);
+
+    console.log(`${moduleName} ${yellow(version)} → ${green(latestRelease)}`);
   }
 
   // If no modules are needed to update then exit
   if (dependenciesToUpdate.length === 0) {
-    console.info("Your dependencies are already up to date!");
+    console.info("\nYour dependencies are already up to date!");
     Deno.exit();
   }
 
@@ -191,7 +194,7 @@ async function updateLocalModules(
     new TextEncoder().encode(dependencyFile),
   );
 
-  console.info("Updated your dependencies!");
+  console.info("\nUpdated your dependencies!");
   Deno.exit();
 }
 

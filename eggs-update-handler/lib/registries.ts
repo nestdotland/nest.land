@@ -141,7 +141,7 @@ export function analyzeDenoLand(split: string[]) {
     split[3] = `std@${versionSubstitute}`;
     const versionURL = split.join("/");
     const registry = "deno.land/std";
-    return { moduleName: "std", version, versionURL, registry };
+    return { moduleName: split[4], version, versionURL, registry };
   }
   throw new Error(`Unable to parse deno.land url: ${split.join("/")}`);
 }
