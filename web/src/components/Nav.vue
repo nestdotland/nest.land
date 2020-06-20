@@ -23,13 +23,13 @@
       <div id="main-nav" class="navbar-menu" :class="burgerClass">
         <div class="navbar-end">
           <router-link
-            class="navbar-item"
+            class="navbar-item has-text-dark"
             to="/gallery"
             active-class="active-link"
             exact
           >The Gallery</router-link>
           <router-link
-             class="navbar-item"
+             class="navbar-item has-text-dark"
              to="/docs"
              active-class="active-link"
           >Documentation</router-link>
