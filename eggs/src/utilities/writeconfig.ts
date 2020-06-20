@@ -8,5 +8,5 @@ export async function writeConfig(data: Config, format: ConfigFormats) {
 }
 
 async function writeYaml(filename: string, content: string) {
-  Deno.writeFileSync(filename, content);
+  Deno.writeFileSync(filename, new TextEncoder().encode(content));
 }
