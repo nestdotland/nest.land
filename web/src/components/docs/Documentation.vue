@@ -185,7 +185,7 @@
         $width: 30vw
         width: $width
         position: relative
-        padding: $topPadding 15px $topPadding $width / 4
+        padding: $topPadding 10% $topPadding 10%
         background-color: #f5f5f5
 
         @media screen and (max-width: 769px)
@@ -193,6 +193,7 @@
 
         .DocsNavContent
           position: fixed
+          left: 7%
 
           .Title
             font-size: 1.8em

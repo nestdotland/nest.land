@@ -115,7 +115,7 @@ In addition, you'll have the option of adding our official badge, courtesy of [@
 [![nest badge](https://nest.land/badge.svg)](https://nest.land/package/your-package)
 ```
  
-# Updating all of your packages
+# Updating your packages
   
 Updating your nest.land package versions is a breeze thanks to [@ebebbington](https://github.com/ebebbington)'s addition to the CLI. 
 
