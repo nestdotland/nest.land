@@ -237,9 +237,27 @@ export default {
 
       const dirs = []
 
-      for(const file of this.fileSystem)
-        if(!dirs.includes(file.fileLocation.replace(this.filesLocation, '')) && file.fileLocation !== this.filesLocation && file.fileLocation.replace(this.filesLocation, '') !== '/' && file.fileLocation.includes(this.filesLocation) && ((file.fileLocation.replace(this.filesLocation, '').match(new RegExp('/', 'g')) || []).length === 1 || (file.fileLocation.replace(this.filesLocation + '/', '').match(new RegExp('/', 'g')) || []).length === 1))
-          dirs.push(file.fileLocation.replace(this.filesLocation, ''))
+      console.log(this.fileSystem);
+
+      for(const file of this.fileSystem) {
+
+        const
+          locationWithoutLastSlash = this.filesLocation.replace(new RegExp('/$'), ''),
+          dirToPush = file.fileLocation.replace(locationWithoutLastSlash, '').split('/')[1]
+
+        if (
+
+          !dirs.includes(dirToPush) &&
+          file.fileLocation.includes(locationWithoutLastSlash) &&
+          dirToPush !== ''
+
+        ) {
+
+          dirs.push(dirToPush)
+
+        }
+
+      }
 
       return dirs.sort((a, b) => a.localeCompare(b))
 
@@ -262,6 +280,9 @@ export default {
 
     },
     fileContentLines () {
+
+      if(this.currentFileExtension === 'json')
+        return JSON.stringify(this.currentFileContent, null, 4).split(/\r\n|\r|\n/).length
 
       return this.currentFileContent.split(/\r\n|\r|\n/).length
 
