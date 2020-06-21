@@ -53,8 +53,9 @@ export const publish = new Command()
     if (configExists()) {
       const decoder = new TextDecoder("utf-8");
       let configFormat = detectConfig();
-      const content = decoder.decode(await Deno.readFile(`eggs.${configFormat}`));
+      const content = decoder.decode(await Deno.readFile(`egg.${configFormat}`));
       let egg: IEggConfig;
+      // console.log()
       if(["yaml", "yml"].includes(configFormat)) {
         let yamlConfig = parse(content);
         // @ts-ignore
@@ -64,7 +65,7 @@ export const publish = new Command()
         try {
           egg = JSON.parse(content);
         } catch (err) {
-          throw err;
+           throw err;
         }
       }
       if (!egg.name) throw new Error(red("You must provide a name for your package!"));
