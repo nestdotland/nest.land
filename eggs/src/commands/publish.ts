@@ -14,6 +14,7 @@ import {
 } from "../deps.ts";
 import {
   pathExists,
+  configExists
 } from "../utilities/files.ts";
 import {
   getAPIKey,
@@ -49,7 +50,7 @@ function readFileBtoa (path: string) {
 export const publish = new Command()
   .description("Publishes the current directory to the nest.land registry.")
   .action(async () => {
-    if (pathExists("egg.yaml") || pathExists("egg.json") || pathExists("egg.yml")) {
+    if (configExists()) {
       const decoder = new TextDecoder("utf-8");
       let configFormat = detectConfig();
       const content = decoder.decode(await Deno.readFile(`eggs.${configFormat}`));
