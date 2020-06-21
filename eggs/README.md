@@ -27,7 +27,7 @@
 
 **Note: You need to upgrade to Deno v1.1.0 or newer in order to use our CLI.**
 ```
-deno install -A -f --unstable -n eggs https://x.nest.land/eggs@0.1.3/mod.ts
+deno install -A -f --unstable -n eggs https://x.nest.land/eggs@0.1.4/mod.ts
 ```
 For more information, see the [documentation](https://nest.land/#docs).
 
@@ -82,7 +82,7 @@ Note: It may take some time for the transaction to process in Arweave. Until the
       ```typescript
       [
           "import { something } from 'https://deno.land/std@v0.56.0/http/mod.ts'",
-          "export { eggs } from 'https://x.nest.land/eggs@v0.1.0/mod.ts'"
+          "export { eggs } from 'https://x.nest.land/eggs@v0.1.4/mod.ts'"
       ]
       ```
       
