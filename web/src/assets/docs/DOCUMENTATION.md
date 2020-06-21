@@ -4,7 +4,7 @@ Welcome to [nest.land](https://nest.land)!
 
 Nest.land is a first-of-its-kind decentralized package registry and CDN built for [Deno](https://deno.land).
 
-Using the power of blockchain, you can publish your Deno modules to the [Arweave Permaweb](https://www.arweave.org/) through nest.land, where they can **never** be deleted. With this feature, you can make sure that your users will always have the required resources for their projects, via Deno's web-based package imports. 
+Using the power of blockchain, you can publish your Deno modules to the [Arweave Permaweb](https://www.arweave.org/) through nest.land, where they can **never** be deleted. With this feature, you can make sure that your users will always have the required resources for their projects, via Deno's web-based package imports.
 
 # Installation
 
@@ -15,7 +15,7 @@ deno install -A -f --unstable -n eggs https://x.nest.land/eggs@0.1.3/mod.ts
 ```
 Please make sure to use the `-A` flag to grant all permissions to eggs, so you can enjoy all features seamlessly.
 > Note: You need to upgrade to Deno v1.1.0 or newer in order to use our CLI.
-  
+
 # Linking your API key
 
 In order to publish packages to the blockchain with our CLI, you must first generate an API key. See [Getting Started](/#start).
@@ -39,14 +39,18 @@ The description of your new package
 #### Is this a stable version?
 Whether the current version of your package is stable or not. You will be able to update this with each new publish
 #### Enter the files and relative directories that nest.land will publish separated by a comma.
-All the files you want to publish with your package. You should include your README.md file here next to all the imported / required files of your module. 
+All the files you want to publish with your package. You should include your README.md file here next to all the imported / required files of your module.
+#### Config format
+Choose between your preffered config format among yaml and json.
 
 # Configuration
 
-After you've initialized a project, you'll see a brand new `egg.json` file. This file is specific to nest.land and needed for the registry.
+After you've initialized a project, you'll see a brand new `egg.json` or `egg.yml` file depending on the config format you've chosen. This file is specific to nest.land and needed for the registry.
 > Note: `egg.json` is different than Node's `package.json` for several reasons! [Here is why](https://github.com/nestlandofficial/nest.land/issues/52#issuecomment-643038042).
 
-Here is a template `egg.json` file with all available fields:
+Here is a template egg configuration file with all available fields:
+
+__JSON__:
 ```json
 {
     "name": "package-name",
@@ -63,6 +67,22 @@ Here is a template `egg.json` file with all available fields:
     ]
 }
 ```
+
+__YAML__:
+```yaml
+name: package-name
+description: Your brief package description
+version: 0.0.1
+entry: ./src/main.ts
+stable: true
+unlisted: false
+repository: https://github.com/your_name/your_project
+files:
+  - ./mod.ts
+  - ./src/**/*
+  - ./README.md
+```
+
 ## Field information:
 
 - name:
@@ -71,7 +91,7 @@ Here is a template `egg.json` file with all available fields:
 - description:
     - A description of your package that will appear on the gallery.
     - Required: true
-- version: 
+- version:
     - Your package version.
     - Required: false
         - If not specified, we automatically increment your package version by `0.0.1` on each publish.
@@ -114,10 +134,10 @@ In addition, you'll have the option of adding our official badge, courtesy of [@
 ```
 [![nest badge](https://nest.land/badge.svg)](https://nest.land/package/your-package)
 ```
- 
+
 # Updating your packages
-  
-Updating your nest.land package versions is a breeze thanks to [@ebebbington](https://github.com/ebebbington)'s addition to the CLI. 
+
+Updating your nest.land package versions is a breeze thanks to [@ebebbington](https://github.com/ebebbington)'s addition to the CLI.
 
 Just type the command shown to automatically check for and update all nest.land package imports. Not only does this update nest.land packages, but it can also update [deno.land/std/](https://deno.land/std/) and [deno.land/x/](https://deno.land/x/) packages!
 
