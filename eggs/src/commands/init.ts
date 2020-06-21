@@ -1,5 +1,5 @@
 import { Command, Input, Confirm, List, writeJson, yellow, parse } from "../deps.ts";
-import { pathExists } from "../utilities/files.ts";
+import { pathExists, configExists } from "../utilities/files.ts";
 import { Config, ConfigFormats } from "../types.ts";
 import { writeConfig } from "../utilities/writeconfig.ts";
 
@@ -15,7 +15,7 @@ export const init = new Command()
     .action(async () => {
         let previousConfig: Config = {};
         let previousConfigFormat: ConfigFormats = detectConfig();
-        if (pathExists("egg.yaml") || pathExists("egg.json") || pathExists("egg.yml")) {
+        if (configExists()) {
             console.warn(yellow("An egg config file already exists here! Overriding..."));
             const decoder = new TextDecoder("utf-8");
             const content = decoder.decode(await Deno.readFile(`egg.${previousConfigFormat}`));
