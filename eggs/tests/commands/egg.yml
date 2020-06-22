@@ -1,0 +1,7 @@
+name: eggs-commandline-test
+desc: This package is not intended to be used. It is for testing purposes only.
+stable: false
+unlisted: true
+files:
+  - commands.ts
+  - command_test.ts

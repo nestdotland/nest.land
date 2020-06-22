@@ -6,7 +6,7 @@
 
 import { assertEquals } from "../../src/deps.ts"
 
-const pathToHere = "eggs/tests/commands/";
+const pathToHere = "eggs/tests/commands/update/";
 
 function replaceMainDepFileContent (filenameToReplace: string, replacedWithFilename: string): void {
   const replacerFilename = pathToHere + replacedWithFilename
@@ -32,7 +32,7 @@ Deno.test({
   //ignore: true,
   async fn(): Promise<void> {
     const p = await Deno.run({
-      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "../../mod.ts", "update", "--deps"],
+      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../mod.ts", "update", "--deps"],
       stdout: "piped",
       stderr: "piped",
       cwd: "eggs/tests/commands"
@@ -57,7 +57,7 @@ Deno.test({
   //ignore: true,
   async fn(): Promise<void> {
     const p = await Deno.run({
-      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "../../mod.ts", "update", "--file", "deps.ts"],
+      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../mod.ts", "update", "--file", "deps.ts"],
       stdout: "piped",
       stderr: "piped",
       cwd: "eggs/tests/commands"
@@ -82,7 +82,7 @@ Deno.test({
   //ignore: true,
   async fn(): Promise<void> {
     const p = await Deno.run({
-      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "../../mod.ts", "update"],
+      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../mod.ts", "update"],
       stdout: "piped",
       stderr: "piped",
       cwd: "eggs/tests/commands"
@@ -111,7 +111,7 @@ Deno.test({
   async fn(): Promise<void> {
     removeDependencyFile("deps.ts")
     const p = await Deno.run({
-      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "../../mod.ts", "update", "--file", "dontexist.ts"],
+      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../mod.ts", "update", "--file", "dontexist.ts"],
       stdout: "piped",
       stderr: "piped",
       cwd: "eggs/tests/commands"
@@ -134,7 +134,7 @@ Deno.test({
   async fn(): Promise<void> {
     emptyDependencyFile("deps.ts")
     const p = await Deno.run({
-      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "../../mod.ts", "update"],
+      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../mod.ts", "update"],
       stdout: "piped",
       stderr: "piped",
       cwd: "eggs/tests/commands"
@@ -158,7 +158,7 @@ Deno.test({
   async fn(): Promise<void> {
     replaceMainDepFileContent("deps.ts", "up_to_date_deps.ts");
     const p = await Deno.run({
-      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "../../mod.ts", "update"],
+      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../mod.ts", "update"],
       stdout: "piped",
       stderr: "piped",
       cwd: "eggs/tests/commands"
@@ -181,7 +181,7 @@ Deno.test({
   async fn(): Promise<void> {
     replaceMainDepFileContent("deps.ts", "up_to_date_deps.ts");
     const p = await Deno.run({
-      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "../../mod.ts", "update", "--deps", "http"],
+      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../mod.ts", "update", "--deps", "http"],
       stdout: "piped",
       stderr: "piped",
       cwd: "eggs/tests/commands"
