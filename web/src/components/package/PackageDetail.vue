@@ -298,6 +298,12 @@ export default {
             name: this.$route.params.id,
           },
         });
+        if(packageDataResponse.data.body === 'Not Found') {
+
+          this.$router.push('/404')
+          return
+
+        }
         this.packageInfo = packageDataResponse.data.body;
         this.packageVersions = this.sortPackages(this.packageInfo.packageUploadNames);
       } catch (err) {
@@ -371,7 +377,7 @@ export default {
       await axios
         .get(this.currentFileURL)
         .then(response => this.currentFileContent = response.data)
-        .catch(() => this.$router.push(`/package/${ this.$route.params.id }/files`))
+        .catch(() => this.$router.push(`/404`))
 
     },
     openFile () {
@@ -387,7 +393,7 @@ export default {
       const dirExists = Object.keys(this.files).filter(key => key.includes(this.filesLocation)).length > 0
 
       if(!(this.filesLocation in this.files) && !dirExists)
-        this.$router.push(`/package/${ this.$route.params.id }/files`)
+        this.$router.push(`/404`)
 
     }
 
