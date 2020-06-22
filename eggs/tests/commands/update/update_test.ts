@@ -32,7 +32,7 @@ Deno.test({
   //ignore: true,
   async fn(): Promise<void> {
     const p = await Deno.run({
-      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../mod.ts", "update", "--deps"],
+      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../../mod.ts", "update", "--deps"],
       stdout: "piped",
       stderr: "piped",
       cwd: pathToHere
@@ -57,7 +57,7 @@ Deno.test({
   //ignore: true,
   async fn(): Promise<void> {
     const p = await Deno.run({
-      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../mod.ts", "update", "--file", "deps.ts"],
+      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../../mod.ts", "update", "--file", "deps.ts"],
       stdout: "piped",
       stderr: "piped",
       cwd: pathToHere
@@ -82,7 +82,7 @@ Deno.test({
   //ignore: true,
   async fn(): Promise<void> {
     const p = await Deno.run({
-      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../mod.ts", "update"],
+      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../../mod.ts", "update"],
       stdout: "piped",
       stderr: "piped",
       cwd: pathToHere
@@ -111,7 +111,7 @@ Deno.test({
   async fn(): Promise<void> {
     removeDependencyFile("deps.ts")
     const p = await Deno.run({
-      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../mod.ts", "update", "--file", "dontexist.ts"],
+      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../../mod.ts", "update", "--file", "dontexist.ts"],
       stdout: "piped",
       stderr: "piped",
       cwd: pathToHere
@@ -134,7 +134,7 @@ Deno.test({
   async fn(): Promise<void> {
     emptyDependencyFile("deps.ts")
     const p = await Deno.run({
-      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../mod.ts", "update"],
+      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../../mod.ts", "update"],
       stdout: "piped",
       stderr: "piped",
       cwd: pathToHere
@@ -158,7 +158,7 @@ Deno.test({
   async fn(): Promise<void> {
     replaceMainDepFileContent("deps.ts", "up_to_date_deps.ts");
     const p = await Deno.run({
-      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../mod.ts", "update"],
+      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../../mod.ts", "update"],
       stdout: "piped",
       stderr: "piped",
       cwd: pathToHere
@@ -181,7 +181,7 @@ Deno.test({
   async fn(): Promise<void> {
     replaceMainDepFileContent("deps.ts", "up_to_date_deps.ts");
     const p = await Deno.run({
-      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../mod.ts", "update", "--deps", "http"],
+      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../../mod.ts", "update", "--deps", "http"],
       stdout: "piped",
       stderr: "piped",
       cwd: pathToHere
