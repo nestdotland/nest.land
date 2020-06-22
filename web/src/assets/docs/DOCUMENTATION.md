@@ -11,11 +11,11 @@ Using the power of blockchain, you can publish your Deno modules to the [Arweave
 To initialize and publish your first module to nest.land, you will need our CLI, **eggs**. You can install it using this command:
 
 ```shell script
-deno install -A -f --unstable -n eggs https://x.nest.land/eggs@0.1.3/mod.ts
+deno install -A -f --unstable -n eggs https://x.nest.land/eggs@0.1.4/mod.ts
 ```
 Please make sure to use the `-A` flag to grant all permissions to eggs, so you can enjoy all features seamlessly.
 > Note: You need to upgrade to Deno v1.1.0 or newer in order to use our CLI.
-  
+
 # Linking your API key
 
 In order to publish modules to the blockchain with our CLI, you must first generate an API key. See [Getting Started](/#start).
@@ -41,12 +41,17 @@ Whether the current version of your module is stable or not. You will be able to
 #### Enter the files and relative directories that nest.land will publish separated by a comma.
 All the files you want to publish with your module. You should include your README.md file here next to all the imported / required files of your module. 
 
+#### Config format
+Choose between your preffered config format among yaml and json.
+
 # Configuration
 
-After you've initialized a project, you'll see a brand new `egg.json` file. This file is specific to nest.land and needed for the registry.
+After you've initialized a project, you'll see a brand new `egg.json` or `egg.yml` file depending on the config format you've chosen. This file is specific to nest.land and needed for the registry.
 > Note: `egg.json` is different than Node's `package.json` for several reasons! [Here is why](https://github.com/nestlandofficial/nest.land/issues/52#issuecomment-643038042).
 
-Here is a template `egg.json` file with all available fields:
+Here is a template egg configuration file with all available fields:
+
+__JSON__:
 ```json
 {
     "name": "module-name",
@@ -63,6 +68,22 @@ Here is a template `egg.json` file with all available fields:
     ]
 }
 ```
+
+__YAML__:
+```yaml
+name: package-name
+description: Your brief package description
+version: 0.0.1
+entry: ./src/main.ts
+stable: true
+unlisted: false
+repository: https://github.com/your_name/your_project
+files:
+  - ./mod.ts
+  - ./src/**/*
+  - ./README.md
+```
+
 ## Field information:
 
 - name:
@@ -145,6 +166,14 @@ The verification is smart, it can't be done more than once a day. To install a s
 
 ```shell script
 eggs install --allow-read --allow-run --allow-write --allow-net --unstable https://x.nest.land/denon@2.2.0/denon.ts
+```
+
+# Upgrade eggs
+
+To upgrade the eggs CLI, use the command shown:
+
+```shell script
+eggs upgrade
 ```
 
 ## Technical questions?

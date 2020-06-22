@@ -7,3 +7,9 @@ export function homedir() {
 export function pathExists(filePath: string) {
   return existsSync(filePath);
 }
+
+export function configExists(): boolean {
+  return existsSync("egg.json") || 
+    existsSync("egg.yml") ||
+    existsSync("egg.yaml");
+}

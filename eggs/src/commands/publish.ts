@@ -10,14 +10,19 @@ import {
   path,
   semver,
   base64,
+  parse,
 } from "../deps.ts";
 import {
   pathExists,
+  configExists
 } from "../utilities/files.ts";
 import {
   getAPIKey,
   ENDPOINT,
 } from "../utilities/keyfile.ts";
+import {
+  ConfigFormats
+} from "../types.ts";
 
 interface IEggConfig {
   name: string;
@@ -31,6 +36,12 @@ interface IEggConfig {
   files: string[];
 }
 
+function detectConfig(): ConfigFormats {
+  if(pathExists("egg.yaml")) return "yaml";
+  else if (pathExists("egg.yml")) return "yml";
+  return "json";
+}
+
 function readFileBtoa (path: string) {
   const data = Deno.readFileSync(path);
   return base64.fromUint8Array(data);
@@ -39,14 +50,23 @@ function readFileBtoa (path: string) {
 export const publish = new Command()
   .description("Publishes the current directory to the nest.land registry.")
   .action(async () => {
-    if (pathExists("egg.json")) {
+    if (configExists()) {
       const decoder = new TextDecoder("utf-8");
-      const content = decoder.decode(await Deno.readFile("egg.json"));
+      let configFormat = detectConfig();
+      const content = decoder.decode(await Deno.readFile(`egg.${configFormat}`));
       let egg: IEggConfig;
-      try {
-        egg = JSON.parse(content);
-      } catch (err) {
-        throw err;
+      // console.log()
+      if(["yaml", "yml"].includes(configFormat)) {
+        let yamlConfig = parse(content);
+        // @ts-ignore
+        egg = typeof yamlConfig == "object" ? yamlConfig : {};
+      }
+      else {
+        try {
+          egg = JSON.parse(content);
+        } catch (err) {
+           throw err;
+        }
       }
       if (!egg.name) throw new Error(red("You must provide a name for your package!"));
       if (!egg.description) console.log(yellow("You haven't provided a description for your package, continuing without one..."));

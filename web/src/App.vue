@@ -1,14 +1,57 @@
 <template>
   <div id="app">
+    <transition name="loading">
+      <div class="LoadingLine" v-if="loading"></div>
+    </transition>
     <router-view></router-view>
     <nest-footer></nest-footer>
   </div>
 </template>
 
 <script>
-export default {
-  name: "App",
-};
+
+  export default {
+
+    name: 'App',
+    data () {
+
+      return {
+
+        loading: false
+
+      }
+
+    },
+    mounted () {
+
+      this.showLoading()
+
+    },
+    methods: {
+
+      showLoading () {
+
+        this.loading = true
+        setTimeout(() => this.loading = false, 440)
+
+      }
+
+    },
+    watch: {
+
+      $route (to, from) {
+
+        if(to.path === from.path)
+          return
+
+        this.showLoading()
+
+      }
+
+    }
+
+  }
+
 </script>
 
 <style>
@@ -65,6 +108,24 @@ export default {
   -moz-animation: nestGradient 6s ease infinite;
   animation: nestGradient 6s ease infinite;
 }
+.LoadingLine {
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 3px;
+  z-index: 10000000;
+
+  opacity: 1;
+  background: linear-gradient(271deg, #22c1c3, #fdbb2d);
+  background-size: 400% 400%;
+
+  -webkit-animation: nestGradient 6s ease infinite;
+  -moz-animation: nestGradient 6s ease infinite;
+  animation: nestGradient 6s ease infinite;
+
+}
 @-webkit-keyframes nestGradient {
   0% {
     background-position: 0% 50%;
@@ -116,6 +177,24 @@ export default {
 .slide-down-enter-active {
   animation: slide-in-down 1s ease-out forwards;
   transition: opacity 1s;
+}
+.loading-enter-active, .loading-enter-to-active {
+  transition: width .43s, opacity .47s ease;
+}
+.loading-leave-active, .loading-leave-to-active {
+  transition: opacity .23s ease;
+}
+.loading-enter {
+  width: 0;
+  opacity: 0;
+}
+.loading-enter-to, .loading-leave {
+  width: 100vw;
+  opacity: 1;
+}
+.loading-leave-to {
+  width: 100vw;
+  opacity: 0;
 }
 @keyframes slide-in-down {
   from {
