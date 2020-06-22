@@ -70,8 +70,8 @@ Deno.test({
     assertEquals(stdout, "Updated your dependencies!\n");
     assertEquals(status.code, 0);
     assertEquals(status.success, true);
-    const originalDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/original_deps.ts"));
-    const newDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/deps.ts"));
+    const originalDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/update/original_deps.ts"));
+    const newDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/update/deps.ts"));
     assertEquals(originalDepContent !== newDepContent, true)
     replaceMainDepFileContent("deps.ts", "original_deps.ts")
   }
@@ -95,8 +95,8 @@ Deno.test({
     assertEquals(stdout, "Updated your dependencies!\n");
     assertEquals(status.code, 0);
     assertEquals(status.success, true);
-    const originalDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/original_deps.ts"));
-    const newDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/deps.ts"));
+    const originalDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/update/original_deps.ts"));
+    const newDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/update/deps.ts"));
     assertEquals(originalDepContent !== newDepContent, true);
     assertEquals(newDepContent.indexOf("eggs@v0.1.18") > 0, true);
     assertEquals(newDepContent.indexOf("std@v0.57.0/fmt") > 0, true);
