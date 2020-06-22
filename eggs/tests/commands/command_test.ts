@@ -22,7 +22,10 @@ for (let i = 0; i < commands.length; i++) {
       });
       const status = await p.status();
       const stdout = new TextDecoder("utf-8").decode(await p.output());
-        const stderr = new TextDecoder("utf-8").decode(await p.stderrOutput());
+      const stderr = new TextDecoder("utf-8").decode(await p.stderrOutput());
+      assertEquals(stderr, "");
+      assertEquals(status.code, 0);
+      assertEquals(status.success, true);
       p.close();
     }
   });
