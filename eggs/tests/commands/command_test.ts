@@ -22,6 +22,7 @@ for (let i = 0; i < commands.length; i++) {
       });
       const status = await p.status();
       const stdout = new TextDecoder("utf-8").decode(await p.output());
+        const stderr = new TextDecoder("utf-8").decode(await p.stderrOutput());
       p.close();
     }
   });
