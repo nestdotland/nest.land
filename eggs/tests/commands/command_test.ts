@@ -15,12 +15,13 @@ for (let i = 0; i < commands.length; i++) {
     name: cmd,
     async fn(): Promise<void> {
       const p = await Deno.run({
-        cmd: ["deno", "test", "--unstable", "-A", "command_test.ts"],
+        cmd: ["eggs", cmd],
         stdout: "piped",
         stderr: "piped",
         cwd: pathToHere
       });
       const status = await p.status();
+      const stdout = new TextDecoder("utf-8").decode(await p.output());
       p.close();
     }
   });
