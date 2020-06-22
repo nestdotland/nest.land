@@ -4,7 +4,7 @@
  * Requires: --allow-read, --allow-run, --allow-write
  */
 
-import { assertEquals } from "../../src/deps.ts"
+import { assertEquals } from "../../../src/deps.ts"
 
 const pathToHere = "eggs/tests/commands/update/";
 
