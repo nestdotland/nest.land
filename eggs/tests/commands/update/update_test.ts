@@ -60,7 +60,7 @@ Deno.test({
       cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../mod.ts", "update", "--file", "deps.ts"],
       stdout: "piped",
       stderr: "piped",
-      cwd: "eggs/tests/commands"
+      cwd: pathToHere
     });
     const status = await p.status();
     p.close();
@@ -85,7 +85,7 @@ Deno.test({
       cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../mod.ts", "update"],
       stdout: "piped",
       stderr: "piped",
-      cwd: "eggs/tests/commands"
+      cwd: pathToHere
     });
     const status = await p.status();
     p.close();
@@ -114,7 +114,7 @@ Deno.test({
       cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../mod.ts", "update", "--file", "dontexist.ts"],
       stdout: "piped",
       stderr: "piped",
-      cwd: "eggs/tests/commands"
+      cwd: pathToHere
     });
     const status = await p.status();
     p.close();
@@ -137,7 +137,7 @@ Deno.test({
       cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../mod.ts", "update"],
       stdout: "piped",
       stderr: "piped",
-      cwd: "eggs/tests/commands"
+      cwd: pathToHere
     });
     const status = await p.status();
     p.close();
@@ -161,7 +161,7 @@ Deno.test({
       cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../mod.ts", "update"],
       stdout: "piped",
       stderr: "piped",
-      cwd: "eggs/tests/commands"
+      cwd: pathToHere
     });
     const status = await p.status();
     p.close();
@@ -184,7 +184,7 @@ Deno.test({
       cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../mod.ts", "update", "--deps", "http"],
       stdout: "piped",
       stderr: "piped",
-      cwd: "eggs/tests/commands"
+      cwd: pathToHere
     });
     const status = await p.status();
     p.close();
