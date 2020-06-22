@@ -35,7 +35,7 @@ Deno.test({
       cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../mod.ts", "update", "--deps"],
       stdout: "piped",
       stderr: "piped",
-      cwd: "eggs/tests/commands"
+      cwd: pathToHere
     });
     const status = await p.status();
     p.close();

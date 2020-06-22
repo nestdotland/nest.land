@@ -9,6 +9,19 @@ import commands from "./commands.ts";
 
 const pathToHere = "eggs/tests/commands/";
 
-Deno.test({
-  
-})
+for (let i = 0; i < commands.length; i++) {
+  const cmd = commands[i];
+  Deno.test({
+    name: cmd,
+    async fn(): Promise<void> {
+      const p = await Deno.run({
+        cmd: ["deno", "test", "--unstable", "-A", "command_test.ts"],
+        stdout: "piped",
+        stderr: "piped",
+        cwd: pathToHere
+      });
+      const status = await p.status();
+      p.close();
+    }
+  });
+}
