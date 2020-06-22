@@ -15,7 +15,7 @@ for (let i = 0; i < commands.length; i++) {
     name: cmd,
     async fn(): Promise<void> {
       const p = await Deno.run({
-        cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../mod.ts", cmd],
+        cmd: ["deno", "run", "--unstable", "-A", "../../mod.ts", cmd],
         stdout: "piped",
         stderr: "piped",
         cwd: pathToHere
