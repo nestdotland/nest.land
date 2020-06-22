@@ -45,8 +45,8 @@ Deno.test({
     assertEquals(stderr, "Provide dependencies to update when using --deps. Exiting...\n");
     assertEquals(status.code, 1);
     assertEquals(status.success, false);
-    const originalDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/original_deps.ts"));
-    const newDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/deps.ts"));
+    const originalDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/update/original_deps.ts"));
+    const newDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/update/deps.ts"));
     assertEquals(originalDepContent === newDepContent, true)
   }
 })
