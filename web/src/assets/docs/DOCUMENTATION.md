@@ -107,6 +107,10 @@ files:
     - Should people be able to find this package/version on the gallery?
     - Required: false
         - Defaults to false
+- fmt:
+    - Format your code before publishing to the blockchain network
+    - Required: false
+         - Defaults to false    
 - repository:
     - A link to your repository.
     - Required: false
