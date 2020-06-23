@@ -1,3 +1,18 @@
+<br />
+<p align="center">
+  <a href="https://github.com/nestlandofficial/nest.land">
+    <img src="https://github.com/nestlandofficial/nest.land/raw/master/web/src/assets/nest_light.png" alt="logo" width="110">
+  </a>
+
+  <h3 align="center">Eggs CLI</h3>
+
+  <p align="center">
+    The CLI used to publish and update packages in nest.land.
+ </p>
+</p>
+
+[![nest badge](https://nest.land/badge.svg)](https://nest.land/package/eggs)
+
 # Contents
 * [Installation](#installation)
 * [List Of Commands](#list-of-commands)
@@ -5,13 +20,14 @@
     * [Init](#init)
     * [Publish](#publish)
     * [Update](#update)
+    * [Upgrade](#upgrade)
 * [Contributing](#contributing)
 
 ## Installation
 
 **Note: You need to upgrade to Deno v1.1.0 or newer in order to use our CLI.**
 ```
-deno install --allow-read --allow-write --allow-net --allow-env --unstable -n eggs https://x.nest.land/eggs@0.1.0/mod.ts
+deno install -A -f --unstable -n eggs https://x.nest.land/eggs@0.1.4/mod.ts
 ```
 For more information, see the [documentation](https://nest.land/#docs).
 
@@ -66,7 +82,7 @@ Note: It may take some time for the transaction to process in Arweave. Until the
       ```typescript
       [
           "import { something } from 'https://deno.land/std@v0.56.0/http/mod.ts'",
-          "export { eggs } from 'https://x.nest.land/eggs@v0.1.0/mod.ts'"
+          "export { eggs } from 'https://x.nest.land/eggs@v0.1.4/mod.ts'"
       ]
       ```
       
@@ -137,6 +153,14 @@ Note: It may take some time for the transaction to process in Arweave. Until the
     * `--allow-net` (fetch requests)
     * `--allow-read` (reading dependency file)
     * `--allow-write` (re-writing the dependency file with updated versions)
+
+### Upgrade
+
+To upgrade the eggs CLI, use the command shown:
+
+```
+$ eggs upgrade
+```
 
 ## Contributing
 

@@ -3,6 +3,7 @@ import { generateToken } from "../utils/token";
 import { hash, verify } from "../utils/password";
 import { DBConn } from "../utils/driver";
 import { User } from "../utils/entities/User";
+import { normaliseName } from "../utils/normalise";
 
 interface GenericAuthBody {
   username: string;
@@ -27,15 +28,20 @@ export function authRouter(dbConn: DBConn) {
       return res.sendStatus(400);
     }
 
-    if (username.length > 20) return res.sendStatus(400);
+    if (username.length > 20 || username.length < 3) return res.sendStatus(400);
+
+    const normalisedName = normaliseName(username);
+    if (!normalisedName) return res.sendStatus(400);
+
     const existingUser = !!(await dbConn.repos.user.findOne({
-      where: { name: username },
+      where: { normalizedName: normalisedName },
     }));
 
     if (existingUser) return res.sendStatus(409);
 
     const user = new User();
     user.name = username;
+    user.normalizedName = normalisedName;
     user.password = await hash(password);
     user.apiKey = generateToken();
     user.packageNames = [];

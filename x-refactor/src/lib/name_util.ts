@@ -29,3 +29,14 @@ export const RESERVED_NAMES = new Set([
   // Package names requested to be reserved.
   "libre",
 ]);
+
+export function normaliseName(input: string) {
+  let copy = input.slice(0);
+
+  copy = copy.toLowerCase();
+  copy = copy.replace(/[-_.:]/g, "_");
+  let hasInvalidCharacters = /[^a-z0-9_]/.test(copy);
+
+  if (hasInvalidCharacters) return;
+  return copy;
+}

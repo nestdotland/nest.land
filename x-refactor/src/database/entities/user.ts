@@ -5,6 +5,9 @@ export class User {
   @t.PrimaryColumn("varchar", { length: 20, nullable: false, unique: true })
   name!: string;
 
+  @t.PrimaryColumn("varchar", { length: 20, nullable: false, unique: true })
+  normalizedName!: string;
+
   @t.Column("varchar", { length: 256, nullable: false })
   password!: string;
 

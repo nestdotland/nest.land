@@ -21,7 +21,15 @@ import {
   faFistRaised,
   faCodeBranch,
   faParachuteBox,
-  faBoxOpen
+  faBoxOpen,
+  faCubes,
+  faFolder,
+  faLevelUpAlt,
+  faFileCode,
+  faBookOpen,
+  faUser,
+  faCalendarAlt,
+  faImage,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -37,7 +45,15 @@ library.add(
   faParachuteBox,
   faBoxOpen,
   faSearch,
+  faCubes,
   faGithub,
+  faFolder,
+  faLevelUpAlt,
+  faFileCode,
+  faBookOpen,
+  faUser,
+  faCalendarAlt,
+  faImage,
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

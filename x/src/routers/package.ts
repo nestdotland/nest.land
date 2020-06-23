@@ -2,6 +2,7 @@ import { getType } from "mime";
 import { Router } from "express";
 import { valid as validVersion } from "semver";
 import { generateToken } from "../utils/token";
+import { normaliseName } from "../utils/normalise";
 import { isNameOkay } from "../utils/reservedNames";
 import { save as saveTemp } from "../utils/temp";
 import { DBConn } from "../utils/driver";
@@ -100,6 +101,7 @@ export function packageRouter(dbConn: DBConn, arConn: ArConn) {
     latest: boolean;
     stable: boolean;
     upload: boolean;
+    unlisted: boolean;
   }
 
   router.post("/publish", async (req, res) => {
@@ -124,15 +126,20 @@ export function packageRouter(dbConn: DBConn, arConn: ArConn) {
       latest,
       stable,
       upload,
+      unlisted,
     } = req.body as PublishBody;
 
     /* Validate body */
 
-    if (typeof name !== "string" || name.length > 40) {
+    if (typeof name !== "string" || name.length > 40 || name.length < 2) {
       return res.sendStatus(400);
     }
 
     if (typeof upload !== "undefined" && typeof upload !== "boolean") {
+      return res.sendStatus(400);
+    }
+
+    if (typeof unlisted !== "undefined" && typeof unlisted !== "boolean") {
       return res.sendStatus(400);
     }
 
@@ -160,8 +167,12 @@ export function packageRouter(dbConn: DBConn, arConn: ArConn) {
     if (!version) version = "0.0.1";
     else if (!validVersion(version)) return res.sendStatus(400);
 
+    // Heated debate incoming....
+    const normalisedName = normaliseName(name);
+    if (!normalisedName) return res.sendStatus(400);
+
     let pkg = await dbConn.repos.pkg.findOne({
-      where: { name: name },
+      where: { normalizedName: normalisedName },
     });
 
     const pkgUploadName = `${name}@${version}`;
@@ -172,9 +183,11 @@ export function packageRouter(dbConn: DBConn, arConn: ArConn) {
       firstPublish = true;
       pkg = new Package();
       pkg.name = name;
+      pkg.normalizedName = normalisedName;
       pkg.owner = user.name;
       pkg.latestVersion = null;
       pkg.latestStableVersion = null;
+      pkg.unlisted = unlisted;
       pkg.description = description ?? null;
       pkg.packageUploadNames = [];
 
@@ -187,10 +200,17 @@ export function packageRouter(dbConn: DBConn, arConn: ArConn) {
         { packageNames: user.packageNames },
       );
     } else {
+      if (pkg.name !== name) return res.sendStatus(409);
+
       // If the package doesn't have the upload even when the entry exists.
-      // Send a 409 error.
+      // Send a 409 (conflict) error.
       if (!pkg.packageUploadNames.includes(pkgUploadName)) {
         return res.sendStatus(409);
+      }
+
+      if (typeof unlisted !== "undefined") {
+        pkg.unlisted = unlisted;
+        await dbConn.repos.pkg.update({ name }, { unlisted });
       }
 
       if (pkg.owner !== user.name) return res.sendStatus(403);
