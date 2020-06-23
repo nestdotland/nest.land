@@ -16,7 +16,8 @@ export const routes = [
   },
   {
     path: "/package/:id",
-    component: PackageDetail
+    component: PackageDetail,
+    props: (route) => ({ v: route.query.v })
   },
   {
     path: "/package/:id/*",
