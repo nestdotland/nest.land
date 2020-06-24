@@ -4,7 +4,7 @@ export * as semver from "https://deno.land/x/semver/mod.ts";
 export * as path from "https://deno.land/std@v0.56.0/path/mod.ts";
 export { existsSync, expandGlobSync, writeJson, readJson, exists } from "https://deno.land/std@v0.56.0/fs/mod.ts";
 export { bold, green, yellow, red } from "https://deno.land/std@v0.56.0/fmt/colors.ts";
-export { assertEquals } from "https://deno.land/std@v0.56.0/testing/asserts.ts";
+export { assertEquals, assertMatch, assert } from "https://deno.land/std@v0.56.0/testing/asserts.ts";
 export { parse, stringify } from "https://deno.land/std/encoding/yaml.ts";
 export * as base64 from "https://denopkg.com/chiefbiiko/base64/mod.ts";
 export { installUpdateHandler, globalModulesConfigPath } from "https://x.nest.land/eggs-update-handler@0.4.1/mod.ts";
