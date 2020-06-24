@@ -1,4 +1,4 @@
-name: eggs-commandline-test
+name: eggs-ci-testing
 desc: This package is not intended to be used. It is for testing purposes only.
 stable: false
 unlisted: true
