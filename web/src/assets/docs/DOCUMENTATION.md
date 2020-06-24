@@ -128,12 +128,20 @@ Boom! After this, you'll be returned a link to your module on our [Gallery](gall
 
 ## Badge
 
-In addition, you'll have the option of adding our official badge, courtesy of [@maximousblk](https://github.com/maximousblk). This is the best way you can support our registry and help us grow. We'd really appreciate seeing it on your project!
+In addition, you'll have the option of adding our official badge to your project docs, courtesy of [@maximousblk](https://github.com/maximousblk). This is the best way you can support our registry and help us grow. We'd really appreciate seeing it on your project!
 
 ![nest badge](https://nest.land/badge.svg)
 
 ```
 [![nest badge](https://nest.land/badge.svg)](https://nest.land/module/your-module)
+```
+
+or if you want to support us *louder*, you can use the large badge.
+
+![nest badge](https://nest.land/badge-large.svg)
+
+```
+[![nest badge](https://nest.land/badge-large.svg)](https://nest.land/package/your-package)
 ```
 
 # Updating all of your dependencies
