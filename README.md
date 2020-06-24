@@ -24,7 +24,7 @@ See the [roadmap](/ROADMAP.md).
 
 ## Project Diagram
 
-<img src="./web/src/assets/nest_diagram.svg">
+<img src="https://nest.land/nest-diagram.svg">
 
 
 ## Credits
