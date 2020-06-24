@@ -13,6 +13,8 @@
     <a href="https://nest.land/package/eggs">
       <img src="https://nest.land/badge.svg" alt="nest.land badge">
     </a>
+    <img src="https://github.com/nestlandofficial/nest.land/workflows/Eggs%20Test/badge.svg" alt="Eggs Test">
+    <img src="https://github.com/nestlandofficial/nest.land/workflows/Publish%20Egg/badge.svg" alt="Publish Egg">
   </p>
 </p>
 
