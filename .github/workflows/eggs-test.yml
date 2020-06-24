@@ -16,4 +16,5 @@ jobs:
         uses: denolib/setup-deno@master
         with:
           deno-version: ${{ matrix.deno-version }}
+      - run: deno run --unstable -A eggs/mod.ts link --key ${{ secrets.NESTAPIKEY }}
       - run: deno test --unstable -A eggs/tests/commands
