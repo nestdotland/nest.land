@@ -8,10 +8,13 @@
 
   <p align="center">
     The CLI used to publish and update packages in nest.land.
- </p>
+  </p>
+  <p align="center">
+    <a href="https://nest.land/package/eggs">
+      <img src="https://nest.land/badge.svg" alt="nest.land badge">
+    </a>
+  </p>
 </p>
-
-[![nest badge](https://nest.land/badge.svg)](https://nest.land/package/eggs)
 
 # Contents
 * [Installation](#installation)

@@ -24,7 +24,7 @@ See the [roadmap](/ROADMAP.md).
 
 ## Project Diagram
 
-<img src="./web/src/assets/nest_diagram.png">
+<img src="./web/src/assets/nest_diagram.svg">
 
 
 ## Credits
@@ -38,6 +38,14 @@ See the [roadmap](/ROADMAP.md).
 ### Contributors
 
  - [ebebbington](https://github.com/ebebbington)
+ - [oganexon](https://github.com/oganexon)
+ - [divy-work](https://github.com/divy-work)
+ - [martondev](https://github.com/MartonDev)
+ - [maximousblk](https://github.com/maximousblk)
+
+### Special Thanks
+
+ - [Cedrik Boudreau](https://github.com/cedriking)
 
 ### Inspirations
 
