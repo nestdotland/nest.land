@@ -65,8 +65,7 @@ impl QueryRoot {
     fn package(ctx: &GraphQLContext, name: String) -> FieldResult<Package> {
         Ok(Runtime::new()
             .unwrap()
-            .block_on(get_package(Arc::clone(&ctx.pool), name))
-            .unwrap())
+            .block_on(get_package(Arc::clone(&ctx.pool), name))?)
     }
     fn user(ctx: &GraphQLContext, apiKey: String) -> FieldResult<User> {
         Ok(Runtime::new()

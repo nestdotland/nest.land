@@ -23,10 +23,10 @@ pub async fn connect() -> Result<Client, Error> {
 }
 
 // Method to retrieve a package from db
-pub async fn get_package(db: Arc<Client>, name: String) -> Result<Package, Error> {
+pub async fn get_package(db: Arc<Client>, name: String) -> Result<Package, String> {
     let rows = &db
         .query("SELECT * FROM packages WHERE name = $1", &[&name])
-        .await?;
+        .await.unwrap();
     let _row = first(rows);
     if let Some(x) = _row {
         let row = _row.unwrap();
@@ -46,21 +46,7 @@ pub async fn get_package(db: Arc<Client>, name: String) -> Result<Package, Error
             createdAt: format!("{:?}", SystemTime::now()),
         })
     } else {
-        Ok(Package {
-            name: "eggs".to_owned(),
-            normalizedName: "eggs".to_owned(),
-            owner: "nest.land".to_owned(),
-            description: "Cli for nest.land".to_owned(),
-            repository: "https://github.com/divy-work/nest-api-rust".to_owned(),
-            latestVersion: "v0.1.0".to_owned(),
-            latestStableVersion: "v0.1.0".to_owned(),
-            packageUploadNames: vec!["eggs".to_string()],
-            locked: false,
-            malicious: false,
-            unlisted: false,
-            updatedAt: format!("{:?}", SystemTime::now()),
-            createdAt: format!("{:?}", SystemTime::now()),
-        })
+        Err("Not found".to_string())
     }
 }
 
