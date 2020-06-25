@@ -1,5 +1,5 @@
 import { Joi, SchemaOptions } from "celebrate";
-import { VALID_SEMVER_VER, BEARER_TOKEN } from "@lib/string_validator_util";
+import { VALID_SEMVER_VER, BEARER_TOKEN } from "@lib/string_validation";
 
 export interface Publish {
   name: string;

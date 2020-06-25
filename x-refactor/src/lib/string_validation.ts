@@ -38,7 +38,7 @@ export const VALID_PKG_UPLOAD = new RegExp(
 
 export const BEARER_TOKEN = /^Bearer\s(?<token>[^_\W]+)$/;
 
-export function normaliseName(input: string) {
+export function sanitiseName(input: string) {
   let copy = input.slice(0);
 
   copy = copy.toLowerCase();
