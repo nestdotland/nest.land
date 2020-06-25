@@ -30,6 +30,14 @@ export const RESERVED_NAMES = new Set([
   "libre",
 ]);
 
+// SemVer regex sourced from https://regexr.com/39s32
+export const VALID_SEMVER_VER = /^(?<version>(([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)$/;
+export const VALID_PKG_UPLOAD = new RegExp(
+  `^(?<name>[\-\w]+)@${VALID_SEMVER_VER.source.slice(1, -1)}$`,
+);
+
+export const BEARER_TOKEN = /^Bearer\s(?<token>[^_\W]+)$/;
+
 export function normaliseName(input: string) {
   let copy = input.slice(0);
 
