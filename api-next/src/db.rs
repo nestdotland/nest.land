@@ -65,10 +65,10 @@ pub async fn get_package(db: Arc<Client>, name: String) -> Result<Package, Error
 }
 
 // Method to retrieve a user from db
-pub async fn get_user_by_key(db: Arc<Client>, apiKey: String) -> Result<User, Error> {
+pub async fn get_user_by_key(db: Arc<Client>, apiKey: String) -> Result<User, String> {
     let rows = &db
         .query("SELECT * FROM users WHERE apiKey = $1", &[&apiKey])
-        .await?;
+        .await.unwrap();
     let _row = first(rows);
     if let Some(x) = _row {
         let row = _row.unwrap();
@@ -80,12 +80,6 @@ pub async fn get_user_by_key(db: Arc<Client>, apiKey: String) -> Result<User, Er
             createdAt: format!("{:?}", SystemTime::now()),
         })
     } else {
-        Ok(User {
-            name: "divy".to_owned(),
-            normalizedName: "divy".to_owned(),
-            apiKey: "12345".to_owned(),
-            packageNames: vec!["autopilot".to_string()],
-            createdAt: format!("{:?}", SystemTime::now()),
-        })
+        Err("Not found".to_string())
     }
 }

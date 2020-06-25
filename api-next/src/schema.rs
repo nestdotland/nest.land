@@ -71,8 +71,7 @@ impl QueryRoot {
     fn user(ctx: &GraphQLContext, apiKey: String) -> FieldResult<User> {
         Ok(Runtime::new()
             .unwrap()
-            .block_on(get_user_by_key(Arc::clone(&ctx.pool), apiKey))
-            .unwrap())
+            .block_on(get_user_by_key(Arc::clone(&ctx.pool), apiKey))?)
     }
 }
 
