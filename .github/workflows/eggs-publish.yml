@@ -3,7 +3,7 @@ name: Publish Egg
 on:
   release:
     types: [published]
-
+ 
 jobs:
   publish-egg:
     runs-on: ubuntu-latest
