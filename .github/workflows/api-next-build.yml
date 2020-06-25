@@ -48,12 +48,13 @@ jobs:
       - name: Cache cargo build
         uses: actions/cache@v1
         with:
-          path: target
+          path: api-next/target
           key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Remove Some Cache
         if: matrix.os == 'windows-latest'
         run: |
+          cd api-next
           rm target/release/gn_root -Recurse -ErrorAction Ignore
           rm target/debug/gn_root -Recurse -ErrorAction Ignore
 
@@ -66,4 +67,4 @@ jobs:
       - name: Build
         env:
           RUST_BACKTRACE: 1
-        run: cargo build
+        run: cd api-next && cargo build
