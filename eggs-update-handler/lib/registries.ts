@@ -77,7 +77,7 @@ export async function getLatestVersionOfGitHubRepo(
   const url = res.url;
   const urlSplit = url.split("/");
   const latestRelease = urlSplit[urlSplit.length - 1];
-  return latestRelease;
+  return latestRelease === "releases" ? "" : latestRelease;
 }
 
 /** Gets the latest release version of standard deno modules */

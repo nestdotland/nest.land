@@ -161,9 +161,19 @@ async function updateLocalModules(
     const latestRelease = await getLatestVersion(registry, moduleName, owner);
 
     // Basic safety net
-    if (
-      !version || semver.eq(version, latestRelease) || !semver.valid(version)
-    ) {
+
+    if (!version || !semver.valid(version)) {
+      continue;
+    }
+
+    if (!latestRelease || !semver.valid(latestRelease)) {
+      console.log(
+        yellow(`Warning: could not find the latest version of ${moduleName}.`),
+      );
+      continue;
+    }
+
+    if (semver.eq(version, latestRelease)) {
       continue;
     }
 
