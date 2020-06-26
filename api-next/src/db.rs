@@ -45,8 +45,8 @@ pub async fn get_package(db: Arc<Client>, name: String) -> Result<Package, Strin
             locked: row.get(8),
             malicious: row.get(9),
             unlisted: row.get(10),
-            updatedAt: format!("{:?}", SystemTime::now()),
-            createdAt: format!("{:?}", SystemTime::now()),
+            updatedAt: format!("{:?}", row.get::<usize, DateTime<Utc>>(11)),
+            createdAt: format!("{:?}", row.get::<usize, DateTime<Utc>>(12)),
         })
     } else {
         Err("Not found".to_string())
