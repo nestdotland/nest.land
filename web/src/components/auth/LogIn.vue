@@ -23,7 +23,10 @@
         >Fetch your API Key</button>
       </div>
     </div>
-    <a class="has-text-dark has-text-underlined" @click="$emit('toggle-has-account', false)">No account? Sign up</a>
+    <a
+      class="has-text-dark has-text-underlined"
+      @click="$emit('toggle-has-account', false)"
+    >No account? Sign up</a>
   </div>
 </template>
 
@@ -44,6 +47,25 @@ export default {
       await this.$recaptchaLoaded();
       const token = await this.$recaptcha("login");
       let captchaResponse, loginResponse;
+
+      if (this.username === "" || this.username.length < 4) {
+        this.$emit(
+          "new-error",
+          "Your username must be greater than 4 characters.",
+        );
+        this.buttonStatusClass = "";
+        return;
+      }
+
+      if (this.password === "" || this.password.length < 8) {
+        this.$emit(
+          "new-error",
+          "Your password must be greater than 8 characters",
+        );
+        this.buttonStatusClass = "";
+        return;
+      }
+
       try {
         captchaResponse = await HTTP.post("captcha", {
           data: {

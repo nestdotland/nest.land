@@ -3,10 +3,6 @@ const request = require("request");
 module.exports = (req, res) => {
     const requestOptions = {
         uri: "https://x.nest.land/api/package/" + req.body.data.name,
-        headers: {
-            "X-Secret-Salt": process.env.X_SECRET_SALT,
-            "X-Secret-Hash": process.env.X_SECRET_HASH
-        },
         json: true,
     };
     request.get(requestOptions, function (err, response, body) {
