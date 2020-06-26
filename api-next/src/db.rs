@@ -5,6 +5,7 @@ use crate::utils::first;
 use std::sync::Arc;
 use std::time::SystemTime;
 use tokio_postgres::{Client, Error, NoTls};
+use postgres_array::array::Array;
 
 // establish connection with Postgres db
 pub async fn connect() -> Result<Client, Error> {
@@ -30,6 +31,7 @@ pub async fn get_package(db: Arc<Client>, name: String) -> Result<Package, Strin
     let _row = first(rows);
     if let Some(x) = _row {
         let row = _row.unwrap();
+        let uploadNames: Array<String> = row.get(7);
         Ok(Package {
             name: row.get(0),
             normalizedName: row.get(1),
@@ -38,7 +40,7 @@ pub async fn get_package(db: Arc<Client>, name: String) -> Result<Package, Strin
             repository: row.get(4),
             latestVersion: row.get(5),
             latestStableVersion: row.get(6),
-            packageUploadNames: vec!["eggs".to_string()],
+            packageUploadNames: uploadNames.iter().cloned().collect(),
             locked: row.get(8),
             malicious: row.get(9),
             unlisted: row.get(10),
@@ -58,11 +60,12 @@ pub async fn get_user_by_key(db: Arc<Client>, apiKey: String) -> Result<User, St
     let _row = first(rows);
     if let Some(x) = _row {
         let row = _row.unwrap();
+        let packageNames: Array<String> = row.get(4);
         Ok(User {
             name: row.get(0),
             normalizedName: row.get(1),
             apiKey: row.get(3),
-            packageNames: vec!["sass".to_string()],
+            packageNames: packageNames.iter().cloned().collect(),
             createdAt: format!("{:?}", SystemTime::now()),
         })
     } else {
