@@ -1,6 +1,6 @@
 // Postgres database management for Nest API
 
-use crate::schema::{Package, User, NewUser};
+use crate::schema::{NewUser, Package, User};
 use crate::utils::first;
 use chrono::{DateTime, Utc};
 use postgres_array::array::Array;

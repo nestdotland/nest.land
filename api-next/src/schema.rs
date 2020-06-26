@@ -1,6 +1,6 @@
 //! Juniper GraphQL handling done here
 use crate::context::GraphQLContext;
-use crate::db::{get_package, get_user_by_key, create_user};
+use crate::db::{create_user, get_package, get_user_by_key};
 use juniper::FieldResult;
 use juniper::RootNode;
 use juniper::{GraphQLInputObject, GraphQLObject};
