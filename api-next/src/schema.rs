@@ -1,6 +1,6 @@
 //! Juniper GraphQL handling done here
 use crate::context::GraphQLContext;
-use crate::db::{get_package, get_user_by_key};
+use crate::db::{get_package, get_user_by_key, create_user};
 use juniper::FieldResult;
 use juniper::RootNode;
 use juniper::{GraphQLInputObject, GraphQLObject};
@@ -53,8 +53,14 @@ struct NewPackage {
     locked: bool,
     malicious: bool,
     unlisted: bool,
-    updatedAt: String,
-    createdAt: String,
+}
+
+// Define graphql schema for NewPackage
+#[derive(GraphQLInputObject)]
+#[graphql(description = "A nest.land package")]
+pub struct NewUser {
+    pub name: String,
+    pub password: String,
 }
 
 pub struct QueryRoot;
@@ -79,6 +85,11 @@ pub struct MutationRoot;
 // Define MutationRoot for GraphQL
 #[juniper::object(Context = GraphQLContext)]
 impl MutationRoot {
+    fn create_user(ctx: &GraphQLContext, new_user: NewUser) -> FieldResult<User> {
+        Ok(Runtime::new()
+            .unwrap()
+            .block_on(create_user(Arc::clone(&ctx.pool), new_user))?)
+    }
     fn create_package(ctx: &GraphQLContext, new_package: NewPackage) -> FieldResult<Package> {
         Ok(Package {
             name: new_package.name.to_owned(),
