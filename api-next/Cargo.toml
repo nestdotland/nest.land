@@ -16,3 +16,4 @@ tokio-postgres = { version = "0.5.4", features = ["with-chrono-0_4"] }
 tokio = "0.2.21"
 postgres_array = "0.10.0"
 chrono = "0.4.11"
+uuid = "0.8.1"
