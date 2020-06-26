@@ -2,11 +2,11 @@
 
 use crate::schema::{Package, User};
 use crate::utils::first;
+use chrono::{DateTime, Utc};
+use postgres_array::array::Array;
 use std::sync::Arc;
 use std::time::SystemTime;
 use tokio_postgres::{Client, Error, NoTls};
-use postgres_array::array::Array;
-use chrono::{Utc, DateTime};
 
 // establish connection with Postgres db
 pub async fn connect() -> Result<Client, Error> {
@@ -28,7 +28,8 @@ pub async fn connect() -> Result<Client, Error> {
 pub async fn get_package(db: Arc<Client>, name: String) -> Result<Package, String> {
     let rows = &db
         .query("SELECT * FROM packages WHERE name = $1", &[&name])
-        .await.unwrap();
+        .await
+        .unwrap();
     let _row = first(rows);
     if let Some(x) = _row {
         let row = _row.unwrap();
@@ -57,7 +58,8 @@ pub async fn get_package(db: Arc<Client>, name: String) -> Result<Package, Strin
 pub async fn get_user_by_key(db: Arc<Client>, apiKey: String) -> Result<User, String> {
     let rows = &db
         .query("SELECT * FROM users WHERE apiKey = $1", &[&apiKey])
-        .await.unwrap();
+        .await
+        .unwrap();
     let _row = first(rows);
     if let Some(x) = _row {
         let row = _row.unwrap();
