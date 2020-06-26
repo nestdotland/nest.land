@@ -56,6 +56,7 @@ export default {
           "new-error",
           "You must choose a username that is greater than 4 characters.",
         );
+        this.buttonStatusClass = "";
         return;
       }
       if (this.username.match(usernameRegex) == null) {
@@ -63,6 +64,7 @@ export default {
           "new-error",
           "Your username can only include alphanumeric characters and '-'",
         );
+        this.buttonStatusClass = "";
         return;
       }
       if (this.password === "" || this.password.length < 8) {
@@ -70,14 +72,17 @@ export default {
           "new-error",
           "You must choose a password that is greater than 8 characters.",
         );
+        this.buttonStatusClass = "";
         return;
       }
       if (this.passwordConfirm === "") {
         this.$emit("new-error", "You must confirm your password.");
+        this.buttonStatusClass = "";
         return;
       }
       if (this.password !== this.passwordConfirm) {
         this.$emit("new-error", "Your passwords do not match.");
+        this.buttonStatusClass = "";
         return;
       }
       if (this.username === this.password) {
@@ -85,6 +90,7 @@ export default {
           "new-error",
           "You can't use the same username and password.",
         );
+        this.buttonStatusClass = "";
         return;
       }
 
