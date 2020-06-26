@@ -6,6 +6,7 @@ use std::sync::Arc;
 use std::time::SystemTime;
 use tokio_postgres::{Client, Error, NoTls};
 use postgres_array::array::Array;
+use chrono::{Utc, DateTime};
 
 // establish connection with Postgres db
 pub async fn connect() -> Result<Client, Error> {
@@ -66,7 +67,7 @@ pub async fn get_user_by_key(db: Arc<Client>, apiKey: String) -> Result<User, St
             normalizedName: row.get(1),
             apiKey: row.get(3),
             packageNames: packageNames.iter().cloned().collect(),
-            createdAt: format!("{:?}", SystemTime::now()),
+            createdAt: format!("{:?}", row.get::<usize, DateTime<Utc>>(5)),
         })
     } else {
         Err("Not found".to_string())
