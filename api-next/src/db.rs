@@ -1,7 +1,7 @@
 // Postgres database management for Nest API
 
 use crate::schema::{NewUser, Package, User};
-use crate::utils::first;
+use crate::utils::{create_api_key, first};
 use chrono::{DateTime, Utc};
 use postgres_array::array::Array;
 use std::sync::Arc;
@@ -78,13 +78,14 @@ pub async fn get_user_by_key(db: Arc<Client>, apiKey: String) -> Result<User, St
 
 // Method to create a user
 pub async fn create_user(db: Arc<Client>, newUser: NewUser) -> Result<User, Error> {
+    let apiKey = create_api_key();
     let rows = &db
-        .query("INSERT INTO users (name, normalizedName, password, apiKey, packageNames, createdAt) VALUES ($1, $2, $3, $4, $5, $6)", &[&newUser.name, &newUser.name, &newUser.password, &"apiKey", &Array::<Vec<String>>::from_vec(vec![], 0), &Utc::now()])
+        .query("INSERT INTO users (name, normalizedName, password, apiKey, packageNames, createdAt) VALUES ($1, $2, $3, $4, $5, $6)", &[&newUser.name, &newUser.name, &newUser.password, &apiKey, &Array::<String>::from_vec(vec![], 0), &Utc::now()])
         .await?;
     Ok(User {
         name: newUser.name,
-        normalizedName: "newUser.name".to_owned(),
-        apiKey: "apiKey".to_owned(),
+        normalizedName: "name".to_owned(),
+        apiKey: apiKey,
         packageNames: vec![],
         createdAt: format!("{:?}", Utc::now()),
     })
