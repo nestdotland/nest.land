@@ -4,11 +4,12 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: windows-latest
-
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
     strategy:
       matrix:
         deno-version: [1.1.2]
+        os: [macOS-latest, windows-latest, ubuntu-latest]
 
     steps:
       - uses: actions/checkout@v2
