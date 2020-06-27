@@ -59,6 +59,7 @@ __JSON__:
     "entry": "./src/main.ts",
     "stable": true,
     "unlisted": false,
+    "fmt": true,
     "repository": "https://github.com/your_name/your_project",
     "files": [
         "./mod.ts",
@@ -76,6 +77,7 @@ version: 0.0.1
 entry: ./src/main.ts
 stable: true
 unlisted: false
+fmt: true
 repository: https://github.com/your_name/your_project
 files:
   - ./mod.ts
@@ -108,7 +110,7 @@ files:
     - Required: false
         - Defaults to false
 - fmt:
-    - Format your code before publishing to the blockchain network
+    - Automatically format your code before publishing to the blockchain network
     - Required: false
          - Defaults to false    
 - repository:
