@@ -22,7 +22,10 @@ jobs:
 
       - name: Setup Deno Nightly (windows)
         if: startsWith(matrix.os, 'windows')
-        run: iwr https://deno-nightly.now.sh/install.ps1 -useb | iex
+        run: |
+          iwr https://deno-nightly.now.sh/install.ps1 -useb | iex
+          echo "::set-env name=DENO_INSTALL::${DENO_INSTALL:-$HOME/.deno}"
+          echo "::add-path::$HOME/.deno/bin"
 
       - name: Setup Deno Nightly (mac or linux)
         if: startsWith(matrix.os, 'mac') || startsWith(matrix.os, 'ubuntu')
