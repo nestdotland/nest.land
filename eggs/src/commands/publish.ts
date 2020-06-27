@@ -264,15 +264,8 @@ export const publish = new Command()
           }`,
         );
       });
-      console.log(
-        green(
-          "You can now find your package on our registry at " +
-            bold(`https://nest.land/package/${pieceResponseBody.name}\n`),
-        ),
-      );
-      console.log(
-        `Add this badge to your README to let everyone know:\n\n [![nest badge](https://nest.land/badge.svg)](https://nest.land/package/${pieceResponseBody.name})`,
-      );
+      console.log(green("You can now find your package on our registry at " + bold(`https://nest.land/package/${egg.name}\n`)));
+      console.log(`Add this badge to your README to let everyone know:\n\n [![nest badge](https://nest.land/badge.svg)](https://nest.land/package/${egg.name})`);
     } else {
       throw new Error(
         red(

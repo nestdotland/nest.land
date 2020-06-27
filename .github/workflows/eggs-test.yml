@@ -1,0 +1,20 @@
+name: Eggs Test
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        deno-version: [1.1.1]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Deno ${{ matrix.deno-version }}
+        uses: denolib/setup-deno@master
+        with:
+          deno-version: ${{ matrix.deno-version }}
+      - run: deno run --unstable -A eggs/mod.ts link --key ${{ secrets.NESTAPIKEY }}
+      - run: deno test --unstable -A eggs/tests/commands

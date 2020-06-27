@@ -4,9 +4,9 @@
  * Requires: --allow-read, --allow-run, --allow-write
  */
 
-import { assertEquals } from "../../src/deps.ts"
+import { assertEquals } from "../../../src/deps.ts"
 
-const pathToHere = "eggs/tests/commands/";
+const pathToHere = "eggs/tests/commands/update/";
 
 function replaceMainDepFileContent (filenameToReplace: string, replacedWithFilename: string): void {
   const replacerFilename = pathToHere + replacedWithFilename
@@ -32,10 +32,10 @@ Deno.test({
   //ignore: true,
   async fn(): Promise<void> {
     const p = await Deno.run({
-      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "../../mod.ts", "update", "--deps"],
+      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../../mod.ts", "update", "--deps"],
       stdout: "piped",
       stderr: "piped",
-      cwd: "eggs/tests/commands"
+      cwd: pathToHere
     });
     const status = await p.status();
     p.close();
@@ -45,8 +45,8 @@ Deno.test({
     assertEquals(stderr, "Provide dependencies to update when using --deps. Exiting...\n");
     assertEquals(status.code, 1);
     assertEquals(status.success, false);
-    const originalDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/original_deps.ts"));
-    const newDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/deps.ts"));
+    const originalDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/update/original_deps.ts"));
+    const newDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/update/deps.ts"));
     assertEquals(originalDepContent === newDepContent, true)
   }
 })
@@ -57,10 +57,10 @@ Deno.test({
   //ignore: true,
   async fn(): Promise<void> {
     const p = await Deno.run({
-      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "../../mod.ts", "update", "--file", "deps.ts"],
+      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../../mod.ts", "update", "--file", "deps.ts"],
       stdout: "piped",
       stderr: "piped",
-      cwd: "eggs/tests/commands"
+      cwd: pathToHere
     });
     const status = await p.status();
     p.close();
@@ -70,8 +70,8 @@ Deno.test({
     assertEquals(stdout, "Updated your dependencies!\n");
     assertEquals(status.code, 0);
     assertEquals(status.success, true);
-    const originalDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/original_deps.ts"));
-    const newDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/deps.ts"));
+    const originalDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/update/original_deps.ts"));
+    const newDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/update/deps.ts"));
     assertEquals(originalDepContent !== newDepContent, true)
     replaceMainDepFileContent("deps.ts", "original_deps.ts")
   }
@@ -82,10 +82,10 @@ Deno.test({
   //ignore: true,
   async fn(): Promise<void> {
     const p = await Deno.run({
-      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "../../mod.ts", "update"],
+      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../../mod.ts", "update"],
       stdout: "piped",
       stderr: "piped",
-      cwd: "eggs/tests/commands"
+      cwd: pathToHere
     });
     const status = await p.status();
     p.close();
@@ -95,11 +95,11 @@ Deno.test({
     assertEquals(stdout, "Updated your dependencies!\n");
     assertEquals(status.code, 0);
     assertEquals(status.success, true);
-    const originalDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/original_deps.ts"));
-    const newDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/deps.ts"));
+    const originalDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/update/original_deps.ts"));
+    const newDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/update/deps.ts"));
     assertEquals(originalDepContent !== newDepContent, true);
-    assertEquals(newDepContent.indexOf("eggs@v0.1.18") > 0, true);
-    assertEquals(newDepContent.indexOf("std@v0.57.0/fmt") > 0, true);
+    assertEquals(newDepContent.indexOf("eggs@v0.1.4") > 0, true);
+    assertEquals(newDepContent.indexOf("std@v0.58.0/fmt") > 0, true);
     assertEquals(newDepContent.indexOf("bcrypt@v0.2.1") > 0, true);
     replaceMainDepFileContent("deps.ts", "original_deps.ts")
   }
@@ -111,10 +111,10 @@ Deno.test({
   async fn(): Promise<void> {
     removeDependencyFile("deps.ts")
     const p = await Deno.run({
-      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "../../mod.ts", "update", "--file", "dontexist.ts"],
+      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../../mod.ts", "update", "--file", "dontexist.ts"],
       stdout: "piped",
       stderr: "piped",
-      cwd: "eggs/tests/commands"
+      cwd: pathToHere
     });
     const status = await p.status();
     p.close();
@@ -134,10 +134,10 @@ Deno.test({
   async fn(): Promise<void> {
     emptyDependencyFile("deps.ts")
     const p = await Deno.run({
-      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "../../mod.ts", "update"],
+      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../../mod.ts", "update"],
       stdout: "piped",
       stderr: "piped",
-      cwd: "eggs/tests/commands"
+      cwd: pathToHere
     });
     const status = await p.status();
     p.close();
@@ -158,10 +158,10 @@ Deno.test({
   async fn(): Promise<void> {
     replaceMainDepFileContent("deps.ts", "up_to_date_deps.ts");
     const p = await Deno.run({
-      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "../../mod.ts", "update"],
+      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../../mod.ts", "update"],
       stdout: "piped",
       stderr: "piped",
-      cwd: "eggs/tests/commands"
+      cwd: pathToHere
     });
     const status = await p.status();
     p.close();
@@ -181,10 +181,10 @@ Deno.test({
   async fn(): Promise<void> {
     replaceMainDepFileContent("deps.ts", "up_to_date_deps.ts");
     const p = await Deno.run({
-      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "../../mod.ts", "update", "--deps", "http"],
+      cmd: ["deno", "run", "--allow-net", "--unstable", "--allow-read", "--allow-write", "--allow-env", "../../../mod.ts", "update", "--deps", "http"],
       stdout: "piped",
       stderr: "piped",
-      cwd: "eggs/tests/commands"
+      cwd: pathToHere
     });
     const status = await p.status();
     p.close();
