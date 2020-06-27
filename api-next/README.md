@@ -8,18 +8,20 @@ A graphql API for the nest.land registry.
 
 ## Usage
 
-### server
+### Running server
 
 ```bash
 cargo run (or ``cargo watch -x run``)
 # Started http server: 127.0.0.1:8080
 ```
 
-### web client
-
+### Web client
 [http://127.0.0.1:8080/graphiql](http://127.0.0.1:8080/graphiql)
 
-_Query example:_
+### _Queries_
+
+#### `package`
+
 ```graphql
 {
   package(name: "eggs") {
@@ -50,7 +52,65 @@ _Result:_
 }
 ```
 
-_Mutation example:_
+#### `user`
+
+```graphql
+{
+  user(apiKey: "efc56537a8214c5b9d4320c551790cf3") {
+    name,
+    normalizedName,
+  	createdAt
+  }
+}
+```
+
+```json
+{
+  "data": {
+    "user": {
+      "name": "divy[Divy]",
+      "normalizedName": "divy_divy_",
+      "createdAt": "2020-06-27T10:15:55.670232Z"
+    }
+  }
+}
+```
+
+### _Mutations_
+
+#### `createUser`
+
+```graphql
+mutation {
+  createUser(newUser: { name: "divy [Divy]", password: "hehe"}) {
+    name
+    normalizedName
+    apiKey
+    packageNames
+    createdAt
+  }
+}
+```
+
+_Result:_
+
+```json
+{
+  "data": {
+    "createUser": {
+      "name": "divy [Divy]",
+      "normalizedName": "divy _divy_",
+      "apiKey": "efc56537a8214c5b9d4320c551790cf3",
+      "createdAt": "2020-06-27T10:15:55.670232Z",
+      "packageNames": [
+        "autopilot"
+      ]
+    }
+  }
+}
+```
+
+#### `createPackage`
 
 ```graphql
 mutation {
