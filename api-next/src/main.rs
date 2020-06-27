@@ -4,6 +4,7 @@
 use std::io;
 use std::sync::Arc;
 
+use actix_cors::Cors;
 use actix_web::{middleware, web, App, Error, HttpResponse, HttpServer};
 use juniper::http::graphiql::graphiql_source;
 use juniper::http::GraphQLRequest;
@@ -53,13 +54,13 @@ async fn main() -> io::Result<()> {
     std::env::set_var("RUST_LOG", "actix_web=info");
     env_logger::init();
     let client = db::connect().await.unwrap();
-    // db::get_package(client, (&"eggs").to_string());
     // Create Juniper schema
     let schema = std::sync::Arc::new(create_schema());
     let conn = std::sync::Arc::new(client);
     // Start http server
     HttpServer::new(move || {
         App::new()
+            .wrap(Cors::new().supports_credentials().finish())
             .data(AppState {
                 st: schema.clone(),
                 pool: conn.clone(),
