@@ -1,7 +1,7 @@
 name: Rust API build
 
 on:
-  push:
+  [push, pull_request]:
     paths:
         - "api-next/**"
         - ".github/workflows/**"
