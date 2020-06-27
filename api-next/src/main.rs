@@ -60,7 +60,7 @@ async fn main() -> io::Result<()> {
     // Start http server
     HttpServer::new(move || {
         App::new()
-            .wrap(Cors::new().supports_credentials())
+            .wrap(Cors::new().supports_credentials().finish())
             .data(AppState {
                 st: schema.clone(),
                 pool: conn.clone(),
