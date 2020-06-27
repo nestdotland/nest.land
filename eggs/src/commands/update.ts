@@ -60,10 +60,20 @@ async function updateGlobalModules(
     );
 
     // Basic safety net
-    if (
-      !module.version || semver.eq(module.version, latestRelease) ||
-      !semver.valid(module.version)
-    ) {
+    if (!module.version || !semver.valid(module.version)) {
+      continue;
+    }
+
+    if (!latestRelease || !semver.valid(latestRelease)) {
+      console.log(
+        yellow(
+          `Warning: could not find the latest version of ${module.moduleName}.`,
+        ),
+      );
+      continue;
+    }
+
+    if (semver.eq(module.version, latestRelease)) {
       continue;
     }
 

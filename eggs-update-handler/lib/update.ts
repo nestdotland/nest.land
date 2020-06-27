@@ -55,6 +55,10 @@ export class UpdateNotifier {
         return;
       }
 
+      if (!latestVersion || !semver.valid(latestVersion)) {
+        return
+      }
+
       const current = semver.coerce(this.currentVersion) || "0.0.1";
       const latest = semver.coerce(latestVersion) || "0.0.1";
 

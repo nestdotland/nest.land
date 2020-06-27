@@ -98,6 +98,17 @@ async function installModule(_: any, ...args: string[]) {
   let { moduleName, versionURL, registry, owner, version } = analyzeURL(url);
   let installName: string;
 
+  const currentVersion = semver.valid(version) ??
+    await getLatestVersion(registry, moduleName, owner);
+  
+  if (!currentVersion || !semver.valid(currentVersion)) {
+    console.log(
+      yellow(`Warning: could not find the latest version of ${moduleName}.\nModule will not receive any notification of updates.`),
+    );
+    await installModuleWithoutUpdates(args)
+    Deno.exit()
+  }
+
   /** If no exec name is given, provide one */
   if (indexOfName < 0) {
     args.splice(indexOfURL, 0, installPrefix + moduleName);
@@ -134,8 +145,7 @@ async function installModule(_: any, ...args: string[]) {
     moduleName,
     installName,
     owner,
-    version: semver.valid(version) ??
-      await getLatestVersion(registry, moduleName, owner),
+    version: currentVersion,
     args,
     lastUpdateCheck: Date.now(),
   };
@@ -160,5 +170,22 @@ async function installModuleHandler(args: string[]) {
 
   if (status.success === false || status.code !== 0) {
     throw new Error("Module handler installation failed.");
+  }
+}
+
+async function installModuleWithoutUpdates(args: string[]) {
+  const installation = Deno.run({
+    cmd: [
+      "deno",
+      "install",
+      ...args,
+    ],
+  });
+
+  const status = await installation.status();
+  installation.close();
+
+  if (status.success === false || status.code !== 0) {
+    throw new Error("Module installation failed.");
   }
 }
