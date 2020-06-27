@@ -1,6 +1,8 @@
 // utils used by the nestapi.
 use uuid::Uuid;
 
+let invalidChars: Vec<char> = vec!['!', '[', ']', '.', ':', ' '];
+
 // get the first element of a vector
 pub fn first<T>(v: &Vec<T>) -> Option<&T> {
     v.first()
@@ -12,11 +14,7 @@ pub fn create_api_key() -> String {
 
 pub fn normalize(input: &str) -> String {
     input.to_lowercase().chars().map(|x| match x {
-        '!' => '_',
-        '[' => '_',
-        ']' => '_',
-        '.' => '_',
-        ':' => '_',
+        invalidChars.contains(&x) => '_',
         _ => x
     }).collect()
 }
