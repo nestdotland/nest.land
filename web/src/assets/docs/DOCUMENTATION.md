@@ -59,6 +59,7 @@ __JSON__:
     "entry": "./src/main.ts",
     "stable": true,
     "unlisted": false,
+    "fmt": true,
     "repository": "https://github.com/your_name/your_project",
     "files": [
         "./mod.ts",
@@ -76,6 +77,7 @@ version: 0.0.1
 entry: ./src/main.ts
 stable: true
 unlisted: false
+fmt: true
 repository: https://github.com/your_name/your_project
 files:
   - ./mod.ts
@@ -107,6 +109,10 @@ files:
     - Should people be able to find this package/version on the gallery?
     - Required: false
         - Defaults to false
+- fmt:
+    - Automatically format your code before publishing to the blockchain network
+    - Required: false
+         - Defaults to false    
 - repository:
     - A link to your repository.
     - Required: false
