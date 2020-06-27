@@ -11,9 +11,12 @@ pub fn create_api_key() -> String {
 }
 
 pub fn normalize(input: &str) -> String {
-    let invalidChars: Vec<char> = vec!['!', '[', ']', '.', ':', ' '];
     input.to_lowercase().chars().map(|x| match x {
-        invalidChars.contains(&x) => '_',
+        '!' => '_',
+        '[' => '_',
+        ']' => '_',
+        '.' => '_',
+        ':' => '_',
         _ => x
     }).collect()
 }

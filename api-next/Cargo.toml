@@ -17,3 +17,4 @@ tokio = "0.2.21"
 postgres_array = "0.10.0"
 chrono = "0.4.11"
 uuid = { version = "0.8.1",  features = ["v4"] }
+actix-cors = "0.2.0"
