@@ -1,7 +1,7 @@
 import { path, existsSync } from "../deps.ts";
 
 export function homedir() {
-  return Deno.dir("home") || "/";
+  return Deno.env.get("HOME") || Deno.env.get("HOMEPATH") || Deno.env.get("USERPROFILE") || "/";
 }
 
 export function pathExists(filePath: string) {
