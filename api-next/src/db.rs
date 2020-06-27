@@ -7,11 +7,16 @@ use postgres_array::array::Array;
 use std::sync::Arc;
 use std::time::SystemTime;
 use tokio_postgres::{Client, Error, NoTls};
+use dotenv;
 
 // establish connection with Postgres db
 pub async fn connect() -> Result<Client, Error> {
+    let host = dotenv::var("DB_HOST").unwrap_or("localhost".to_string());
+    let user = dotenv::var("DB_USER").unwrap_or("nest".to_string());
+    let database_name = dotenv::var("DB_NAME").unwrap_or("nest".to_string());
+    let pass = dotenv::var("DB_PASS").unwrap_or("123".to_string());
     let (client, connection) =
-        tokio_postgres::connect("host=localhost user=nest dbname=nest password=123", NoTls).await?;
+        tokio_postgres::connect(&format!("host={} user={} dbname={} password={}", host, user, database_name, pass), NoTls).await?;
 
     // The connection object performs the actual communication with the database,
     // so spawn it off to run on its own.
