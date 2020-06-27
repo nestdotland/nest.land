@@ -146,7 +146,7 @@ or if you want to support us *louder*, you can use the large badge.
 
 # Updating all of your dependencies
 
-Updating your dependencies versions is a breeze thanks to [our contributors](https://github.com/nestlandofficial/nest.land/graphs/contributors). Just type the command shown to automatically check for and update all module imports. Not only does this update nest.land modules, but it can also update [deno.land/std](https://deno.land/std/), [deno.land/x](https://deno.land/x/), [github](https://github.com/topics/deno) and [denopkg.com](https://denopkg.com/) modules!
+Updating your dependencies is a breeze thanks to [our contributors](https://github.com/nestlandofficial/nest.land/graphs/contributors). Just type the command shown to automatically check for and update all module imports. Not only does this update nest.land modules, but it can also update [deno.land/std](https://deno.land/std/), [deno.land/x](https://deno.land/x/), [github](https://github.com/topics/deno) and [denopkg.com](https://denopkg.com/) modules!
 
 ```shell script
 eggs update http fs // update fs and http in default deps.ts
