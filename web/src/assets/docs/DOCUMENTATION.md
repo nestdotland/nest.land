@@ -133,7 +133,7 @@ In addition, you'll have the option of adding our official badge to your project
 ![nest badge](https://nest.land/badge.svg)
 
 ```
-[![nest badge](https://nest.land/badge.svg)](https://nest.land/module/your-module)
+[![nest badge](https://nest.land/badge.svg)](https://nest.land/package/your-module)
 ```
 
 or if you want to support us *louder*, you can use the large badge.
@@ -146,7 +146,7 @@ or if you want to support us *louder*, you can use the large badge.
 
 # Updating all of your dependencies
 
-Updating your dependencies versions is a breeze thanks to [our contributors](https://github.com/nestlandofficial/nest.land/graphs/contributors). Just type the command shown to automatically check for and update all module imports. Not only does this update nest.land modules, but it also can update [deno.land/std](https://deno.land/std/), [deno.land/x](https://deno.land/x/), [github](https://github.com/topics/deno) and [denopkg.com](https://denopkg.com/) modules!
+Updating your dependencies versions is a breeze thanks to [our contributors](https://github.com/nestlandofficial/nest.land/graphs/contributors). Just type the command shown to automatically check for and update all module imports. Not only does this update nest.land modules, but it can also update [deno.land/std](https://deno.land/std/), [deno.land/x](https://deno.land/x/), [github](https://github.com/topics/deno) and [denopkg.com](https://denopkg.com/) modules!
 
 ```shell script
 eggs update http fs // update fs and http in default deps.ts
@@ -170,7 +170,7 @@ More detailed information about this service is available on our CLI [README](ht
 
 Just like *deno install*, you can install scripts globally with eggs. By installing it this way, you will be notified if an update is available for your script. 
 
-The verification is smart, it can't be done more than once a day. To install a script, simply replace *deno* with *eggs*.
+To install a script, simply replace *deno* with *eggs*.
 
 ```shell script
 eggs install --allow-read --allow-run --allow-write --allow-net --unstable https://x.nest.land/denon@2.2.0/denon.ts
