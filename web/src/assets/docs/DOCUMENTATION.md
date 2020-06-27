@@ -11,7 +11,7 @@ Using the power of blockchain, you can publish your Deno modules to the [Arweave
 To initialize and publish your first module to nest.land, you will need our CLI, **eggs**. You can install it using this command:
 
 ```shell script
-deno install -A -f --unstable -n eggs https://x.nest.land/eggs@0.1.4/mod.ts
+deno install -A -f --unstable -n eggs https://x.nest.land/eggs@0.1.5/mod.ts
 ```
 Please make sure to use the `-A` flag to grant all permissions to eggs, so you can enjoy all features seamlessly.
 > Note: You need to upgrade to Deno v1.1.0 or newer in order to use our CLI.
@@ -60,6 +60,7 @@ __JSON__:
     "entry": "./src/main.ts",
     "stable": true,
     "unlisted": false,
+    "fmt": true,
     "repository": "https://github.com/your_name/your_project",
     "files": [
         "./mod.ts",
@@ -77,6 +78,7 @@ version: 0.0.1
 entry: ./src/main.ts
 stable: true
 unlisted: false
+fmt: true
 repository: https://github.com/your_name/your_project
 files:
   - ./mod.ts
@@ -108,6 +110,10 @@ files:
     - Should people be able to find this module/version on the gallery?
     - Required: false
         - Defaults to false
+- fmt:
+    - Automatically format your code before publishing to the blockchain network
+    - Required: false
+         - Defaults to false    
 - repository:
     - A link to your repository.
     - Required: false

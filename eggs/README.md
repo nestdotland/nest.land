@@ -8,10 +8,14 @@
 
   <p align="center">
     The CLI used to publish and update packages in nest.land.
- </p>
+  </p>
+  <p align="center">
+    <a href="https://nest.land/package/eggs">
+      <img src="https://nest.land/badge.svg" alt="nest.land badge">
+    </a>
+    <img src="https://github.com/nestlandofficial/nest.land/workflows/Eggs%20Test/badge.svg" alt="Eggs Test">
+  </p>
 </p>
-
-[![nest badge](https://nest.land/badge.svg)](https://nest.land/package/eggs)
 
 # Contents
 
@@ -29,7 +33,7 @@
 
 **Note: You need to upgrade to Deno v1.1.0 or newer in order to use our CLI.**
 ```
-deno install -A -f --unstable -n eggs https://x.nest.land/eggs@0.1.4/mod.ts
+deno install -A -f --unstable -n eggs https://x.nest.land/eggs@0.1.5/mod.ts
 ```
 For more information, see the [documentation](https://nest.land/#docs).
 
