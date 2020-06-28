@@ -8,30 +8,28 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
-struct Post {
+struct NewTx {
     tmpID: String
 }
 
-pub async fn tx(tmpID: String) -> Result<(), reqwest::Error> {
-    let new_post = Post {
+#[derive(Debug, Serialize, Deserialize)]
+struct PostTx {
+    txID: String,
+    name: String,
+    relativePath: String
+}
+
+pub async fn tx(tmpID: String) -> Result<PostTx, reqwest::Error> {
+    let newTx = NewTx {
         tmpID: tmpID
     };
-    let new_post: Post = reqwest::Client::new()
-        .post("https://localhost:3000/tx/new")
-        .json(&new_post)
+    let txDone: PostTx = reqwest::Client::new()
+        .post("http://localhost:3000/tx/new")
+        .json(&newTx)
         .send()
         .await?
         .json()
         .await?;
 
-    println!("{:#?}", new_post);
-    // Post {
-    //     id: Some(
-    //         101
-    //     ),
-    //     title: "Reqwest.rs",
-    //     body: "https://docs.rs/reqwest",
-    //     user_id: 1
-    // }
-    Ok(())
+    Ok(txDone)
 }
