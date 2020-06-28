@@ -4,7 +4,7 @@ import { getType } from "mime";
 import { has } from "../fs";
 import * as fs from "fs";
 import * as path from "path";
-import readDir from "../recursive_read";
+import readDir, { FileData } from "../recursive_read";
 
 export default (arweave: ArwConnection) => {
   const router = Router();
@@ -12,7 +12,7 @@ export default (arweave: ArwConnection) => {
     let tmpID = req.body.tmpID;
     if (!has(tmpID)) return res.sendStatus(500);
     let txIds = [];
-    const files = await readDir(
+    const files: FileData[] = await readDir(
       path.join(__dirname, "../../.tmp/", tmpID),
       true,
     ); // add true
@@ -34,6 +34,6 @@ export default (arweave: ArwConnection) => {
   return router;
 };
 
-function relativeLocation(foldername, filename) {
+function relativeLocation(file: FileData) {
 
 }
