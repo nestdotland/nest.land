@@ -10,20 +10,23 @@ export default (arweave: ArwConnection) => {
   const router = Router();
   router.post("/new", async (req, res, next) => {
     let tmpID = req.body.tmpID;
-    if(!has(tmpID)) return res.sendStatus(500);
+    if (!has(tmpID)) return res.sendStatus(500);
     let txIds = [];
-    const files = await readDir(path.join(__dirname, '../../.tmp/', tmpID), true); // add true
+    const files = await readDir(
+      path.join(__dirname, "../../.tmp/", tmpID),
+      true,
+    ); // add true
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       let fc = fs.readFileSync(file.fullpath);
       let txId = await save(arweave, {
-          name: file.filename,
-          type: getType(file.filename),
-          data: fc,
+        name: file.filename,
+        type: getType(file.filename),
+        data: fc,
       });
       txIds.push({
         txId,
-        name: file.filename
+        name: file.filename,
       });
     }
     res.send(txIds);
