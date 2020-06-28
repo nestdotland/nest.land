@@ -8,7 +8,7 @@ export interface FileData {
   dirname: string;
 }
 
-export default function globPromise(dir: string): FileData[] {
+export default function globPromise(dir: string): Promise<FileData[]> {
   return new Promise((resolve, reject) => {
     glob(
       path.resolve(`${dir}/**/*`),
