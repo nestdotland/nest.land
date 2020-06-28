@@ -12,4 +12,6 @@ Handle arweave transactions and other functions as an API service.
 
 2. `Twig` gets pinged by the Rust API to process the package contents in `tmp` and upload to the permaweb.
 
-3. It returns the tx_id back to RustAPI.
+3. It returns the tx_id and upload details back to RustAPI.
+
+4. The RustAPI saves the upload data to database and returns the success status back to the eggs cli(end-user)
