@@ -8,8 +8,7 @@ import transactionRouter from "./routes/transaction";
 
 dotenv.config();
 
-async function start () {
-
+async function start() {
   const server = express();
   const arweave = await connectArweave();
 
@@ -25,8 +24,10 @@ async function start () {
   });
 
   server.listen(parseInt(process.env.PORT), process.env.HOST, () => {
-    console.log(`Started twig on http://${process.env.HOST}:${process.env.PORT}`);
+    console.log(
+      `Started twig on http://${process.env.HOST}:${process.env.PORT}`,
+    );
   });
-};
+}
 
 if (require.main === module) start();
