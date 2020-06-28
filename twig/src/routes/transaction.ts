@@ -33,3 +33,7 @@ export default (arweave: ArwConnection) => {
   });
   return router;
 };
+
+function relativeLocation(foldername, filename) {
+
+}

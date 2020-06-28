@@ -1,7 +1,14 @@
 import glob from "glob";
 import * as path from "path";
 
-export default function globPromise(dir, asObject = false) {
+export interface FileData {
+  fullpath: string;
+  filepath: string;
+  filename: string;
+  dirname: string;
+}
+
+export default function globPromise(dir: string): FileData {
   return new Promise((resolve, reject) => {
     glob(
       path.resolve(`${dir}/**/*`),
@@ -10,7 +17,6 @@ export default function globPromise(dir, asObject = false) {
         if (err) {
           reject(err);
         } else {
-          if (asObject) {
             let filesObject = files.map(file => {
               let regexp = /^(.*[\\\/])(.*)$/;
               let match = regexp.exec(file);
@@ -24,9 +30,6 @@ export default function globPromise(dir, asObject = false) {
               };
             });
             resolve(filesObject);
-          } else {
-            resolve(files);
-          }
         }
       },
     );
