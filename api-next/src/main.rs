@@ -15,6 +15,7 @@ mod context;
 mod db;
 mod schema;
 mod utils;
+mod twig;
 
 use crate::schema::{create_schema, Schema};
 
