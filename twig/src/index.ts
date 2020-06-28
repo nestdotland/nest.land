@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import express from "express";
-import { init } from "./utils/temp";
+import { init } from "./fs";
 import bodyParser from "body-parser";
 import { connect as connectArweave } from "./arweave";
 
