@@ -18,7 +18,7 @@ async function start () {
   server.disable("x-powered-by");
   server.use(bodyParser.json({ limit: "50mb" }));
 
-  server.use("/", transactionRouter(arweave));
+  server.use("/tx", transactionRouter(arweave));
 
   server.all("**", (req, res, next) => {
     return res.sendStatus(404);
