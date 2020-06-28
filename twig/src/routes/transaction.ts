@@ -4,7 +4,7 @@ import { getType } from "mime";
 import { has } from "../fs";
 import * as fs from "fs";
 import * as path from "path";
-import readDir from "node-recursive-directory";
+import readDir from "../recursive_read";
 
 export default (arweave: ArwConnection) => {
   const router = Router();
