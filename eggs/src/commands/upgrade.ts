@@ -8,7 +8,7 @@ import {
 } from "../deps.ts";
 
 export const upgrade = new Command()
-  .version("0.1.0")
+  .version(version)
   .description("Upgrade the current nest.land CLI.")
   .action(async () => {
     let upgradeProcess = Deno.run({

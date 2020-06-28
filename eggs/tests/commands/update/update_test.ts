@@ -104,7 +104,7 @@ Deno.test({
       Deno.readFileSync(path.join(Deno.cwd(), "/eggs/tests/commands/update/deps.ts")),
     );
     assertEquals(originalDepContent !== newDepContent, true);
-    assertEquals(newDepContent.indexOf("eggs@v0.1.6") > 0, true);
+    assertEquals(newDepContent.indexOf("eggs@0.1.6") > 0, true);
     assertEquals(newDepContent.indexOf("std@v0.59.0/fmt") > 0, true);
     assertEquals(newDepContent.indexOf("bcrypt@v0.2.1") > 0, true);
     replaceMainDepFileContent("deps.ts", "original_deps.ts");

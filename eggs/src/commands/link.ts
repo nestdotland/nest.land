@@ -4,6 +4,7 @@ import {
   red,
   bold,
   path,
+  version,
 } from "../deps.ts";
 import { homedir } from "../utilities/files.ts";
 import {
@@ -11,7 +12,7 @@ import {
 } from "../utilities/keyfile.ts";
 
 export const link = new Command()
-  .version("0.1.0")
+  .version(version)
   .description("Links your nest.land API key to the CLI")
   .action(async () => {
     if (Deno.args.length < 3) {
