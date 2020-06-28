@@ -12,7 +12,7 @@ async function start() {
   const server = express();
   const arweave = await connectArweave();
 
-  init(60, 900);
+//  init(60, 900);
 
   server.disable("x-powered-by");
   server.use(bodyParser.json({ limit: "50mb" }));

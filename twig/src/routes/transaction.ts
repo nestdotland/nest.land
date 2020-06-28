@@ -15,6 +15,7 @@ export default (arweave: ArwConnection) => {
     const files: FileData[] = await readDir(path.join(__dirname, "../../.tmp/", tmpID))
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
+      console.log(file)
       let fc = fs.readFileSync(file.fullpath);
       let txId = await save(arweave, {
         name: file.filename,
@@ -30,11 +31,3 @@ export default (arweave: ArwConnection) => {
   });
   return router;
 };
-
-function relativeLocation(file: FileData, packageName: string): string {
-  if(file.dirname == packageName) {
-    if(fs.existsSync(`${packageName}/${packageName}`)) return `${packageName}/${packageName}/${file.filename}`;
-  }
-
-  return `${packageName}/${file.filename}`;
-}
