@@ -1,0 +1,4 @@
+.tmp/
+arweave-keyfile.json
+node_modules/
+.env

@@ -98,8 +98,8 @@ Deno.test({
     const originalDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/update/original_deps.ts"));
     const newDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/update/deps.ts"));
     assertEquals(originalDepContent !== newDepContent, true);
-    assertEquals(newDepContent.indexOf("eggs@v0.1.4") > 0, true);
-    assertEquals(newDepContent.indexOf("std@v0.58.0/fmt") > 0, true);
+    assertEquals(newDepContent.indexOf("eggs@v0.1.6") > 0, true);
+    assertEquals(newDepContent.indexOf("std@v0.59.0/fmt") > 0, true);
     assertEquals(newDepContent.indexOf("bcrypt@v0.2.1") > 0, true);
     replaceMainDepFileContent("deps.ts", "original_deps.ts")
   }
