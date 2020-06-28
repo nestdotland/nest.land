@@ -15,7 +15,7 @@ export default (arweave: ArwConnection) => {
     const files: FileData[] = await readDir(path.join(__dirname, "../../.tmp/", tmpID))
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      console.log(file)
+      let relativePath = path.relative(path.join(__dirname, "../../.tmp"), file.fullpath);
       let fc = fs.readFileSync(file.fullpath);
       let txId = await save(arweave, {
         name: file.filename,
@@ -25,6 +25,7 @@ export default (arweave: ArwConnection) => {
       txIds.push({
         txId,
         name: file.filename,
+        relativePath
       });
     }
     res.send(txIds);
