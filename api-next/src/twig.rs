@@ -1,9 +1,3 @@
-//! This example illustrates the way to send and receive statically typed JSON.
-//!
-//! In contrast to the arbitrary JSON example, this brings up the full power of
-//! Rust compile-time type system guaranties though it requires a little bit
-//! more code.
-
 // These require the `serde` dependency.
 use serde::{Deserialize, Serialize};
 
