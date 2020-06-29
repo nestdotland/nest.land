@@ -10,6 +10,9 @@ use juniper::http::graphiql::graphiql_source;
 use juniper::http::GraphQLRequest;
 use std::borrow::Borrow;
 use tokio_postgres::Client;
+use actix_multipart::Multipart;
+use futures::{StreamExt, TryStreamExt};
+use std::io::Write;
 
 mod context;
 mod db;
@@ -45,6 +48,26 @@ async fn graphql(
         .body(user))
 }
 
+async fn upload_package(mut payload: Multipart) -> Result<HttpResponse, Error> {
+    // iterate over multipart stream
+    while let Ok(Some(mut field)) = payload.try_next().await {
+        let content_type = field.content_disposition().unwrap();
+        let filename = content_type.get_filename().unwrap();
+        let filepath = format!("./tmp/{}", sanitize_filename::sanitize(&filename));
+        // File::create is blocking operation, use threadpool
+        let mut f = web::block(|| std::fs::File::create(filepath))
+            .await
+            .unwrap();
+        // Field in turn is stream of *Bytes* object
+        while let Some(chunk) = field.next().await {
+            let data = chunk.unwrap();
+            // filesystem operations are blocking, we have to use threadpool
+            f = web::block(move || f.write_all(&data).map(|_| f)).await?;
+        }
+    }
+    Ok(HttpResponse::Ok().into())
+}
+
 pub struct AppState {
     pool: Arc<Client>,
     st: Arc<Schema>,
@@ -69,6 +92,7 @@ async fn main() -> io::Result<()> {
             .wrap(middleware::Logger::default())
             .service(web::resource("/graphql").route(web::post().to(graphql)))
             .service(web::resource("/graphiql").route(web::get().to(graphiql)))
+            .service(web::resource("/package").route(web::post().to(upload_package)))
     })
     .bind("127.0.0.1:8080")?
     .run()

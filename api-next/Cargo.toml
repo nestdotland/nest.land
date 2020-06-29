@@ -20,3 +20,7 @@ uuid = { version = "0.8.1",  features = ["v4"] }
 actix-cors = "0.2.0"
 dotenv = "0.15.0"
 reqwest = { version = "0.10.6", features = ["json"] }
+tar = "0.4.29"
+actix-multipart = "0.2.0"
+sanitize-filename = "0.2"
+futures = "0.3.1"
