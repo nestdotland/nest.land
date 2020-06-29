@@ -9,54 +9,43 @@
 </template>
 
 <script>
-
-  export default {
-
-    name: 'App',
-    data () {
-
-      return {
-
-        loading: false
-
-      }
-
+export default {
+  name: "App",
+  data() {
+    return {
+      loading: false,
+    };
+  },
+  mounted() {
+    this.showLoading();
+  },
+  methods: {
+    showLoading() {
+      this.loading = true;
+      setTimeout(() => (this.loading = false), 440);
     },
-    mounted () {
+  },
+  watch: {
+    $route(to, from) {
+      if (to.path === from.path) return;
 
-      this.showLoading()
-
+      this.showLoading();
     },
-    methods: {
-
-      showLoading () {
-
-        this.loading = true
-        setTimeout(() => this.loading = false, 440)
-
-      }
-
-    },
-    watch: {
-
-      $route (to, from) {
-
-        if(to.path === from.path)
-          return
-
-        this.showLoading()
-
-      }
-
-    }
-
-  }
-
+  },
+};
 </script>
 
-<style>
+<style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Inconsolata");
+
+// Colors
+$bg-color: rgb(255, 255, 255);
+$dot-color: #22c1c3;
+
+// Dimensions
+$dot-size: 2px;
+$dot-space: 70px;
 
 ::selection {
   background: #20b39c;
@@ -96,6 +85,19 @@
   -moz-animation: nestGradient 6s ease infinite;
   animation: nestGradient 6s ease infinite;
 }
+
+.nest-dots-hero {
+  background: linear-gradient(
+        90deg,
+        $bg-color ($dot-space - $dot-size),
+        transparent 1%
+      )
+      center,
+    linear-gradient($bg-color ($dot-space - $dot-size), transparent 1%) center,
+    $dot-color;
+  background-size: $dot-space $dot-space;
+}
+
 .mini-hr {
   height: 10px;
   width: 20%;
@@ -109,7 +111,6 @@
   animation: nestGradient 6s ease infinite;
 }
 .LoadingLine {
-
   position: fixed;
   top: 0;
   left: 0;
@@ -124,7 +125,6 @@
   -webkit-animation: nestGradient 6s ease infinite;
   -moz-animation: nestGradient 6s ease infinite;
   animation: nestGradient 6s ease infinite;
-
 }
 @-webkit-keyframes nestGradient {
   0% {
@@ -178,17 +178,20 @@
   animation: slide-in-down 1s ease-out forwards;
   transition: opacity 1s;
 }
-.loading-enter-active, .loading-enter-to-active {
-  transition: width .43s, opacity .47s ease;
+.loading-enter-active,
+.loading-enter-to-active {
+  transition: width 0.43s, opacity 0.47s ease;
 }
-.loading-leave-active, .loading-leave-to-active {
-  transition: opacity .23s ease;
+.loading-leave-active,
+.loading-leave-to-active {
+  transition: opacity 0.23s ease;
 }
 .loading-enter {
   width: 0;
   opacity: 0;
 }
-.loading-enter-to, .loading-leave {
+.loading-enter-to,
+.loading-leave {
   width: 100vw;
   opacity: 1;
 }
