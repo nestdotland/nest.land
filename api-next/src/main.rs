@@ -68,6 +68,13 @@ async fn upload_package(mut payload: Multipart) -> Result<HttpResponse, Error> {
     Ok(HttpResponse::Ok().into())
 }
 
+
+async fn index(st: web::Data<AppState>,
+data: web::Json<GraphQLRequest>) -> Result<HttpResponse, Error> {
+    Ok(HttpResponse::Ok().body("Welcome to Nest.land's Rust API"))
+}
+
+
 pub struct AppState {
     pool: Arc<Client>,
     st: Arc<Schema>,
@@ -90,6 +97,7 @@ async fn main() -> io::Result<()> {
                 pool: conn.clone(),
             })
             .wrap(middleware::Logger::default())
+            .service(web::resource("/").route(web::get().to(index)))
             .service(web::resource("/graphql").route(web::post().to(graphql)))
             .service(web::resource("/graphiql").route(web::get().to(graphiql)))
             .service(web::resource("/package").route(web::post().to(upload_package)))
