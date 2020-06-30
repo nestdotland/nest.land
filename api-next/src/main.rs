@@ -48,12 +48,20 @@ async fn graphql(
         .body(user))
 }
 
+// TODO: use this struct
+pub struct OngoingUpload {
+    packageName: String,
+    done: bool
+}
+
 async fn upload_package(mut payload: Multipart) -> Result<HttpResponse, Error> {
     // iterate over multipart stream
     while let Ok(Some(mut field)) = payload.try_next().await {
         let content_type = field.content_disposition().unwrap();
+        let mime_type = field.content_type();
+        println!("{}", mime_type.type_());
         let filename = content_type.get_filename().unwrap();
-        let filepath = format!("../twig/tmp/{}", sanitize_filename::sanitize(&filename));
+        let filepath = format!("./tmp/{}", sanitize_filename::sanitize(&filename));
         // File::create is blocking operation, use threadpool
         let mut f = web::block(|| std::fs::File::create(filepath))
             .await

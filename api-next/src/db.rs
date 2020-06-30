@@ -97,3 +97,8 @@ pub async fn create_user(db: Arc<Client>, newUser: NewUser) -> Result<User, Erro
         createdAt: format!("{:?}", Utc::now()),
     })
 }
+
+// TODO: implement upload creation
+pub async fn create_package_uploads(db: Arc<Client>) -> Result<(), Error> {
+    Ok(())
+}
