@@ -83,12 +83,14 @@ export default {
             this.$emit("set-api-key", loginResponse.data.body.apiKey);
           } catch (err) {
             this.$emit("new-error", err);
+            this.buttonStatusClass = "";
           }
         } else {
           this.$emit("new-error", "We think that you are a bot. BE GONE, BOT!");
         }
       } catch (err) {
         this.$emit("new-error", err);
+        this.buttonStatusClass = "";
       }
     },
   },

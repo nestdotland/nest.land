@@ -8,7 +8,7 @@ Handle arweave transactions and other functions as an API service.
 
 #### Upload Flow
 
-1. `Rust API` recieves package details and puts its contents in the `tmp` folder.
+1. `Rust API` receives package details and puts its contents in the `tmp` folder.
 
 2. `Twig` gets pinged by the Rust API to process the package contents in `tmp` and upload to the permaweb.
 
