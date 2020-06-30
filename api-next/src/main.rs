@@ -13,6 +13,7 @@ use tokio_postgres::Client;
 use actix_multipart::Multipart;
 use futures::{StreamExt, TryStreamExt};
 use std::io::Write;
+use std::collections::HashMap;
 
 mod context;
 mod db;
@@ -48,24 +49,31 @@ async fn graphql(
         .body(user))
 }
 
-async fn upload_package(mut payload: Multipart) -> Result<HttpResponse, Error> {
-    // iterate over multipart stream
-    while let Ok(Some(mut field)) = payload.try_next().await {
-        let content_type = field.content_disposition().unwrap();
-        let filename = content_type.get_filename().unwrap();
-        let filepath = format!("../twig/tmp/{}", sanitize_filename::sanitize(&filename));
-        // File::create is blocking operation, use threadpool
-        let mut f = web::block(|| std::fs::File::create(filepath))
-            .await
-            .unwrap();
-        // Field in turn is stream of *Bytes* object
-        while let Some(chunk) = field.next().await {
-            let data = chunk.unwrap();
-            // filesystem operations are blocking, we have to use threadpool
-            f = web::block(move || f.write_all(&data).map(|_| f)).await?;
-        }
-    }
-    Ok(HttpResponse::Ok().into())
+// TODO: use this struct
+pub struct OngoingUpload {
+    packageName: String,
+    done: bool
+}
+
+async fn upload_package(mut parts: awmp::Parts) -> Result<HttpResponse, Error> {
+    let text_fields: HashMap<_, _> = parts.texts.as_pairs().into_iter().collect();
+
+    text_fields.get("owner");
+
+    let file_parts = parts
+        .files
+        .into_inner()
+        .into_iter()
+        .flat_map(|(name, res_tf)| res_tf.map(|x| (name, x)))
+        .map(|(name, tf)| tf.persist("./tmp").map(|f| (name, f)))
+        .collect::<Result<Vec<_>, _>>()
+        .unwrap()
+        .into_iter()
+        .map(|(name, f)| format!("{}: {}", name, f.display()))
+        .collect::<Vec<_>>()
+        .join(", ");
+
+    Ok(actix_web::HttpResponse::Ok().body(file_parts))
 }
 
 
