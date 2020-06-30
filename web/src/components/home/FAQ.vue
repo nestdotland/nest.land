@@ -20,8 +20,8 @@
               <div class="card-content">
                 <p
                   class="subtitle has-text-dark"
-                >How does nest.land deal with malicious or broken packages?</p>
-                <p>If a package is reported to us as malicious or broken, we flag it on our registry. All users will then be warned when importing or updating this package.</p>
+                >How does nest.land deal with malicious or broken modules?</p>
+                <p>If a module is reported to us as malicious or broken, we flag it on our registry. All users will then be warned when importing or updating this module.</p>
                 <hr />
                 <p class="has-text-centered">
                   <a
@@ -35,8 +35,8 @@
           <div class="column">
             <div class="card">
               <div class="card-content">
-                <p class="subtitle has-text-dark">What if an author takes down a package?</p>
-                <p>Taking down a package is impossible thanks to the Arweave Blockchain! A package uploaded through our CLI is permanently immutable.</p>
+                <p class="subtitle has-text-dark">What if an author takes down a module?</p>
+                <p>Taking down a module is impossible thanks to the Arweave Blockchain! A module uploaded through our CLI is permanently immutable.</p>
                 <hr />
                 <p class="has-text-centered">
                   <a
