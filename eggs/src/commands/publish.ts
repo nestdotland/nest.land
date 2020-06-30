@@ -58,7 +58,6 @@ export const publish = new Command()
         await Deno.readFile(`egg.${configFormat}`),
       );
       let egg: IEggConfig;
-      // console.log()
       if (["yaml", "yml"].includes(configFormat)) {
         let yamlConfig = parse(content);
         // @ts-ignore

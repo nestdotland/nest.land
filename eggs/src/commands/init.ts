@@ -1,4 +1,4 @@
-import { Command, Input, Confirm, List, writeJson, yellow, parse } from "../deps.ts";
+import { Command, Input, Confirm, List, writeJson, yellow, parse, version } from "../deps.ts";
 import { pathExists, configExists } from "../utilities/files.ts";
 import { Config, ConfigFormats } from "../types.ts";
 import { writeConfig } from "../utilities/writeconfig.ts";
@@ -10,7 +10,7 @@ function detectConfig(): ConfigFormats {
 }
 
 export const init = new Command()
-    .version("0.1.0")
+    .version(version)
     .description("Initiates a new package for the nest.land registry.")
     .action(async () => {
         let previousConfig: Config = {};

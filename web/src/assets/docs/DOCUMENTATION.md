@@ -167,7 +167,7 @@ eggs update --file file.ts // update all in file.ts
 eggs update --deps http fs // update fs and http in default deps.ts
 ```
 
-More detailed information about this service is avaliable on our CLI [README](https://github.com/nestlandofficial/nest.land/tree/master/eggs).
+More detailed information about this service is available on our CLI [README](https://github.com/nestlandofficial/nest.land/tree/master/eggs).
 
 # Upgrade eggs
 

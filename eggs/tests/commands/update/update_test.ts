@@ -8,18 +8,18 @@ import { assertEquals } from "../../../src/deps.ts"
 
 const pathToHere = "eggs/tests/commands/update/";
 
-function replaceMainDepFileContent (filenameToReplace: string, replacedWithFilename: string): void {
+function replaceMainDepFileContent(filenameToReplace: string, replacedWithFilename: string): void {
   const replacerFilename = pathToHere + replacedWithFilename
   const replaceeFilename = pathToHere + filenameToReplace
   const replacerContent = new TextDecoder("utf-8").decode(Deno.readFileSync(replacerFilename));
   Deno.writeFileSync(replaceeFilename, new TextEncoder().encode(replacerContent))
 }
 
-function emptyDependencyFile (filename: string): void {
+function emptyDependencyFile(filename: string): void {
   Deno.writeFileSync(pathToHere + filename, new TextEncoder().encode(""))
 }
 
-function removeDependencyFile (filename: string): void {
+function removeDependencyFile(filename: string): void {
   try {
     Deno.removeSync(pathToHere + filename)
   } catch (err) {
@@ -98,8 +98,8 @@ Deno.test({
     const originalDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/update/original_deps.ts"));
     const newDepContent = new TextDecoder("utf-8").decode(Deno.readFileSync(Deno.cwd() + "/eggs/tests/commands/update/deps.ts"));
     assertEquals(originalDepContent !== newDepContent, true);
-    assertEquals(newDepContent.indexOf("eggs@v0.1.4") > 0, true);
-    assertEquals(newDepContent.indexOf("std@v0.58.0/fmt") > 0, true);
+    assertEquals(newDepContent.indexOf("eggs@0.1.6") > 0, true);
+    assertEquals(newDepContent.indexOf("std@v0.59.0/fmt") > 0, true);
     assertEquals(newDepContent.indexOf("bcrypt@v0.2.1") > 0, true);
     replaceMainDepFileContent("deps.ts", "original_deps.ts")
   }

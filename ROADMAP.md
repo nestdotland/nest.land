@@ -15,7 +15,7 @@ Following release, we will place a strong emphasis on marketing in order to gain
     - Gallery to view and search packages on the registry (utilizing the API).
   - CLI:
     - User Accounts
-      - A global user account API key will be stored in `~/.nest-land-creds` where the CLI shall retreive them.
+      - A global user account API key will be stored in `~/.nest-land-creds` where the CLI shall retrieve them.
   - API:
     - MongoDB
     - Versions must be SemVer (2.0.0) compliant.
