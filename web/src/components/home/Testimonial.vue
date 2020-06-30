@@ -52,6 +52,24 @@ export default {};
       font-style: italic;
       font-weight: 400;
       color: #616161;
+
+      @media only screen and (max-width: 768px) {
+        font-size: 1.6em;
+        line-height: 1.3;
+      }
+    }
+
+    .media-content {
+      @media only screen and (max-width: 768px) {
+        .title.is-4 {
+          font-size: 1em;
+          margin-top: 5px;
+        }
+
+        .subtitle.is-6 {
+          font-size: 0.8em;
+        }
+      }
     }
   }
 }
