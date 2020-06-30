@@ -81,7 +81,7 @@ async function installModule(_: any, ...args: string[]) {
   /** help option need to be parsed manually */
   if (["-h", "--help", "help"].includes(args[0])) {
     Deno.stdout.writeSync(
-      new TextEncoder().encode(install.getHelpCommand().getHelp()),
+      new TextEncoder().encode(install.getHelp()),
     );
     Deno.exit();
   }
@@ -100,13 +100,15 @@ async function installModule(_: any, ...args: string[]) {
 
   const currentVersion = semver.valid(version) ??
     await getLatestVersion(registry, moduleName, owner);
-  
+
   if (!currentVersion || !semver.valid(currentVersion)) {
     console.log(
-      yellow(`Warning: could not find the latest version of ${moduleName}.\nModule will not receive any notification of updates.`),
+      yellow(
+        `Warning: could not find the latest version of ${moduleName}.\nModule will not receive any notification of updates.`,
+      ),
     );
-    await installModuleWithoutUpdates(args)
-    Deno.exit()
+    await installModuleWithoutUpdates(args);
+    Deno.exit();
   }
 
   /** If no exec name is given, provide one */
