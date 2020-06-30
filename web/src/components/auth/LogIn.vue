@@ -87,7 +87,6 @@ export default {
           }
         } else {
           this.$emit("new-error", "We think that you are a bot. BE GONE, BOT!");
-          this.buttonStatusClass = "";
         }
       } catch (err) {
         this.$emit("new-error", err);
