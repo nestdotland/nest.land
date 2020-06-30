@@ -13,6 +13,7 @@ use tokio_postgres::Client;
 use actix_multipart::Multipart;
 use futures::{StreamExt, TryStreamExt};
 use std::io::Write;
+use std::collections::HashMap;
 
 mod context;
 mod db;
@@ -55,19 +56,24 @@ pub struct OngoingUpload {
 }
 
 async fn upload_package(mut parts: awmp::Parts) -> Result<HttpResponse, Error> {
-    let qs = parts.texts.to_query_string();
+    let text_fields: HashMap<_, _> = parts.texts.as_pairs().into_iter().collect();
+
+    text_fields.get("owner");
 
     let file_parts = parts
         .files
-        .take("file")
-        .pop()
-        .and_then(|f| f.persist("/tmp").ok())
-        .map(|f| format!("File uploaded to: {}", f.display()))
-        .unwrap_or_default();
+        .into_inner()
+        .into_iter()
+        .flat_map(|(name, res_tf)| res_tf.map(|x| (name, x)))
+        .map(|(name, tf)| tf.persist("./tmp").map(|f| (name, f)))
+        .collect::<Result<Vec<_>, _>>()
+        .unwrap()
+        .into_iter()
+        .map(|(name, f)| format!("{}: {}", name, f.display()))
+        .collect::<Vec<_>>()
+        .join(", ");
 
-    let body = [format!("Text parts: {}", &qs), file_parts].join(", ");
-
-    Ok(actix_web::HttpResponse::Ok().body(body))
+    Ok(actix_web::HttpResponse::Ok().body(file_parts))
 }
 
 
