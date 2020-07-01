@@ -24,6 +24,8 @@ import {
   ConfigFormats,
 } from "../types.ts";
 
+import { default as graphql } from "https://creatcodebuild.github.io/graphql-projects/deno-graphql-port/dist/graphql.js";
+
 interface IEggConfig {
   name: string;
   entry?: string;
@@ -192,22 +194,28 @@ export const publish = new Command()
 
       let isLatest = semver.compare(egg.version, latestServerVersion) === 1;
 
-      let uploadResponse = await fetch(`${ENDPOINT}/api/publish`, {
+      let uploadResponse = await fetch(`${ENDPOINT}/graphql`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": apiKey,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
         body: JSON.stringify({
-          name: egg.name,
-          description: egg.description,
-          repository: egg.repository,
-          version: egg.version,
-          unlisted: egg.unlisted,
-          upload: true,
-          entry: egg.entry,
-          latest: isLatest,
-          stable: egg.stable,
+          query: `
+            mutation createPackage({
+              name: ${egg.name},
+              description: ${egg.description},
+              repository: ${egg.repository},
+              version: ${egg.version},
+              unlisted: ${egg.unlisted},
+              entry: ${egg.entry},
+              latest: ${isLatest},
+              stable: ${egg.stable}
+            }) {
+              name,
+              description,
+            }
+          `
         }),
       }).catch(() => {
         throw new Error(red("Something broke when publishing..."));
@@ -219,39 +227,8 @@ export const publish = new Command()
         p[c[0].path] = c[1];
         return p;
       }, {} as { [x: string]: string });
-
-      if (!uploadResponse.ok) {
-        throw new Error(
-          red("Something broke when publishing... " + uploadResponse.status),
-        );
-      }
-      let uploadResponseBody: {
-        token: string;
-        name: string;
-        version: string;
-        owner: string;
-      } = uploadResponse.ok && await uploadResponse.json();
-      let pieceResponse = await fetch(`${ENDPOINT}/api/piece`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-UploadToken": uploadResponseBody.token,
-        },
-        body: JSON.stringify({
-          pieces: fileContents,
-          end: true,
-        }),
-      }).catch(() => {
-        throw new Error(red("Something broke when sending pieces..."));
-      });
-
-      if (!pieceResponse.ok) {
-        throw new Error(
-          red("Something broke when sending pieces... " + pieceResponse.status),
-        );
-      }
-      let pieceResponseBody: { name: string; files: { [x: string]: string } } =
-        await pieceResponse.json();
+      
+      /**
       console.log(
         green(`Successfully published ${bold(pieceResponseBody.name)}!`),
       );
@@ -263,6 +240,7 @@ export const publish = new Command()
           }`,
         );
       });
+      **/
       console.log(green("You can now find your package on our registry at " + bold(`https://nest.land/package/${egg.name}\n`)));
       console.log(`Add this badge to your README to let everyone know:\n\n [![nest badge](https://nest.land/badge.svg)](https://nest.land/package/${egg.name})`);
     } else {
