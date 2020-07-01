@@ -227,8 +227,8 @@ export const publish = new Command()
         p[c[0].path] = c[1];
         return p;
       }, {} as { [x: string]: string });
-      
-      /**
+
+      /**  BROKEN
       console.log(
         green(`Successfully published ${bold(pieceResponseBody.name)}!`),
       );
