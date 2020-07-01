@@ -66,7 +66,7 @@ async fn upload_package(mut payload: Multipart) -> Result<HttpResponse, Error> {
         let mut buffer = Vec::new();
         let filename = content_type.get_filename();
         let unqiueName = Uuid::new_v4().to_simple().to_string();
-        let filepath = format!("tmp/{}", unqiueName);
+        let filepath = format!("tmp/{}", filename.unwrap_or("none"));
         // File::create is blocking operation, use threadpool
             let mut f = web::block(move || std::fs::File::create(Path::new(&filepath)))
                 .await
