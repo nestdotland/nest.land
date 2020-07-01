@@ -15,10 +15,6 @@ use futures::{StreamExt, TryStreamExt};
 use std::io::Write;
 use std::collections::HashMap;
 use std::path::Path;
-use tar::Archive;
-use std::fs::File;
-use flate2::read::GzDecoder;
-use uuid::Uuid;
 
 mod context;
 mod db;
@@ -54,36 +50,40 @@ async fn graphql(
         .body(user))
 }
 
+// TODO: use this struct
+pub struct OngoingUpload {
+    packageName: String,
+    done: bool
+}
+
 async fn upload_package(mut payload: Multipart) -> Result<HttpResponse, Error> {
-    let mut buffer = Vec::new();
     // iterate over multipart stream
     while let Ok(Some(mut field)) = payload.try_next().await {
         let content_type = field.content_disposition().unwrap();
         let mime_type = field.content_type();
         println!("{}", mime_type.type_());
+        let mut buffer = Vec::new();
         let filename = content_type.get_filename();
-        let randomArchiveName = Uuid::new_v4().to_simple().to_string();
-        let filepath = format!("tmp/{}", randomArchiveName);
+        let filepath = format!("tmp/{}", filename.unwrap_or("none"));
         // File::create is blocking operation, use threadpool
-        let mut f = web::block(move || std::fs::File::create(Path::new(&filepath)))
-            .await
-            .unwrap();
+            let mut f = web::block(move || std::fs::File::create(Path::new(&filepath)))
+                .await
+                .unwrap();
         // Field in turn is stream of *Bytes* object
         while let Some(chunk) = field.next().await {
             let data = chunk.unwrap();
             match filename {
                 None => {
-                        buffer.push(format!("{:?}", &data));
+                        println!("{:?}", data);
+                        buffer.extend_from_slice(&data);
                 },
                 Some(n) => {
                     // filesystem operations are blocking, we have to use threadpool
                     f = web::block(move || f.write_all(&data).map(|_| f)).await?;
-
                 }
             }
         }
     }
-    println!("{}", buffer[0]);
     Ok(HttpResponse::Ok().into())
 }
 
