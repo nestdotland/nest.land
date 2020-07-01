@@ -13,12 +13,16 @@ pub fn create_api_key() -> String {
 
 // normalize string
 pub fn normalize(input: &str) -> String {
-    input.to_lowercase().chars().map(|x| match x {
-        '!' => '_',
-        '[' => '_',
-        ']' => '_',
-        '.' => '_',
-        ':' => '_',
-        _ => x
-    }).collect()
+    input
+        .to_lowercase()
+        .chars()
+        .map(|x| match x {
+            '!' => '_',
+            '[' => '_',
+            ']' => '_',
+            '.' => '_',
+            ':' => '_',
+            _ => x,
+        })
+        .collect()
 }

@@ -5,23 +5,23 @@ use std::io;
 use std::sync::Arc;
 
 use actix_cors::Cors;
+use actix_multipart::Multipart;
 use actix_web::{middleware, web, App, Error, HttpResponse, HttpServer};
+use futures::{StreamExt, TryStreamExt};
 use juniper::http::graphiql::graphiql_source;
 use juniper::http::GraphQLRequest;
 use std::borrow::Borrow;
-use tokio_postgres::Client;
-use actix_multipart::Multipart;
-use futures::{StreamExt, TryStreamExt};
-use std::io::Write;
 use std::collections::HashMap;
+use std::io::Write;
 use std::path::Path;
+use tokio_postgres::Client;
 use uuid::Uuid;
 
 mod context;
 mod db;
 mod schema;
-mod utils;
 mod twig;
+mod utils;
 
 use crate::schema::{create_schema, Schema};
 
@@ -54,7 +54,7 @@ async fn graphql(
 // TODO: use this struct
 pub struct OngoingUpload {
     packageName: String,
-    done: bool
+    done: bool,
 }
 
 async fn upload_package(mut payload: Multipart) -> Result<HttpResponse, Error> {
@@ -68,17 +68,17 @@ async fn upload_package(mut payload: Multipart) -> Result<HttpResponse, Error> {
         let unqiueName = Uuid::new_v4().to_simple().to_string();
         let filepath = format!("tmp/{}", filename.unwrap_or("none"));
         // File::create is blocking operation, use threadpool
-            let mut f = web::block(move || std::fs::File::create(Path::new(&filepath)))
-                .await
-                .unwrap();
+        let mut f = web::block(move || std::fs::File::create(Path::new(&filepath)))
+            .await
+            .unwrap();
         // Field in turn is stream of *Bytes* object
         while let Some(chunk) = field.next().await {
             let data = chunk.unwrap();
             match filename {
                 None => {
-                        println!("{:?}", data);
-                        formValues.extend_from_slice(&data);
-                },
+                    println!("{:?}", data);
+                    formValues.extend_from_slice(&data);
+                }
                 Some(n) => {
                     // filesystem operations are blocking, we have to use threadpool
                     f = web::block(move || f.write_all(&data).map(|_| f)).await?;
@@ -90,12 +90,12 @@ async fn upload_package(mut payload: Multipart) -> Result<HttpResponse, Error> {
     Ok(HttpResponse::Ok().into())
 }
 
-
-async fn index(st: web::Data<AppState>,
-data: web::Json<GraphQLRequest>) -> Result<HttpResponse, Error> {
+async fn index(
+    st: web::Data<AppState>,
+    data: web::Json<GraphQLRequest>,
+) -> Result<HttpResponse, Error> {
     Ok(HttpResponse::Ok().body("Welcome to Nest.land's Rust API"))
 }
-
 
 pub struct AppState {
     pool: Arc<Client>,

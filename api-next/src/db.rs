@@ -3,11 +3,11 @@
 use crate::schema::{NewUser, Package, User};
 use crate::utils::{create_api_key, first, normalize};
 use chrono::{DateTime, Utc};
+use dotenv;
 use postgres_array::array::Array;
 use std::sync::Arc;
 use std::time::SystemTime;
 use tokio_postgres::{Client, Error, NoTls};
-use dotenv;
 
 // establish connection with Postgres db
 pub async fn connect() -> Result<Client, Error> {
@@ -15,8 +15,14 @@ pub async fn connect() -> Result<Client, Error> {
     let user = dotenv::var("DB_USER").unwrap_or("nest".to_string());
     let database_name = dotenv::var("DB_NAME").unwrap_or("nest".to_string());
     let pass = dotenv::var("DB_PASS").unwrap_or("123".to_string());
-    let (client, connection) =
-        tokio_postgres::connect(&format!("host={} user={} dbname={} password={}", host, user, database_name, pass), NoTls).await?;
+    let (client, connection) = tokio_postgres::connect(
+        &format!(
+            "host={} user={} dbname={} password={}",
+            host, user, database_name, pass
+        ),
+        NoTls,
+    )
+    .await?;
 
     // The connection object performs the actual communication with the database,
     // so spawn it off to run on its own.
