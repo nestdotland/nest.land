@@ -15,7 +15,7 @@ use futures::{StreamExt, TryStreamExt};
 use std::io::Write;
 use std::collections::HashMap;
 use std::path::Path;
-
+use tar::Archive;
 mod context;
 mod db;
 mod schema;
@@ -80,6 +80,8 @@ async fn upload_package(mut payload: Multipart) -> Result<HttpResponse, Error> {
                 Some(n) => {
                     // filesystem operations are blocking, we have to use threadpool
                     f = web::block(move || f.write_all(&data).map(|_| f)).await?;
+                    Archive::new(&f).unpack("")?;
+
                 }
             }
         }
