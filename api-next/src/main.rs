@@ -72,7 +72,6 @@ async fn upload_package(mut payload: Multipart) -> Result<HttpResponse, Error> {
             let data = chunk.unwrap();
             match filename {
                 None => {
-                        println!("{:?}", data);
                         buffer.extend_from_slice(&data);
                 },
                 Some(n) => {
@@ -82,13 +81,6 @@ async fn upload_package(mut payload: Multipart) -> Result<HttpResponse, Error> {
                 }
             }
         }
-        /**
-        // NOTE: We should do decompression on the Rust Side.
-        let decompressed = GzDecoder::new(f);
-        // unpack the archive
-        let mut a = Archive::new(decompressed);
-        a.unpack("tmp/eggs").unwrap();
-        **/
     }
     Ok(HttpResponse::Ok().into())
 }
