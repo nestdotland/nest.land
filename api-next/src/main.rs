@@ -66,6 +66,7 @@ async fn upload_package(mut payload: Multipart) -> Result<HttpResponse, Error> {
         let filename = content_type.get_filename();
         let filepath = format!("tmp/{}", filename.unwrap_or("junk"));
         // File::create is blocking operation, use threadpool
+        let mF = &filepath.clone();
         let mut f = web::block(move || std::fs::File::create(Path::new(&filepath)))
             .await
             .unwrap();
@@ -80,11 +81,12 @@ async fn upload_package(mut payload: Multipart) -> Result<HttpResponse, Error> {
                 Some(n) => {
                     // filesystem operations are blocking, we have to use threadpool
                     f = web::block(move || f.write_all(&data).map(|_| f)).await?;
-                    Archive::new(&f).unpack("")?;
 
                 }
             }
         }
+        // unpack the archive
+        Archive::new(&f).unpack(mF)?;
     }
     Ok(HttpResponse::Ok().into())
 }
