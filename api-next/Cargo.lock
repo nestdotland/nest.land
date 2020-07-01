@@ -372,25 +372,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "awmp"
-version = "0.5.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "67537f5b2514230c1487f6d1f1033017f32e0ec18de0ef8eb34821f51bc31c8f"
-dependencies = [
- "actix-multipart",
- "actix-web",
- "bytes",
- "flate2",
- "futures",
- "mime",
- "mime_guess",
- "sanitize-filename",
- "tempfile",
- "url",
- "uuid 0.8.1",
-]
-
-[[package]]
 name = "backtrace"
 version = "0.3.49"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1286,7 +1267,6 @@ dependencies = [
  "actix-multipart",
  "actix-rt",
  "actix-web",
- "awmp",
  "chrono",
  "dotenv",
  "env_logger",
