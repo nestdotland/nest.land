@@ -33,7 +33,7 @@
 
 **Note: You need to upgrade to Deno v1.1.0 or newer in order to use our CLI.**
 ```
-deno install -A -f --unstable -n eggs https://x.nest.land/eggs@0.1.7/mod.ts
+deno install -A -f --unstable -n eggs https://x.nest.land/eggs@0.1.8/mod.ts
 ```
 For more information, see the [documentation](https://nest.land/#docs).
 
@@ -44,8 +44,8 @@ For more information, see the [documentation](https://nest.land/#docs).
 Before publishing a package to our registry, you'll need to get an API key. Visit [nest.land](https://nest.land/#start) to generate one.
 
 Then, use `link` to add it to the CLI:
-```
-$ eggs link <key>
+```shell script
+eggs link <key>
 ```
 
 Alternatively, you can manually create a `.nest-api-key` file at your user home directory.
@@ -53,16 +53,16 @@ Alternatively, you can manually create a `.nest-api-key` file at your user home 
 ### Init
 
 To publish a package, you need to create an `egg.json` file at the root of your project as well. To do this easily, type:
-```
-$ eggs init
+```shell script
+eggs init
 ```
 Note: If you'd like to specify a version that you'll publish to, you can include a `version` variable in `egg.json`.
 
 ### Publish
 
 After you've filled in the information located in `egg.json`, you can publish your package to our registry with this command:
-```
-$ eggs publish
+```shell script
+eggs publish
 ```
 
 You'll receive a link to your package on our registry, along with an import URL for others to import your package from the Arweave blockchain!
@@ -72,26 +72,26 @@ Note: It may take some time for the transaction to process in Arweave. Until the
 ### Update
 
 You can easily update your dependencies and global scripts with the `update` command.
-```
-$ eggs update [deps] <options>
+```shell script
+eggs update [deps] <options>
 ```
 
 Your dependencies are by default checked in the `deps.ts` file (current working directory). You can change this with `--file`
-```shell
-$ eggs update # default to deps.ts
-$ eggs update --file dependencies.ts 
+```shell script
+eggs update # default to deps.ts
+eggs update --file dependencies.ts 
 ```
 
 In regular mode, all your dependencies are updated. You can choose which ones will be modified by adding them as arguments.
-```shell
-$ eggs update # Updates everything
-$ eggs update http fs eggs # Updates only http, fs, eggs
+```shell script
+eggs update # Updates everything
+eggs update http fs eggs # Updates only http, fs, eggs
 ```
 
 Scripts installed with `eggs install` can also be updated with the `-g` parameter.
-```shell
-$ eggs update -g # Updates every script installed with eggs install
-$ eggs update eggs denon -g # Updates only eggs, denon
+```shell script
+eggs update -g # Updates every script installed with eggs install
+eggs update eggs denon -g # Updates only eggs, denon
 ```
 
 Several registries are supported. The current ones are:
@@ -124,12 +124,12 @@ Just like `deno install`, you can install scripts globally with eggs. By install
 
 The verification is smart, it can't be done more than once a day. To install a script, simply replace `deno` with `eggs`.
 
-```shell
-$ deno install --allow-write --allow-read -n [NAME] https://x.nest.land/[MODULE]@[VERSION]/cli.ts
+```shell script
+deno install --allow-write --allow-read -n [NAME] https://x.nest.land/[MODULE]@[VERSION]/cli.ts
 ```
 Becomes
-```shell
-$ eggs install --allow-write --allow-read -n [NAME] https://x.nest.land/[MODULE]@[VERSION]/cli.ts
+```shell script
+eggs install --allow-write --allow-read -n [NAME] https://x.nest.land/[MODULE]@[VERSION]/cli.ts
 ```
 
 The supported registries are the same as for the update command.
@@ -138,8 +138,8 @@ The supported registries are the same as for the update command.
 
 To upgrade the eggs CLI, use the command shown:
 
-```
-$ eggs upgrade
+```shell script
+eggs upgrade
 ```
 
 ## Contributing
