@@ -48,7 +48,7 @@ export default {};
 
     .title.is-3 {
       line-height: 1.5;
-      font-family: "PT Serif";
+      font-family: "PT Serif", Georgia, serif;
       font-style: italic;
       font-weight: 400;
       color: #616161;
@@ -60,6 +60,7 @@ export default {};
     }
 
     .media-content {
+      overflow: hidden;
       @media only screen and (max-width: 768px) {
         .title.is-4 {
           font-size: 1em;
