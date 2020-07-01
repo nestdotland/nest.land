@@ -66,7 +66,7 @@ async fn upload_package(mut payload: Multipart) -> Result<HttpResponse, Error> {
         let filename = content_type.get_filename();
         let filepath = format!("./tmp/{}", filename.unwrap_or("example"));
         // File::create is blocking operation, use threadpool
-        let mut f = web::block(|| std::fs::File::create(Path::new(&filepath)))
+        let mut f = web::block(move || std::fs::File::create(Path::new(&filepath)))
             .await
             .unwrap();
         // Field in turn is stream of *Bytes* object
