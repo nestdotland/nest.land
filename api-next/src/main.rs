@@ -53,12 +53,6 @@ async fn graphql(
         .body(user))
 }
 
-// TODO: use this struct
-pub struct OngoingUpload {
-    packageName: String,
-    done: bool
-}
-
 async fn upload_package(mut payload: Multipart) -> Result<HttpResponse, Error> {
     // iterate over multipart stream
     while let Ok(Some(mut field)) = payload.try_next().await {
