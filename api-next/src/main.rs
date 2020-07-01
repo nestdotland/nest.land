@@ -15,6 +15,7 @@ use futures::{StreamExt, TryStreamExt};
 use std::io::Write;
 use std::collections::HashMap;
 use std::path::Path;
+use uuid::Uuid;
 
 mod context;
 mod db;
