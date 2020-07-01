@@ -18,6 +18,7 @@ use std::path::Path;
 use tar::Archive;
 use std::fs::File;
 use flate2::read::GzDecoder;
+use uuid::Uuid;
 
 mod context;
 mod db;
@@ -61,9 +62,9 @@ async fn upload_package(mut payload: Multipart) -> Result<HttpResponse, Error> {
         println!("{}", mime_type.type_());
         let mut buffer = Vec::new();
         let filename = content_type.get_filename();
-        let filepath = format!("tmp/{}", filename.unwrap_or("junk"));
+        let randomArchiveName = Uuid::new_v4().to_simple().to_string();
+        let filepath = format!("tmp/{}", randomArchiveName);
         // File::create is blocking operation, use threadpool
-        let mF = &filepath.clone();
         let mut f = web::block(move || std::fs::File::create(Path::new(&filepath)))
             .await
             .unwrap();
@@ -72,7 +73,7 @@ async fn upload_package(mut payload: Multipart) -> Result<HttpResponse, Error> {
             let data = chunk.unwrap();
             match filename {
                 None => {
-                        buffer.extend_from_slice(&data);
+                        buffer.push(format!("{:?}", &data));
                 },
                 Some(n) => {
                     // filesystem operations are blocking, we have to use threadpool
@@ -81,6 +82,7 @@ async fn upload_package(mut payload: Multipart) -> Result<HttpResponse, Error> {
                 }
             }
         }
+        println!("{}", buffer[0]);
     }
     Ok(HttpResponse::Ok().into())
 }
