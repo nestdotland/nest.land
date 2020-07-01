@@ -64,11 +64,13 @@ async fn upload_package(mut payload: Multipart) -> Result<HttpResponse, Error> {
         println!("{}", mime_type.type_());
         let mut buffer = Vec::new();
         let filename = content_type.get_filename();
-        let filepath = format!("tmp/{}", filename.unwrap_or("example"));
+        let filepath = format!("tmp/{}", filename.unwrap_or("none"));
         // File::create is blocking operation, use threadpool
-        let mut f = web::block(move || std::fs::File::create(Path::new(&filepath)))
-            .await
-            .unwrap();
+        if(filepath != "none") {
+            let mut f = web::block(move || std::fs::File::create(Path::new(&filepath)))
+                .await
+                .unwrap();
+        }
         // Field in turn is stream of *Bytes* object
         while let Some(chunk) = field.next().await {
             let data = chunk.unwrap();
