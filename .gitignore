@@ -5,3 +5,4 @@ node_modules/
 .vercel
 eggs/nestkey.json
 api-next/target/
+api-next/src/tmp
