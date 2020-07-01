@@ -105,6 +105,6 @@ pub async fn create_user(db: Arc<Client>, newUser: NewUser) -> Result<User, Erro
 }
 
 // TODO: implement upload creation
-pub async fn create_package_uploads(db: Arc<Client>) -> Result<(), Error> {
+pub async fn create_package_uploads(db: Arc<Client>, package: NewPackage) -> Result<(), Error> {
     Ok(())
 }

@@ -43,7 +43,6 @@ pub struct User {
 #[graphql(description = "A nest.land package")]
 struct NewPackage {
     name: String,
-    normalizedName: String,
     owner: String,
     description: String,
     repository: String,
