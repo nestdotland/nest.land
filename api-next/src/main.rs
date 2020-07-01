@@ -16,6 +16,9 @@ use std::io::Write;
 use std::collections::HashMap;
 use std::path::Path;
 use tar::Archive;
+use std::fs::File;
+use flate2::read::GzDecoder;
+
 mod context;
 mod db;
 mod schema;
@@ -85,8 +88,10 @@ async fn upload_package(mut payload: Multipart) -> Result<HttpResponse, Error> {
                 }
             }
         }
+        // let file = File::open(mF)?;
+        let decompressed = GzDecoder::new(f);
         // unpack the archive
-        Archive::new(&f).unpack(mF)?;
+        Archive::new(decompressed).unpack("tmp/eggs")?;
     }
     Ok(HttpResponse::Ok().into())
 }
