@@ -88,10 +88,13 @@ async fn upload_package(mut payload: Multipart) -> Result<HttpResponse, Error> {
                 }
             }
         }
-        // let file = File::open(mF)?;
+        /**
+        // NOTE: We should do decompression on the Rust Side.
         let decompressed = GzDecoder::new(f);
         // unpack the archive
-        Archive::new(decompressed).unpack("tmp/eggs")?;
+        let mut a = Archive::new(decompressed);
+        a.unpack("tmp/eggs").unwrap();
+        **/
     }
     Ok(HttpResponse::Ok().into())
 }
