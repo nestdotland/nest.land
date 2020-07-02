@@ -62,11 +62,12 @@
     <div class="hero is-light is-small">
       <div class="hero-body">
         <div class="container">
-          <div class="columns is-multiline">
-            <div class="column is-3" v-for="p in shownPackages" :key="p._id">
-              <card :item="p"></card>
-            </div>
-          </div>
+            <transition-group name="fade" tag="div" class="columns is-multiline">
+              <!-- using createdAt time cuz index can't be used as a key here -->
+              <div class="column is-3" v-for="p in shownPackages" :key="timeToInt(p.createdAt)">
+                <card :item="p"></card>
+              </div>
+            </transition-group>
         </div>
       </div>
     </div>
@@ -116,6 +117,11 @@ export default {
     shownPackagesCount () {
       return this.shownPackages.length
     }
+  },
+  methods: {
+    timeToInt (val) {
+      return new Date(val).getTime()
+    }
   }
 };
 </script>
@@ -146,5 +152,11 @@ export default {
     color: #00947e !important;
     text-shadow: -1px 9px 8px rgba(#00947e, 0.12), 0 5px 15px rgba(#00947e, 0.18);
   }
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .3s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 </style>
