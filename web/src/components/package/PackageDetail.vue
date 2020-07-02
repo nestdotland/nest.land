@@ -147,7 +147,7 @@
                   <p v-if="noVersion">No version available</p>
                 </div>
                 <div class="panel-block" v-if="!noVersion">
-                  <pre class="is-fullwidth"><code>https://x.nest.land/{{ selectedVersion }}/mod.ts</code></pre>
+                  <pre class="is-fullwidth"><code>https://x.nest.land/{{ selectedVersion }}/{{ entryFile | removeFirstSlash }}</code></pre>
                 </div>
               </nav>
               <nav class="panel">
@@ -213,6 +213,7 @@ export default {
       fileView: false,
       currentFileContent: "",
       currentFileURL: "",
+      entryFile: "",
     };
   },
   props: {
@@ -225,8 +226,11 @@ export default {
       if (!createdAt) return "";
       return moment(String(createdAt)).format("LL");
     },
-    removeSlash(val) {
+    removeSlash (val) {
       return val.replace(new RegExp("/", "g"), "");
+    },
+    removeFirstSlash (val) {
+      return val.replace(new RegExp('/', 'i'), '');
     },
   },
   async created() {
@@ -406,7 +410,10 @@ export default {
             this.selectedVersion.split("@")[1]
           }`,
         )
-        .then(response => (this.files = response.data.files));
+        .then(response => {
+          this.files = response.data.files;
+          this.entryFile = response.data.entry;
+        });
     },
     sortPackages(packageList) {
       for (let i = 0; i < packageList.length; i++) {
