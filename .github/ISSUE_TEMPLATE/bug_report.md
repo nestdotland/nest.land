@@ -1,33 +1,26 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: "[BUG]"
+title: "A concise title here!"
 labels: bug
-assignees: tbaumer22
-
 ---
 
 **Describe the bug**
 A clear and concise description of what the bug is.
 
 **To Reproduce**
-Steps to reproduce the behavior.
+Steps to reproduce the behaviour.
 
-**Expected behavior**
+**Expected behaviour**
 A clear and concise description of what you expected to happen.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+**Supporting Information**
+If applicable, add screenshots, stacktraces or other information to help explain your problem.
 
-**Desktop (please complete the following information):**
+**Device (please complete the following information):**
+ - Device Type: [e.g. phone, computer]
  - OS: [e.g. macOS]
- - nest.land Version [e.g. 0.1.0]
-
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - nest.land Version [e.g. 0.1.0]
+ - Version [e.g. 0.1.0]
 
 **Additional context**
 Add any other context about the problem here.
