@@ -11,6 +11,7 @@ import {
   getLatestVersion,
   analyzeURL,
   globalModulesConfigPath,
+  version,
 } from "../deps.ts";
 
 const installPrefix = "eggs--";
@@ -46,7 +47,7 @@ The installation root is determined, in order of precedence:
 These must be added to the path manually if required.`;
 
 export const install = new Command()
-  .version("0.1.0")
+  .version(version)
   .description(desc)
   .arguments("[OPTIONS...:string]")
   .option("-A, --allow-all", "Allow all permissions")
