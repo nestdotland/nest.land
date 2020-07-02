@@ -5,6 +5,7 @@ import {
   bold,
   path,
   version,
+  getLatestVersionFromNestRegistry,
 } from "../deps.ts";
 
 export const upgrade = new Command()
@@ -20,7 +21,7 @@ export const upgrade = new Command()
         "-f",
         "-n",
         "eggs",
-        `https://x.nest.land/eggs@${version}/mod.ts`,
+        `https://x.nest.land/eggs@${await getLatestVersionFromNestRegistry("eggs")}/mod.ts`,
       ],
       stdout: "piped",
       stderr: "piped",
