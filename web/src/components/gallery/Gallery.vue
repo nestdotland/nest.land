@@ -40,7 +40,7 @@
           <div class="container">
             <ul>
               <li class="nest-heading">
-                <a class="no-hover">{{ shownPackagesCount }}</a>
+                <a class="no-hover">{{ shownPackagesCount }} packages</a>
               </li>
             </ul>
           </div>
@@ -85,8 +85,6 @@ export default {
       packages: [],
       loading: true,
       searchPhrase: "",
-      shownPackages: [],
-      shownPackagesCount: "",
       errorMessage: "",
     };
   },
@@ -101,52 +99,24 @@ export default {
     Card,
   },
   async created() {
-    this.debouncedSortPackages = this._.debounce(this.sortPackages, 500);
     try {
       const allPackages = await HTTP.get("packages");
       this.packages = allPackages.data.body;
       console.log(this.packages);
       // TODO [@tbaumer22]: Implement pagination/infinite scrolling
-      if (this.search === "") {
-        this.shownPackages = allPackages.data.body;
-      } else {
-        this.searchPhrase = this.search;
-      }
-      this.refreshPackageCount(allPackages.data.body.length);
       this.loading = false;
     } catch (err) {
       this.errorMessage = err;
     }
   },
-  watch: {
-    searchPhrase: function() {
-      this.debouncedSortPackages();
-      this.$router.replace({
-        query: {
-          search: this.searchPhrase,
-        },
-      }).catch(() => {});
+  computed: {
+    shownPackages () {
+      return this.packages.filter(({ name }) => name.toLowerCase().includes(this.searchPhrase.toLowerCase()))
     },
-  },
-  methods: {
-    sortPackages() {
-      let potentialMatches = [];
-      for (let i = 0; i < this.packages.length; i++) {
-        if (this.packages[i].name.search(this.searchPhrase) !== -1) {
-          potentialMatches.push(this.packages[i]);
-        }
-      }
-      this.shownPackages = potentialMatches;
-      this.refreshPackageCount(this.shownPackages.length);
-    },
-    refreshPackageCount(l) {
-      if (l === 1) {
-        this.shownPackagesCount = l + " Package";
-      } else {
-        this.shownPackagesCount = l + " Packages";
-      }
-    },
-  },
+    shownPackagesCount () {
+      return this.shownPackages.length
+    }
+  }
 };
 </script>
 
