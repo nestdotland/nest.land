@@ -13,3 +13,7 @@ export function configExists(): boolean {
     existsSync("egg.yml") ||
     existsSync("egg.yaml");
 }
+
+export function readmeExists(): boolean {
+  return existsSync("README.md");
+}

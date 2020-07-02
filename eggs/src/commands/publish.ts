@@ -15,6 +15,7 @@ import {
 import {
   pathExists,
   configExists,
+  readmeExists,
 } from "../utilities/files.ts";
 import {
   getAPIKey,
@@ -91,7 +92,7 @@ export const publish = new Command()
           ),
         );
       }
-      if (!egg.files.some((e) => /^(\.?\/)?README\.md/g.test(e))) {
+      if (!readmeExists()) {
         console.log(
           yellow("No README found at project root, continuing without one..."),
         );
