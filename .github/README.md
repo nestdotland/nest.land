@@ -11,11 +11,9 @@
  </p>
 </p>
 
-
 ## What is nest.land?
 
 Nest.land combines Deno with the [Arweave Blockchain](https://www.arweave.org/). With us, you can publish your Deno modules to the permaweb, where they can never be deleted. This avoids a major pitfall for web-based module imports while allowing the developer to maximize on the potential of Deno's import design!
-
 
 ## Repositories/Services
 
@@ -26,14 +24,13 @@ nest.land is split into many services, each in their own respective repositories
 - [eggs](https://github.com/nestdotland/eggs) - nest.land's CLI
 - [website](https://github.com/nestdotland/website) - nest.land's website
 - [API](https://github.com/nestdotland/api) - nest.land's API
+- [twig](https://github.com/nestdotland/twig) - A mediator for nest.land's interactions with Arweave
 - [x](https://github.com/nestdotland/x) - The module gateway for files to be accessed
-
 
 ### Infrastructure Diagram
 
 The mentioned services are keystone to making nest.land a better service.
 This diagram is a visualisation of how these parts work together:
-
 
 ![Diagram of nest.land infrastructure](../assets/infra_diagram.svg)
 
