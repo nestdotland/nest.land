@@ -26,6 +26,10 @@
                 <p class="subtitle">{{ packageInfo.description }}</p>
                 <hr class="mini-hr" />
               </div>
+              <div class="Warning" v-if="malicious">
+                <font-awesome-icon :icon="['fa', 'exclamation-triangle']"/>
+                <p>This package is flagged as <b>malicious</b>. Do not use it in your projects!</p>
+              </div>
               <vue-markdown
                 :source="packageReadme"
                 :toc="true"
@@ -146,8 +150,11 @@
                   </div>
                   <p v-if="noVersion">No version available</p>
                 </div>
-                <div class="panel-block" v-if="!noVersion">
-                  <pre class="is-fullwidth"><code>https://x.nest.land/{{ selectedVersion }}/mod.ts</code></pre>
+                <div class="panel-block entryURL" v-if="!noVersion">
+                  <pre class="is-fullwidth">
+                    <font-awesome-icon :class="{ 'icon-margin-right': true, 'copyEntry': true, copied }" @click="copyPackageEntry" :icon="['fa', (copied ? 'check-square' : 'copy')]" title="Click to copy" />
+                    <code>{{ entryURL }}</code>
+                  </pre>
                 </div>
               </nav>
               <nav class="panel">
@@ -175,6 +182,16 @@
                 <div class="panel-block">
                   <font-awesome-icon class="icon-margin-right" :icon="['fa', 'calendar-alt']" />
                   Published on: {{ packageInfo.createdAt | formatDate }}
+                </div>
+              </nav>
+              <!-- when we add more audit functions like permissions, we need to remove the v-if="malicious" from here and move it to the flagged as malicious panel-block -->
+              <nav class="panel" v-if="malicious">
+                <p class="panel-heading">
+                  <font-awesome-icon class="icon-margin-right" :icon="['fas', 'shield-alt']" />Audit
+                </p>
+                <div class="panel-block warning">
+                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'biohazard']" />
+                  Flagged as malicious
                 </div>
               </nav>
             </div>
@@ -213,6 +230,9 @@ export default {
       fileView: false,
       currentFileContent: "",
       currentFileURL: "",
+      entryFile: "",
+      malicious: false,
+      copied: false,
     };
   },
   props: {
@@ -225,7 +245,7 @@ export default {
       if (!createdAt) return "";
       return moment(String(createdAt)).format("LL");
     },
-    removeSlash(val) {
+    removeSlash (val) {
       return val.replace(new RegExp("/", "g"), "");
     },
   },
@@ -362,6 +382,10 @@ export default {
 
       return this.currentFileContent.split(/\r\n|\r|\n/).length;
     },
+    entryURL() {
+      const entryFileWithoutFirstSlash = this.entryFile.replace(new RegExp('/', 'i'), '');
+      return `https://x.nest.land/${ this.selectedVersion }/${ entryFileWithoutFirstSlash }`;
+    },
   },
   methods: {
     async refreshContent() {
@@ -406,7 +430,11 @@ export default {
             this.selectedVersion.split("@")[1]
           }`,
         )
-        .then(response => (this.files = response.data.files));
+        .then(response => {
+          this.files = response.data.files;
+          this.entryFile = response.data.entry;
+          this.malicious = response.data.malicious;
+        });
     },
     sortPackages(packageList) {
       for (let i = 0; i < packageList.length; i++) {
@@ -458,6 +486,12 @@ export default {
       if (!(this.filesLocation in this.files) && !dirExists)
         this.$router.push(`/404`);
     },
+    copyPackageEntry() {
+      this.$copyText(this.entryURL)
+        .then(() => {
+          this.copied = true
+        });
+    },
   },
   watch: {
     async $route() {
@@ -490,6 +524,62 @@ export default {
 }
 pre.is-fullwidth {
   width: 100%;
+}
+.Warning {
+  margin-bottom: 20px;
+  border-radius: 6px;
+  box-shadow: 0 0.5em 1em -.125em rgba(10, 10, 10, .1), 0 0px 0 1px rgba(10, 10, 10, .02);
+  background-color: #ededed;
+  padding: 14px 27px;
+  display: flex;
+  align-items: center;
+  border-left: 5px solid #ff0000;
+  b {
+    color: #ff0000;
+  }
+  svg {
+    display: block;
+    font-size: 2em;
+    padding-right: .8em;
+    width: auto !important;
+    color: #ff0000;
+  }
+  &.Info {
+    border-color: #00947e;
+    b {
+      color: #00947e;
+    }
+    svg {
+      color: #00947e;
+    }
+  }
+  p {
+    margin: 0;
+    a {
+      color: #00947e;
+    }
+  }
+}
+.panel-block.warning {
+  color: #ff0000;
+  font-weight: 600;
+}
+.panel-block.entryURL pre {
+  display: flex;
+  align-items: center;
+  svg {
+    margin-right: 15px;
+    &.copied {
+      color: #00947e;
+    }
+  }
+}
+.panel-block .copyEntry {
+  cursor: pointer;
+  transition: all .3s;
+  &:hover {
+    opacity: .73;
+  }
 }
 .Markdown {
   :first-child {
