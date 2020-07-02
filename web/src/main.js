@@ -4,6 +4,7 @@ import { routes } from "./routes";
 import { VueReCaptcha } from "vue-recaptcha-v3";
 import VueLodash from "vue-lodash";
 import lodash from "lodash";
+import VueClipboard from "vue-clipboard2";
 
 import App from "./App.vue";
 import NestFooter from "./components/Footer";
@@ -34,6 +35,8 @@ import {
   faBiohazard,
   faLock,
   faExclamationTriangle,
+  faCopy,
+  faCheckSquare,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -62,6 +65,8 @@ library.add(
   faBiohazard,
   faLock,
   faExclamationTriangle,
+  faCopy,
+  faCheckSquare,
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
@@ -73,6 +78,7 @@ Vue.config.productionTip = false;
 Vue.use(VueRouter);
 Vue.use(VueReCaptcha, { siteKey: "6Lepmf8UAAAAABsjF9Fo0kqzm3_2KcHHM2fX43YH" });
 Vue.use(VueLodash, { lodash: lodash });
+Vue.use(VueClipboard);
 
 const router = new VueRouter({
   routes,

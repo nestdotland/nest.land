@@ -150,8 +150,11 @@
                   </div>
                   <p v-if="noVersion">No version available</p>
                 </div>
-                <div class="panel-block" v-if="!noVersion">
-                  <pre class="is-fullwidth"><code>https://x.nest.land/{{ selectedVersion }}/{{ entryFile | removeFirstSlash }}</code></pre>
+                <div class="panel-block entryURL" v-if="!noVersion">
+                  <pre class="is-fullwidth">
+                    <font-awesome-icon :class="{ 'icon-margin-right': true, 'copyEntry': true, copied }" @click="copyPackageEntry" :icon="['fa', (copied ? 'check-square' : 'copy')]" title="Click to copy" />
+                    <code>{{ entryURL }}</code>
+                  </pre>
                 </div>
               </nav>
               <nav class="panel">
@@ -229,6 +232,7 @@ export default {
       currentFileURL: "",
       entryFile: "",
       malicious: false,
+      copied: false,
     };
   },
   props: {
@@ -243,9 +247,6 @@ export default {
     },
     removeSlash (val) {
       return val.replace(new RegExp("/", "g"), "");
-    },
-    removeFirstSlash (val) {
-      return val.replace(new RegExp('/', 'i'), '');
     },
   },
   async created() {
@@ -381,6 +382,10 @@ export default {
 
       return this.currentFileContent.split(/\r\n|\r|\n/).length;
     },
+    entryURL() {
+      const entryFileWithoutFirstSlash = this.entryFile.replace(new RegExp('/', 'i'), '');
+      return `https://x.nest.land/${ this.selectedVersion }/${ entryFileWithoutFirstSlash }`;
+    },
   },
   methods: {
     async refreshContent() {
@@ -481,6 +486,12 @@ export default {
       if (!(this.filesLocation in this.files) && !dirExists)
         this.$router.push(`/404`);
     },
+    copyPackageEntry() {
+      this.$copyText(this.entryURL)
+        .then(() => {
+          this.copied = true
+        });
+    },
   },
   watch: {
     async $route() {
@@ -552,6 +563,23 @@ pre.is-fullwidth {
 .panel-block.warning {
   color: #ff0000;
   font-weight: 600;
+}
+.panel-block.entryURL pre {
+  display: flex;
+  align-items: center;
+  svg {
+    margin-right: 15px;
+    &.copied {
+      color: #00947e;
+    }
+  }
+}
+.panel-block .copyEntry {
+  cursor: pointer;
+  transition: all .3s;
+  &:hover {
+    opacity: .73;
+  }
 }
 .Markdown {
   :first-child {
