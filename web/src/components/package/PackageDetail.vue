@@ -331,8 +331,6 @@ export default {
     currentDirectories() {
       const dirs = [];
 
-      console.log(this.fileSystem);
-
       for (const file of this.fileSystem) {
         const locationWithoutLastSlash = this.filesLocation.replace(
             new RegExp("/$"),

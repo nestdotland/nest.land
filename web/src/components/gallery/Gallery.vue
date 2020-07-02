@@ -103,7 +103,6 @@ export default {
     try {
       const allPackages = await HTTP.get("packages");
       this.packages = allPackages.data.body;
-      console.log(this.packages);
       // TODO [@tbaumer22]: Implement pagination/infinite scrolling
       this.loading = false;
     } catch (err) {
