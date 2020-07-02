@@ -177,6 +177,19 @@
                   Published on: {{ packageInfo.createdAt | formatDate }}
                 </div>
               </nav>
+              <nav class="panel">
+                <p class="panel-heading">
+                  <font-awesome-icon class="icon-margin-right" :icon="['fas', 'shield-alt']" />Audit
+                </p>
+                <div class="panel-block" v-if="malicious">
+                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'biohazard']" />
+                  Malicious module: use at your own risk
+                </div>
+                <div class="panel-block" v-else>
+                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'lock']" />
+                  The module is safe
+                </div>
+              </nav>
             </div>
           </div>
         </div>
@@ -214,6 +227,7 @@ export default {
       currentFileContent: "",
       currentFileURL: "",
       entryFile: "",
+      malicious: false,
     };
   },
   props: {
@@ -413,6 +427,7 @@ export default {
         .then(response => {
           this.files = response.data.files;
           this.entryFile = response.data.entry;
+          this.malicious = response.data.malicious;
         });
     },
     sortPackages(packageList) {

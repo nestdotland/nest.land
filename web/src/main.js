@@ -30,6 +30,9 @@ import {
   faUser,
   faCalendarAlt,
   faImage,
+  faShieldAlt,
+  faBiohazard,
+  faLock,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -54,6 +57,9 @@ library.add(
   faUser,
   faCalendarAlt,
   faImage,
+  faShieldAlt,
+  faBiohazard,
+  faLock,
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
