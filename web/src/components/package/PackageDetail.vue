@@ -26,6 +26,10 @@
                 <p class="subtitle">{{ packageInfo.description }}</p>
                 <hr class="mini-hr" />
               </div>
+              <div class="Warning" v-if="malicious">
+                <font-awesome-icon :icon="['fa', 'exclamation-triangle']"/>
+                <p>This package is flagged as <b>malicious</b>. Do not use it in your projects!</p>
+              </div>
               <vue-markdown
                 :source="packageReadme"
                 :toc="true"
@@ -177,17 +181,14 @@
                   Published on: {{ packageInfo.createdAt | formatDate }}
                 </div>
               </nav>
-              <nav class="panel">
+              <!-- when we add more audit functions like permissions, we need to remove the v-if="malicious" from here and move it to the flagged as malicious panel-block -->
+              <nav class="panel" v-if="malicious">
                 <p class="panel-heading">
                   <font-awesome-icon class="icon-margin-right" :icon="['fas', 'shield-alt']" />Audit
                 </p>
-                <div class="panel-block" v-if="malicious">
+                <div class="panel-block warning">
                   <font-awesome-icon class="icon-margin-right" :icon="['fa', 'biohazard']" />
-                  Malicious module: use at your own risk
-                </div>
-                <div class="panel-block" v-else>
-                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'lock']" />
-                  The module is safe
+                  Flagged as malicious
                 </div>
               </nav>
             </div>
@@ -512,6 +513,45 @@ export default {
 }
 pre.is-fullwidth {
   width: 100%;
+}
+.Warning {
+  margin-bottom: 20px;
+  border-radius: 6px;
+  box-shadow: 0 0.5em 1em -.125em rgba(10, 10, 10, .1), 0 0px 0 1px rgba(10, 10, 10, .02);
+  background-color: #ededed;
+  padding: 14px 27px;
+  display: flex;
+  align-items: center;
+  border-left: 5px solid #ff0000;
+  b {
+    color: #ff0000;
+  }
+  svg {
+    display: block;
+    font-size: 2em;
+    padding-right: .8em;
+    width: auto !important;
+    color: #ff0000;
+  }
+  &.Info {
+    border-color: #00947e;
+    b {
+      color: #00947e;
+    }
+    svg {
+      color: #00947e;
+    }
+  }
+  p {
+    margin: 0;
+    a {
+      color: #00947e;
+    }
+  }
+}
+.panel-block.warning {
+  color: #ff0000;
+  font-weight: 600;
 }
 .Markdown {
   :first-child {

@@ -33,6 +33,7 @@ import {
   faShieldAlt,
   faBiohazard,
   faLock,
+  faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -60,6 +61,7 @@ library.add(
   faShieldAlt,
   faBiohazard,
   faLock,
+  faExclamationTriangle,
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
