@@ -98,6 +98,23 @@ export const publish = new Command()
         );
       }
 
+      //testing if README has original deno.land/x urls instead of x.nest.land urls
+      //if we add a README location field to the egg config, this needs to be updated
+      try {
+        const readmeContent = decoder.decode(
+          await Deno.readFile(`README.md`),
+        );
+        if (readmeContent.toLowerCase().includes(`://deno.land/x/${ egg.name.toLowerCase() }`)) {
+          console.log(
+            yellow(`Your readme contains old import URLs from your project using deno.land/x/${ egg.name.toLowerCase() }.\nYou can change these to https://x.nest.land/${ egg.name }@VERSION`),
+          );
+        }
+      } catch (e) {
+        console.log(
+          yellow("Could not open the README for url checking..."),
+        );
+      }
+
       //formatting
       if (egg.fmt) {
         const formatProcess = Deno.run({ cmd: ["deno", "fmt"] }),

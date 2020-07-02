@@ -14,6 +14,7 @@ export function configExists(): boolean {
     existsSync("egg.yaml");
 }
 
+//if we add a README location field to the egg config, this needs to be updated
 export function readmeExists(): boolean {
   return existsSync("README.md");
 }
