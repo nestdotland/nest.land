@@ -87,11 +87,8 @@
   import axios from 'axios'
 
   export default {
-
     data() {
-
       return {
-
         packages: [],
         shownPackages: [],
         loading: true,
@@ -100,121 +97,80 @@
         loadedPackages: 12,
         loadingPackages: false,
         noMorePackages: false
-
       }
-
     },
     props: {
-
       search: {
-
         type: String
-
       }
-
     },
     components: {
-
       NestNav,
       GradientBar,
       Card
-
     },
     async created() {
-
       window.addEventListener('scroll', this.scroll)
       await this.loadPackagesWithLimit()
-
     },
     destroyed () {
-
       window.removeEventListener('scroll', this.scroll)
-
     },
     methods: {
-
       timeToInt (val) {
-
         return new Date(val).getTime()
-
       },
       async loadPackagesWithLimit () {
-
         this.loadingPackages = true
         const previousPackagesLength = this.packages.length
-
         if(this.search !== '')
           this.searchPhrase = this.search
-
         await axios
           .get(`https://x.nest.land/api/packages/${ this.loadedPackages }`)
           .then(response => {
-
             this.packages = response.data
             this.shownPackages = this.packages
             this.loading = false
             this.loadingPackages = false
-
             if(this.packages.length === previousPackagesLength)
               this.noMorePackages = true
-
           })
           .catch(err => this.errorMessage = err)
-
       },
       async scroll () {
-
         const { top, left, right, bottom } = this.$refs.scrolledToBottom.getBoundingClientRect()
-
         if(
-
           top >= 0 &&
           left >= 0 &&
           right <= (window.innerWidth || document.documentElement.clientWidth) &&
           bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
           !this.loadingPackages &&
           !this.noMorePackages
-
         ) {
-
           this.loadedPackages += 12
           await this.loadPackagesWithLimit()
-
         }
       }
-
     },
     watch: {
-
       searchPhrase () {
-
         this.$router.replace({ query: { search: this.searchPhrase } }).catch(() => {})
-
         if(this.searchPhrase === '') {
-
           this.shownPackages = this.packages
           return
-
         }
-
         axios
           .get(`https://x.nest.land/api/packages`)
           .then(response => {
-
             this.shownPackages = response.data.filter(({ name }) => name.toLowerCase().includes(this.searchPhrase.toLowerCase()))
-
           })
-
       }
-
     }
-
   }
 
 </script>
 
 <style lang="scss" scoped>
-
   .nest-heading {
     font-size: 0.9em;
     font-weight: 400;
@@ -255,5 +211,4 @@
   .fade-enter, .fade-leave-to {
     opacity: 0;
   }
-
 </style>
