@@ -63,7 +63,7 @@
       <div class="hero-body">
         <div class="container">
           <transition-group name="fade" tag="div" class="columns is-multiline">
-            <!-- using createdAt time cuz index can't be used as a key here -->
+            <!-- using createdAt time because index can't be used as a key here -->
             <div class="column is-3" v-for="p in shownPackages" :key="timeToInt(p.createdAt)">
               <card :item="p"></card>
             </div>
