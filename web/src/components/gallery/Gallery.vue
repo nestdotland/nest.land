@@ -40,7 +40,7 @@
           <div class="container">
             <ul>
               <li class="nest-heading">
-                <a class="no-hover">{{ shownPackagesCount }} packages</a>
+                <a class="no-hover">{{ packages.length }} packages in total</a>
               </li>
             </ul>
           </div>
@@ -62,12 +62,14 @@
     <div class="hero is-light is-small">
       <div class="hero-body">
         <div class="container">
-            <transition-group name="fade" tag="div" class="columns is-multiline">
-              <!-- using createdAt time cuz index can't be used as a key here -->
-              <div class="column is-3" v-for="p in shownPackages" :key="timeToInt(p.createdAt)">
-                <card :item="p"></card>
-              </div>
-            </transition-group>
+          <transition-group name="fade" tag="div" class="columns is-multiline">
+            <!-- using createdAt time cuz index can't be used as a key here -->
+            <div class="column is-3" v-for="p in shownPackages" :key="timeToInt(p.createdAt)">
+              <card :item="p"></card>
+            </div>
+          </transition-group>
+          <!-- hack to get if the user scrolled to the bottom -->
+          <div class="scrolledToBottom" ref="scrolledToBottom"></div>
         </div>
       </div>
     </div>
@@ -87,6 +89,7 @@ export default {
       loading: true,
       searchPhrase: "",
       errorMessage: "",
+      loadedPackages: 12,
     };
   },
   props: {
@@ -100,26 +103,41 @@ export default {
     Card,
   },
   async created() {
+    window.addEventListener('scroll', this.scroll)
     try {
       const allPackages = await HTTP.get("packages");
+      //TODO: eventually we'll need to change the api to have pagination, since a too long array of packages will crash the browser
       this.packages = allPackages.data.body;
-      // TODO [@tbaumer22]: Implement pagination/infinite scrolling
       this.loading = false;
     } catch (err) {
       this.errorMessage = err;
     }
   },
+  destroyed () {
+    window.removeEventListener('scroll', this.scroll)
+  },
   computed: {
     shownPackages () {
-      return this.packages.filter(({ name }) => name.toLowerCase().includes(this.searchPhrase.toLowerCase()))
+      if(this.searchPhrase !== '')
+        return this.packages.filter(({ name }) => name.toLowerCase().includes(this.searchPhrase.toLowerCase()))
+      return this.packages.slice(0, this.loadedPackages)
     },
-    shownPackagesCount () {
-      return this.shownPackages.length
-    }
   },
   methods: {
     timeToInt (val) {
-      return new Date(val).getTime()
+      return new Date(val).getTime();
+    },
+    scroll () {
+      const { top, left, right, bottom } = this.$refs.scrolledToBottom.getBoundingClientRect();
+      if(
+        top >= 0 &&
+        left >= 0 &&
+        right <= (window.innerWidth || document.documentElement.clientWidth) &&
+        bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        this.loadedPackages < this.packages.length
+      ) {
+        this.loadedPackages += 12;
+      }
     }
   }
 };
@@ -151,6 +169,10 @@ export default {
     color: #00947e !important;
     text-shadow: -1px 9px 8px rgba(#00947e, 0.12), 0 5px 15px rgba(#00947e, 0.18);
   }
+}
+.scrolledToBottom {
+  display: block;
+  height: 1px;
 }
 .fade-enter-active, .fade-leave-active {
   transition: opacity .3s;
