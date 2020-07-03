@@ -12,9 +12,15 @@
 </p>
 
 
+<p align="right">
+  <a href="https://vercel.com?utm_source=nest-land">
+    <img src="arweave.net/vhjjKr1AMP1qQRg8f91kB970-EpwYrE2azpkZKdBOAI" alt="vercel" width="200">
+  </a>
+</p>
+
 ## About
 
-nest.land is a package registry that uses Arweave to upload your packages to the blockchain, keeping them secure and immutable.
+nest.land is a package registry that uses Arweave to upload your modules to the blockchain, keeping them secure and immutable.
 
 
 ## Roadmap
