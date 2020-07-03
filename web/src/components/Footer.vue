@@ -2,8 +2,8 @@
   <footer class="footer has-background-dark" id="symmetric-footer">
     <div class="content has-text-white">
       <div class="container">
-        <div class="columns">
-          <div class="column footer-left">
+        <div class="columns is-hidden-mobile">
+          <div class="column is-8 footer-left">
             <figure class="image is-64x64">
               <img src="../assets/nest_dark.png" />
             </figure>
@@ -33,7 +33,7 @@
               &nbsp; for the Deno community.
             </p>
           </div>
-          <div class="column footer-right">
+          <div class="column is-4 footer-right">
             <div class="vercel-container">
               <div id="powered-by">Powered by</div>
               <a href="https://vercel.com?utm_source=nest-land">
@@ -53,7 +53,12 @@
             </div>
           </div>
         </div>
-        <hr />
+        <div class="is-hidden-tablet">
+          <figure class="image is-64x64" style="margin: 0 auto;">
+            <img src="../assets/nest_dark.png" />
+          </figure>
+        </div>
+        <hr class="is-hidden-mobile" />
         <p class="subtitle is-6 has-text-white has-text-centered">
           nest.land is licensed under the
           <a href="http://opensource.org/licenses/mit-license.php">
@@ -130,6 +135,7 @@ a:hover {
 
 hr {
   width: 5%;
+  min-width: 30px;
   margin: 25px auto;
   background: rgb(34, 193, 195);
   background: -moz-linear-gradient(
