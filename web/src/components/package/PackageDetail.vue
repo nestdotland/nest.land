@@ -230,7 +230,7 @@ export default {
       fileView: false,
       currentFileContent: "",
       currentFileURL: "",
-      entryFile: "",
+      entryFile: "/mod.ts",
       malicious: false,
       copied: false,
     };
@@ -430,8 +430,8 @@ export default {
         )
         .then(response => {
           this.files = response.data.files;
-          this.entryFile = response.data.entry;
           this.malicious = response.data.malicious;
+          if(response.data.entry !== null) this.entryFile = response.data.entry;
         });
     },
     sortPackages(packageList) {
