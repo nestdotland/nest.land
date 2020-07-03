@@ -3,13 +3,13 @@
     <div class="field">
       <label class="label">Username</label>
       <div class="control">
-        <input class="input is-light" type="text" v-model="username" />
+        <input class="input is-light" type="text" v-model="username" @keyup.enter="recaptcha" />
       </div>
     </div>
     <div class="field">
       <label class="label">Password</label>
       <div class="control">
-        <input class="input is-light" type="password" v-model="password" />
+        <input class="input is-light" type="password" v-model="password" @keyup.enter="recaptcha" />
       </div>
     </div>
     <hr />

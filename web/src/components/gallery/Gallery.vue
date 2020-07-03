@@ -40,7 +40,7 @@
           <div class="container">
             <ul>
               <li class="nest-heading">
-                <a class="no-hover">{{ shownPackagesCount }}</a>
+                <a class="no-hover">{{ shownPackages.length }} packages shown</a>
               </li>
             </ul>
           </div>
@@ -48,12 +48,12 @@
       </div>
     </div>
     <gradient-bar></gradient-bar>
-    <div class="hero is-light is-medium" v-show="shownPackages.length === 0 || loading">
+    <div class="hero is-light is-medium" v-show="packages.length === 0 || loading">
       <div class="hero-body">
         <div class="container">
           <h1 v-show="loading" class="title is-3 has-text-centered">Loading packages... 🥚</h1>
           <h1
-            v-show="shownPackages.length === 0 && !loading"
+            v-show="packages.length === 0 && !loading"
             class="title is-3 has-text-centered"
           >Unable to find any packages 🥚</h1>
         </div>
@@ -62,10 +62,16 @@
     <div class="hero is-light is-small">
       <div class="hero-body">
         <div class="container">
-          <div class="columns is-multiline">
-            <div class="column is-3" v-for="p in shownPackages" :key="p._id">
+          <transition-group name="fade" tag="div" class="columns is-multiline">
+            <!-- using createdAt time because index can't be used as a key here -->
+            <div class="column is-3" v-for="p in shownPackages" :key="timeToInt(p.createdAt)">
               <card :item="p"></card>
             </div>
+          </transition-group>
+          <!-- hack to get if the user scrolled to the bottom -->
+          <div class="scrolledToBottom" ref="scrolledToBottom">
+            <p v-if="loadingPackages">Loading packages... 🥚</p>
+            <p v-else>That's all we have for you :)</p>
           </div>
         </div>
       </div>
@@ -74,107 +80,135 @@
 </template>
 
 <script>
-import NestNav from "../Nav";
-import GradientBar from "../GradientBar";
-import Card from "../Card";
-import { HTTP } from "../../http-common";
 
-export default {
-  data() {
-    return {
-      packages: [],
-      loading: true,
-      searchPhrase: "",
-      shownPackages: [],
-      shownPackagesCount: "",
-      errorMessage: "",
-    };
-  },
-  props: {
-    search: {
-      type: String,
-    },
-  },
-  components: {
-    NestNav,
-    GradientBar,
-    Card,
-  },
-  async created() {
-    this.debouncedSortPackages = this._.debounce(this.sortPackages, 500);
-    try {
-      const allPackages = await HTTP.get("packages");
-      this.packages = allPackages.data.body;
-      console.log(this.packages);
-      // TODO [@tbaumer22]: Implement pagination/infinite scrolling
-      if (this.search === "") {
-        this.shownPackages = allPackages.data.body;
-      } else {
-        this.searchPhrase = this.search;
+  import NestNav from '../Nav'
+  import GradientBar from '../GradientBar'
+  import Card from '../Card'
+  import axios from 'axios'
+
+  export default {
+    data() {
+      return {
+        packages: [],
+        shownPackages: [],
+        loading: true,
+        searchPhrase: '',
+        errorMessage: '',
+        loadedPackages: 12,
+        loadingPackages: false,
+        noMorePackages: false
       }
-      this.refreshPackageCount(allPackages.data.body.length);
-      this.loading = false;
-    } catch (err) {
-      this.errorMessage = err;
-    }
-  },
-  watch: {
-    searchPhrase: function() {
-      this.debouncedSortPackages();
-      this.$router.replace({
-        query: {
-          search: this.searchPhrase,
-        },
-      }).catch(() => {});
     },
-  },
-  methods: {
-    sortPackages() {
-      let potentialMatches = [];
-      for (let i = 0; i < this.packages.length; i++) {
-        if (this.packages[i].name.search(this.searchPhrase) !== -1) {
-          potentialMatches.push(this.packages[i]);
+    props: {
+      search: {
+        type: String
+      }
+    },
+    components: {
+      NestNav,
+      GradientBar,
+      Card
+    },
+    async created() {
+      window.addEventListener('scroll', this.scroll)
+      await this.loadPackagesWithLimit()
+    },
+    destroyed () {
+      window.removeEventListener('scroll', this.scroll)
+    },
+    methods: {
+      timeToInt (val) {
+        return new Date(val).getTime()
+      },
+      async loadPackagesWithLimit () {
+        this.loadingPackages = true
+        const previousPackagesLength = this.packages.length
+        if(this.search !== '')
+          this.searchPhrase = this.search
+        await axios
+          .get(`https://x.nest.land/api/packages/${ this.loadedPackages }`)
+          .then(response => {
+            this.packages = response.data
+            this.shownPackages = this.packages
+            this.loading = false
+            this.loadingPackages = false
+            if(this.packages.length === previousPackagesLength)
+              this.noMorePackages = true
+          })
+          .catch(err => this.errorMessage = err)
+      },
+      async scroll () {
+        const { top, left, right, bottom } = this.$refs.scrolledToBottom.getBoundingClientRect()
+        if(
+          top >= 0 &&
+          left >= 0 &&
+          right <= (window.innerWidth || document.documentElement.clientWidth) &&
+          bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+          !this.loadingPackages &&
+          !this.noMorePackages
+        ) {
+          this.loadedPackages += 12
+          await this.loadPackagesWithLimit()
         }
       }
-      this.shownPackages = potentialMatches;
-      this.refreshPackageCount(this.shownPackages.length);
     },
-    refreshPackageCount(l) {
-      if (l === 1) {
-        this.shownPackagesCount = l + " Package";
-      } else {
-        this.shownPackagesCount = l + " Packages";
+    watch: {
+      searchPhrase () {
+        this.$router.replace({ query: { search: this.searchPhrase } }).catch(() => {})
+        if(this.searchPhrase === '') {
+          this.shownPackages = this.packages
+          return
+        }
+        axios
+          .get(`https://x.nest.land/api/packages`)
+          .then(response => {
+            this.shownPackages = response.data.filter(({ name }) => name.toLowerCase().includes(this.searchPhrase.toLowerCase()))
+          })
       }
-    },
-  },
-};
+    }
+  }
+
 </script>
 
 <style lang="scss" scoped>
-.nest-heading {
-  font-size: 0.9em;
-  font-weight: 400;
-  text-transform: uppercase;
-}
+  .nest-heading {
+    font-size: 0.9em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
 
-.no-hover:hover {
-  background: none !important;
-  cursor: default;
-}
-.control .icon.is-small.is-left {
-  transition: all .17s;
-}
-.subtitle {
-  width: 30%;
-  text-align: center;
-  display: inline-block;
-  text-shadow: -1px 9px 8px rgba(50, 50, 93, 0.12), 0 5px 15px rgba(0, 0, 0, 0.18);
-  @media screen and (max-width: 720px) {
-    width: 100%;
+  .no-hover:hover {
+    background: none !important;
+    cursor: default;
   }
-  a {
-    color: #00947e !important;
-    text-shadow: -1px 9px 8px rgba(#00947e, 0.12), 0 5px 15px rgba(#00947e, 0.18);
+  .control .icon.is-small.is-left {
+    transition: all .17s;
   }
-}
+  .subtitle {
+    width: 30%;
+    text-align: center;
+    display: inline-block;
+    text-shadow: -1px 9px 8px rgba(50, 50, 93, 0.12), 0 5px 15px rgba(0, 0, 0, 0.18);
+    @media screen and (max-width: 720px) {
+      width: 100%;
+    }
+    a {
+      color: #00947e !important;
+      text-shadow: -1px 9px 8px rgba(#00947e, 0.12), 0 5px 15px rgba(#00947e, 0.18);
+    }
+  }
+  .scrolledToBottom {
+    display: block;
+    padding: 10px 0;
+    text-align: center;
+    p {
+      font-weight: 600;
+    }
+  }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .3s;
+  }
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
+  }
 </style>
