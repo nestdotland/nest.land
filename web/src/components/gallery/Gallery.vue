@@ -40,7 +40,7 @@
           <div class="container">
             <ul>
               <li class="nest-heading">
-                <a class="no-hover">{{ packages.length }} packages shown</a>
+                <a class="no-hover">{{ shownPackages.length }} packages shown</a>
               </li>
             </ul>
           </div>
@@ -48,12 +48,12 @@
       </div>
     </div>
     <gradient-bar></gradient-bar>
-    <div class="hero is-light is-medium" v-show="shownPackages.length === 0 || loading">
+    <div class="hero is-light is-medium" v-show="packages.length === 0 || loading">
       <div class="hero-body">
         <div class="container">
           <h1 v-show="loading" class="title is-3 has-text-centered">Loading packages... 🥚</h1>
           <h1
-            v-show="shownPackages.length === 0 && !loading"
+            v-show="packages.length === 0 && !loading"
             class="title is-3 has-text-centered"
           >Unable to find any packages 🥚</h1>
         </div>
@@ -93,6 +93,7 @@
       return {
 
         packages: [],
+        shownPackages: [],
         loading: true,
         searchPhrase: '',
         errorMessage: '',
@@ -130,18 +131,6 @@
       window.removeEventListener('scroll', this.scroll)
 
     },
-    computed: {
-
-      shownPackages () {
-
-        if(this.searchPhrase !== '')
-          return this.packages.filter(({ name }) => name.toLowerCase().includes(this.searchPhrase.toLowerCase()))
-
-        return this.packages.slice(0, this.loadedPackages)
-
-      }
-
-    },
     methods: {
 
       timeToInt (val) {
@@ -154,11 +143,15 @@
         this.loadingPackages = true
         const previousPackagesLength = this.packages.length
 
+        if(this.search !== '')
+          this.searchPhrase = this.search
+
         await axios
           .get(`https://x.nest.land/api/packages/${ this.loadedPackages }`)
           .then(response => {
 
             this.packages = response.data
+            this.shownPackages = this.packages
             this.loading = false
             this.loadingPackages = false
 
@@ -188,6 +181,30 @@
           await this.loadPackagesWithLimit()
 
         }
+      }
+
+    },
+    watch: {
+
+      searchPhrase () {
+
+        this.$router.replace({ query: { search: this.searchPhrase } }).catch(() => {})
+
+        if(this.searchPhrase === '') {
+
+          this.shownPackages = this.packages
+          return
+
+        }
+
+        axios
+          .get(`https://x.nest.land/api/packages`)
+          .then(response => {
+
+            this.shownPackages = response.data.filter(({ name }) => name.toLowerCase().includes(this.searchPhrase.toLowerCase()))
+
+          })
+
       }
 
     }
