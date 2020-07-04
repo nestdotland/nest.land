@@ -20,7 +20,9 @@ module.exports = {
     },
     devServer: {
 
-        proxy: "https://nest.land"
+        proxy: "https://nest.land",
+        // disableHostCheck: true
+
 
     }
 };

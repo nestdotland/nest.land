@@ -11,6 +11,11 @@
 <script>
 export default {
   name: "App",
+  metaInfo() {
+    return {
+      title: "nest.land",
+    };
+  },
   data() {
     return {
       loading: false,

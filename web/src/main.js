@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import { routes } from "./routes";
 import { VueReCaptcha } from "vue-recaptcha-v3";
+import VueMeta from 'vue-meta'
 import VueLodash from "vue-lodash";
 import lodash from "lodash";
 import VueClipboard from "vue-clipboard2";
@@ -79,6 +80,7 @@ Vue.use(VueRouter);
 Vue.use(VueReCaptcha, { siteKey: "6Lepmf8UAAAAABsjF9Fo0kqzm3_2KcHHM2fX43YH" });
 Vue.use(VueLodash, { lodash: lodash });
 Vue.use(VueClipboard);
+Vue.use(VueMeta)
 
 const router = new VueRouter({
   routes,

@@ -235,6 +235,20 @@ export default {
       copied: false,
     };
   },
+  metaInfo() {
+    return {
+      title: this.packageInfo.name + " - nest.land",
+      meta: [
+        { name: 'description', content: this.packageInfo.description},
+        { property: 'og:title', content: this.packageInfo.name + ' module on nest.land'},
+        { property: 'og:site_name', content: 'nest.land'},
+        { property: 'og:description', content: this.packageInfo.description},
+        {property: 'og:type', content: 'website'},
+        {property: 'og:url', content: 'https://nest.land/package/' + this.packageInfo.name},
+        {property: 'og:image', content: `https://og.nest.land/${this.packageInfo.name}.png?&md=0&fontSize=125px` }    
+      ]
+    };
+  },
   props: {
     v: {
       type: String,
