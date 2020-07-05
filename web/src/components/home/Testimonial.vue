@@ -34,7 +34,7 @@
                 <div class="media">
                   <div class="media-left">
                     <figure class="image is-48x48">
-                      <img class="is-rounded" src="../../assets/bedford.webp" alt="Jesper" />
+                      <img class="is-rounded" src="../../assets/bedford.jpeg" alt="Jesper" />
                     </figure>
                   </div>
                   <div class="media-content">
