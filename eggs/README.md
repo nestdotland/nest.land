@@ -1,7 +1,7 @@
 <br />
 <p align="center">
-  <a href="https://github.com/nestlandofficial/nest.land">
-    <img src="https://github.com/nestlandofficial/nest.land/raw/master/web/src/assets/nest_light.png" alt="logo" width="110">
+  <a href="https://github.com/nestdotland/nest.land">
+    <img src="https://github.com/nestdotland/nest.land/raw/master/web/src/assets/nest_light.png" alt="logo" width="110">
   </a>
 
   <h3 align="center">Eggs CLI</h3>
@@ -13,7 +13,7 @@
     <a href="https://nest.land/package/eggs">
       <img src="https://nest.land/badge.svg" alt="nest.land badge">
     </a>
-    <img src="https://github.com/nestlandofficial/nest.land/workflows/Eggs%20Test/badge.svg" alt="Eggs Test">
+    <img src="https://github.com/nestdotland/nest.land/workflows/Eggs%20Test/badge.svg" alt="Eggs Test">
   </p>
 </p>
 
