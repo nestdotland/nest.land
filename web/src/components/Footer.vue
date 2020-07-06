@@ -70,6 +70,10 @@
             <font-awesome-icon :icon="['fab', 'github']" />
           </a>
           <span class="footer-icon-separator"></span>
+          <a href="https://twitter.com/nestdotland" class="footer-icon">
+            <font-awesome-icon :icon="['fab', 'twitter']" />
+          </a>
+          <span class="footer-icon-separator"></span>
           <a
             href="https://viewblock.io/arweave/address/tySYSW93nDky1sbCO56PmyEyspbyYx7x9ZXMNueKOOg"
             class="footer-icon"

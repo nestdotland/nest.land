@@ -38,7 +38,7 @@ import {
   faCopy,
   faCheckSquare,
 } from "@fortawesome/free-solid-svg-icons";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 library.add(
@@ -54,6 +54,7 @@ library.add(
   faSearch,
   faCubes,
   faGithub,
+  faTwitter,
   faFolder,
   faLevelUpAlt,
   faFileCode,
