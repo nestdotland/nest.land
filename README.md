@@ -1,6 +1,6 @@
 <br />
 <p align="center">
-  <a href="https://github.com/nestlandofficial/nest.land">
+  <a href="https://github.com/nestdotland/nest.land">
     <img src="./web/src/assets/nest_light.png" alt="logo" width="110">
   </a>
 
