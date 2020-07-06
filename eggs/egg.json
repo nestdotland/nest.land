@@ -3,7 +3,7 @@
     "description": "The CLI used to publish and update packages in nest.land.",
     "stable": true,
     "unlisted": false,
-    "repository": "https://github.com/nestlandofficial/nest.land",
+    "repository": "https://github.com/nestdotland/nest.land",
     "files": [
         "./mod.ts",
         "./src/**/*",
