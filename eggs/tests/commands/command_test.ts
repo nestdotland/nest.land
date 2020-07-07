@@ -12,7 +12,7 @@ const pathToHere = "eggs/tests/commands/";
 for (let i = 0; i < commands.length; i++) {
   const cmd = commands[i];
   Deno.test({
-    name: `test Commands | ${cmd} | run ${cmd}`,
+    name: `Commands | ${cmd} | run ${cmd}`,
     async fn(): Promise<void> {
       const p = await Deno.run({
         cmd: ["deno", "run", "--unstable", "-A", "../../mod.ts", cmd],
