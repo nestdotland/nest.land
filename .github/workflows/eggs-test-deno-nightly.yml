@@ -2,8 +2,7 @@ name: Eggs Test on Deno Nightly
 
 on: 
   push:
-    paths:
-      - '.github/workflows/eggs-test-deno-nightly.yml'
+  pull_request:
   schedule:
     - cron: '0 9 * * *'
 
