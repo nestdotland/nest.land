@@ -30,17 +30,23 @@ See the [roadmap](/ROADMAP.md).
 
 ### Authors
 
- - [tbaumer22](https://github.com/tbaumer22), Co-Founder, Frontend & CLI
- - [zorbyte](https://github.com/zorbyte), Co-Founder, Project Planning
- - [justablob](https://github.com/justablob), Backend
+- [t8](https://github.com/t8), Co-Founder, Frontend, & Project management
+- [zorbyte](https://github.com/zorbyte), Co-Founder & Advisor
+- [justablob](https://github.com/justablob), Backend
+
+### Core Team
+
+- [divy-work](https://github.com/divy-work)
+- [maximousblk](https://github.com/maximousblk)
+- [martondev](https://github.com/MartonDev)
+- [oganexon](https://github.com/oganexon)
 
 ### Contributors
 
- - [ebebbington](https://github.com/ebebbington)
- - [oganexon](https://github.com/oganexon)
- - [divy-work](https://github.com/divy-work)
- - [martondev](https://github.com/MartonDev)
- - [maximousblk](https://github.com/maximousblk)
+- [ebebbington](https://github.com/ebebbington)
+- [yg](https://github.com/yg)
+- [jletey](https://github.com/jletey)
+- [qu4k](https://github.com/Qu4k)
 
 ### Special Thanks
 

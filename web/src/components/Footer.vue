@@ -9,8 +9,8 @@
             </figure>
             <p class="subtitle is-6 has-text-white">
               A platform by
-              <a href="https://github.com/tbaumer22">
-                <b>tbaumer22</b>
+              <a href="https://github.com/t8">
+                <b>t8</b>
               </a>,
               <a href="https://github.com/zorbyte">
                 <b>zorbyte</b>
