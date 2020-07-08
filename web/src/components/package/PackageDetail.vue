@@ -184,15 +184,17 @@
                   Published on: {{ packageInfo.createdAt | formatDate }}
                 </div>
               </nav>
-              <!-- when we add more audit functions like permissions, we need to remove the v-if="malicious" from here and move it to the flagged as malicious panel-block -->
-              <nav class="panel" v-if="malicious">
+              <nav class="panel">
                 <p class="panel-heading">
                   <font-awesome-icon class="icon-margin-right" :icon="['fas', 'shield-alt']" />Audit
                 </p>
-                <div class="panel-block warning">
+                <div class="panel-block warning" v-if="malicious">
                   <font-awesome-icon class="icon-margin-right" :icon="['fa', 'biohazard']" />
                   Flagged as malicious
                 </div>
+                <a class="panel-block" :href="'https://github.com/nestdotland/nest.land/issues/new?labels=malicious-module&template=report_malicious_module.md&title=%5BMODULE+REPORT%5D%20Malicious%20module:%20' + $route.params.id" target="_blank" rel="noopener noreferrer" v-else>
+                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'flag']" />Report malicious module
+                </a>
               </nav>
             </div>
           </div>
