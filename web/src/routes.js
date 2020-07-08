@@ -1,7 +1,6 @@
 import Home from "./components/home/Home";
 import Gallery from "./components/gallery/Gallery";
 import PackageDetail from "./components/package/PackageDetail";
-import Documentation from "./components/docs/Documentation";
 import NotFound from "./components/error/NotFound";
 
 export const routes = [
@@ -22,10 +21,6 @@ export const routes = [
   {
     path: "/package/:id/*",
     component: PackageDetail
-  },
-  {
-    path: "/docs",
-    component: Documentation
   },
   {
     path: "/404",

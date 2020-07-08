@@ -35,7 +35,7 @@
 ```
 deno install -A -f --unstable -n eggs https://x.nest.land/eggs@0.1.8/mod.ts
 ```
-For more information, see the [documentation](https://nest.land/#docs).
+For more information, see the [documentation](https://docs.nest.land/).
 
 ## List Of Commands
 

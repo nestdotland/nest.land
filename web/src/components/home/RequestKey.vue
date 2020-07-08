@@ -14,7 +14,7 @@
             <h1 class="title">Getting Started</h1>
             <p>
               You'll need an API key to use our CLI! After generating, see the
-              <router-link to="/docs" class="has-text-dark has-text-underlined">documentation</router-link>.
+              <a href="https://docs.nest.land" target="_blank" rel="noopener noreferrer" class="has-text-dark has-text-underlined">documentation</a>.
             </p>
             <hr />
             <div v-show="eggsAPIKey === ''">
