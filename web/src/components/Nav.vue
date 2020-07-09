@@ -28,11 +28,12 @@
             active-class="active-link"
             exact
           >The Gallery</router-link>
-          <router-link
+          <a
              class="navbar-item has-text-dark"
-             to="/docs"
-             active-class="active-link"
-          >Documentation</router-link>
+             href="https://docs.nest.land"
+             target="_blank"
+             rel="noopener noreferrer"
+          >Documentation</a>
           <div class="navbar-item">
             <div class="buttons">
               <router-link class="button is-light is-primary" id="get-started-button" to="/#start">

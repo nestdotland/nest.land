@@ -12,7 +12,7 @@
           <p class="subtitle has-text-centered">
             This is not the page you're looking for.
             <br />Maybe try our
-            <router-link to="/docs">documentation</router-link>?
+            <a href="https://docs.nest.land">documentation</a>?
           </p>
         </div>
       </div>
