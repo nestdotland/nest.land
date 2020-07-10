@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <router-link :to="`/package/${item.name}`" class="card" tag="div">
     <div class="card-content">
       <div class="content">
         <p class="title is-4">{{ item.name }}</p>
@@ -7,19 +7,7 @@
         <p class="subtitle is-6">{{ item.description }}</p>
       </div>
     </div>
-    <footer class="card-footer">
-      <!-- <div class="select card-footer-item is-light">
-        <select v-model="selectedVersion">
-          <option
-            v-for="version in item.packageUploadIds"
-            :key="version"
-            :value="version"
-          >{{ version }}</option>
-        </select>
-      </div>-->
-      <router-link :to="'/package/' + item.name" class="card-footer-item has-text-dark">Open Package</router-link>
-    </footer>
-  </div>
+  </router-link>
 </template>
 
 <script>
@@ -43,12 +31,14 @@ export default {
 <style scoped>
 .card {
   border-radius: 20px;
-  box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
-  transition: transform 0.2s;
+  box-shadow: 0 0 15px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+  transition: transform 0.15s, box-shadow 0.15s;
 }
 .card:hover {
   transform: translateY(-10px);
-  transition: transform 0.2s;
+  box-shadow: 0 10px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+  transition: transform 0.15s, box-shadow 0.15s;
+  cursor: pointer;
 }
 .card-header {
   border-radius: 20px 20px 0 0;
