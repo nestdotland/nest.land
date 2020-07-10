@@ -101,7 +101,8 @@
     },
     props: {
       search: {
-        type: String
+        type: String,
+        default: ''
       }
     },
     components: {
