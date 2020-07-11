@@ -419,6 +419,22 @@ export default {
           redirect: "follow",
         });
         this.packageReadme = await readmeResponse.text();
+
+        let
+          words = this.packageReadme.split(' '),
+          readmeWithAbsolutePaths = []
+
+        for(const word of words) {
+
+          if(word.includes(('.png' || '.gif' || '.jpeg' || '.jpg' || '.svg' || '.mp4')))
+            readmeWithAbsolutePaths.push(word.replace('./', `https://x.nest.land/${ this.selectedVersion }/`))
+          else
+            readmeWithAbsolutePaths.push(word)
+
+        }
+
+        this.packageReadme = readmeWithAbsolutePaths.join(' ')
+
       } catch (err) {
         this.$emit("new-error", err);
       }

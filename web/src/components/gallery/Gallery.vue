@@ -101,7 +101,8 @@
     },
     props: {
       search: {
-        type: String
+        type: String,
+        default: ''
       }
     },
     components: {
@@ -145,7 +146,8 @@
           right <= (window.innerWidth || document.documentElement.clientWidth) &&
           bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
           !this.loadingPackages &&
-          !this.noMorePackages
+          !this.noMorePackages &&
+          this.searchPhrase === ''
         ) {
           this.loadedPackages += 12
           await this.loadPackagesWithLimit()
