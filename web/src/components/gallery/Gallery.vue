@@ -62,7 +62,7 @@
     <div class="hero is-light is-small">
       <div class="hero-body">
         <div class="container">
-          <transition-group name="fade" tag="div" class="columns is-multiline">
+          <transition-group name="gallery-cards" tag="div" class="columns is-multiline">
             <!-- using createdAt time because index can't be used as a key here -->
             <div class="column is-3" v-for="p in shownPackages" :key="timeToInt(p.createdAt)">
               <card :item="p"></card>
@@ -214,12 +214,16 @@ export default {
     font-weight: 600;
   }
 }
-.fade-enter-active,
-.fade-leave-active {
+.gallery-cards-enter-active,
+.gallery-cards-leave-active {
   transition: opacity 0.3s;
 }
-.fade-enter,
-.fade-leave-to {
+.gallery-cards-enter,
+.gallery-cards-leave-to {
   opacity: 0;
+}
+
+.gallery-cards-move {
+  transition: transform 0.8s;
 }
 </style>
