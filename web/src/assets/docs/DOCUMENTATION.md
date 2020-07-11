@@ -47,7 +47,7 @@ Choose between your preffered config format among yaml and json.
 # Configuration
 
 After you've initialized a project, you'll see a brand new `egg.json` or `egg.yml` file depending on the config format you've chosen. This file is specific to nest.land and needed for the registry.
-> Note: `egg.json` is different than Node's `package.json` for several reasons! [Here is why](https://github.com/nestlandofficial/nest.land/issues/52#issuecomment-643038042).
+> Note: `egg.json` is different than Node's `package.json` for several reasons! [Here is why](https://github.com/nestdotland/nest.land/issues/52#issuecomment-643038042).
 
 Here is a template egg configuration file with all available fields:
 
@@ -152,7 +152,7 @@ or if you want to support us *louder*, you can use the large badge.
 
 # Updating all of your dependencies
 
-Updating your dependencies is a breeze thanks to [our contributors](https://github.com/nestlandofficial/nest.land/graphs/contributors). Just type the command shown to automatically check for and update all module imports. Not only does this update nest.land modules, but it can also update [deno.land/std](https://deno.land/std/), [deno.land/x](https://deno.land/x/), [github](https://github.com/topics/deno) and [denopkg.com](https://denopkg.com/) modules!
+Updating your dependencies is a breeze thanks to [our contributors](https://github.com/nestdotland/nest.land/graphs/contributors). Just type the command shown to automatically check for and update all module imports. Not only does this update nest.land modules, but it can also update [deno.land/std](https://deno.land/std/), [deno.land/x](https://deno.land/x/), [github](https://github.com/topics/deno) and [denopkg.com](https://denopkg.com/) modules!
 
 ```shell script
 eggs update http fs // update fs and http in default deps.ts
@@ -170,7 +170,7 @@ eggs update http fs --file file.ts // use specified file and modules
 eggs update -g denon // update script installed with "eggs install"
 ```
 
-More detailed information about this service is available on our CLI [README](https://github.com/nestlandofficial/nest.land/tree/master/eggs).
+More detailed information about this service is available on our CLI [README](https://github.com/nestdotland/nest.land/tree/master/eggs).
 
 # Installing a script as an executable
 
@@ -192,4 +192,4 @@ eggs upgrade
 
 ## Technical questions?
 
-Start a [GitHub issue](https://github.com/nestlandofficial/nest.land/issues) or find us on Discord: tate#5885 and zorbyte#4500
+Start a [GitHub issue](https://github.com/nestdotland/nest.land/issues) or find us on Discord: tate#5885 and zorbyte#4500
