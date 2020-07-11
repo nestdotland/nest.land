@@ -80,30 +80,30 @@
 </template>
 
 <script>
-  import NestNav from '../Nav'
-  import GradientBar from '../GradientBar'
-  import Card from '../Card'
-  import axios from 'axios'
+import NestNav from "../Nav";
+import GradientBar from "../GradientBar";
+import Card from "../Card";
+import axios from "axios";
 
-  export default {
-    data() {
-      return {
-        packages: [],
-        shownPackages: [],
-        loading: true,
-        searchPhrase: '',
-        errorMessage: '',
-        loadedPackages: 12,
-        loadingPackages: false,
-        noMorePackages: false
-      }
+export default {
+  data() {
+    return {
+      packages: [],
+      shownPackages: [],
+      loading: true,
+      searchPhrase: "",
+      errorMessage: "",
+      loadedPackages: 24,
+      loadingPackages: false,
+      noMorePackages: false,
+    };
+  },
+  props: {
+    search: {
+      type: String,
+      default: "",
     },
-    props: {
-      search: {
-        type: String,
-        default: ''
-      }
-    },
+  },
   components: {
     NestNav,
     GradientBar,
@@ -116,41 +116,45 @@
   destroyed() {
     window.removeEventListener("scroll", this.scroll);
   },
-    methods: {
-      timeToInt (val) {
-        return new Date(val).getTime()
-      },
-      async loadPackagesWithLimit () {
-        this.loadingPackages = true
-        const previousPackagesLength = this.packages.length
-        if(this.search !== '')
-          this.searchPhrase = this.search
-        await axios
-          .get(`https://x.nest.land/api/packages/${ this.loadedPackages }`)
-          .then(response => {
-            this.packages = response.data
-            this.shownPackages = this.packages
-            this.loading = false
-            this.loadingPackages = false
-            if(this.packages.length === previousPackagesLength)
-              this.noMorePackages = true
-          })
-          .catch(err => this.errorMessage = err)
-      },
-      async scroll () {
-        const { top, left, right, bottom } = this.$refs.scrolledToBottom.getBoundingClientRect()
-        if(
-          top >= 0 &&
-          left >= 0 &&
-          right <= (window.innerWidth || document.documentElement.clientWidth) &&
-          bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-          !this.loadingPackages &&
-          !this.noMorePackages &&
-          this.searchPhrase === ''
-        ) {
-          this.loadedPackages += 12
-          await this.loadPackagesWithLimit()
-        }
+  methods: {
+    timeToInt(val) {
+      return new Date(val).getTime();
+    },
+    async loadPackagesWithLimit() {
+      this.loadingPackages = true;
+      const previousPackagesLength = this.packages.length;
+      if (this.search !== "") this.searchPhrase = this.search;
+      await axios
+        .get(`https://x.nest.land/api/packages/${this.loadedPackages}`)
+        .then(response => {
+          this.packages = response.data;
+          this.shownPackages = this.packages;
+          this.loading = false;
+          this.loadingPackages = false;
+          if (this.packages.length === previousPackagesLength)
+            this.noMorePackages = true;
+        })
+        .catch(err => (this.errorMessage = err));
+    },
+    async scroll() {
+      const {
+        top,
+        left,
+        right,
+        bottom,
+      } = this.$refs.scrolledToBottom.getBoundingClientRect();
+      if (
+        top >= 0 &&
+        left >= 0 &&
+        right <= (window.innerWidth || document.documentElement.clientWidth) &&
+        bottom <=
+          (window.innerHeight || document.documentElement.clientHeight) &&
+        !this.loadingPackages &&
+        !this.noMorePackages &&
+        this.searchPhrase === ""
+      ) {
+        this.loadedPackages += 24;
+        await this.loadPackagesWithLimit();
       }
     },
   },
