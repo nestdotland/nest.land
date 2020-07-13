@@ -11,7 +11,9 @@
  </p>
 </p>
 
+<!-- markdownlint-disable first-line-heading -->
 ## nest.land website
+<!-- markdownlint-enable first-line-heading -->
 This is the nest.land website written in Vue, deployed on our sponsor, [Vercel](https://vercel.com/).
 
 ### Setup and serve (debug)

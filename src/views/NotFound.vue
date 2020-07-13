@@ -4,7 +4,6 @@
       <div class="hero-head">
         <nest-nav />
       </div>
-
       <div class="hero-body">
         <div class="container">
           <img :src="notFoundIcon" class="NotFoundIcon" alt="not found icon" />
@@ -21,8 +20,8 @@
 </template>
 
 <script>
-import notFoundIcon from "../../assets/nest_question.png";
-import NestNav from "../Nav";
+import notFoundIcon from "../assets/nest_question.png";
+import NestNav from "../components/Nav";
 
 export default {
   name: "NotFound",

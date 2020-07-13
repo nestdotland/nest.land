@@ -205,14 +205,14 @@
 </template>
 
 <script>
-import NestNav from "../Nav";
-import { HTTP } from "../../http-common";
+import NestNav from "../components/Nav";
+import { HTTP } from "../http-common";
 import moment from "moment";
 import VueMarkdown from "vue-markdown";
 import * as semverSort from "semver/functions/sort";
 import axios from "axios";
 import { component as VueCodeHighlight } from "vue-code-highlight";
-import "../../styles/CodeHighlightTheme.sass";
+import "../styles/CodeHighlightTheme.sass";
 
 export default {
   components: {
@@ -520,7 +520,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../../styles/Markdown.sass";
+@import "../styles/Markdown";
 
 .readme {
   margin-top: 1.5rem !important;

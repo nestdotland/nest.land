@@ -1,7 +1,7 @@
-import Home from "./components/home/Home";
-import Gallery from "./components/gallery/Gallery";
-import PackageDetail from "./components/package/PackageDetail";
-import NotFound from "./components/error/NotFound";
+import Home from "./views/Home";
+import Gallery from "./views/Gallery";
+import PackageDetail from "./views/PackageDetail";
+import NotFound from "./views/NotFound";
 
 export const routes = [
   {

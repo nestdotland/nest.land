@@ -80,9 +80,9 @@
 </template>
 
 <script>
-import NestNav from "../Nav";
-import GradientBar from "../GradientBar";
-import Card from "../Card";
+import NestNav from "../components/Nav";
+import GradientBar from "../components/GradientBar";
+import Card from "../components/Card";
 import axios from "axios";
 
 export default {
