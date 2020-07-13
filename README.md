@@ -40,7 +40,7 @@ This diagram is a visualisation of how these parts work together:
 ### Authors
 
 - [t8](https://github.com/t8) - Co-Founder, Frontend, CLI & Triager
-- [zorbyte](https://github.com/zorbyte) - Co-Founder, Backend, Triager & Code Quality Control
+- [zorbyte](https://github.com/zorbyte) - Co-Founder, Advisor, Triager & Code Quality Control
 - [justablob](https://github.com/justablob) - Backend & CLI
 
 ### Core Team
