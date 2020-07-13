@@ -419,6 +419,23 @@ export default {
           redirect: "follow",
         });
         this.packageReadme = await readmeResponse.text();
+
+        const
+          imgRegex = new RegExp('(\\!\\[)(.*)(\\]\\()(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(\\))', 'g'),
+          labelRegex = new RegExp('(?<=(\\!\\[))(.*)(?=(\\]))', 'g'),
+          pathRegex = new RegExp('(?<=((\\!\\[)(.*)(\\]\\()))(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(?=(\\)))', 'g'),
+          imagesInReadme = this.packageReadme.match(imgRegex)
+
+        for(const img of imagesInReadme) {
+
+          const
+            imgLabel = img.match(labelRegex)[0],
+            imgPath = img.match(pathRegex)[0].replace(/^(\.\/)/, '').replace(/^(\/)/, '')
+
+          this.packageReadme = this.packageReadme.replace(img, `![${ imgLabel }](https://x.nest.land/${ this.selectedVersion }/${ imgPath })`)
+
+        }
+
       } catch (err) {
         this.$emit("new-error", err);
       }
