@@ -1,8 +1,7 @@
-## Client-Side API
+# Client-Side API
 This API folder is dedicated to the client-side API. Because our registry API is not public, as of now, these serverless functions interface with our server-side API. In a future milestone, these functions will be converted to Deno.
 
-### Functions
-
+## Functions
 ```
 https://nest.land/api/captcha
 ```

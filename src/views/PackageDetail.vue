@@ -37,82 +37,7 @@
                 class="Markdown"
                 v-if="!isFileBrowse"
               ></vue-markdown>
-              <div class="fileSystem" v-else-if="!noVersion">
-                <div class="panel">
-                  <div class="panel-heading">
-                    <font-awesome-icon class="icon-margin-right" :icon="['fa', 'folder']" />
-                    <div
-                      class="filesTitle"
-                      v-if="filesLocation === '' || filesLocation === '/'"
-                    >Browse package files</div>
-                    <div class="filesTitle" v-else>
-                      <router-link
-                        v-for="fileLocation in filesLocationList"
-                        :key="fileLocation.id"
-                        :to="'/package/' + $route.params.id + '/files' + fileLocation.href"
-                      >{{ fileLocation.display }}</router-link>
-                    </div>
-                    <a
-                      :href="'https://doc.deno.land/https/x.nest.land/' + selectedVersion + filesLocation"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="FileDocumentation"
-                      v-if="fileView && (currentFileExtension === 'ts' || currentFileExtension === 'js')"
-                    >View Documentation</a>
-                  </div>
-                  <router-link class="panel-block" :to="parentDir">
-                    <font-awesome-icon class="icon-margin-right" :icon="['fa', 'level-up-alt']" />
-                    {{ filesLocation === '' || filesLocation === '/' ? 'Return to package review' : 'Go up' }}
-                  </router-link>
-                  <div v-if="!fileView">
-                    <router-link
-                      class="panel-block fileItem"
-                      v-for="dir in currentDirectories"
-                      :to="{ path: removeSlashFunc(dir) }"
-                      :key="dir.id"
-                      append
-                    >
-                      <font-awesome-icon class="icon-margin-right" :icon="['fa', 'folder']" />
-                      {{ dir | removeSlash }}
-                    </router-link>
-                    <router-link
-                      class="panel-block fileItem"
-                      v-for="file in currentFiles"
-                      :to="{ path: file.fileName }"
-                      :key="file.id"
-                      @click.native="openFile"
-                      append
-                    >
-                      <font-awesome-icon
-                        class="icon-margin-right"
-                        :icon="['fa', getFileItemType(file.fileName) === 'md' ? 'book-open' : (['png', 'jpg', 'gif', 'jpeg'].includes(getFileItemType(file.fileName)) ? 'image' : 'file-code')]"
-                      />
-                      {{ file.fileName }}
-                    </router-link>
-                  </div>
-                  <div
-                    v-else-if="['png', 'jpg', 'gif', 'jpeg'].includes(currentFileExtension)"
-                    class="ImageContainer"
-                  >
-                    <img :src="currentFileURL" class="ImagePreview" />
-                  </div>
-                  <div class="CodeHighlight" v-else-if="currentFileExtension !== 'md'">
-                    <div class="Lines">
-                      <span v-for="line in fileContentLines" :key="line.id" :id="'L' + line">
-                        <a :href="'#L' + line">{{ line }}</a>
-                      </span>
-                    </div>
-                    <vue-code-highlight class="Code">{{ currentFileContent }}</vue-code-highlight>
-                  </div>
-                  <vue-markdown
-                    :source="currentFileContent"
-                    :toc="true"
-                    :toc-anchor-link-space="false"
-                    class="Markdown"
-                    v-else
-                  ></vue-markdown>
-                </div>
-              </div>
+              <FileExplorer :version="selectedVersion" :name="packageInfo.name" v-else-if="!noVersion" />
             </div>
             <div class="column is-4">
               <nav class="panel">
@@ -123,13 +48,13 @@
                   <div class="buttons has-addons nest-button-group">
                     <button
                       class="button is-primary is-light"
-                      @click="selectedVersion = packageInfo.latestStableVersion; refreshContent(); refreshReadme(); reloadFiles(); loadCurrentFile()"
+                      @click="selectedVersion = packageInfo.latestStableVersion; refreshContent(); refreshReadme();"
                       :title="packageInfo.latestStableVersion === null ? 'No stable version available yet': null"
                       :disabled="packageInfo.latestStableVersion === null"
                     >Stable</button>
                     <button
                       class="button is-warning is-light"
-                      @click="selectedVersion = packageInfo.latestVersion; refreshContent(); refreshReadme(); reloadFiles(); loadCurrentFile()"
+                      @click="selectedVersion = packageInfo.latestVersion; refreshContent(); refreshReadme();"
                       :disabled="noVersion"
                       :title="noVersion ? 'No versions published yet': null"
                     >Latest</button>
@@ -139,7 +64,7 @@
                   <div class="select is-light has-light-arrow is-fullwidth" v-if="!noVersion">
                     <select
                       v-model="selectedVersion"
-                      @change="refreshContent(); refreshReadme(); reloadFiles(); loadCurrentFile()"
+                      @change="refreshContent(); refreshReadme();"
                     >
                       <option
                         v-for="(version, id) in packageVersions"
@@ -208,17 +133,15 @@
   import NestNav from "../components/Nav";
   import { HTTP } from "../http-common";
   import moment from "moment";
-  import VueMarkdown from "vue-markdown";
   import * as semverSort from "semver/functions/sort";
-  import axios from "axios";
-  import { component as VueCodeHighlight } from "vue-code-highlight";
-  import "../styles/CodeHighlightTheme.sass";
+  import VueMarkdown from "vue-markdown";
+  import FileExplorer from "../components/package/FileExplorer";
 
   export default {
     components: {
       NestNav,
       VueMarkdown,
-      VueCodeHighlight,
+      FileExplorer,
     },
     data() {
       return {
@@ -228,10 +151,6 @@
         packageReadme: "Loading README...",
         loading: true,
         noVersion: false,
-        files: {},
-        fileView: false,
-        currentFileContent: "",
-        currentFileURL: "",
         entryFile: "/mod.ts",
         malicious: false,
         copied: false,
@@ -246,9 +165,6 @@
       formatDate: function(createdAt) {
         if (!createdAt) return "";
         return moment(String(createdAt)).format("LL");
-      },
-      removeSlash (val) {
-        return val.replace(new RegExp("/", "g"), "");
       },
     },
     async created() {
@@ -274,113 +190,11 @@
       }
 
       await this.refreshReadme();
-      await this.reloadFiles();
-      await this.loadCurrentFile();
-      this.checkIfDirOrFileExists();
       this.loading = false;
     },
     computed: {
       isFileBrowse() {
         return this.$route.path.toLowerCase().includes("/files");
-      },
-      filesLocation() {
-        return this.$route.path.split("/files")[1];
-      },
-      filesLocationList() {
-        let filesWithRoute = [{ display: "/", href: "/" }],
-          locations = "/";
-
-        for (const fileLoc of this.filesLocation.split("/")) {
-          if (fileLoc === "") continue;
-
-          locations += fileLoc.replace(new RegExp("/", "g"), "") + "/";
-          filesWithRoute.push({
-            display: fileLoc.replace(new RegExp("/", "g"), "") + "/",
-            href: locations,
-          });
-        }
-
-        if (filesWithRoute.length > 1)
-          filesWithRoute[filesWithRoute.length - 1].display = filesWithRoute[
-            filesWithRoute.length - 1
-          ].display.replace(new RegExp("/", "g"), "");
-
-        return filesWithRoute;
-      },
-      fileSystem() {
-        let fileSystemData = [];
-
-        for (const file in this.files) {
-          const fileName = file.split("/")[file.split("/").length - 1],
-            fileLocation = file.replace(fileName, ""),
-            fileSize = 0;
-
-          fileSystemData.push({ fileName, fileLocation, fileSize });
-        }
-
-        return fileSystemData;
-      },
-      currentFiles() {
-        return this.fileSystem
-          .filter(file => {
-            return (
-              file.fileLocation.replace(new RegExp("/$"), "") ===
-              this.filesLocation.replace(new RegExp("/$"), "")
-            );
-          })
-          .sort((a, b) => a.fileName.localeCompare(b.fileName));
-      },
-      currentDirectories() {
-        const dirs = [];
-
-        for (const file of this.fileSystem) {
-          const locationWithoutLastSlash = this.filesLocation.replace(
-              new RegExp("/$"),
-              "",
-            ),
-            dirToPush = file.fileLocation
-              .replace(locationWithoutLastSlash, "")
-              .split("/")[1];
-
-          if (
-            !dirs.includes(dirToPush) &&
-            file.fileLocation.includes(locationWithoutLastSlash) &&
-            dirToPush !== ""
-          ) {
-            dirs.push(dirToPush);
-          }
-        }
-
-        return dirs.sort((a, b) => a.localeCompare(b));
-      },
-      //we use this cuz utilizing "./" in the router-link does not work always, because is based on router history
-      parentDir() {
-        const routeWithoutSlashEnding = this.$route.path.endsWith("/")
-          ? this.$route.path.replace(new RegExp("/$"), "")
-          : this.$route.path;
-
-        return routeWithoutSlashEnding.substr(
-          0,
-          routeWithoutSlashEnding.lastIndexOf("/"),
-        );
-      },
-      currentFileExtension() {
-        const routeWithoutSlashEnding = this.$route.path.endsWith("/")
-            ? this.$route.path.replace(new RegExp("/$"), "")
-            : this.$route.path,
-          fileName = routeWithoutSlashEnding.split("/")[
-            routeWithoutSlashEnding.split("/").length - 1
-          ];
-
-        return fileName.split(".")[fileName.split(".").length - 1];
-      },
-      fileContentLines() {
-        if (this.currentFileExtension === "json")
-          return JSON.stringify(this.currentFileContent, null, 4).split(
-            /\r\n|\r|\n/,
-          ).length;
-
-        return this.currentFileContent.split(/\r\n|\r|\n/).length;
       },
       entryURL() {
         const entryFileWithoutFirstSlash = this.entryFile.replace(new RegExp('/', 'i'), '');
@@ -420,6 +234,10 @@
           });
           this.packageReadme = await readmeResponse.text();
 
+          //resolving relative paths
+          //the regex finds all image MARKDOWN tags and replaces the urls to x.nest.land
+          //this won't work if the user doesn't publish the dir of the images
+          //TODO: maybe we should consider using the github repo field, if this fails
           const
             imgRegex = new RegExp('(\\!\\[)(.*)(\\]\\()(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(\\))', 'g'),
             labelRegex = new RegExp('(?<=(\\!\\[))(.*)(?=(\\]))', 'g'),
@@ -440,80 +258,17 @@
           this.$emit("new-error", err);
         }
       },
-      async reloadFiles() {
-        await axios
-          .get(
-            `https://x.nest.land/api/package/${this.packageInfo.name}/${
-              this.selectedVersion.split("@")[1]
-            }`,
-          )
-          .then(response => {
-            this.files = response.data.files;
-            this.malicious = response.data.malicious;
-            if(response.data.entry !== null) this.entryFile = response.data.entry;
-          });
-      },
       sortPackages(packageList) {
         for (let i = 0; i < packageList.length; i++) {
           packageList[i] = packageList[i].split("@")[1];
         }
         return semverSort(packageList).reverse();
       },
-      getFileItemType(fileName) {
-        if (fileName.split(".").length < 1) return "dir";
-
-        return fileName.split(".")[fileName.split(".").length - 1];
-      },
-      removeSlashFunc(val) {
-        return val.replace(new RegExp("/", "g"), "");
-      },
-      async loadCurrentFile() {
-        const routeWithoutSlashEnding = this.$route.path.endsWith("/")
-            ? this.$route.path.replace(new RegExp("/$"), "")
-            : this.$route.path,
-          fileName = routeWithoutSlashEnding.split("/")[
-            routeWithoutSlashEnding.split("/").length - 1
-          ];
-
-        this.fileView = false;
-
-        for (const file of this.fileSystem)
-          if (fileName === file.fileName) this.fileView = true;
-
-        if (!this.fileView) return;
-
-        this.currentFileURL = `https://x.nest.land/${this.selectedVersion}/${
-          routeWithoutSlashEnding.split("/files/")[1]
-        }`;
-        await axios
-          .get(this.currentFileURL)
-          .then(response => (this.currentFileContent = response.data))
-          .catch(() => this.$router.push(`/404`));
-      },
-      openFile() {
-        this.currentFileContent = "Loading file...";
-      },
-      checkIfDirOrFileExists() {
-        if (!this.isFileBrowse) return;
-
-        const dirExists =
-          Object.keys(this.files).filter(key => key.includes(this.filesLocation))
-            .length > 0;
-
-        if (!(this.filesLocation in this.files) && !dirExists)
-          this.$router.push(`/404`);
-      },
       copyPackageEntry() {
         this.$copyText(this.entryURL)
           .then(() => {
             this.copied = true
           });
-      },
-    },
-    watch: {
-      async $route() {
-        await this.loadCurrentFile();
-        this.checkIfDirOrFileExists();
       },
     },
   };
@@ -603,46 +358,5 @@
     :first-child
       margin-top: 0
       padding-top: 0
-
-  .fileSystem
-
-    .filesTitle
-      display: inline-block
-
-      a
-        color: $accentColor
-
-    .panel-block
-      padding: 0.5em 1.25em
-
-    .fileItem
-      padding: 0.5em 1.75em
-
-    .Markdown
-      padding: 1em 3em
-
-    .panel-heading
-      position: relative
-      padding: 0.75em 1em
-
-      .FileDocumentation
-        position: absolute
-        font-size: 0.7em
-        color: $accentColor
-        display: inline-block
-        vertical-align: bottom
-        right: 1em
-        top: 50%
-        transform: translateY(-50%)
-
-    .ImageContainer
-      width: 100%
-      overflow: hidden
-      border-bottom-left-radius: inherit
-      border-bottom-right-radius: inherit
-
-      .ImagePreview
-        display: block
-        width: 100%
 
 </style>
