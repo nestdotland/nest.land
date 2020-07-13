@@ -20,5 +20,10 @@ module.exports = {
   },
   devServer: {
     proxy: "https://nest.land",
+  },
+  css: {
+    loaderOptions: {
+      sass: { prependData: `@import "@/styles/_variables.sass"` }
+    }
   }
 };

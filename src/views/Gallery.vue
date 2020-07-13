@@ -177,53 +177,50 @@
   };
 </script>
 
-<style lang="scss" scoped>
-.nest-heading {
-  font-size: 0.9em;
-  font-weight: 400;
-  text-transform: uppercase;
-}
+<style lang="sass" scoped>
 
-.no-hover:hover {
-  background: none !important;
-  cursor: default;
-}
-.control .icon.is-small.is-left {
-  transition: all 0.17s;
-}
-.subtitle {
-  width: 30%;
-  text-align: center;
-  display: inline-block;
-  text-shadow: -1px 9px 8px rgba(50, 50, 93, 0.12),
-    0 5px 15px rgba(0, 0, 0, 0.18);
-  @media screen and (max-width: 720px) {
-    width: 100%;
-  }
-  a {
-    color: #00947e !important;
-    text-shadow: -1px 9px 8px rgba(#00947e, 0.12),
-      0 5px 15px rgba(#00947e, 0.18);
-  }
-}
-.scrolledToBottom {
-  display: block;
-  padding: 10px 0;
-  text-align: center;
-  p {
-    font-weight: 600;
-  }
-}
-.gallery-cards-enter-active,
-.gallery-cards-leave-active {
-  transition: opacity 0.3s;
-}
-.gallery-cards-enter,
-.gallery-cards-leave-to {
-  opacity: 0;
-}
+  .nest-heading
+    font-size: .9em
+    font-weight: 400
+    text-transform: uppercase
 
-.gallery-cards-move {
-  transition: transform 0.8s;
-}
+  .no-hover:hover
+    background: none !important
+    cursor: default
+
+  .control .icon.is-small.is-left
+    transition: all .17s
+
+  .subtitle
+    width: 30%
+    text-align: center
+    display: inline-block
+    text-shadow: -1px 9px 8px rgba(50, 50, 93, 0.12), 0 5px 15px rgba(0, 0, 0, 0.18)
+
+    @media screen and (max-width: 720px)
+      width: 100%
+
+    a
+      color: #00947e !important
+      text-shadow: -1px 9px 8px rgba(#00947e, 0.12), 0 5px 15px rgba(#00947e, 0.18)
+
+  .scrolledToBottom
+    display: block
+    padding: 10px 0
+    text-align: center
+
+    p
+      font-weight: 600
+
+  .gallery-cards-enter-active,
+  .gallery-cards-leave-active
+    transition: opacity 0.3s
+
+  .gallery-cards-enter,
+  .gallery-cards-leave-to
+    opacity: 0
+
+  .gallery-cards-move
+    transition: transform 0.8s
+
 </style>

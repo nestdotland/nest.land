@@ -1,3 +1,5 @@
+@import "./variables.sass"
+
 =markdown()
   h1, h2, h3, h4, h5, h6
     position: relative
@@ -10,10 +12,10 @@
     transition: all .3s
 
     &:hover
-      color: #00947e
+      color: $accentColor
 
   a
-    color: #00947e
+    color: $accentColor
 
   h1
     font-size: 2em
@@ -45,7 +47,7 @@
 
   blockquote
     padding: .67em 14px
-    border-left: 4px solid rgba(#00947e, .65)
+    border-left: 4px solid rgba($accentColor, .65)
     margin: .67em 0
     background-color: rgba(#f5f5f5, .6)
 
@@ -88,7 +90,7 @@
 
       &::before
         content: '$'
-        color: #00947e
+        color: $accentColor
         font-size: 1.2em
         font-weight: 500
         position: absolute

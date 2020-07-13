@@ -34,21 +34,18 @@
   };
 </script>
 
-<style scoped>
-img.NotFoundIcon {
-  height: 75px;
-  margin: 0 auto 20px;
-  display: block;
-}
+<style lang="sass" scoped>
 
-p.subtitle {
-  text-shadow: -1px 9px 8px rgba(50, 50, 93, 0.12),
-    0 5px 15px rgba(0, 0, 0, 0.18);
-}
+  img.NotFoundIcon
+    height: 75px
+    margin: 0 auto 20px
+    display: block
 
-a {
-  color: #00947e !important;
-  text-shadow: -1px 9px 8px rgba(0, 148, 126, 0.12),
-    0 5px 15px rgba(0, 148, 126, 0.18);
-}
+  p.subtitle
+    text-shadow: -1px 9px 8px rgba(50, 50, 93, 0.12), 0 5px 15px rgba(0, 0, 0, 0.18)
+
+  a
+    color: #00947e !important
+    text-shadow: -1px 9px 8px rgba(0, 148, 126, 0.12), 0 5px 15px rgba(0, 148, 126, 0.18)
+
 </style>

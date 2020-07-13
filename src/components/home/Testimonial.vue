@@ -57,48 +57,43 @@
   };
 </script>
 
-<style lang="scss" scoped>
-.testimonial-card {
-  max-width: 600px;
-  width: 100%;
-  margin: 0 auto;
+<style lang="sass" scoped>
 
-  .card-content {
-    padding: 60px;
+  .testimonial-card
+    max-width: 600px
+    width: 100%
+    margin: 0 auto
 
-    .quotes {
-      width: 70px;
-      position: absolute;
-      left: -15px;
-      top: -15px;
-    }
+    .card-content
+      padding: 60px
 
-    .title.is-3 {
-      line-height: 1.5;
-      font-family: "PT Serif", Georgia, serif;
-      font-style: italic;
-      font-weight: 400;
-      color: #616161;
+      .quotes
+        width: 70px
+        position: absolute
+        left: -15px
+        top: -15px
 
-      @media only screen and (max-width: 768px) {
-        font-size: 1.6em;
-        line-height: 1.3;
-      }
-    }
+      .title.is-3
+        line-height: 1.5
+        font-family: "PT Serif", Georgia, serif
+        font-style: italic
+        font-weight: 400
+        color: #616161
 
-    .media-content {
-      overflow: hidden;
-      @media only screen and (max-width: 768px) {
-        .title.is-4 {
-          font-size: 1em;
-          margin-top: 5px;
-        }
+        @media only screen and (max-width: 768px)
+          font-size: 1.6em
+          line-height: 1.3
 
-        .subtitle.is-6 {
-          font-size: 0.8em;
-        }
-      }
-    }
-  }
-}
+      .media-content
+        overflow: hidden
+
+        @media only screen and (max-width: 768px)
+
+          .title.is-4
+            font-size: 1em
+            margin-top: 5px
+
+          .subtitle.is-6
+            font-size: 0.8em
+
 </style>

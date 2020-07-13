@@ -76,13 +76,13 @@
   };
 </script>
 
-<style>
-.card {
-  border-radius: 20px;
-  box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
-}
+<style lang="sass" scoped>
 
-.issue-text {
-  font-family: "Inconsolata", monospace;
-}
+  .card
+    border-radius: 20px
+    box-shadow: 0 15px 35px rgba(50, 50, 93, .1), 0 5px 15px rgba(0, 0, 0, .07)
+
+  .issue-text
+    font-family: "Inconsolata", monospace
+
 </style>

@@ -69,20 +69,19 @@
   };
 </script>
 
-<style scoped>
-#get-started-button {
-  font-family: "Inconsolata", monospace;
-}
+<style lang="sass" scoped>
 
-.navbar-item:hover,
-.navbar-item:focus,
-.navbar-item:focus-within,
-.navbar-burger {
-  background: none !important;
-}
+  #get-started-button
+    font-family: "Inconsolata", monospace
 
-.navbar-item.active-link {
-  border-top: 0.4rem solid #fdbb2d;
-  padding-top: 0.1rem;
-}
+  .navbar-item:hover,
+  .navbar-item:focus,
+  .navbar-item:focus-within,
+  .navbar-burger
+    background: none !important
+
+  .navbar-item.active-link
+    border-top: .4rem solid #fdbb2d
+    padding-top: .1rem
+
 </style>

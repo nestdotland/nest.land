@@ -29,21 +29,22 @@
   };
 </script>
 
-<style scoped>
-.gradient-text {
-  background: -webkit-linear-gradient(45deg, #22c1c3, #fdbb2d);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-#deno-text {
-  letter-spacing: -0.025em;
-  font-family: "Inter", sans-serif;
-  font-weight: 800;
-}
-.footprints {
-  position: absolute;
-  bottom: 0;
-  right: -40%;
-}
+<style lang="sass" scoped>
+
+  .gradient-text
+    background: -webkit-linear-gradient(45deg, #22c1c3, #fdbb2d)
+    background-clip: text
+    -webkit-background-clip: text
+    -webkit-text-fill-color: transparent
+
+  #deno-text
+    letter-spacing: -0.025em
+    font-family: "Inter", sans-serif
+    font-weight: 800
+
+  .footprints
+    position: absolute
+    bottom: 0
+    right: -40%
+
 </style>

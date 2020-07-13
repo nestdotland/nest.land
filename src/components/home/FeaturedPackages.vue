@@ -74,8 +74,9 @@
   };
 </script>
 
-<style scoped>
-#give-me-space {
-  margin-bottom: 50px;
-}
+<style lang="sass" scoped>
+
+  #give-me-space
+    margin-bottom: 50px
+
 </style>

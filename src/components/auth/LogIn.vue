@@ -97,11 +97,12 @@
   };
 </script>
 
-<style lang="scss" scoped>
-#generate-button {
-  font-family: "Inconsolata", monospace;
-}
-#generate-button::after {
-  border-color: transparent transparent black black !important;
-}
+<style lang="sass" scoped>
+
+  #generate-button
+    font-family: "Inconsolata", monospace
+
+    &::after
+      border-color: transparent transparent black black !important
+
 </style>

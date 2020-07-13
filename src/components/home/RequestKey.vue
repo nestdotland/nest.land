@@ -76,8 +76,9 @@
   };
 </script>
 
-<style scoped>
-#token-element {
-  background-color: #fdbb2d;
-}
+<style lang="sass" scoped>
+
+  #token-element
+    background-color: #fdbb2d
+
 </style>

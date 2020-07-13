@@ -97,83 +97,61 @@
   };
 </script>
 
-<style scoped lang="scss">
-#symmetric-footer {
-  padding: 3rem 1.5rem;
-}
+<style lang="sass" scoped>
 
-a,
-a:hover {
-  color: white;
-}
+  #symmetric-footer
+    padding: 3rem 1.5rem
 
-.footer-left {
-  .image {
-    float: left;
-    margin: 0 25px 0 0;
-  }
+  a, a:hover
+    color: white
 
-  p:not(:first-child) {
-    margin-bottom: 5px;
-    margin-top: 3px;
-  }
-}
+  .footer-left
 
-.footer-right {
-  .vercel-container {
-    float: right;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    .image
+      float: left
+      margin: 0 25px 0 0
 
-    #powered-by {
-      text-align: right;
-      margin-right: 10px;
-      margin-top: 10px;
-    }
+    p:not(:first-child)
+      margin-bottom: 5px
+      margin-top: 3px
 
-    svg {
-      width: 100px;
-      float: right;
-    }
-    @media screen and (max-width: 768px) {
-      float: none;
-      margin: 0 auto;
-      svg {
-        float: none;
-      }
-    }
-  }
-}
+  .footer-right
 
-hr {
-  width: 5%;
-  min-width: 30px;
-  margin: 25px auto;
-  background: rgb(34, 193, 195);
-  background: -moz-linear-gradient(
-    90deg,
-    rgba(34, 193, 195, 1) 0%,
-    rgba(253, 187, 45, 1) 100%
-  );
-  background: -webkit-linear-gradient(
-    90deg,
-    rgba(34, 193, 195, 1) 0%,
-    rgba(253, 187, 45, 1) 100%
-  );
-  background: linear-gradient(
-    90deg,
-    rgba(34, 193, 195, 1) 0%,
-    rgba(253, 187, 45, 1) 100%
-  );
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#22c1c3",endColorstr="#fdbb2d",GradientType=1);
-}
+    .vercel-container
+      float: right
+      display: flex
+      align-items: center
+      justify-content: center
 
-.footer-icon {
-  font-size: 1.5em;
-}
+      #powered-by
+        text-align: right
+        margin-right: 10px
+        margin-top: 10px
 
-.footer-icon-separator {
-  margin-left: 15px;
-}
+      svg
+        width: 100px
+        float: right
+
+      @media screen and (max-width: $mobileScreenMaxWidth)
+        float: none
+        margin: 0 auto
+
+        svg
+          float: none
+
+  hr
+    width: 5%
+    min-width: 30px
+    margin: 25px auto
+    background: rgb(34, 193, 195)
+    background: -moz-linear-gradient(90deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%)
+    background: -webkit-linear-gradient(90deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%)
+    background: linear-gradient(90deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%)
+
+  .footer-icon
+    font-size: 1.5em
+
+  .footer-icon-separator
+    margin-left: 15px
+
 </style>

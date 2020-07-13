@@ -59,12 +59,12 @@
   };
 </script>
 
-<style lang="scss" scoped>
-.left-icon {
-  margin-right: 15px;
-}
+<style lang="sass" scoped>
 
-.subtitle {
-  font-family: "Inconsolata", monospace;
-}
+  .left-icon
+    margin-right: 15px
+
+  .subtitle
+    font-family: "Inconsolata", monospace
+
 </style>

@@ -519,131 +519,130 @@
   };
 </script>
 
-<style lang="scss">
-@import "../styles/Markdown";
+<style lang="sass">
 
-.readme {
-  margin-top: 1.5rem !important;
-}
-.icon-margin-right {
-  margin-right: 10px;
-}
-.has-light-arrow::after {
-  border-image-source: linear-gradient(180deg, #22c1c3, #fdbb2d) !important;
-  border-image-slice: 1 !important;
-}
-.nest-button-group {
-  margin: 0 auto;
-}
-.nest-button-group button {
-  margin-bottom: 0;
-  font-family: "Inconsolata", monospace;
-}
-pre.is-fullwidth {
-  width: 100%;
-}
-.Warning {
-  margin-bottom: 20px;
-  border-radius: 6px;
-  box-shadow: 0 0.5em 1em -.125em rgba(10, 10, 10, .1), 0 0px 0 1px rgba(10, 10, 10, .02);
-  background-color: #ededed;
-  padding: 14px 27px;
-  display: flex;
-  align-items: center;
-  border-left: 5px solid #ff0000;
-  b {
-    color: #ff0000;
-  }
-  svg {
-    display: block;
-    font-size: 2em;
-    padding-right: .8em;
-    width: auto !important;
-    color: #ff0000;
-  }
-  &.Info {
-    border-color: #00947e;
-    b {
-      color: #00947e;
-    }
-    svg {
-      color: #00947e;
-    }
-  }
-  p {
-    margin: 0;
-    a {
-      color: #00947e;
-    }
-  }
-}
-.panel-block.warning {
-  color: #ff0000;
-  font-weight: 600;
-}
-.panel-block.entryURL pre {
-  display: flex;
-  align-items: center;
-  svg {
-    margin-right: 15px;
-    &.copied {
-      color: #00947e;
-    }
-  }
-}
-.panel-block .copyEntry {
-  cursor: pointer;
-  transition: all .3s;
-  &:hover {
-    opacity: .73;
-  }
-}
-.Markdown {
-  :first-child {
-    margin-top: 0;
-    padding-top: 0;
-  }
-  @include markdown();
-}
-.fileSystem {
-  .filesTitle {
-    display: inline-block;
-    a {
-      color: #00947e;
-    }
-  }
-  .panel-block {
-    padding: 0.5em 1.25em;
-  }
-  .fileItem {
-    padding: 0.5em 1.75em;
-  }
-  .Markdown {
-    padding: 1em 3em;
-  }
-  .panel-heading {
-    position: relative;
-    padding: 0.75em 1em;
-    .FileDocumentation {
-      position: absolute;
-      font-size: 0.7em;
-      color: #00947e;
-      display: inline-block;
-      vertical-align: bottom;
-      right: 1em;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-  }
-  .ImageContainer {
-    width: 100%;
-    overflow: hidden;
-    border-bottom-left-radius: inherit;
-    border-bottom-right-radius: inherit;
-    .ImagePreview {
-      display: block;
-      width: 100%;
-    }
-  }
-}
+  @import "../styles/Markdown"
+
+  .readme
+    margin-top: 1.5rem !important
+
+  .icon-margin-right
+    margin-right: 10px
+
+  .has-light-arrow::after
+    border-image-source: linear-gradient(180deg, #22c1c3, #fdbb2d) !important
+    border-image-slice: 1 !important
+
+  .nest-button-group
+    margin: 0 auto
+
+  .nest-button-group button
+    margin-bottom: 0
+    font-family: "Inconsolata", monospace
+
+  pre.is-fullwidth
+    width: 100%
+
+  .Warning
+    margin-bottom: 20px
+    border-radius: 6px
+    box-shadow: 0 0.5em 1em -.125em rgba(10, 10, 10, .1), 0 0px 0 1px rgba(10, 10, 10, .02)
+    background-color: #ededed
+    padding: 14px 27px
+    display: flex
+    align-items: center
+    border-left: 5px solid #ff0000
+
+    b
+      color: #ff0000
+
+    svg
+      display: block
+      font-size: 2em
+      padding-right: .8em
+      width: auto !important
+      color: #ff0000
+
+    &.Info
+      border-color: $accentColor
+      b
+        color: $accentColor
+
+      svg
+        color: $accentColor
+
+    p
+      margin: 0
+      a
+        color: $accentColor
+
+  .panel-block.warning
+    color: #ff0000
+    font-weight: 600
+
+  .panel-block.entryURL pre
+    display: flex
+    align-items: center
+
+    svg
+      margin-right: 15px
+
+      &.copied
+        color: $accentColor
+
+  .panel-block .copyEntry
+    cursor: pointer
+    transition: all .3s
+
+    &:hover
+      opacity: .73
+
+  .Markdown
+    +markdown()
+
+    :first-child
+      margin-top: 0
+      padding-top: 0
+
+  .fileSystem
+
+    .filesTitle
+      display: inline-block
+
+      a
+        color: $accentColor
+
+    .panel-block
+      padding: 0.5em 1.25em
+
+    .fileItem
+      padding: 0.5em 1.75em
+
+    .Markdown
+      padding: 1em 3em
+
+    .panel-heading
+      position: relative
+      padding: 0.75em 1em
+
+      .FileDocumentation
+        position: absolute
+        font-size: 0.7em
+        color: $accentColor
+        display: inline-block
+        vertical-align: bottom
+        right: 1em
+        top: 50%
+        transform: translateY(-50%)
+
+    .ImageContainer
+      width: 100%
+      overflow: hidden
+      border-bottom-left-radius: inherit
+      border-bottom-right-radius: inherit
+
+      .ImagePreview
+        display: block
+        width: 100%
+
 </style>
