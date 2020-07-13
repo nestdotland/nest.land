@@ -46,7 +46,7 @@ This diagram is a visualisation of how these parts work together:
 ### Core Team
 
 - [divy-work](https://github.com/divy-work) - Backend & CLI
-- [maximousblk](https://github.com/maximousblk) - Frontend & CLI
+- [maximousblk](https://github.com/maximousblk) - UX Manager
 - [martondev](https://github.com/MartonDev) - Frontend & CLI
 - [oganexon](https://github.com/oganexon) - CLI
 
