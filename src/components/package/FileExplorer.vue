@@ -18,7 +18,7 @@
            :href="'https://doc.deno.land/https/x.nest.land/' + version + filesLocation"
            target="_blank"
            rel="noopener noreferrer"
-           class="FileDocumentation"
+           class="file-documentation"
            v-if="fileView && (currentFileExtension === 'ts' || currentFileExtension === 'js')"
         >View Documentation</a>
       </div>
@@ -28,7 +28,7 @@
       </router-link>
       <div v-if="!fileView">
         <router-link
-           class="panel-block fileItem"
+           class="panel-block file-item"
            v-for="dir in currentDirectories"
            :to="{ path: removeSlashFunc(dir) }"
            :key="dir.id"
@@ -38,7 +38,7 @@
           {{ dir | removeSlash }}
         </router-link>
         <router-link
-           class="panel-block fileItem"
+           class="panel-block file-item"
            v-for="file in currentFiles"
            :to="{ path: file.fileName }"
            :key="file.id"
@@ -54,9 +54,9 @@
       </div>
       <div
          v-else-if="['png', 'jpg', 'gif', 'jpeg'].includes(currentFileExtension)"
-         class="ImageContainer"
+         class="image-container"
       >
-        <img :src="currentFileURL" class="ImagePreview" />
+        <img :src="currentFileURL" class="image-preview" />
       </div>
       <div class="CodeHighlight" v-else-if="currentFileExtension !== 'md'">
         <div class="Lines">
@@ -70,7 +70,7 @@
          :source="currentFileContent"
          :toc="true"
          :toc-anchor-link-space="false"
-         class="Markdown"
+         class="markdown"
          v-else
       ></vue-markdown>
     </div>
@@ -234,7 +234,6 @@
     methods: {
       //reload the files, and the filesystem on changes
       async reloadFiles () {
-        console.log(this.name, this.version)
         await axios
           .get(
             `https://x.nest.land/api/package/${ this.name }/${
@@ -322,17 +321,17 @@
     .panel-block
       padding: 0.5em 1.25em
 
-    .fileItem
+    .file-item
       padding: 0.5em 1.75em
 
-    .Markdown
+    .markdown
       padding: 1em 3em
 
     .panel-heading
       position: relative
       padding: 0.75em 1em
 
-      .FileDocumentation
+      .file-documentation
         position: absolute
         font-size: 0.7em
         color: $accentColor
@@ -342,13 +341,13 @@
         top: 50%
         transform: translateY(-50%)
 
-    .ImageContainer
+    .image-container
       width: 100%
       overflow: hidden
       border-bottom-left-radius: inherit
       border-bottom-right-radius: inherit
 
-      .ImagePreview
+      .image-preview
         display: block
         width: 100%
 

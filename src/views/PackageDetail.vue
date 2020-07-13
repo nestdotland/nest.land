@@ -34,7 +34,7 @@
                 :source="packageReadme"
                 :toc="true"
                 :toc-anchor-link-space="false"
-                class="Markdown"
+                class="markdown"
                 v-if="!isFileBrowse"
               ></vue-markdown>
               <FileExplorer :version="selectedVersion" :name="packageInfo.name" v-else-if="!noVersion" />
@@ -328,7 +328,7 @@
       width: auto !important
       color: #ff0000
 
-    &.Info
+    &.info
       border-color: $accentColor
       b
         color: $accentColor
@@ -362,7 +362,7 @@
     &:hover
       opacity: .73
 
-  .Markdown
+  .markdown
     +markdown()
 
     :first-child

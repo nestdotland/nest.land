@@ -1,12 +1,12 @@
 <template>
-  <div class="NotFound">
+  <div class="not-found">
     <div class="hero is-light is-fullheight nest-footprints-hero">
       <div class="hero-head">
         <nest-nav />
       </div>
       <div class="hero-body">
         <div class="container">
-          <img :src="notFoundIcon" class="NotFoundIcon" alt="not found icon" />
+          <img :src="notFoundIcon" class="not-found-icon" alt="not found icon" />
           <h1 class="title is-1 has-text-centered">404</h1>
           <p class="subtitle has-text-centered">
             This is not the page you're looking for.
@@ -36,7 +36,7 @@
 
 <style lang="sass" scoped>
 
-  img.NotFoundIcon
+  img.not-found-icon
     height: 75px
     margin: 0 auto 20px
     display: block
