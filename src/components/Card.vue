@@ -27,7 +27,7 @@
   };
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
 
   .card
     border-radius: 20px
