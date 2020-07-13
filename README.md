@@ -1,45 +1,54 @@
 <br />
 <p align="center">
-  <a href="https://github.com/nestdotland/nest.land">
-    <img src="./web/src/assets/nest_light.png" alt="logo" width="110">
+  <a href="https://nest.land/">
+    <img src="./assets/logo_light.png" alt="nest.land logo (light version)" width="110">
   </a>
 
   <h3 align="center">nest.land</h3>
 
   <p align="center">
-    An immutable, blockchain powered package registry for Deno.
+    An immutable module registry for Deno, on the blockchain
  </p>
 </p>
 
-## About
+## What is nest.land?
 
-nest.land is a package registry that uses Arweave to upload your modules to the blockchain, keeping them secure and immutable.
+Nest.land combines Deno with the [Arweave Blockchain](https://www.arweave.org/). With us, you can publish your Deno modules to the permaweb, where they can never be deleted. This avoids a major pitfall for web-based module imports while allowing the developer to maximize on the potential of Deno's import design!
 
+## Repositories/Services
 
-## Roadmap
+nest.land is split into many services, each in their own respective repositories, they are as follows:
 
-See the [roadmap](/ROADMAP.md).
+- [nest.land](https://github.com/nestdotland/nest.land) - The landing repository for nest.land.
+  It houses the website source code.
+- [eggs](https://github.com/nestdotland/eggs) - nest.land's CLI
+- [yolk](https://github.com/nestdotland/yolk) - nest.land's API library
+- [website](https://github.com/nestdotland/website) - nest.land's website
+- [API](https://github.com/nestdotland/api) - nest.land's API
+- [twig](https://github.com/nestdotland/twig) - A mediator for nest.land's interactions with Arweave
+- [x](https://github.com/nestdotland/x) - The module gateway for files to be accessed.
 
+### Infrastructure Diagram
 
-## Project Diagram
+The mentioned services are keystone to making nest.land a better service.
+This diagram is a visualisation of how these parts work together:
 
-<img src="https://nest.land/nest-diagram.svg">
-
+![Diagram of nest.land infrastructure](./assets/infra_diagram.svg)
 
 ## Credits
 
 ### Authors
 
-- [t8](https://github.com/t8), Co-Founder, Frontend, & Project management
-- [zorbyte](https://github.com/zorbyte), Co-Founder & Advisor
-- [justablob](https://github.com/justablob), Backend
+- [t8](https://github.com/t8) - Co-Founder, Frontend, & Project Management
+- [zorbyte](https://github.com/zorbyte) - Co-Founder, Advisor, Triager & Code Quality Control
+- [justablob](https://github.com/justablob) - Backend & CLI
 
 ### Core Team
 
-- [divy-work](https://github.com/divy-work)
-- [maximousblk](https://github.com/maximousblk)
-- [martondev](https://github.com/MartonDev)
-- [oganexon](https://github.com/oganexon)
+- [divy-work](https://github.com/divy-work) - Backend Manager
+- [maximousblk](https://github.com/maximousblk) - UX Manager
+- [martondev](https://github.com/MartonDev) - Frontend Manager
+- [oganexon](https://github.com/oganexon) - CLI Manager
 
 ### Contributors
 
@@ -50,15 +59,19 @@ See the [roadmap](/ROADMAP.md).
 
 ### Special Thanks
 
- - [Cedrik Boudreau](https://github.com/cedriking)
+- [Cedrik Boudreau](https://github.com/cedriking)
 
 ### Inspirations
 
- - [Deno Third-Party Modules](https://deno.land/x)
+- [Deno Third-Party Modules](https://deno.land/x)
 
+
+## Copyright
+
+nest.land is licensed under the MIT license. Please see the [LICENSE](../LICENSE) file.
 
  <p align="center">
   <a href="https://vercel.com?utm_source=nest-land">
-    <img src="./web/src/assets/powered_by_vercel.jpg" alt="vercel" width="200">
+    <img src="./assets/powered_by_vercel.jpg" alt="Powered by Vercel" width="200">
   </a>
 </p>
