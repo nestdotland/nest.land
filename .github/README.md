@@ -1,7 +1,7 @@
 <br />
 <p align="center">
   <a href="https://nest.land/">
-    <img src="./assets/logo_light.png" alt="nest.land logo (light version)" width="110">
+    <img src="../assets/logo_light.png" alt="nest.land logo (light version)" width="110">
   </a>
 
   <h3 align="center">nest.land</h3>
@@ -11,7 +11,9 @@
  </p>
 </p>
 
+<!-- markdownlint-disable first-line-heading -->
 ## What is nest.land?
+<!-- markdownlint-enable first-line-heading -->
 
 Nest.land combines Deno with the [Arweave Blockchain](https://www.arweave.org/). With us, you can publish your Deno modules to the permaweb, where they can never be deleted. This avoids a major pitfall for web-based module imports while allowing the developer to maximize on the potential of Deno's import design!
 
@@ -33,7 +35,7 @@ nest.land is split into many services, each in their own respective repositories
 The mentioned services are keystone to making nest.land a better service.
 This diagram is a visualisation of how these parts work together:
 
-![Diagram of nest.land infrastructure](./assets/infra_diagram.svg)
+![Diagram of nest.land infrastructure](../assets/infra_diagram.svg)
 
 ## Credits
 
@@ -72,6 +74,6 @@ nest.land is licensed under the MIT license. Please see the [LICENSE](../LICENSE
 
  <p align="center">
   <a href="https://vercel.com?utm_source=nest-land">
-    <img src="./assets/powered_by_vercel.jpg" alt="Powered by Vercel" width="200">
+    <img src="../assets/powered_by_vercel.jpg" alt="Powered by Vercel" width="200">
   </a>
 </p>
