@@ -110,6 +110,11 @@
         required: true,
       }
     },
+    async created () {
+      await this.reloadFiles();
+      await this.loadCurrentFile();
+      this.checkIfDirOrFileExists();
+    },
     computed: {
       //get current location inside the filesystem
       filesLocation () {
@@ -226,11 +231,6 @@
         return val.replace(new RegExp("/", "g"), "");
       },
     },
-    async created () {
-      await this.reloadFiles();
-      await this.loadCurrentFile();
-      this.checkIfDirOrFileExists();
-    },
     methods: {
       //reload the files, and the filesystem on changes
       async reloadFiles () {
@@ -241,11 +241,7 @@
               this.version.split("@")[1]
             }`,
           )
-          .then(response => {
-            this.files = response.data.files;
-            this.malicious = response.data.malicious;
-            if(response.data.entry !== null) this.entryFile = response.data.entry;
-          });
+          .then(response => this.files = response.data.files);
       },
       //load the current file
       async loadCurrentFile () {

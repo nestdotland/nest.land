@@ -136,6 +136,7 @@
   import * as semverSort from "semver/functions/sort";
   import VueMarkdown from "vue-markdown";
   import FileExplorer from "../components/package/FileExplorer";
+  import axios from 'axios'
 
   export default {
     components: {
@@ -188,7 +189,16 @@
         this.packageReadme = "# No version published yet";
         this.noVersion = true;
       }
-
+      await axios
+        .get(
+          `https://x.nest.land/api/package/${ this.packageInfo.name }/${
+            this.selectedVersion.split("@")[1]
+          }`,
+        )
+        .then(response => {
+          this.malicious = response.data.malicious;
+          if(response.data.entry !== null) this.entryFile = response.data.entry;
+        });
       await this.refreshReadme();
       this.loading = false;
     },
