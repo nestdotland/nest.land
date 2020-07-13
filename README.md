@@ -57,6 +57,10 @@ This diagram is a visualisation of how these parts work together:
 - [jletey](https://github.com/jletey)
 - [qu4k](https://github.com/Qu4k)
 
+### Special Thanks
+
+- [Cedrik Boudreau](https://github.com/cedriking)
+
 ### Inspirations
 
 - [Deno Third-Party Modules](https://deno.land/x)
