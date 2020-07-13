@@ -420,20 +420,21 @@ export default {
         });
         this.packageReadme = await readmeResponse.text();
 
-        let
-          words = this.packageReadme.split(' '),
-          readmeWithAbsolutePaths = []
+        const
+          imgRegex = new RegExp('(\\!\\[)(.*)(\\]\\()(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(\\))', 'g'),
+          labelRegex = new RegExp('(?<=(\\!\\[))(.*)(?=(\\]))', 'g'),
+          pathRegex = new RegExp('(?<=((\\!\\[)(.*)(\\]\\()))(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(?=(\\)))', 'g'),
+          imagesInReadme = this.packageReadme.match(imgRegex)
 
-        for(const word of words) {
+        for(const img of imagesInReadme) {
 
-          if(word.includes(('.png' || '.gif' || '.jpeg' || '.jpg' || '.svg' || '.mp4')))
-            readmeWithAbsolutePaths.push(word.replace('./', `https://x.nest.land/${ this.selectedVersion }/`))
-          else
-            readmeWithAbsolutePaths.push(word)
+          const
+            imgLabel = img.match(labelRegex)[0],
+            imgPath = img.match(pathRegex)[0].replace(/^(\.\/)/, '').replace(/^(\/)/, '')
+
+          this.packageReadme = this.packageReadme.replace(img, `![${ imgLabel }](https://x.nest.land/${ this.selectedVersion }/${ imgPath })`)
 
         }
-
-        this.packageReadme = readmeWithAbsolutePaths.join(' ')
 
       } catch (err) {
         this.$emit("new-error", err);
