@@ -19,7 +19,6 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
-
       <div id="main-nav" class="navbar-menu" :class="burgerClass">
         <div class="navbar-end">
           <router-link
@@ -48,26 +47,26 @@
 </template>
 
 <script>
-export default {
-  name: "NestNav",
-  data() {
-    return {
-      burgerToggled: false,
-      burgerClass: "",
-    };
-  },
-  methods: {
-    toggleBurger() {
-      if (this.burgerToggled) {
-        this.burgerToggled = false;
-        this.burgerClass = "";
-      } else {
-        this.burgerToggled = true;
-        this.burgerClass = "is-active";
-      }
+  export default {
+    name: "NestNav",
+    data() {
+      return {
+        burgerToggled: false,
+        burgerClass: "",
+      };
     },
-  },
-};
+    methods: {
+      toggleBurger() {
+        if (this.burgerToggled) {
+          this.burgerToggled = false;
+          this.burgerClass = "";
+        } else {
+          this.burgerToggled = true;
+          this.burgerClass = "is-active";
+        }
+      },
+    },
+  };
 </script>
 
 <style scoped>

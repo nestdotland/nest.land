@@ -52,7 +52,9 @@
 </template>
 
 <script>
-export default {};
+  export default {
+    name: "Testimonial",
+  };
 </script>
 
 <style lang="scss" scoped>

@@ -205,318 +205,318 @@
 </template>
 
 <script>
-import NestNav from "../components/Nav";
-import { HTTP } from "../http-common";
-import moment from "moment";
-import VueMarkdown from "vue-markdown";
-import * as semverSort from "semver/functions/sort";
-import axios from "axios";
-import { component as VueCodeHighlight } from "vue-code-highlight";
-import "../styles/CodeHighlightTheme.sass";
+  import NestNav from "../components/Nav";
+  import { HTTP } from "../http-common";
+  import moment from "moment";
+  import VueMarkdown from "vue-markdown";
+  import * as semverSort from "semver/functions/sort";
+  import axios from "axios";
+  import { component as VueCodeHighlight } from "vue-code-highlight";
+  import "../styles/CodeHighlightTheme.sass";
 
-export default {
-  components: {
-    NestNav,
-    VueMarkdown,
-    VueCodeHighlight,
-  },
-  data() {
-    return {
-      packageInfo: Object,
-      selectedVersion: "",
-      packageVersions: [],
-      packageReadme: "Loading README...",
-      loading: true,
-      noVersion: false,
-      files: {},
-      fileView: false,
-      currentFileContent: "",
-      currentFileURL: "",
-      entryFile: "/mod.ts",
-      malicious: false,
-      copied: false,
-    };
-  },
-  props: {
-    v: {
-      type: String,
+  export default {
+    components: {
+      NestNav,
+      VueMarkdown,
+      VueCodeHighlight,
     },
-  },
-  filters: {
-    formatDate: function(createdAt) {
-      if (!createdAt) return "";
-      return moment(String(createdAt)).format("LL");
+    data() {
+      return {
+        packageInfo: Object,
+        selectedVersion: "",
+        packageVersions: [],
+        packageReadme: "Loading README...",
+        loading: true,
+        noVersion: false,
+        files: {},
+        fileView: false,
+        currentFileContent: "",
+        currentFileURL: "",
+        entryFile: "/mod.ts",
+        malicious: false,
+        copied: false,
+      };
     },
-    removeSlash (val) {
-      return val.replace(new RegExp("/", "g"), "");
+    props: {
+      v: {
+        type: String,
+      },
     },
-  },
-  async created() {
-    await this.refreshContent();
-    if (this.v === "" || !this.v || this.v === null) {
-      this.selectedVersion = this.packageInfo.latestStableVersion;
-      if (this.selectedVersion === null)
-        this.selectedVersion = this.packageInfo.latestVersion;
-    } else {
-      if (!this.packageInfo.packageUploadNames.includes(this.v)) {
-        this.$router.push("/404");
-      }
-      this.selectedVersion = this.packageInfo.name + "@" + this.v;
-    }
-
-    if (
-      this.packageInfo.latestStableVersion === null &&
-      this.packageInfo.latestVersion === null &&
-      this.packageInfo.packageUploadNames.length === 0
-    ) {
-      this.packageReadme = "# No version published yet";
-      this.noVersion = true;
-    }
-
-    await this.refreshReadme();
-    await this.reloadFiles();
-    await this.loadCurrentFile();
-    this.checkIfDirOrFileExists();
-    this.loading = false;
-  },
-  computed: {
-    isFileBrowse() {
-      return this.$route.path.toLowerCase().includes("/files");
+    filters: {
+      formatDate: function(createdAt) {
+        if (!createdAt) return "";
+        return moment(String(createdAt)).format("LL");
+      },
+      removeSlash (val) {
+        return val.replace(new RegExp("/", "g"), "");
+      },
     },
-    filesLocation() {
-      return this.$route.path.split("/files")[1];
-    },
-    filesLocationList() {
-      let filesWithRoute = [{ display: "/", href: "/" }],
-        locations = "/";
-
-      for (const fileLoc of this.filesLocation.split("/")) {
-        if (fileLoc === "") continue;
-
-        locations += fileLoc.replace(new RegExp("/", "g"), "") + "/";
-        filesWithRoute.push({
-          display: fileLoc.replace(new RegExp("/", "g"), "") + "/",
-          href: locations,
-        });
-      }
-
-      if (filesWithRoute.length > 1)
-        filesWithRoute[filesWithRoute.length - 1].display = filesWithRoute[
-          filesWithRoute.length - 1
-        ].display.replace(new RegExp("/", "g"), "");
-
-      return filesWithRoute;
-    },
-    fileSystem() {
-      let fileSystemData = [];
-
-      for (const file in this.files) {
-        const fileName = file.split("/")[file.split("/").length - 1],
-          fileLocation = file.replace(fileName, ""),
-          fileSize = 0;
-
-        fileSystemData.push({ fileName, fileLocation, fileSize });
-      }
-
-      return fileSystemData;
-    },
-    currentFiles() {
-      return this.fileSystem
-        .filter(file => {
-          return (
-            file.fileLocation.replace(new RegExp("/$"), "") ===
-            this.filesLocation.replace(new RegExp("/$"), "")
-          );
-        })
-        .sort((a, b) => a.fileName.localeCompare(b.fileName));
-    },
-    currentDirectories() {
-      const dirs = [];
-
-      for (const file of this.fileSystem) {
-        const locationWithoutLastSlash = this.filesLocation.replace(
-            new RegExp("/$"),
-            "",
-          ),
-          dirToPush = file.fileLocation
-            .replace(locationWithoutLastSlash, "")
-            .split("/")[1];
-
-        if (
-          !dirs.includes(dirToPush) &&
-          file.fileLocation.includes(locationWithoutLastSlash) &&
-          dirToPush !== ""
-        ) {
-          dirs.push(dirToPush);
-        }
-      }
-
-      return dirs.sort((a, b) => a.localeCompare(b));
-    },
-    //we use this cuz utilizing "./" in the router-link does not work always, because is based on router history
-    parentDir() {
-      const routeWithoutSlashEnding = this.$route.path.endsWith("/")
-        ? this.$route.path.replace(new RegExp("/$"), "")
-        : this.$route.path;
-
-      return routeWithoutSlashEnding.substr(
-        0,
-        routeWithoutSlashEnding.lastIndexOf("/"),
-      );
-    },
-    currentFileExtension() {
-      const routeWithoutSlashEnding = this.$route.path.endsWith("/")
-          ? this.$route.path.replace(new RegExp("/$"), "")
-          : this.$route.path,
-        fileName = routeWithoutSlashEnding.split("/")[
-          routeWithoutSlashEnding.split("/").length - 1
-        ];
-
-      return fileName.split(".")[fileName.split(".").length - 1];
-    },
-    fileContentLines() {
-      if (this.currentFileExtension === "json")
-        return JSON.stringify(this.currentFileContent, null, 4).split(
-          /\r\n|\r|\n/,
-        ).length;
-
-      return this.currentFileContent.split(/\r\n|\r|\n/).length;
-    },
-    entryURL() {
-      const entryFileWithoutFirstSlash = this.entryFile.replace(new RegExp('/', 'i'), '');
-      return `https://x.nest.land/${ this.selectedVersion }/${ entryFileWithoutFirstSlash }`;
-    },
-  },
-  methods: {
-    async refreshContent() {
-      let packageDataResponse;
-      try {
-        packageDataResponse = await HTTP.post("package-client", {
-          data: {
-            name: this.$route.params.id,
-          },
-        });
-        if (packageDataResponse.data.body === "Not Found") {
+    async created() {
+      await this.refreshContent();
+      if (this.v === "" || !this.v || this.v === null) {
+        this.selectedVersion = this.packageInfo.latestStableVersion;
+        if (this.selectedVersion === null)
+          this.selectedVersion = this.packageInfo.latestVersion;
+      } else {
+        if (!this.packageInfo.packageUploadNames.includes(this.v)) {
           this.$router.push("/404");
-          return;
         }
-        this.packageInfo = packageDataResponse.data.body;
-        this.packageVersions = this.sortPackages(
-          this.packageInfo.packageUploadNames,
-        );
-      } catch (err) {
-        this.$emit("new-error", err);
+        this.selectedVersion = this.packageInfo.name + "@" + this.v;
       }
-    },
-    async refreshReadme() {
-      if (this.noVersion) return;
 
-      try {
-        const url =
-          "https://x.nest.land/" + this.selectedVersion + "/README.md";
-        const readmeResponse = await fetch(url, {
-          method: "GET",
-          redirect: "follow",
-        });
-        this.packageReadme = await readmeResponse.text();
-
-        const
-          imgRegex = new RegExp('(\\!\\[)(.*)(\\]\\()(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(\\))', 'g'),
-          labelRegex = new RegExp('(?<=(\\!\\[))(.*)(?=(\\]))', 'g'),
-          pathRegex = new RegExp('(?<=((\\!\\[)(.*)(\\]\\()))(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(?=(\\)))', 'g'),
-          imagesInReadme = this.packageReadme.match(imgRegex)
-
-        for(const img of imagesInReadme) {
-
-          const
-            imgLabel = img.match(labelRegex)[0],
-            imgPath = img.match(pathRegex)[0].replace(/^(\.\/)/, '').replace(/^(\/)/, '')
-
-          this.packageReadme = this.packageReadme.replace(img, `![${ imgLabel }](https://x.nest.land/${ this.selectedVersion }/${ imgPath })`)
-
-        }
-
-      } catch (err) {
-        this.$emit("new-error", err);
+      if (
+        this.packageInfo.latestStableVersion === null &&
+        this.packageInfo.latestVersion === null &&
+        this.packageInfo.packageUploadNames.length === 0
+      ) {
+        this.packageReadme = "# No version published yet";
+        this.noVersion = true;
       }
-    },
-    async reloadFiles() {
-      await axios
-        .get(
-          `https://x.nest.land/api/package/${this.packageInfo.name}/${
-            this.selectedVersion.split("@")[1]
-          }`,
-        )
-        .then(response => {
-          this.files = response.data.files;
-          this.malicious = response.data.malicious;
-          if(response.data.entry !== null) this.entryFile = response.data.entry;
-        });
-    },
-    sortPackages(packageList) {
-      for (let i = 0; i < packageList.length; i++) {
-        packageList[i] = packageList[i].split("@")[1];
-      }
-      return semverSort(packageList).reverse();
-    },
-    getFileItemType(fileName) {
-      if (fileName.split(".").length < 1) return "dir";
 
-      return fileName.split(".")[fileName.split(".").length - 1];
-    },
-    removeSlashFunc(val) {
-      return val.replace(new RegExp("/", "g"), "");
-    },
-    async loadCurrentFile() {
-      const routeWithoutSlashEnding = this.$route.path.endsWith("/")
-          ? this.$route.path.replace(new RegExp("/$"), "")
-          : this.$route.path,
-        fileName = routeWithoutSlashEnding.split("/")[
-          routeWithoutSlashEnding.split("/").length - 1
-        ];
-
-      this.fileView = false;
-
-      for (const file of this.fileSystem)
-        if (fileName === file.fileName) this.fileView = true;
-
-      if (!this.fileView) return;
-
-      this.currentFileURL = `https://x.nest.land/${this.selectedVersion}/${
-        routeWithoutSlashEnding.split("/files/")[1]
-      }`;
-      await axios
-        .get(this.currentFileURL)
-        .then(response => (this.currentFileContent = response.data))
-        .catch(() => this.$router.push(`/404`));
-    },
-    openFile() {
-      this.currentFileContent = "Loading file...";
-    },
-    checkIfDirOrFileExists() {
-      if (!this.isFileBrowse) return;
-
-      const dirExists =
-        Object.keys(this.files).filter(key => key.includes(this.filesLocation))
-          .length > 0;
-
-      if (!(this.filesLocation in this.files) && !dirExists)
-        this.$router.push(`/404`);
-    },
-    copyPackageEntry() {
-      this.$copyText(this.entryURL)
-        .then(() => {
-          this.copied = true
-        });
-    },
-  },
-  watch: {
-    async $route() {
+      await this.refreshReadme();
+      await this.reloadFiles();
       await this.loadCurrentFile();
       this.checkIfDirOrFileExists();
+      this.loading = false;
     },
-  },
-};
+    computed: {
+      isFileBrowse() {
+        return this.$route.path.toLowerCase().includes("/files");
+      },
+      filesLocation() {
+        return this.$route.path.split("/files")[1];
+      },
+      filesLocationList() {
+        let filesWithRoute = [{ display: "/", href: "/" }],
+          locations = "/";
+
+        for (const fileLoc of this.filesLocation.split("/")) {
+          if (fileLoc === "") continue;
+
+          locations += fileLoc.replace(new RegExp("/", "g"), "") + "/";
+          filesWithRoute.push({
+            display: fileLoc.replace(new RegExp("/", "g"), "") + "/",
+            href: locations,
+          });
+        }
+
+        if (filesWithRoute.length > 1)
+          filesWithRoute[filesWithRoute.length - 1].display = filesWithRoute[
+            filesWithRoute.length - 1
+          ].display.replace(new RegExp("/", "g"), "");
+
+        return filesWithRoute;
+      },
+      fileSystem() {
+        let fileSystemData = [];
+
+        for (const file in this.files) {
+          const fileName = file.split("/")[file.split("/").length - 1],
+            fileLocation = file.replace(fileName, ""),
+            fileSize = 0;
+
+          fileSystemData.push({ fileName, fileLocation, fileSize });
+        }
+
+        return fileSystemData;
+      },
+      currentFiles() {
+        return this.fileSystem
+          .filter(file => {
+            return (
+              file.fileLocation.replace(new RegExp("/$"), "") ===
+              this.filesLocation.replace(new RegExp("/$"), "")
+            );
+          })
+          .sort((a, b) => a.fileName.localeCompare(b.fileName));
+      },
+      currentDirectories() {
+        const dirs = [];
+
+        for (const file of this.fileSystem) {
+          const locationWithoutLastSlash = this.filesLocation.replace(
+              new RegExp("/$"),
+              "",
+            ),
+            dirToPush = file.fileLocation
+              .replace(locationWithoutLastSlash, "")
+              .split("/")[1];
+
+          if (
+            !dirs.includes(dirToPush) &&
+            file.fileLocation.includes(locationWithoutLastSlash) &&
+            dirToPush !== ""
+          ) {
+            dirs.push(dirToPush);
+          }
+        }
+
+        return dirs.sort((a, b) => a.localeCompare(b));
+      },
+      //we use this cuz utilizing "./" in the router-link does not work always, because is based on router history
+      parentDir() {
+        const routeWithoutSlashEnding = this.$route.path.endsWith("/")
+          ? this.$route.path.replace(new RegExp("/$"), "")
+          : this.$route.path;
+
+        return routeWithoutSlashEnding.substr(
+          0,
+          routeWithoutSlashEnding.lastIndexOf("/"),
+        );
+      },
+      currentFileExtension() {
+        const routeWithoutSlashEnding = this.$route.path.endsWith("/")
+            ? this.$route.path.replace(new RegExp("/$"), "")
+            : this.$route.path,
+          fileName = routeWithoutSlashEnding.split("/")[
+            routeWithoutSlashEnding.split("/").length - 1
+          ];
+
+        return fileName.split(".")[fileName.split(".").length - 1];
+      },
+      fileContentLines() {
+        if (this.currentFileExtension === "json")
+          return JSON.stringify(this.currentFileContent, null, 4).split(
+            /\r\n|\r|\n/,
+          ).length;
+
+        return this.currentFileContent.split(/\r\n|\r|\n/).length;
+      },
+      entryURL() {
+        const entryFileWithoutFirstSlash = this.entryFile.replace(new RegExp('/', 'i'), '');
+        return `https://x.nest.land/${ this.selectedVersion }/${ entryFileWithoutFirstSlash }`;
+      },
+    },
+    methods: {
+      async refreshContent() {
+        let packageDataResponse;
+        try {
+          packageDataResponse = await HTTP.post("package-client", {
+            data: {
+              name: this.$route.params.id,
+            },
+          });
+          if (packageDataResponse.data.body === "Not Found") {
+            this.$router.push("/404");
+            return;
+          }
+          this.packageInfo = packageDataResponse.data.body;
+          this.packageVersions = this.sortPackages(
+            this.packageInfo.packageUploadNames,
+          );
+        } catch (err) {
+          this.$emit("new-error", err);
+        }
+      },
+      async refreshReadme() {
+        if (this.noVersion) return;
+
+        try {
+          const url =
+            "https://x.nest.land/" + this.selectedVersion + "/README.md";
+          const readmeResponse = await fetch(url, {
+            method: "GET",
+            redirect: "follow",
+          });
+          this.packageReadme = await readmeResponse.text();
+
+          const
+            imgRegex = new RegExp('(\\!\\[)(.*)(\\]\\()(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(\\))', 'g'),
+            labelRegex = new RegExp('(?<=(\\!\\[))(.*)(?=(\\]))', 'g'),
+            pathRegex = new RegExp('(?<=((\\!\\[)(.*)(\\]\\()))(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(?=(\\)))', 'g'),
+            imagesInReadme = this.packageReadme.match(imgRegex)
+
+          for(const img of imagesInReadme) {
+
+            const
+              imgLabel = img.match(labelRegex)[0],
+              imgPath = img.match(pathRegex)[0].replace(/^(\.\/)/, '').replace(/^(\/)/, '')
+
+            this.packageReadme = this.packageReadme.replace(img, `![${ imgLabel }](https://x.nest.land/${ this.selectedVersion }/${ imgPath })`)
+
+          }
+
+        } catch (err) {
+          this.$emit("new-error", err);
+        }
+      },
+      async reloadFiles() {
+        await axios
+          .get(
+            `https://x.nest.land/api/package/${this.packageInfo.name}/${
+              this.selectedVersion.split("@")[1]
+            }`,
+          )
+          .then(response => {
+            this.files = response.data.files;
+            this.malicious = response.data.malicious;
+            if(response.data.entry !== null) this.entryFile = response.data.entry;
+          });
+      },
+      sortPackages(packageList) {
+        for (let i = 0; i < packageList.length; i++) {
+          packageList[i] = packageList[i].split("@")[1];
+        }
+        return semverSort(packageList).reverse();
+      },
+      getFileItemType(fileName) {
+        if (fileName.split(".").length < 1) return "dir";
+
+        return fileName.split(".")[fileName.split(".").length - 1];
+      },
+      removeSlashFunc(val) {
+        return val.replace(new RegExp("/", "g"), "");
+      },
+      async loadCurrentFile() {
+        const routeWithoutSlashEnding = this.$route.path.endsWith("/")
+            ? this.$route.path.replace(new RegExp("/$"), "")
+            : this.$route.path,
+          fileName = routeWithoutSlashEnding.split("/")[
+            routeWithoutSlashEnding.split("/").length - 1
+          ];
+
+        this.fileView = false;
+
+        for (const file of this.fileSystem)
+          if (fileName === file.fileName) this.fileView = true;
+
+        if (!this.fileView) return;
+
+        this.currentFileURL = `https://x.nest.land/${this.selectedVersion}/${
+          routeWithoutSlashEnding.split("/files/")[1]
+        }`;
+        await axios
+          .get(this.currentFileURL)
+          .then(response => (this.currentFileContent = response.data))
+          .catch(() => this.$router.push(`/404`));
+      },
+      openFile() {
+        this.currentFileContent = "Loading file...";
+      },
+      checkIfDirOrFileExists() {
+        if (!this.isFileBrowse) return;
+
+        const dirExists =
+          Object.keys(this.files).filter(key => key.includes(this.filesLocation))
+            .length > 0;
+
+        if (!(this.filesLocation in this.files) && !dirExists)
+          this.$router.push(`/404`);
+      },
+      copyPackageEntry() {
+        this.$copyText(this.entryURL)
+          .then(() => {
+            this.copied = true
+          });
+      },
+    },
+    watch: {
+      async $route() {
+        await this.loadCurrentFile();
+        this.checkIfDirOrFileExists();
+      },
+    },
+  };
 </script>
 
 <style lang="scss">

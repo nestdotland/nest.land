@@ -43,37 +43,37 @@
 </template>
 
 <script>
-import LogIn from "../auth/LogIn.vue";
-import SignUp from "../auth/SignUp.vue";
+  import LogIn from "../auth/LogIn.vue";
+  import SignUp from "../auth/SignUp.vue";
 
-export default {
-  name: "RequestKey",
-  components: {
-    LogIn,
-    SignUp,
-  },
-  data() {
-    return {
-      hasAccount: true,
-      userAccount: {},
-      verificationSucceeded: false,
-      serverError: "",
-      eggsAPIKey: "",
-    };
-  },
-  methods: {
-    toggleHasAccount(condition) {
-      this.hasAccount = condition;
+  export default {
+    name: "RequestKey",
+    components: {
+      LogIn,
+      SignUp,
     },
-    newError(e) {
-      this.serverError = e;
+    data() {
+      return {
+        hasAccount: true,
+        userAccount: {},
+        verificationSucceeded: false,
+        serverError: "",
+        eggsAPIKey: "",
+      };
     },
-    setAPIKey(key) {
-      this.eggsAPIKey = key;
-      this.verificationSucceeded = true;
+    methods: {
+      toggleHasAccount(condition) {
+        this.hasAccount = condition;
+      },
+      newError(e) {
+        this.serverError = e;
+      },
+      setAPIKey(key) {
+        this.eggsAPIKey = key;
+        this.verificationSucceeded = true;
+      },
     },
-  },
-};
+  };
 </script>
 
 <style scoped>

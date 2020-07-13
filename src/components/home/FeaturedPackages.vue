@@ -14,64 +14,64 @@
 </template>
 
 <script>
-import Card from "../Card";
+  import Card from "../Card";
 
-export default {
-  name: "FeaturedPackages",
-  data() {
-    return {
-      items: [
-        {
-          packageTitle: "Hello World",
-          packageURL: "https://nest.land/x/bruh",
-          packageInfo: {
-            author: "Nanny McFee",
-            docsLink: "https://github.com/nannymcfee/helloworld",
-            description: "A simple, easy to use hello world package!",
-            version: "1.0.1",
-            publishedDate: "datetime object here"
+  export default {
+    name: "FeaturedPackages",
+    data() {
+      return {
+        items: [
+          {
+            packageTitle: "Hello World",
+            packageURL: "https://nest.land/x/bruh",
+            packageInfo: {
+              author: "Nanny McFee",
+              docsLink: "https://github.com/nannymcfee/helloworld",
+              description: "A simple, easy to use hello world package!",
+              version: "1.0.1",
+              publishedDate: "datetime object here"
+            }
+          },
+          {
+            packageTitle: "Cheese",
+            packageURL: "https://nest.land/x/bruh",
+            packageInfo: {
+              author: "Zorbyte",
+              docsLink: "https://github.com/nannymcfee/helloworld",
+              description: "A simple, easy to use hello world package!",
+              version: "1.0.1",
+              publishedDate: "datetime object here"
+            }
+          },
+          {
+            packageTitle: "a1",
+            packageURL: "https://nest.land/x/bruh",
+            packageInfo: {
+              author: "sauce",
+              docsLink: "https://github.com/nannymcfee/helloworld",
+              description: "A simple, easy to use hello world package!",
+              version: "1.0.1",
+              publishedDate: "datetime object here"
+            }
+          },
+          {
+            packageTitle: "yo",
+            packageURL: "https://nest.land/x/bruh",
+            packageInfo: {
+              author: "mama",
+              docsLink: "https://github.com/nannymcfee/helloworld",
+              description: "A simple, easy to use hello world package!",
+              version: "1.0.1",
+              publishedDate: "datetime object here"
+            }
           }
-        },
-        {
-          packageTitle: "Cheese",
-          packageURL: "https://nest.land/x/bruh",
-          packageInfo: {
-            author: "Zorbyte",
-            docsLink: "https://github.com/nannymcfee/helloworld",
-            description: "A simple, easy to use hello world package!",
-            version: "1.0.1",
-            publishedDate: "datetime object here"
-          }
-        },
-        {
-          packageTitle: "a1",
-          packageURL: "https://nest.land/x/bruh",
-          packageInfo: {
-            author: "sauce",
-            docsLink: "https://github.com/nannymcfee/helloworld",
-            description: "A simple, easy to use hello world package!",
-            version: "1.0.1",
-            publishedDate: "datetime object here"
-          }
-        },
-        {
-          packageTitle: "yo",
-          packageURL: "https://nest.land/x/bruh",
-          packageInfo: {
-            author: "mama",
-            docsLink: "https://github.com/nannymcfee/helloworld",
-            description: "A simple, easy to use hello world package!",
-            version: "1.0.1",
-            publishedDate: "datetime object here"
-          }
-        }
-      ]
-    };
-  },
-  components: {
-    Card
-  }
-};
+        ]
+      };
+    },
+    components: {
+      Card
+    }
+  };
 </script>
 
 <style scoped>

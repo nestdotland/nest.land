@@ -19,14 +19,14 @@
 </template>
 
 <script>
-import NestNav from "../Nav";
+  import NestNav from "../Nav";
 
-export default {
-  name: "Hero",
-  components: {
-    NestNav,
-  },
-};
+  export default {
+    name: "Hero",
+    components: {
+      NestNav,
+    },
+  };
 </script>
 
 <style scoped>

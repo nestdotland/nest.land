@@ -9,30 +9,29 @@
 </template>
 
 <script>
-export default {
-  name: "App",
-  data() {
-    return {
-      loading: false,
-    };
-  },
-  mounted() {
-    this.showLoading();
-  },
-  methods: {
-    showLoading() {
-      this.loading = true;
-      setTimeout(() => (this.loading = false), 440);
+  export default {
+    name: "App",
+    data() {
+      return {
+        loading: false,
+      };
     },
-  },
-  watch: {
-    $route(to, from) {
-      if (to.path === from.path) return;
-
+    mounted() {
       this.showLoading();
     },
-  },
-};
+    methods: {
+      showLoading() {
+        this.loading = true;
+        setTimeout(() => (this.loading = false), 440);
+      },
+    },
+    watch: {
+      $route(to, from) {
+        if (to.path === from.path) return;
+        this.showLoading();
+      },
+    },
+  };
 </script>
 
 <style lang="scss">

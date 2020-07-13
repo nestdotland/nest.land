@@ -87,14 +87,14 @@
 </template>
 
 <script>
-export default {
-  name: "NestFooter",
-  data() {
-    return {
-      isCheese: false,
-    };
-  },
-};
+  export default {
+    name: "NestFooter",
+    data() {
+      return {
+        isCheese: false,
+      };
+    },
+  };
 </script>
 
 <style scoped lang="scss">

@@ -11,21 +11,20 @@
 </template>
 
 <script>
-export default {
-  name: "Card",
-  props: ["item"],
-  data() {
-    return {
-      package: {},
-      selectedVersion: "",
-    };
-  },
-  created() {
-    this.package = this.item;
-    this.selectedVersion =
-      this.package.name + "@" + this.package.latestStableVersion;
-  },
-};
+  export default {
+    name: "Card",
+    props: ["item"],
+    data() {
+      return {
+        package: {},
+        selectedVersion: "",
+      };
+    },
+    created() {
+      this.package = this.item;
+      this.selectedVersion = this.package.name + "@" + this.package.latestStableVersion;
+    },
+  };
 </script>
 
 <style scoped>

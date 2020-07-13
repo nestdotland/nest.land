@@ -20,18 +20,18 @@
 </template>
 
 <script>
-import notFoundIcon from "../assets/nest_question.png";
-import NestNav from "../components/Nav";
+  import notFoundIcon from "../assets/nest_question.png";
+  import NestNav from "../components/Nav";
 
-export default {
-  name: "NotFound",
-  components: {
-    NestNav,
-  },
-  computed: {
-    notFoundIcon: () => notFoundIcon,
-  },
-};
+  export default {
+    name: "NotFound",
+    components: {
+      NestNav,
+    },
+    computed: {
+      notFoundIcon: () => notFoundIcon,
+    },
+  };
 </script>
 
 <style scoped>
