@@ -2,8 +2,13 @@
   <footer class="footer has-background-dark" id="symmetric-footer">
     <div class="content has-text-white">
       <div class="container">
-        <div class="columns is-hidden-mobile">
-          <div class="column is-8 footer-left">
+        <div class="is-hidden-tablet">
+          <figure class="image is-64x64" style="margin: 0 auto;">
+            <img src="../assets/nest_dark.png" />
+          </figure>
+        </div>
+        <div class="columns">
+          <div class="column is-8 footer-left is-hidden-mobile">
             <figure class="image is-64x64">
               <img src="../assets/nest_dark.png" />
             </figure>
@@ -52,11 +57,6 @@
               </a>
             </div>
           </div>
-        </div>
-        <div class="is-hidden-tablet">
-          <figure class="image is-64x64" style="margin: 0 auto;">
-            <img src="../assets/nest_dark.png" />
-          </figure>
         </div>
         <hr class="is-hidden-mobile" />
         <p class="subtitle is-6 has-text-white has-text-centered">
@@ -122,17 +122,26 @@ a:hover {
 .footer-right {
   .vercel-container {
     float: right;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     #powered-by {
       text-align: right;
       margin-right: 10px;
-      display: inline-block;
       margin-top: 10px;
     }
 
     svg {
       width: 100px;
       float: right;
+    }
+    @media screen and (max-width: 768px) {
+      float: none;
+      margin: 0 auto;
+      svg {
+        float: none;
+      }
     }
   }
 }
