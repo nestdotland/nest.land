@@ -265,6 +265,27 @@
           .get(this.currentFileURL)
           .then(response => (this.currentFileContent = response.data))
           .catch(() => this.$router.push(`/404`));
+        if(this.currentFileExtension === 'md') {
+          //resolving relative paths
+          //the regex finds all image MARKDOWN tags and replaces the urls to x.nest.land
+          //this won't work if the user doesn't publish the dir of the images
+          //TODO: maybe we should consider using the github repo field, if this fails
+          const
+            imgRegex = new RegExp('(\\!\\[)(.*)(\\]\\()(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(\\))', 'g'),
+            labelRegex = new RegExp('(?<=(\\!\\[))(.*)(?=(\\]))', 'g'),
+            pathRegex = new RegExp('(?<=((\\!\\[)(.*)(\\]\\()))(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(?=(\\)))', 'g'),
+            imagesInMarkdown = this.currentFileContent.match(imgRegex)
+
+          for(const img of imagesInMarkdown) {
+
+            const
+              imgLabel = img.match(labelRegex)[0],
+              imgPath = img.match(pathRegex)[0].replace(/^(\.\/)/, '').replace(/^(\/)/, '')
+
+            this.currentFileContent = this.currentFileContent.replace(img, `![${ imgLabel }](https://x.nest.land/${ this.version }/${ imgPath })`)
+
+          }
+        }
       },
       //get if the file item is a directory or an actual file
       getFileItemType (fileName) {
