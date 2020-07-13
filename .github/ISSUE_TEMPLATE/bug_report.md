@@ -15,7 +15,7 @@ Steps to reproduce the behaviour.
 A clear and concise description of what you expected to happen.
 
 **Supporting Information**
-If applicable, add screenshots, stacktraces or other information to help explain your problem.
+If applicable, add screenshots, stacktraces, or other information to help explain your problem.
 
 **Device (please complete the following information):**
 
