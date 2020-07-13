@@ -2,7 +2,7 @@
 name: Feature request
 about: Suggest an idea for this project
 title: "A concise title here!"
-labels: enhancement
+labels: 'type: feature'
 ---
 
 **Is your feature request related to a problem? If so, please describe.**

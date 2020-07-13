@@ -3,6 +3,8 @@ name: Report a malicious module
 about: Send us a report regarding a harmful module
 title: "A concise title here!"
 labels: malicious-module
+title: A concise title here
+labels: 'misc: malicious module'
 ---
 
 **Give us the name of the module, and it's URI on nest.land**
