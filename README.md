@@ -39,23 +39,23 @@ This diagram is a visualisation of how these parts work together:
 
 ### Authors
 
-- [t8](https://github.com/t8) - Co-Founder, Frontend, CLI & Triager
+- [t8](https://github.com/t8) - Co-Founder, Frontend, & Project Management
 - [zorbyte](https://github.com/zorbyte) - Co-Founder, Advisor, Triager & Code Quality Control
 - [justablob](https://github.com/justablob) - Backend & CLI
 
 ### Core Team
 
-- [divy-work](https://github.com/divy-work) - Backend & CLI
+- [divy-work](https://github.com/divy-work) - Backend Manager
 - [maximousblk](https://github.com/maximousblk) - UX Manager
-- [martondev](https://github.com/MartonDev) - Frontend & CLI
-- [oganexon](https://github.com/oganexon) - CLI
+- [martondev](https://github.com/MartonDev) - Frontend Manager
+- [oganexon](https://github.com/oganexon) - CLI Manager
 
 ### Contributors
 
-- [ebebbington](https://github.com/ebebbington) - CLI
-- [yg](https://github.com/yg) - Triager
-- [jletey](https://github.com/jletey) - Backend
-- [qu4k](https://github.com/Qu4k) - Backend & Code Quality Control
+- [ebebbington](https://github.com/ebebbington)
+- [yg](https://github.com/yg)
+- [jletey](https://github.com/jletey)
+- [qu4k](https://github.com/Qu4k)
 
 ### Inspirations
 
