@@ -7,7 +7,7 @@
   <h3 align="center">nest.land</h3>
 
   <p align="center">
-    A module registry for Deno, on the blockchain
+    An immutable module registry for Deno, on the blockchain
  </p>
 </p>
 
