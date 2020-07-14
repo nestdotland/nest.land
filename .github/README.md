@@ -9,6 +9,9 @@
   <p align="center">
     An immutable module registry for Deno, on the blockchain
  </p>
+ <p align="center">
+  <img src="https://opencollective.com/nestdotland/tiers/badge.svg" />
+ </p>
 </p>
 
 <!-- markdownlint-disable first-line-heading -->
