@@ -61,9 +61,9 @@
         <p class="subtitle has-text-right">
           Have more questions? Ask them on our
           <a
-            href="https://opencollective.com/nest-land"
+            href="https://github.com/nestdotland/nest.land/discussions"
             class="has-text-light has-text-underlined"
-          >Open Collective</a>!
+          >GitHub Discussions</a> tab!
         </p>
       </div>
     </div>
