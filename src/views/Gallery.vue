@@ -71,7 +71,6 @@
           <!-- hack to get if the user scrolled to the bottom -->
           <div class="scrolledToBottom" ref="scrolledToBottom">
             <p v-if="loadingPackages">Loading packages... 🥚</p>
-            <p v-else>That's all we have for you :)</p>
           </div>
         </div>
       </div>

@@ -1,11 +1,11 @@
 <template>
-  <div class="hero is-medium is-dark is-bold">
+  <div class="hero is-medium nest-dots-hero">
     <div class="hero-body" id="featured">
       <div class="container">
-        <h1 class="title is-2 has-text-light has-text-centered" id="give-me-space">Featured Packages</h1>
+        <h1 class="title is-2 has-text-light has-text-centered" id="give-me-space">Featured Modules</h1>
         <div class="columns">
-          <div class="column is-3" v-for="item in items" v-bind:key="item.id">
-            <card v-bind:item="item"></card>
+          <div class="column is-3" v-for="m in featuredModules" v-bind:key="m.id">
+            <card v-bind:item="m"></card>
           </div>
         </div>
       </div>
@@ -15,62 +15,26 @@
 
 <script>
   import Card from "../Card";
+  import axios from "axios";
 
   export default {
     name: "FeaturedPackages",
     data() {
       return {
-        items: [
-          {
-            packageTitle: "Hello World",
-            packageURL: "https://nest.land/x/bruh",
-            packageInfo: {
-              author: "Nanny McFee",
-              docsLink: "https://github.com/nannymcfee/helloworld",
-              description: "A simple, easy to use hello world package!",
-              version: "1.0.1",
-              publishedDate: "datetime object here"
-            }
-          },
-          {
-            packageTitle: "Cheese",
-            packageURL: "https://nest.land/x/bruh",
-            packageInfo: {
-              author: "Zorbyte",
-              docsLink: "https://github.com/nannymcfee/helloworld",
-              description: "A simple, easy to use hello world package!",
-              version: "1.0.1",
-              publishedDate: "datetime object here"
-            }
-          },
-          {
-            packageTitle: "a1",
-            packageURL: "https://nest.land/x/bruh",
-            packageInfo: {
-              author: "sauce",
-              docsLink: "https://github.com/nannymcfee/helloworld",
-              description: "A simple, easy to use hello world package!",
-              version: "1.0.1",
-              publishedDate: "datetime object here"
-            }
-          },
-          {
-            packageTitle: "yo",
-            packageURL: "https://nest.land/x/bruh",
-            packageInfo: {
-              author: "mama",
-              docsLink: "https://github.com/nannymcfee/helloworld",
-              description: "A simple, easy to use hello world package!",
-              version: "1.0.1",
-              publishedDate: "datetime object here"
-            }
-          }
-        ]
+        featuredModules: [],
       };
     },
     components: {
       Card
-    }
+    },
+    async created () {
+      //selecting 4 random packages from the last 20 updated packages
+      await axios
+        .get("https://x.nest.land/api/packages/20")
+        .then(response => {
+          this.featuredModules = response.data.sort(() => 0.5 - Math.random()).slice(0, 4);
+        });
+    },
   };
 </script>
 
@@ -78,5 +42,6 @@
 
   #give-me-space
     margin-bottom: 50px
+    color: #363636 !important
 
 </style>

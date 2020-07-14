@@ -1,5 +1,5 @@
 <template>
-  <div class="hero is-medium">
+  <div class="hero is-light is-medium">
     <div class="hero-body" id="intro">
       <div class="container">
         <div class="columns is-vcentered">
