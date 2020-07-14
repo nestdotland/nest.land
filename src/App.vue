@@ -101,11 +101,9 @@
     width: 100vw
     height: 3px
     z-index: 10000000
-
     opacity: 1
     background: linear-gradient(271deg, #22c1c3, #fdbb2d)
     background-size: 400% 400%
-
     -webkit-animation: nestGradient 6s ease infinite
     -moz-animation: nestGradient 6s ease infinite
     animation: nestGradient 6s ease infinite
