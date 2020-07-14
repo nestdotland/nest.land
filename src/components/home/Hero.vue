@@ -1,7 +1,7 @@
 <template>
   <div class="hero is-medium is-light is-bold nest-footprints-hero">
     <div class="hero-head">
-      <div class="notification is-primary is-light">
+      <div class="notification is-primary is-light" v-if="showGhDiscussionsNotification">
         Post about your module(s) or discuss ideas with us on our new
         <a
           href="https://github.com/nestdotland/nest.land/discussions"
@@ -25,14 +25,21 @@
 </template>
 
 <script>
-import NestNav from "../Nav";
+  import NestNav from "../Nav";
 
-export default {
-  name: "Hero",
-  components: {
-    NestNav
-  }
-};
+  export default {
+    name: "Hero",
+    components: {
+      NestNav
+    },
+    data () {
+      return { showGhDiscussionsNotification: true }
+    },
+    created () {
+      if(localStorage.getItem("ghDiscussionsShown") !== null && localStorage.getItem('ghDiscussionsShown') === "true") this.showGhDiscussionsNotification = false
+      localStorage.setItem("ghDiscussionsShown", true)
+    }
+  };
 </script>
 
 <style lang="sass" scoped>
