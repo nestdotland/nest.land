@@ -30,8 +30,8 @@
             </div>
           </div>
           <p class="subtitle">
-            Trying to add a package? See
-            <router-link to="/#start">Getting Started</router-link>.
+            Trying to add a package? See the
+            <a href="https://docs.nest.land/eggs/publishing-a-module.html">documentation</a>.
           </p>
         </div>
       </div>
