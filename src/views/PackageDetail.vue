@@ -88,7 +88,7 @@
                 </p>
                 <div class="panel-block">
                   <font-awesome-icon class="icon-margin-right" :icon="['fa', 'user']" />
-                  Author: {{ packageInfo.owner }}
+                  {{ packageInfo.owner }}
                 </div>
                 <a
                   v-if="packageInfo.repository !== '' && packageInfo.repository !== null"
