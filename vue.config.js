@@ -19,7 +19,7 @@ module.exports = {
       .loader("raw-loader");
   },
   devServer: {
-    proxy: "https://nest.land",
+    // proxy: "https://nest.land",
   },
   css: {
     loaderOptions: {
