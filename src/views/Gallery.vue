@@ -180,10 +180,11 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.nest-heading
-  font-size: .9em
-  font-weight: 400
-  text-transform: uppercase
+
+  .nest-heading
+    font-size: .9em
+    font-weight: 400
+    text-transform: uppercase
 
   .no-hover:hover
     background: none !important
