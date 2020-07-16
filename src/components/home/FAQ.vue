@@ -71,18 +71,21 @@
 </template>
 
 <script>
-  export default {
-    name: "FAQ",
-  };
+export default {
+  name: "FAQ"
+};
 </script>
 
 <style lang="sass" scoped>
+.card
+  border-radius: 20px
+  box-shadow: 0 15px 35px rgba(50, 50, 93, .1), 0 5px 15px rgba(0, 0, 0, .07)
 
-  .card
-    border-radius: 20px
-    box-shadow: 0 15px 35px rgba(50, 50, 93, .1), 0 5px 15px rgba(0, 0, 0, .07)
+  &:hover
+    transform: none
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02)
+    cursor: default
 
   .issue-text
     font-family: "Inconsolata", monospace
-
 </style>

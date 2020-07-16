@@ -11,34 +11,34 @@
 </template>
 
 <script>
-  export default {
-    name: "Card",
-    props: ["item"],
-    data() {
-      return {
-        package: {},
-        selectedVersion: "",
-      };
-    },
-    created() {
-      this.package = this.item;
-      this.selectedVersion = this.package.name + "@" + this.package.latestStableVersion;
-    },
-  };
+export default {
+  name: "Card",
+  props: ["item"],
+  data() {
+    return {
+      package: {},
+      selectedVersion: ""
+    };
+  },
+  created() {
+    this.package = this.item;
+    this.selectedVersion =
+      this.package.name + "@" + this.package.latestStableVersion;
+  }
+};
 </script>
 
 <style lang="sass">
+.card
+  border-radius: 20px
+  box-shadow: 0 0 15px rgba(50, 50, 93, .1), 0 5px 15px rgba(0, 0, 0, .07)
+  transition: transform .15s, box-shadow .15s
 
-  .card
-    border-radius: 20px
-    box-shadow: 0 0 15px rgba(50, 50, 93, .1), 0 5px 15px rgba(0, 0, 0, .07)
+  &:hover
+    transform: translateY(-10px)
+    box-shadow: 0 10px 35px rgba(50, 50, 93, .1), 0 5px 15px rgba(0, 0, 0, .07)
     transition: transform .15s, box-shadow .15s
-
-    &:hover
-      transform: translateY(-10px)
-      box-shadow: 0 10px 35px rgba(50, 50, 93, .1), 0 5px 15px rgba(0, 0, 0, .07)
-      transition: transform .15s, box-shadow .15s
-      cursor: pointer
+    cursor: pointer
 
   .card-header
     border-radius: 20px 20px 0 0
@@ -59,5 +59,4 @@
 
   .image
     margin-right: 0
-
 </style>

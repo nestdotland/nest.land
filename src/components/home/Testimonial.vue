@@ -52,26 +52,30 @@
 </template>
 
 <script>
-  export default {
-    name: "Testimonial",
-  };
+export default {
+  name: "Testimonial"
+};
 </script>
 
 <style lang="sass" scoped>
+.testimonial-card
+  max-width: 600px
+  width: 100%
+  margin: 0 auto
 
-  .testimonial-card
-    max-width: 600px
-    width: 100%
-    margin: 0 auto
+  &:hover
+    transform: none
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02)
+    cursor: default
 
-    .card-content
-      padding: 60px
+  .card-content
+    padding: 60px
 
-      .quotes
-        width: 70px
-        position: absolute
-        left: -15px
-        top: -15px
+    .quotes
+      width: 70px
+      position: absolute
+      left: -15px
+      top: -15px
 
       .title.is-3
         line-height: 1.5
@@ -95,5 +99,4 @@
 
           .subtitle.is-6
             font-size: 0.8em
-
 </style>
