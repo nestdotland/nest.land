@@ -23,7 +23,7 @@
               <a href="https://github.com/justablob">
                 <b>blob</b>
               </a>, &
-              <a href="https://github.com/nestdotland/nest.land#contributors">
+              <a href="https://github.com/nestdotland/nest.land#credits">
                 <b>friends</b>
               </a>.
             </p>
