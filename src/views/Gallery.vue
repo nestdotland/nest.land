@@ -31,7 +31,10 @@
           </div>
           <p class="subtitle">
             Trying to add a package? See the
-            <a href="https://docs.nest.land/eggs/publishing-a-module.html">documentation</a>.
+            <a
+              id="docs-link"
+              href="https://docs.nest.land/eggs/installation.html"
+            >documentation</a>.
           </p>
         </div>
       </div>
@@ -79,109 +82,108 @@
 </template>
 
 <script>
-  import NestNav from "../components/Nav";
-  import GradientBar from "../components/GradientBar";
-  import Card from "../components/Card";
-  import axios from "axios";
+import NestNav from "../components/Nav";
+import GradientBar from "../components/GradientBar";
+import Card from "../components/Card";
+import axios from "axios";
 
-  export default {
-    data() {
-      return {
-        packages: [],
-        shownPackages: [],
-        loading: true,
-        searchPhrase: "",
-        errorMessage: "",
-        loadedPackages: 24,
-        loadingPackages: false,
-        noMorePackages: false,
-      };
+export default {
+  data() {
+    return {
+      packages: [],
+      shownPackages: [],
+      loading: true,
+      searchPhrase: "",
+      errorMessage: "",
+      loadedPackages: 24,
+      loadingPackages: false,
+      noMorePackages: false
+    };
+  },
+  props: {
+    search: {
+      type: String,
+      default: ""
+    }
+  },
+  components: {
+    NestNav,
+    GradientBar,
+    Card
+  },
+  async created() {
+    window.addEventListener("scroll", this.scroll);
+    await this.loadPackagesWithLimit();
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.scroll);
+  },
+  methods: {
+    timeToInt(val) {
+      return new Date(val).getTime();
     },
-    props: {
-      search: {
-        type: String,
-        default: "",
-      },
-    },
-    components: {
-      NestNav,
-      GradientBar,
-      Card,
-    },
-    async created() {
-      window.addEventListener("scroll", this.scroll);
-      await this.loadPackagesWithLimit();
-    },
-    destroyed() {
-      window.removeEventListener("scroll", this.scroll);
-    },
-    methods: {
-      timeToInt(val) {
-        return new Date(val).getTime();
-      },
-      async loadPackagesWithLimit() {
-        this.loadingPackages = true;
-        const previousPackagesLength = this.packages.length;
-        if (this.search !== "") this.searchPhrase = this.search;
-        await axios
-          .get(`https://x.nest.land/api/packages/${this.loadedPackages}`)
-          .then(response => {
-            this.packages = response.data;
-            this.shownPackages = this.packages;
-            this.loading = false;
-            this.loadingPackages = false;
-            if (this.packages.length === previousPackagesLength)
-              this.noMorePackages = true;
-          })
-          .catch(err => (this.errorMessage = err));
-      },
-      async scroll() {
-        const {
-          top,
-          left,
-          right,
-          bottom,
-        } = this.$refs.scrolledToBottom.getBoundingClientRect();
-        if (
-          top >= 0 &&
-          left >= 0 &&
-          right <= (window.innerWidth || document.documentElement.clientWidth) &&
-          bottom <=
-            (window.innerHeight || document.documentElement.clientHeight) &&
-          !this.loadingPackages &&
-          !this.noMorePackages &&
-          this.searchPhrase === ""
-        ) {
-          this.loadedPackages += 24;
-          await this.loadPackagesWithLimit();
-        }
-      },
-    },
-    watch: {
-      searchPhrase() {
-        this.$router
-          .replace({ query: { search: this.searchPhrase } })
-          .catch(() => {});
-        if (this.searchPhrase === "") {
+    async loadPackagesWithLimit() {
+      this.loadingPackages = true;
+      const previousPackagesLength = this.packages.length;
+      if (this.search !== "") this.searchPhrase = this.search;
+      await axios
+        .get(`https://x.nest.land/api/packages/${this.loadedPackages}`)
+        .then(response => {
+          this.packages = response.data;
           this.shownPackages = this.packages;
-          return;
-        }
-        axios.get(`https://x.nest.land/api/packages`).then(response => {
-          this.shownPackages = response.data.filter(({ name }) =>
-            name.toLowerCase().includes(this.searchPhrase.toLowerCase()),
-          );
-        });
-      },
+          this.loading = false;
+          this.loadingPackages = false;
+          if (this.packages.length === previousPackagesLength)
+            this.noMorePackages = true;
+        })
+        .catch(err => (this.errorMessage = err));
     },
-  };
+    async scroll() {
+      const {
+        top,
+        left,
+        right,
+        bottom
+      } = this.$refs.scrolledToBottom.getBoundingClientRect();
+      if (
+        top >= 0 &&
+        left >= 0 &&
+        right <= (window.innerWidth || document.documentElement.clientWidth) &&
+        bottom <=
+          (window.innerHeight || document.documentElement.clientHeight) &&
+        !this.loadingPackages &&
+        !this.noMorePackages &&
+        this.searchPhrase === ""
+      ) {
+        this.loadedPackages += 24;
+        await this.loadPackagesWithLimit();
+      }
+    }
+  },
+  watch: {
+    searchPhrase() {
+      this.$router
+        .replace({ query: { search: this.searchPhrase } })
+        .catch(() => {});
+      if (this.searchPhrase === "") {
+        this.shownPackages = this.packages;
+        return;
+      }
+      axios.get(`https://x.nest.land/api/packages`).then(response => {
+        this.shownPackages = response.data.filter(({ name }) =>
+          name.toLowerCase().includes(this.searchPhrase.toLowerCase())
+        );
+      });
+    }
+  }
+};
 </script>
 
 <style lang="sass" scoped>
-
-  .nest-heading
-    font-size: .9em
-    font-weight: 400
-    text-transform: uppercase
+.nest-heading
+  font-size: .9em
+  font-weight: 400
+  text-transform: uppercase
 
   .no-hover:hover
     background: none !important
@@ -199,7 +201,7 @@
     @media screen and (max-width: 720px)
       width: 100%
 
-    a
+    #docs-link
       color: #00947e !important
       text-shadow: -1px 9px 8px rgba(#00947e, 0.12), 0 5px 15px rgba(#00947e, 0.18)
 
@@ -221,5 +223,4 @@
 
   .gallery-cards-move
     transition: transform 0.8s
-
 </style>
