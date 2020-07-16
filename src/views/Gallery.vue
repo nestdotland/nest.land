@@ -194,7 +194,6 @@ export default {
     transition: all .17s
 
   .subtitle
-    width: 30%
     text-align: center
     display: inline-block
     text-shadow: -1px 9px 8px rgba(50, 50, 93, 0.12), 0 5px 15px rgba(0, 0, 0, 0.18)
