@@ -77,16 +77,16 @@ export default {
       left: -15px
       top: -15px
 
-      .title.is-3
-        line-height: 1.5
-        font-family: "PT Serif", Georgia, serif
-        font-style: italic
-        font-weight: 400
-        color: #616161
+    .title.is-3
+      line-height: 1.5
+      font-family: "PT Serif", Georgia, serif
+      font-style: italic
+      font-weight: 400
+      color: #616161
 
-        @media only screen and (max-width: 768px)
-          font-size: 1.6em
-          line-height: 1.3
+      @media only screen and (max-width: 768px)
+        font-size: 1.6em
+        line-height: 1.3
 
       .media-content
         overflow: hidden
