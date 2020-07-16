@@ -14,7 +14,7 @@
 <!-- markdownlint-disable first-line-heading -->
 ## nest.land website
 <!-- markdownlint-enable first-line-heading -->
-This is the nest.land website written in Vue, deployed on our sponsor, [Vercel](https://vercel.com/).
+This is the nest.land website written in Vue, deployed on our sponsor, [Vercel](https://vercel.com?utm_source=nest-land).
 
 ### Setup and serve (debug)
 Please use the Yarn package manager, if you want to contribute to the front-end
