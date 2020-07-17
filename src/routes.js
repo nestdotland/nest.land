@@ -2,6 +2,7 @@ import Home from "./views/Home";
 import Gallery from "./views/Gallery";
 import PackageDetail from "./views/PackageDetail";
 import NotFound from "./views/NotFound";
+import StdGallery from "./views/StdGallery";
 
 export const routes = [
   {
@@ -21,6 +22,10 @@ export const routes = [
   {
     path: "/package/:id/*",
     component: PackageDetail
+  },
+  {
+    path: "/std",
+    component: StdGallery
   },
   {
     path: "/404",
