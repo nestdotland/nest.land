@@ -11,7 +11,7 @@
               <denologo />
               <div class="std-description">
                 <h1 class="title is-1">The std gallery <span class="std-version">{{ version }}</span></h1>
-                <p class="subtitle">This is a mirror of Deno's Standard Modules. The code itself is not maintained, modified, or updated by nest.land. New versions are published when they are released by Deno. <br>These modules do not have external dependencies and they are reviewed by the Deno core team. The intention is to have a standard set of high quality code that all Deno projects can use fearlessly.</p>
+                <p class="subtitle">This is a mirror of <a href="https://deno.land/std" target="_blank" rel="noopener noreferrer">Deno's Standard Modules</a>. The code itself is not maintained, modified, or updated by nest.land. New versions are published when they are released by Deno. <br>These modules do not have external dependencies and they are reviewed by the Deno core team. The intention is to have a standard set of high quality code that all Deno projects can use fearlessly. <br>Read more about it in their <a href="https://github.com/denoland/deno/tree/master/std" target="_blank" rel="noopener noreferrer">repo</a>.</p>
               </div>
             </div>
             <div class="std-info">
@@ -116,6 +116,9 @@
 
     .std-description
       width: 78%
+
+      a
+        color: $accentColor
 
       @media screen and (max-width: $mobileScreenMaxWidth)
         width: 100%
