@@ -96,6 +96,9 @@
       vertical-align: super
       font-family: "Inconsolata", monospace
 
+  .subtitle
+    text-shadow: -1px 9px 8px rgba(50, 50, 93, .12), 0 5px 15px rgba(0, 0, 0, .18)
+
   .title:not(.is-spaced) + .subtitle
     margin: 0
 
