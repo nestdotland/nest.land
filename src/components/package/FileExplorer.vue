@@ -6,13 +6,12 @@
         <div
            class="filesTitle"
            v-if="filesLocation === '' || filesLocation === '/'"
-        >Browse package files</div>
+        >Browse module files</div>
         <div class="filesTitle" v-else>
-          <!--routethis-->
           <router-link
              v-for="fileLocation in filesLocationList"
              :key="fileLocation.id"
-             :to="'/package/' + $route.params.id + '/files' + fileLocation.href" 
+             :to="std ? ('/std/' + name + '/' + version + fileLocation.href) : ('/package/' + $route.params.id + '/files' + fileLocation.href)" 
           >{{ fileLocation.display }}</router-link>
         </div>
         <a
@@ -23,7 +22,7 @@
            v-if="fileView && (currentFileExtension === 'ts' || currentFileExtension === 'js')"
         >View Documentation</a>
       </div>
-      <router-link class="panel-block" :to="parentDir">
+      <router-link class="panel-block" :to="parentDir" v-if="!std || (filesLocation !== '' && filesLocation !== '/')">
         <font-awesome-icon class="icon-margin-right" :icon="['fa', 'level-up-alt']" />
         {{ filesLocation === '' || filesLocation === '/' ? 'Return to package review' : 'Go up' }}
       </router-link>
@@ -114,6 +113,10 @@
       std: {
         type: Boolean,
         default: false,
+      },
+      //std submodule name
+      submodule: {
+        type: String
       }
     },
     async created () {
@@ -125,7 +128,7 @@
       //get current location inside the filesystem
       filesLocation () {
         if(this.std)
-          return this.$route.path.split(`${ this.name }/${ this.version }`)[0];
+          return this.$route.path.split(`/std/${ this.submodule }/${ this.version }`)[1];
         return this.$route.path.split("/files")[1];
       },
       //get the filesystem
@@ -266,9 +269,8 @@
 
         if (!this.fileView) return;
 
-        //filesthis
-        this.currentFileURL = `https://x.nest.land/${ this.version }/${
-          this.std ? routeWithoutSlashEnding.split(`${ this.name }/${ this.version }`)[1] : routeWithoutSlashEnding.split("/files/")[1]
+        this.currentFileURL = `https://x.nest.land/${ this.std ? (this.name + "@" + this.version) : (this.version + '/') }${
+          this.std ? routeWithoutSlashEnding.split(`${ this.submodule }/${ this.version }`)[1] : routeWithoutSlashEnding.split("/files/")[1]
         }`;
         await axios
           .get(this.currentFileURL)

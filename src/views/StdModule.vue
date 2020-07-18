@@ -27,7 +27,7 @@
                 <hr class="mini-hr" />
               </div>
               <!--TODO: replace this to std before merge-->
-              <FileExplorer :std="true" :version="version" name="std-test" />
+              <FileExplorer :std="true" :version="version" name="std-test" :submodule="module" />
               <vue-markdown
                 :source="moduleReadme"
                 :toc="true"
