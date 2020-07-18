@@ -26,6 +26,8 @@
                 <p class="subtitle">A library by Deno authors for {{ module }}</p>
                 <hr class="mini-hr" />
               </div>
+              <!--TODO: replace this to std before merge-->
+              <FileExplorer :std="true" :version="version" name="std-test" />
               <vue-markdown
                 :source="moduleReadme"
                 :toc="true"
@@ -44,11 +46,13 @@
   import NestNav from "../components/Nav";
   import VueMarkdown from "vue-markdown";
   import axios from "axios";
+  import FileExplorer from "../components/package/FileExplorer";
 
   export default {
     components: {
       NestNav,
       VueMarkdown,
+      FileExplorer,
     },
     data() {
       return {
@@ -83,8 +87,7 @@
             this.moduleReadme = 'No readme available for this std submodule.'
           }
           this.loading = false;
-        })
-        .catch(() => this.$router.push('/404'));
+        });
     },
   };
 </script>
@@ -92,6 +95,9 @@
 <style lang="sass">
 
   @import "../styles/Markdown"
+
+  .file-explorer
+    margin-bottom: 30px
 
   .readme
     margin-top: 1.5rem !important

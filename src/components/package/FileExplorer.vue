@@ -8,10 +8,11 @@
            v-if="filesLocation === '' || filesLocation === '/'"
         >Browse package files</div>
         <div class="filesTitle" v-else>
+          <!--routethis-->
           <router-link
              v-for="fileLocation in filesLocationList"
              :key="fileLocation.id"
-             :to="'/package/' + $route.params.id + '/files' + fileLocation.href"
+             :to="'/package/' + $route.params.id + '/files' + fileLocation.href" 
           >{{ fileLocation.display }}</router-link>
         </div>
         <a
@@ -108,6 +109,11 @@
       name: {
         type: String,
         required: true,
+      },
+      //is it an std submodule
+      std: {
+        type: Boolean,
+        default: false,
       }
     },
     async created () {
@@ -118,6 +124,8 @@
     computed: {
       //get current location inside the filesystem
       filesLocation () {
+        if(this.std)
+          return this.$route.path.split(`${ this.name }/${ this.version }`)[0];
         return this.$route.path.split("/files")[1];
       },
       //get the filesystem
@@ -237,7 +245,7 @@
         await axios
           .get(
             `https://x.nest.land/api/package/${ this.name }/${
-              this.version.split("@")[1]
+              this.std ? this.version : this.version.split("@")[1]
             }`,
           )
           .then(response => this.files = response.data.files);
@@ -258,8 +266,9 @@
 
         if (!this.fileView) return;
 
+        //filesthis
         this.currentFileURL = `https://x.nest.land/${ this.version }/${
-          routeWithoutSlashEnding.split("/files/")[1]
+          this.std ? routeWithoutSlashEnding.split(`${ this.name }/${ this.version }`)[1] : routeWithoutSlashEnding.split("/files/")[1]
         }`;
         await axios
           .get(this.currentFileURL)
@@ -282,7 +291,7 @@
               imgLabel = img.match(labelRegex)[0],
               imgPath = img.match(pathRegex)[0].replace(/^(\.\/)/, '').replace(/^(\/)/, '')
 
-            this.currentFileContent = this.currentFileContent.replace(img, `![${ imgLabel }](https://x.nest.land/${ this.version }/${ imgPath })`)
+            this.currentFileContent = this.currentFileContent.replace(img, `![${ imgLabel }](https://x.nest.land/${ this.std ? (this.name + '@' + this.version) : this.version }/${ imgPath })`)
 
           }
         }

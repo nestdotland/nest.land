@@ -34,6 +34,11 @@ export const routes = [
     props: true
   },
   {
+    path: "/std/:module/:version/*",
+    component: StdModule,
+    props: true
+  },
+  {
     path: "/404",
     component: NotFound
   },
