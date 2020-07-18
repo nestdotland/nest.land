@@ -41,7 +41,7 @@
         <div class="container">
           <div class="columns is-vcentered">
             <div class="column is-half">
-              <p class="is-uppercase">Latest Publish: 05/10/2020</p>
+              <p class="is-uppercase">Latest Publish: {{ latestPublish }} (<span :style="{ color: (isOutdated ? '#ff0000' : '#00947e') }">{{ isOutdated ? 'Outdated' : 'Up to date' }}</span>)</p>
             </div>
             <div class="column is-half">
               <div class="select is-light has-light-arrow version-select">
@@ -74,6 +74,7 @@
   import Card from "../components/Card";
   import axios from "axios";
   import * as semverSort from "semver/functions/sort";
+  import moment from "moment";
 
   export default {
     name: "StdGallery",
@@ -89,7 +90,9 @@
         searchPhrase: '',
         loading: true,
         version: "1.0.0",
+        latestPublish: "",
         versions: [],
+        isOutdated: false
       };
     },
     async created () {
@@ -97,11 +100,19 @@
       await axios
         .get("https://x.nest.land/api/package/std-test")
         .then(res => {
+          this.latestPublish = moment(res.data.updatedAt).format("MMM D, YYYY");
           this.versions = this.sortPackages(res.data.packageUploadNames);
           this.version = this.versions[0];
         });
       await this.getModules();
       this.loading = false;
+      //an additional check. this returns if the std published on nest.land is up to date with the latest deno std release on deno.land/std
+      axios
+        .get("https://deno.land/std/version.ts")
+        .then(res => {
+          const latestStdVersion = res.data.match(new RegExp("(?<=(export const VERSION = \"))(.*)(?=(\"))", "g"))[0];
+          this.isOutdated = (latestStdVersion !== this.version)
+        })
     },
     methods: {
       async getModules () {

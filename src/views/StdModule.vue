@@ -13,7 +13,7 @@
       </div>
       <div class="hero-body">
         <div class="container">
-          <h1 class="title has-text-centered">{{ module }}</h1>
+          <h1 class="title has-text-centered"><span class="std-title">std/</span>{{ module }}</h1>
         </div>
       </div>
     </div>
@@ -95,6 +95,9 @@
 
   .readme
     margin-top: 1.5rem !important
+
+  span.std-title
+    font-family: "Inconsolata", monospace
 
   .markdown
     +markdown()
