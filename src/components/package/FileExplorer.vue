@@ -168,6 +168,7 @@
       },
       //get the files in the current directory
       currentFiles () {
+        if(this.fileView) return [];
         return this.fileSystem
           .filter(file => {
             return (
@@ -180,6 +181,8 @@
       //get folders in the current directory
       currentDirectories () {
         const dirs = [];
+
+        if(this.fileView) return [];
 
         for (const file of this.fileSystem) {
           const locationWithoutLastSlash = this.filesLocation.replace(
@@ -194,7 +197,10 @@
             !dirs.includes(dirToPush) &&
             file.fileLocation.includes(locationWithoutLastSlash) &&
             dirToPush !== ""
-          ) {
+          ) {         
+            if(this.std && dirToPush === '..')
+              continue;
+
             dirs.push(dirToPush);
           }
         }
@@ -251,16 +257,16 @@
               this.std ? this.version : this.version.split("@")[1]
             }`,
           )
-          .then(response => this.files = response.data.files);
+          .then(response => this.files = response.data.files)
+          .catch(() => {});
       },
       //load the current file
       async loadCurrentFile () {
+
         const routeWithoutSlashEnding = this.$route.path.endsWith("/")
           ? this.$route.path.replace(new RegExp("/$"), "")
           : this.$route.path,
-          fileName = routeWithoutSlashEnding.split("/")[
-          routeWithoutSlashEnding.split("/").length - 1
-            ];
+          fileName = routeWithoutSlashEnding.split("/")[routeWithoutSlashEnding.split("/").length - 1];
 
         this.fileView = false;
 
@@ -272,10 +278,12 @@
         this.currentFileURL = `https://x.nest.land/${ this.std ? (this.name + "@" + this.version) : (this.version + '/') }${
           this.std ? routeWithoutSlashEnding.split(`${ this.submodule }/${ this.version }`)[1] : routeWithoutSlashEnding.split("/files/")[1]
         }`;
+
         await axios
           .get(this.currentFileURL)
           .then(response => (this.currentFileContent = response.data))
           .catch(() => this.$router.push(`/404`));
+
         if(this.currentFileExtension === 'md') {
           //resolving relative paths
           //the regex finds all image MARKDOWN tags and replaces the urls to x.nest.land
@@ -286,6 +294,8 @@
             labelRegex = new RegExp('(?<=(\\!\\[))(.*)(?=(\\]))', 'g'),
             pathRegex = new RegExp('(?<=((\\!\\[)(.*)(\\]\\()))(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(?=(\\)))', 'g'),
             imagesInMarkdown = this.currentFileContent.match(imgRegex)
+
+          if(imagesInMarkdown === null) return;
 
           for(const img of imagesInMarkdown) {
 
