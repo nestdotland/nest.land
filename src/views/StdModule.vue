@@ -13,7 +13,10 @@
       </div>
       <div class="hero-body">
         <div class="container">
-          <h1 class="title has-text-centered"><span class="std-title">std/</span>{{ module }}</h1>
+          <h1 class="title has-text-centered std-module-head">
+            <router-link to="/std" class="back-arrow"><font-awesome-icon :icon="['fa', 'arrow-left']" /></router-link>
+            <span class="std-title">std/</span>{{ module }}
+          </h1>
         </div>
       </div>
     </div>
@@ -22,10 +25,6 @@
         <div class="container">
           <div class="columns reverse-column-order">
             <div class="column is-12">
-              <div v-show="moduleReadme === 'Loading README...'">
-                <p class="subtitle">A library by Deno authors for {{ module }}</p>
-                <hr class="mini-hr" />
-              </div>
               <FileExplorer :std="true" :version="version" name="std" :submodule="module" />
               <vue-markdown
                 :source="moduleReadme"
@@ -97,6 +96,16 @@
 
   .file-explorer
     margin-bottom: 30px
+
+  .std-module-head a.back-arrow
+    float: left
+    display: inline-block
+    vertical-align: middle
+    color: rgba(0, 0, 0, .7)
+    transition: transform .3s
+
+    &:active
+      transform: scale(1.2, 1.2)  
 
   .readme
     margin-top: 1.5rem !important
