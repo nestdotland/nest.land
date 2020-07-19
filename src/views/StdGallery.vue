@@ -8,10 +8,10 @@
         <transition name="slide-up" type="animation" appear>
           <div class="container">
             <div class="columns is-vcentered">
-              <div class="column is-2">
+              <div class="column is-2 is-hidden-mobile">
                 <denologo />
               </div>
-              <div class="column is-10">
+              <div class="column">
                 <div class="std-description">
                   <h1 class="title is-2">Deno Standard Library <span class="std-version">{{ version }}</span></h1>
                   <p class="subtitle">An immutable, decentralized mirror of Deno's Standard Modules</p>
@@ -42,7 +42,7 @@
     <div class="hero is-light">
       <div class="hero-body">
         <div class="container">
-          <div class="columns is-vcentered">
+          <div class="columns is-vcentered is-mobile">
             <div class="column is-half">
               <p class="is-uppercase">Latest Publish: {{ latestPublish }} (<span :style="{ color: (isOutdated ? '#ff0000' : '#00947e') }">{{ isOutdated ? 'Outdated' : 'Up to date' }}</span>)</p>
             </div>
