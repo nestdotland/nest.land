@@ -53,7 +53,7 @@
                 <p
                   class="subtitle has-text-dark"
                 >Does nest.land have Deno's Standard Modules built in?</p>
-                <p>No, we do not. Nest.land is meant to work in tandem to Deno. Our goal is not to replace all of Deno's Standard Modules with our own or copy others' modules.</p>
+                <p>Yes, we do! If you wish to ensure security and long time support for your project, that uses the std library, nest.land provides an immutable <router-link to="/std">mirror</router-link> to it.</p>
               </div>
             </div>
           </div>
@@ -88,4 +88,7 @@ export default {
 
   .issue-text
     font-family: "Inconsolata", monospace
+
+  a
+    color: $accentColor
 </style>
