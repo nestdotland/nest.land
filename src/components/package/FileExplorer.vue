@@ -15,12 +15,12 @@
           >{{ fileLocation.display }}</router-link>
         </div>
         <a
-           :href="'https://doc.deno.land/https/x.nest.land/' + version + filesLocation"
+           :href="std ? ('https://doc.deno.land/https/x.nest.land/std@' + version + filesLocation) : ('https://doc.deno.land/https/x.nest.land/' + version + filesLocation)"
            target="_blank"
            rel="noopener noreferrer"
            class="file-documentation"
            v-if="fileView && (currentFileExtension === 'ts' || currentFileExtension === 'js')"
-        >View Documentation</a>
+        ><font-awesome-icon :icon="['fas', 'book']" /></a>
       </div>
       <router-link class="panel-block" :to="parentDir" v-if="!std || (filesLocation !== '' && filesLocation !== '/' && filesLocation !== ('/' + submodule) && filesLocation !== submodule)">
         <font-awesome-icon class="icon-margin-right" :icon="['fa', 'level-up-alt']" />
