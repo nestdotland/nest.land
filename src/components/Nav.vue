@@ -27,6 +27,12 @@
             active-class="active-link"
             exact
           >The Gallery</router-link>
+          <router-link
+            class="navbar-item has-text-dark"
+            to="/std"
+            active-class="active-link"
+            exact
+          >Standard Library</router-link>
           <a
              class="navbar-item has-text-dark"
              href="https://docs.nest.land"

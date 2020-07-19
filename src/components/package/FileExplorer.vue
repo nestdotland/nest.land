@@ -6,23 +6,23 @@
         <div
            class="filesTitle"
            v-if="filesLocation === '' || filesLocation === '/'"
-        >Browse package files</div>
+        >Browse module files</div>
         <div class="filesTitle" v-else>
           <router-link
              v-for="fileLocation in filesLocationList"
              :key="fileLocation.id"
-             :to="'/package/' + $route.params.id + '/files' + fileLocation.href"
+             :to="std ? ('/std/' + submodule + '/' + version + fileLocation.href) : ('/package/' + $route.params.id + '/files' + fileLocation.href)" 
           >{{ fileLocation.display }}</router-link>
         </div>
         <a
-           :href="'https://doc.deno.land/https/x.nest.land/' + version + filesLocation"
+           :href="std ? ('https://doc.deno.land/https/x.nest.land/std@' + version + filesLocation) : ('https://doc.deno.land/https/x.nest.land/' + version + filesLocation)"
            target="_blank"
            rel="noopener noreferrer"
            class="file-documentation"
            v-if="fileView && (currentFileExtension === 'ts' || currentFileExtension === 'js')"
-        >View Documentation</a>
+        ><font-awesome-icon :icon="['fas', 'book']" /></a>
       </div>
-      <router-link class="panel-block" :to="parentDir">
+      <router-link class="panel-block" :to="parentDir" v-if="!std || (filesLocation !== '' && filesLocation !== '/' && filesLocation !== ('/' + submodule) && filesLocation !== submodule)">
         <font-awesome-icon class="icon-margin-right" :icon="['fa', 'level-up-alt']" />
         {{ filesLocation === '' || filesLocation === '/' ? 'Return to package review' : 'Go up' }}
       </router-link>
@@ -108,6 +108,15 @@
       name: {
         type: String,
         required: true,
+      },
+      //is it an std submodule
+      std: {
+        type: Boolean,
+        default: false,
+      },
+      //std submodule name
+      submodule: {
+        type: String
       }
     },
     async created () {
@@ -118,6 +127,8 @@
     computed: {
       //get current location inside the filesystem
       filesLocation () {
+        if(this.std)
+          return `/${ this.submodule }` + this.$route.path.split(`/std/${ this.submodule }/${ this.version }`)[1];
         return this.$route.path.split("/files")[1];
       },
       //get the filesystem
@@ -140,7 +151,7 @@
 
         for (const fileLoc of this.filesLocation.split("/")) {
           if (fileLoc === "") continue;
-
+          if (this.std && fileLoc.replace(new RegExp("/", "g"), "") === this.submodule) continue;
           locations += fileLoc.replace(new RegExp("/", "g"), "") + "/";
           filesWithRoute.push({
             display: fileLoc.replace(new RegExp("/", "g"), "") + "/",
@@ -157,6 +168,7 @@
       },
       //get the files in the current directory
       currentFiles () {
+        if(this.fileView) return [];
         return this.fileSystem
           .filter(file => {
             return (
@@ -169,6 +181,8 @@
       //get folders in the current directory
       currentDirectories () {
         const dirs = [];
+
+        if(this.fileView) return [];
 
         for (const file of this.fileSystem) {
           const locationWithoutLastSlash = this.filesLocation.replace(
@@ -183,7 +197,10 @@
             !dirs.includes(dirToPush) &&
             file.fileLocation.includes(locationWithoutLastSlash) &&
             dirToPush !== ""
-          ) {
+          ) {         
+            if(this.std && dirToPush === '..')
+              continue;
+
             dirs.push(dirToPush);
           }
         }
@@ -237,19 +254,19 @@
         await axios
           .get(
             `https://x.nest.land/api/package/${ this.name }/${
-              this.version.split("@")[1]
+              this.std ? this.version : this.version.split("@")[1]
             }`,
           )
-          .then(response => this.files = response.data.files);
+          .then(response => this.files = response.data.files)
+          .catch(() => {});
       },
       //load the current file
       async loadCurrentFile () {
+
         const routeWithoutSlashEnding = this.$route.path.endsWith("/")
           ? this.$route.path.replace(new RegExp("/$"), "")
           : this.$route.path,
-          fileName = routeWithoutSlashEnding.split("/")[
-          routeWithoutSlashEnding.split("/").length - 1
-            ];
+          fileName = routeWithoutSlashEnding.split("/")[routeWithoutSlashEnding.split("/").length - 1];
 
         this.fileView = false;
 
@@ -258,13 +275,15 @@
 
         if (!this.fileView) return;
 
-        this.currentFileURL = `https://x.nest.land/${ this.version }/${
-          routeWithoutSlashEnding.split("/files/")[1]
+        this.currentFileURL = `https://x.nest.land/${ this.std ? (this.name + "@" + this.version + '/' + this.submodule) : (this.version + '/') }${
+          this.std ? routeWithoutSlashEnding.split(`${ this.submodule }/${ this.version }`)[1] : routeWithoutSlashEnding.split("/files/")[1]
         }`;
+
         await axios
           .get(this.currentFileURL)
           .then(response => (this.currentFileContent = response.data))
           .catch(() => this.$router.push(`/404`));
+
         if(this.currentFileExtension === 'md') {
           //resolving relative paths
           //the regex finds all image MARKDOWN tags and replaces the urls to x.nest.land
@@ -276,13 +295,15 @@
             pathRegex = new RegExp('(?<=((\\!\\[)(.*)(\\]\\()))(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(?=(\\)))', 'g'),
             imagesInMarkdown = this.currentFileContent.match(imgRegex)
 
+          if(imagesInMarkdown === null) return;
+
           for(const img of imagesInMarkdown) {
 
             const
               imgLabel = img.match(labelRegex)[0],
               imgPath = img.match(pathRegex)[0].replace(/^(\.\/)/, '').replace(/^(\/)/, '')
 
-            this.currentFileContent = this.currentFileContent.replace(img, `![${ imgLabel }](https://x.nest.land/${ this.version }/${ imgPath })`)
+            this.currentFileContent = this.currentFileContent.replace(img, `![${ imgLabel }](https://x.nest.land/${ this.std ? (this.name + '@' + this.version) : this.version }/${ imgPath })`)
 
           }
         }
