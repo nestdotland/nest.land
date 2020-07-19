@@ -11,7 +11,7 @@
           <router-link
              v-for="fileLocation in filesLocationList"
              :key="fileLocation.id"
-             :to="std ? ('/std/' + name + '/' + version + fileLocation.href) : ('/package/' + $route.params.id + '/files' + fileLocation.href)" 
+             :to="std ? ('/std/' + submodule + '/' + version + fileLocation.href) : ('/package/' + $route.params.id + '/files' + fileLocation.href)" 
           >{{ fileLocation.display }}</router-link>
         </div>
         <a
@@ -151,7 +151,7 @@
 
         for (const fileLoc of this.filesLocation.split("/")) {
           if (fileLoc === "") continue;
-
+          if (this.std && fileLoc.replace(new RegExp("/", "g"), "") === this.submodule) continue;
           locations += fileLoc.replace(new RegExp("/", "g"), "") + "/";
           filesWithRoute.push({
             display: fileLoc.replace(new RegExp("/", "g"), "") + "/",
