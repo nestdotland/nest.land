@@ -104,6 +104,10 @@
     color: rgba(0, 0, 0, .7)
     transition: transform .3s
 
+  a.back-arrow
+    font-size: 20px !important
+    margin-top: 10px
+
     &:active
       transform: scale(1.2, 1.2)  
 
