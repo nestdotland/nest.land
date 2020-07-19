@@ -22,13 +22,16 @@
         </transition>
       </div>
       <div class="hero-foot">
-        <nav class="tabs is-boxed is-fullwidth">
+        <nav class="tabs is-boxed is-fullwidth has-text-centered">
           <div class="container">
-            <ul>
+            <ul class="no-flex">
               <li>
-                <a href="https://github.com/nestdotland/std" class="no-hover">
+                <a class="no-hover" href="https://github.com/nestdotland/std">
                   <font-awesome-icon :icon="['fab', 'github']" />
                 </a>
+              </li>
+              <li>
+                <p>Copyright (c) 2018-{{ currentYear }} Deno Authors<br>Licensed under the <a class="no-hover mit-license-link" href="https://github.com/denoland/deno/blob/master/LICENSE">MIT license</a></p>
               </li>
             </ul>
           </div>
@@ -138,6 +141,9 @@
         return { name: mod, description: `A library by Deno authors for ${ mod }`, version: this.version };
       },
     },
+    computed: {
+      currentYear: () => moment().format("YYYY")
+    },
     watch: {
       async version () {
         this.loading = true;
@@ -149,6 +155,15 @@
 </script>
 
 <style lang="sass" scoped>
+  .no-flex
+    display: block
+
+  .mit-license-link
+    display: inline-block
+    padding: 0
+    margin: 0
+    color: $accentColor !important
+
   .hero.is-light .title
     margin-bottom: .5em
 
