@@ -30,9 +30,6 @@
                   <font-awesome-icon :icon="['fab', 'github']" />
                 </a>
               </li>
-              <li>
-                <p>Copyright (c) 2018-{{ currentYear }} Deno Authors<br>Licensed under the <a class="no-hover mit-license-link" href="https://github.com/denoland/deno/blob/master/LICENSE">MIT license</a></p>
-              </li>
             </ul>
           </div>
         </nav>
