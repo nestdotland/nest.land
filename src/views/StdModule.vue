@@ -102,7 +102,7 @@
     margin-top: 1.5rem !important
 
   span.std-title
-    font-family: "Inconsolata", monospace
+    font-weight: 400 !important
 
   .markdown
     +markdown()
