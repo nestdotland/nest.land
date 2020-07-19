@@ -53,7 +53,7 @@
                 <p
                   class="subtitle has-text-dark"
                 >Does nest.land have Deno's Standard Modules built in?</p>
-                <p>Yes, we do! If you wish to ensure security and long time support for your project, that uses the std library, nest.land provides an immutable <router-link to="/std">mirror</router-link> to it.</p>
+                <p>Yes, we do! If you wish to ensure security and immutability of your standard modules, check out nest.land's std <router-link to="/std">mirror</router-link>.</p>
               </div>
             </div>
           </div>
