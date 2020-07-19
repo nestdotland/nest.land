@@ -22,7 +22,7 @@
            v-if="fileView && (currentFileExtension === 'ts' || currentFileExtension === 'js')"
         >View Documentation</a>
       </div>
-      <router-link class="panel-block" :to="parentDir" v-if="!std || (filesLocation !== '' && filesLocation !== '/')">
+      <router-link class="panel-block" :to="parentDir" v-if="!std || (filesLocation !== '' && filesLocation !== '/' && filesLocation !== ('/' + submodule) && filesLocation !== submodule)">
         <font-awesome-icon class="icon-margin-right" :icon="['fa', 'level-up-alt']" />
         {{ filesLocation === '' || filesLocation === '/' ? 'Return to package review' : 'Go up' }}
       </router-link>
@@ -128,7 +128,7 @@
       //get current location inside the filesystem
       filesLocation () {
         if(this.std)
-          return this.$route.path.split(`/std/${ this.submodule }/${ this.version }`)[1];
+          return `/${ this.submodule }` + this.$route.path.split(`/std/${ this.submodule }/${ this.version }`)[1];
         return this.$route.path.split("/files")[1];
       },
       //get the filesystem
@@ -275,7 +275,7 @@
 
         if (!this.fileView) return;
 
-        this.currentFileURL = `https://x.nest.land/${ this.std ? (this.name + "@" + this.version) : (this.version + '/') }${
+        this.currentFileURL = `https://x.nest.land/${ this.std ? (this.name + "@" + this.version + '/' + this.submodule) : (this.version + '/') }${
           this.std ? routeWithoutSlashEnding.split(`${ this.submodule }/${ this.version }`)[1] : routeWithoutSlashEnding.split("/files/")[1]
         }`;
 
