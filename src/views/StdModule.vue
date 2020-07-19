@@ -26,8 +26,7 @@
                 <p class="subtitle">A library by Deno authors for {{ module }}</p>
                 <hr class="mini-hr" />
               </div>
-              <!--TODO: replace this to std before merge-->
-              <FileExplorer :std="true" :version="version" name="std-test" :submodule="module" />
+              <FileExplorer :std="true" :version="version" name="std" :submodule="module" />
               <vue-markdown
                 :source="moduleReadme"
                 :toc="true"
@@ -73,15 +72,15 @@
     async created() {
       //TODO: replace this to std before merge
       await axios
-        .get(`https://x.nest.land/api/package/std-test/${ this.version }`)
+        .get(`https://x.nest.land/api/package/std/${ this.version }`)
         .then(res => {
           if(`/${ this.module }/README.md` in res.data.files) {
             //TODO: replace this to std before merge
             axios
-              .get(`https://x.nest.land/std-test@${ this.version }/${ this.module }/README.md`)
+              .get(`https://x.nest.land/std@${ this.version }/${ this.module }/README.md`)
               .then(readmeRes => {
                 //replace https://deno.land/std urls to https://x.nest.land/std
-                this.moduleReadme = readmeRes.data.replace(new RegExp("(http|https)://deno.land/std", "g"), `https://x.nest.land/std-test@${ this.version }`); //TODO: replace this to std before merge
+                this.moduleReadme = readmeRes.data.replace(new RegExp("(http|https)://deno.land/std", "g"), `https://x.nest.land/std@${ this.version }`); //TODO: replace this to std before merge
               });
           }else {
             this.moduleReadme = 'No readme available for this std submodule.'

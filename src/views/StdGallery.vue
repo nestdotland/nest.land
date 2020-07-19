@@ -96,9 +96,8 @@
       };
     },
     async created () {
-      //TODO: replace this to std before merge
       await axios
-        .get("https://x.nest.land/api/package/std-test")
+        .get("https://x.nest.land/api/package/std")
         .then(res => {
           this.latestPublish = moment(res.data.updatedAt).format("MMM D, YYYY");
           this.versions = this.sortPackages(res.data.packageUploadNames);
@@ -116,9 +115,8 @@
     },
     methods: {
       async getModules () {
-        //TODO: replace this to std before merge
         await axios
-          .get(`https://x.nest.land/api/package/std-test/${ this.version }`)
+          .get(`https://x.nest.land/api/package/std/${ this.version }`)
           .then(res => {
             for(const file in res.data.files) {
               if(file.split("/")[1] === undefined) continue;
