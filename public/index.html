@@ -5,9 +5,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link rel="icon" media="(prefers-color-scheme:dark)" href="<%= BASE_URL %>images/nest.land/favicon_dark.svg" type="image/svg" />
   <link rel="icon" media="(prefers-color-scheme:light)" href="<%= BASE_URL %>images/nest.land/favicon_light.svg" type="image/svg" />
-  <script src="https://unpkg.com/favicon-switcher@1.2.2/dist/index.js" crossorigin="anonymous" type="application/javascript"></script> 
+  <link rel="icon" media="(prefers-color-scheme:dark)" href="<%= BASE_URL %>images/nest.land/favicon_dark.svg" type="image/svg" />
   <title><%= htmlWebpackPlugin.options.title %></title>
 
   <!-- Search Engine -->
@@ -36,16 +35,6 @@
   <meta name="og:site_name" content="nest.land">
   <meta name="og:locale" content="en_US">
   <meta name="og:type" content="website">
-
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-168010978-1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'UA-168010978-1');
-  </script>
 </head>
 
 <body>
@@ -56,6 +45,17 @@
   <div id="app"></div>
   <!-- built files will be auto injected -->
 
+  <!-- Dynamic favicon support -->
+  <script src="https://unpkg.com/favicon-switcher@1.2.2/dist/index.js" crossorigin="anonymous" type="application/javascript"></script> 
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-168010978-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-168010978-1');
+  </script>
 </body>
 
 </html>
