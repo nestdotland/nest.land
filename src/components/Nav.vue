@@ -35,9 +35,11 @@
           >Documentation</a>
           <div class="navbar-item">
             <div class="buttons">
-              <router-link class="button is-light is-primary" id="get-started-button" to="/#start">
+              <button class="button is-light is-primary"
+                      id="get-started-button"
+                      @click="jumpToGetStarted">
                 <strong>Get Started</strong>
-              </router-link>
+              </button>
             </div>
           </div>
         </div>
@@ -64,6 +66,9 @@
           this.burgerToggled = true;
           this.burgerClass = "is-active";
         }
+      },
+      jumpToGetStarted(){
+        this.$SmoothScroll(document.getElementById('start'));
       },
     },
   };
