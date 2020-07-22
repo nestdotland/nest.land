@@ -3,7 +3,7 @@
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <router-link class="navbar-item" to="/">
-          <img src="../assets/nest_light.png" />
+          <img src="/images/nest.land/logo_light.svg" />
         </router-link>
         <a
           role="button"
