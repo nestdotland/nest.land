@@ -1,5 +1,11 @@
 <template>
-  <router-link :to="`/${ std ? 'std' : 'package' }/${ item.name }${ std ? ('/' + item.version) : '' }`" class="card" tag="div">
+  <router-link
+    :to="
+      `/${std ? 'std' : 'package'}/${item.name}${std ? '/' + item.version : ''}`
+    "
+    class="card"
+    tag="div"
+  >
     <div class="card-content">
       <div class="content">
         <p class="title is-4">{{ item.name }}</p>
@@ -12,7 +18,7 @@
 
 <script>
 export default {
-  name: "Card",
+  name: 'Card',
   props: {
     item: {
       type: Object
@@ -25,13 +31,13 @@ export default {
   data() {
     return {
       package: {},
-      selectedVersion: ""
+      selectedVersion: ''
     };
   },
   created() {
     this.package = this.item;
     this.selectedVersion =
-      this.package.name + "@" + this.package.latestStableVersion;
+      this.package.name + '@' + this.package.latestStableVersion;
   }
 };
 </script>

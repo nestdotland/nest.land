@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const HTTP = axios.create({
-  baseURL: "/api/",
+  baseURL: '/api/',
   headers: {
     // Authorization: 'Bearer {token}'
   },

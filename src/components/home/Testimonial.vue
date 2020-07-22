@@ -6,14 +6,23 @@
           <div class="column">
             <div class="card testimonial-card">
               <div class="card-content">
-                <img class="quotes" src="../../assets/quotes.png" alt="Quotes" />
-                <p
-                  class="title is-3"
-                >Nest.land's approach to solving a critical piece of the ecosystem is well thought out, and a pleasure to watch unfold.</p>
+                <img
+                  class="quotes"
+                  src="../../assets/quotes.png"
+                  alt="Quotes"
+                />
+                <p class="title is-3">
+                  Nest.land's approach to solving a critical piece of the
+                  ecosystem is well thought out, and a pleasure to watch unfold.
+                </p>
                 <div class="media">
                   <div class="media-left">
                     <figure class="image is-48x48">
-                      <img class="is-rounded" src="../../assets/noehr.jpg" alt="Jesper" />
+                      <img
+                        class="is-rounded"
+                        src="../../assets/noehr.jpg"
+                        alt="Jesper"
+                      />
                     </figure>
                   </div>
                   <div class="media-content">
@@ -27,14 +36,24 @@
           <div class="column">
             <div class="card testimonial-card">
               <div class="card-content">
-                <img class="quotes" src="../../assets/quotes.png" alt="Quotes" />
-                <p
-                  class="title is-3"
-                >Blockchains are the only way we know of to enable fully decentralized package registries, a concept long overdue for some proper exploration with nest.land.</p>
+                <img
+                  class="quotes"
+                  src="../../assets/quotes.png"
+                  alt="Quotes"
+                />
+                <p class="title is-3">
+                  Blockchains are the only way we know of to enable fully
+                  decentralized package registries, a concept long overdue for
+                  some proper exploration with nest.land.
+                </p>
                 <div class="media">
                   <div class="media-left">
                     <figure class="image is-48x48">
-                      <img class="is-rounded" src="../../assets/bedford.jpeg" alt="Bedford" />
+                      <img
+                        class="is-rounded"
+                        src="../../assets/bedford.jpeg"
+                        alt="Bedford"
+                      />
                     </figure>
                   </div>
                   <div class="media-content">
@@ -53,7 +72,7 @@
 
 <script>
 export default {
-  name: "Testimonial"
+  name: 'Testimonial'
 };
 </script>
 

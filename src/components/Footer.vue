@@ -14,18 +14,13 @@
             </figure>
             <p class="subtitle is-6 has-text-white">
               A platform by
-              <a href="https://github.com/t8">
-                <b>t8</b>
-              </a>,
-              <a href="https://github.com/zorbyte">
-                <b>zorbyte</b>
-              </a>,
-              <a href="https://github.com/justablob">
-                <b>blob</b>
-              </a>, &
+              <a href="https://github.com/t8"> <b>t8</b> </a>,
+              <a href="https://github.com/zorbyte"> <b>zorbyte</b> </a>,
+              <a href="https://github.com/justablob"> <b>blob</b> </a>, &
               <a href="https://github.com/nestdotland/nest.land#credits">
                 <b>friends</b>
-              </a>.
+              </a>
+              .
             </p>
             <p class="subtitle is-6 has-text-white">
               Made with
@@ -62,11 +57,14 @@
         <p class="subtitle is-6 has-text-white has-text-centered">
           nest.land is licensed under the
           <a href="http://opensource.org/licenses/mit-license.php">
-            <b>MIT License</b>
-          </a>.
+            <b>MIT License</b> </a
+          >.
         </p>
         <p class="has-text-centered">
-          <a href="https://github.com/nestdotland/nest.land" class="footer-icon">
+          <a
+            href="https://github.com/nestdotland/nest.land"
+            class="footer-icon"
+          >
             <font-awesome-icon :icon="['fab', 'github']" />
           </a>
           <span class="footer-icon-separator"></span>
@@ -87,71 +85,70 @@
 </template>
 
 <script>
-  export default {
-    name: "NestFooter",
-    data() {
-      return {
-        isCheese: false,
-      };
-    },
-  };
+export default {
+  name: 'NestFooter',
+  data() {
+    return {
+      isCheese: false
+    };
+  }
+};
 </script>
 
 <style lang="sass" scoped>
 
-  #symmetric-footer
-    padding: 3rem 1.5rem
+#symmetric-footer
+  padding: 3rem 1.5rem
 
-  a, a:hover
-    color: white
+a, a:hover
+  color: white
 
-  .footer-left
+.footer-left
 
-    .image
-      float: left
-      margin: 0 25px 0 0
+  .image
+    float: left
+    margin: 0 25px 0 0
 
-    p:not(:first-child)
-      margin-bottom: 5px
-      margin-top: 3px
+  p:not(:first-child)
+    margin-bottom: 5px
+    margin-top: 3px
 
-  .footer-right
+.footer-right
 
-    .vercel-container
+  .vercel-container
+    float: right
+    display: flex
+    align-items: center
+    justify-content: center
+
+    #powered-by
+      text-align: right
+      margin-right: 10px
+      margin-top: 10px
+
+    svg
+      width: 100px
       float: right
-      display: flex
-      align-items: center
-      justify-content: center
 
-      #powered-by
-        text-align: right
-        margin-right: 10px
-        margin-top: 10px
+    @media screen and (max-width: $mobileScreenMaxWidth)
+      float: none
+      margin: 0 auto
 
       svg
-        width: 100px
-        float: right
-
-      @media screen and (max-width: $mobileScreenMaxWidth)
         float: none
-        margin: 0 auto
 
-        svg
-          float: none
+hr
+  width: 5%
+  min-width: 30px
+  margin: 25px auto
+  background: rgb(34, 193, 195)
+  background: -moz-linear-gradient(90deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%)
+  background: -webkit-linear-gradient(90deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%)
+  background: linear-gradient(90deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%)
 
-  hr
-    width: 5%
-    min-width: 30px
-    margin: 25px auto
-    background: rgb(34, 193, 195)
-    background: -moz-linear-gradient(90deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%)
-    background: -webkit-linear-gradient(90deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%)
-    background: linear-gradient(90deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%)
+.footer-icon
+  font-size: 1.5em
 
-  .footer-icon
-    font-size: 1.5em
-
-  .footer-icon-separator
-    margin-left: 15px
-
+.footer-icon-separator
+  margin-left: 15px
 </style>

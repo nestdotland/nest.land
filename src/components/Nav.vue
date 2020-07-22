@@ -26,22 +26,29 @@
             to="/gallery"
             active-class="active-link"
             exact
-          >The Gallery</router-link>
+            >The Gallery</router-link
+          >
           <router-link
             class="navbar-item has-text-dark"
             to="/std"
             active-class="active-link"
             exact
-          >Standard Library</router-link>
+            >Standard Library</router-link
+          >
           <a
-             class="navbar-item has-text-dark"
-             href="https://docs.nest.land"
-             target="_blank"
-             rel="noopener noreferrer"
-          >Documentation</a>
+            class="navbar-item has-text-dark"
+            href="https://docs.nest.land"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Documentation</a
+          >
           <div class="navbar-item">
             <div class="buttons">
-              <router-link class="button is-light is-primary" id="get-started-button" to="/#start">
+              <router-link
+                class="button is-light is-primary"
+                id="get-started-button"
+                to="/#start"
+              >
                 <strong>Get Started</strong>
               </router-link>
             </div>
@@ -53,41 +60,40 @@
 </template>
 
 <script>
-  export default {
-    name: "NestNav",
-    data() {
-      return {
-        burgerToggled: false,
-        burgerClass: "",
-      };
-    },
-    methods: {
-      toggleBurger() {
-        if (this.burgerToggled) {
-          this.burgerToggled = false;
-          this.burgerClass = "";
-        } else {
-          this.burgerToggled = true;
-          this.burgerClass = "is-active";
-        }
-      },
-    },
-  };
+export default {
+  name: 'NestNav',
+  data() {
+    return {
+      burgerToggled: false,
+      burgerClass: ''
+    };
+  },
+  methods: {
+    toggleBurger() {
+      if (this.burgerToggled) {
+        this.burgerToggled = false;
+        this.burgerClass = '';
+      } else {
+        this.burgerToggled = true;
+        this.burgerClass = 'is-active';
+      }
+    }
+  }
+};
 </script>
 
 <style lang="sass" scoped>
 
-  #get-started-button
-    font-family: "Inconsolata", monospace
+#get-started-button
+  font-family: "Inconsolata", monospace
 
-  .navbar-item:hover,
-  .navbar-item:focus,
-  .navbar-item:focus-within,
-  .navbar-burger
-    background: none !important
+.navbar-item:hover,
+.navbar-item:focus,
+.navbar-item:focus-within,
+.navbar-burger
+  background: none !important
 
-  .navbar-item.active-link
-    border-top: .4rem solid #fdbb2d
-    padding-top: .1rem
-
+.navbar-item.active-link
+  border-top: .4rem solid #fdbb2d
+  padding-top: .1rem
 </style>
