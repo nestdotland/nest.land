@@ -1,49 +1,49 @@
-import Home from './views/Home';
-import Gallery from './views/Gallery';
-import PackageDetail from './views/PackageDetail';
-import NotFound from './views/NotFound';
-import StdGallery from './views/StdGallery';
-import StdModule from './views/StdModule';
+import Home from "./views/Home";
+import Gallery from "./views/Gallery";
+import PackageDetail from "./views/PackageDetail";
+import NotFound from "./views/NotFound";
+import StdGallery from "./views/StdGallery";
+import StdModule from "./views/StdModule";
 
 export const routes = [
   {
-    path: '',
-    component: Home,
+    path: "",
+    component: Home
   },
   {
-    path: '/gallery',
+    path: "/gallery",
     component: Gallery,
-    props: (route) => ({ search: route.query.search }),
+    props: route => ({ search: route.query.search })
   },
   {
-    path: '/package/:id',
+    path: "/package/:id",
     component: PackageDetail,
-    props: (route) => ({ v: route.query.v }),
+    props: route => ({ v: route.query.v })
   },
   {
-    path: '/package/:id/*',
-    component: PackageDetail,
+    path: "/package/:id/*",
+    component: PackageDetail
   },
   {
-    path: '/std',
-    component: StdGallery,
+    path: "/std",
+    component: StdGallery
   },
   {
-    path: '/std/:module/:version',
+    path: "/std/:module/:version",
     component: StdModule,
-    props: true,
+    props: true
   },
   {
-    path: '/std/:module/:version/*',
+    path: "/std/:module/:version/*",
     component: StdModule,
-    props: true,
+    props: true
   },
   {
-    path: '/404',
-    component: NotFound,
+    path: "/404",
+    component: NotFound
   },
   {
-    path: '*',
-    redirect: '/404',
-  },
+    path: "*",
+    redirect: "/404"
+  }
 ];
