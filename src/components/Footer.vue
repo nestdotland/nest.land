@@ -4,13 +4,13 @@
       <div class="container">
         <div class="is-hidden-tablet">
           <figure class="image is-64x64" style="margin: 0 auto;">
-            <img src="../assets/nest_dark.png" />
+            <img src="/images/nest.land/logo_dark.svg" />
           </figure>
         </div>
         <div class="columns">
           <div class="column is-8 footer-left is-hidden-mobile">
             <figure class="image is-64x64">
-              <img src="../assets/nest_dark.png" />
+              <img src="/images/nest.land/logo_dark.svg" />
             </figure>
             <p class="subtitle is-6 has-text-white">
               A platform by

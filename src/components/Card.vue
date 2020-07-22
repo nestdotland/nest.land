@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="`/package/${item.name}`" class="card" tag="div">
+  <router-link :to="`/${ std ? 'std' : 'package' }/${ item.name }${ std ? ('/' + item.version) : '' }`" class="card" tag="div">
     <div class="card-content">
       <div class="content">
         <p class="title is-4">{{ item.name }}</p>
@@ -13,7 +13,15 @@
 <script>
 export default {
   name: "Card",
-  props: ["item"],
+  props: {
+    item: {
+      type: Object
+    },
+    std: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       package: {},

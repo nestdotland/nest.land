@@ -39,6 +39,8 @@ import {
   faCopy,
   faCheckSquare,
   faFlag,
+  faBook,
+  faArrowLeft
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -71,6 +73,8 @@ library.add(
   faCopy,
   faCheckSquare,
   faFlag,
+  faBook,
+  faArrowLeft
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
