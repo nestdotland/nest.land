@@ -86,7 +86,7 @@
 
 <script>
 export default {
-  name: 'NestFooter',
+  name: "NestFooter",
   data() {
     return {
       isCheese: false

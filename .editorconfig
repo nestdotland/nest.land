@@ -8,4 +8,4 @@ trim_trailing_whitespace = false
 insert_final_newline = false
 
 [*.{js,ts,vue}]
-quote_type = single
+quote_type = double

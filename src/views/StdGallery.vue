@@ -50,7 +50,7 @@
               <p class="is-uppercase">
                 Latest Publish: {{ latestPublish }} (<span
                   :style="{ color: isOutdated ? '#ff0000' : '#00947e' }"
-                  >{{ isOutdated ? 'Outdated' : 'Up to date' }}</span
+                  >{{ isOutdated ? "Outdated" : "Up to date" }}</span
                 >)
               </p>
             </div>
@@ -88,45 +88,45 @@
 </template>
 
 <script>
-import NestNav from '../components/Nav';
-import GradientBar from '../components/GradientBar';
-import denologo from '../assets/deno.svg';
-import Card from '../components/Card';
-import axios from 'axios';
-import * as semverSort from 'semver/functions/sort';
-import moment from 'moment';
+import NestNav from "../components/Nav";
+import GradientBar from "../components/GradientBar";
+import denologo from "../assets/deno.svg";
+import Card from "../components/Card";
+import axios from "axios";
+import * as semverSort from "semver/functions/sort";
+import moment from "moment";
 
 export default {
-  name: 'StdGallery',
+  name: "StdGallery",
   components: {
     NestNav,
     GradientBar,
     Card,
-    denologo,
+    denologo
   },
   data() {
     return {
       modules: [],
-      searchPhrase: '',
+      searchPhrase: "",
       loading: true,
-      version: '1.0.0',
-      latestPublish: '',
+      version: "1.0.0",
+      latestPublish: "",
       versions: [],
-      isOutdated: false,
+      isOutdated: false
     };
   },
   async created() {
-    await axios.get('https://x.nest.land/api/package/std').then((res) => {
-      this.latestPublish = moment(res.data.updatedAt).format('MMM D, YYYY');
+    await axios.get("https://x.nest.land/api/package/std").then(res => {
+      this.latestPublish = moment(res.data.updatedAt).format("MMM D, YYYY");
       this.versions = this.sortPackages(res.data.packageUploadNames);
       this.version = this.versions[0];
     });
     await this.getModules();
     this.loading = false;
     //an additional check. this returns if the std published on nest.land is up to date with the latest deno std release on deno.land/std
-    axios.get('https://deno.land/std/version.ts').then((res) => {
+    axios.get("https://deno.land/std/version.ts").then(res => {
       const latestStdVersion = res.data.match(
-        new RegExp('(?<=(export const VERSION = "))(.*)(?=("))', 'g')
+        new RegExp('(?<=(export const VERSION = "))(.*)(?=("))', "g")
       )[0];
       this.isOutdated = latestStdVersion !== this.version;
     });
@@ -135,17 +135,17 @@ export default {
     async getModules() {
       await axios
         .get(`https://x.nest.land/api/package/std/${this.version}`)
-        .then((res) => {
+        .then(res => {
           for (const file in res.data.files) {
-            if (file.split('/')[1] === undefined) continue;
-            const firstDirName = file.split('/')[1];
+            if (file.split("/")[1] === undefined) continue;
+            const firstDirName = file.split("/")[1];
             //checking if it is a json/readme/.ts file or is an empty dir and continuing
             if (
-              firstDirName === 'README.md' ||
-              firstDirName.includes('.ts') ||
-              firstDirName.includes('.json') ||
-              firstDirName === '' ||
-              firstDirName === '..'
+              firstDirName === "README.md" ||
+              firstDirName.includes(".ts") ||
+              firstDirName.includes(".json") ||
+              firstDirName === "" ||
+              firstDirName === ".."
             )
               continue;
             if (!this.modules.includes(firstDirName))
@@ -155,7 +155,7 @@ export default {
     },
     sortPackages(packageList) {
       for (let i = 0; i < packageList.length; i++) {
-        packageList[i] = packageList[i].split('@')[1];
+        packageList[i] = packageList[i].split("@")[1];
       }
       return semverSort(packageList).reverse();
     },
@@ -163,20 +163,20 @@ export default {
       return {
         name: mod,
         description: `A library by Deno authors for ${mod}`,
-        version: this.version,
+        version: this.version
       };
-    },
+    }
   },
   computed: {
-    currentYear: () => moment().format('YYYY'),
+    currentYear: () => moment().format("YYYY")
   },
   watch: {
     async version() {
       this.loading = true;
       await this.getModules();
       this.loading = false;
-    },
-  },
+    }
+  }
 };
 </script>
 

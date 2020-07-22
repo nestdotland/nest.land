@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'GradientBar'
+  name: "GradientBar"
 };
 </script>
 

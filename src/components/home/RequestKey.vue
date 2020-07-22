@@ -53,11 +53,11 @@
 </template>
 
 <script>
-import LogIn from '../auth/LogIn.vue';
-import SignUp from '../auth/SignUp.vue';
+import LogIn from "../auth/LogIn.vue";
+import SignUp from "../auth/SignUp.vue";
 
 export default {
-  name: 'RequestKey',
+  name: "RequestKey",
   components: {
     LogIn,
     SignUp
@@ -67,8 +67,8 @@ export default {
       hasAccount: true,
       userAccount: {},
       verificationSucceeded: false,
-      serverError: '',
-      eggsAPIKey: ''
+      serverError: "",
+      eggsAPIKey: ""
     };
   },
   methods: {

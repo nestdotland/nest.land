@@ -102,7 +102,7 @@
                         v-for="(version, id) in packageVersions"
                         :key="id"
                         :value="$route.params.id + '@' + version"
-                        >{{ $route.params.id + '@' + version }}</option
+                        >{{ $route.params.id + "@" + version }}</option
                       >
                     </select>
                   </div>
@@ -132,7 +132,7 @@
                 <a
                   v-if="
                     packageInfo.repository !== '' &&
-                    packageInfo.repository !== null
+                      packageInfo.repository !== null
                   "
                   class="panel-block"
                   :href="packageInfo.repository"
@@ -178,7 +178,7 @@
                   class="panel-block"
                   :href="
                     'https://github.com/nestdotland/nest.land/issues/new?labels=malicious-module&template=report_malicious_module.md&title=%5BMODULE+REPORT%5D%20Malicious%20module:%20' +
-                    $route.params.id
+                      $route.params.id
                   "
                   target="_blank"
                   rel="noopener noreferrer"
@@ -199,55 +199,55 @@
 </template>
 
 <script>
-import NestNav from '../components/Nav';
-import { HTTP } from '../http-common';
-import moment from 'moment';
-import * as semverSort from 'semver/functions/sort';
-import VueMarkdown from 'vue-markdown';
-import FileExplorer from '../components/package/FileExplorer';
-import axios from 'axios';
+import NestNav from "../components/Nav";
+import { HTTP } from "../http-common";
+import moment from "moment";
+import * as semverSort from "semver/functions/sort";
+import VueMarkdown from "vue-markdown";
+import FileExplorer from "../components/package/FileExplorer";
+import axios from "axios";
 
 export default {
   components: {
     NestNav,
     VueMarkdown,
-    FileExplorer,
+    FileExplorer
   },
   data() {
     return {
       packageInfo: Object,
-      selectedVersion: '',
+      selectedVersion: "",
       packageVersions: [],
-      packageReadme: 'Loading README...',
+      packageReadme: "Loading README...",
       loading: true,
       noVersion: false,
-      entryFile: '/mod.ts',
+      entryFile: "/mod.ts",
       malicious: false,
-      copied: false,
+      copied: false
     };
   },
   props: {
     v: {
-      type: String,
-    },
+      type: String
+    }
   },
   filters: {
-    formatDate: function (createdAt) {
-      if (!createdAt) return '';
-      return moment(String(createdAt)).format('LL');
-    },
+    formatDate: function(createdAt) {
+      if (!createdAt) return "";
+      return moment(String(createdAt)).format("LL");
+    }
   },
   async created() {
     await this.refreshContent();
-    if (this.v === '' || !this.v || this.v === null) {
+    if (this.v === "" || !this.v || this.v === null) {
       this.selectedVersion = this.packageInfo.latestStableVersion;
       if (this.selectedVersion === null)
         this.selectedVersion = this.packageInfo.latestVersion;
     } else {
       if (!this.packageInfo.packageUploadNames.includes(this.v)) {
-        this.$router.push('/404');
+        this.$router.push("/404");
       }
-      this.selectedVersion = this.packageInfo.name + '@' + this.v;
+      this.selectedVersion = this.packageInfo.name + "@" + this.v;
     }
 
     if (
@@ -255,16 +255,16 @@ export default {
       this.packageInfo.latestVersion === null &&
       this.packageInfo.packageUploadNames.length === 0
     ) {
-      this.packageReadme = '# No version published yet';
+      this.packageReadme = "# No version published yet";
       this.noVersion = true;
     }
     await axios
       .get(
         `https://x.nest.land/api/package/${this.packageInfo.name}/${
-          this.selectedVersion.split('@')[1]
+          this.selectedVersion.split("@")[1]
         }`
       )
-      .then((response) => {
+      .then(response => {
         this.malicious = response.data.malicious;
         if (response.data.entry !== null) this.entryFile = response.data.entry;
       });
@@ -273,27 +273,27 @@ export default {
   },
   computed: {
     isFileBrowse() {
-      return this.$route.path.toLowerCase().includes('/files');
+      return this.$route.path.toLowerCase().includes("/files");
     },
     entryURL() {
       const entryFileWithoutFirstSlash = this.entryFile.replace(
-        new RegExp('/', 'i'),
-        ''
+        new RegExp("/", "i"),
+        ""
       );
       return `https://x.nest.land/${this.selectedVersion}/${entryFileWithoutFirstSlash}`;
-    },
+    }
   },
   methods: {
     async refreshContent() {
       let packageDataResponse;
       try {
-        packageDataResponse = await HTTP.post('package-client', {
+        packageDataResponse = await HTTP.post("package-client", {
           data: {
-            name: this.$route.params.id,
-          },
+            name: this.$route.params.id
+          }
         });
-        if (packageDataResponse.data.body === 'Not Found') {
-          this.$router.push('/404');
+        if (packageDataResponse.data.body === "Not Found") {
+          this.$router.push("/404");
           return;
         }
         this.packageInfo = packageDataResponse.data.body;
@@ -301,7 +301,7 @@ export default {
           this.packageInfo.packageUploadNames
         );
       } catch (err) {
-        this.$emit('new-error', err);
+        this.$emit("new-error", err);
       }
     },
     async refreshReadme() {
@@ -309,10 +309,10 @@ export default {
 
       try {
         const url =
-          'https://x.nest.land/' + this.selectedVersion + '/README.md';
+          "https://x.nest.land/" + this.selectedVersion + "/README.md";
         const readmeResponse = await fetch(url, {
-          method: 'GET',
-          redirect: 'follow',
+          method: "GET",
+          redirect: "follow"
         });
         this.packageReadme = await readmeResponse.text();
 
@@ -321,13 +321,13 @@ export default {
         //this won't work if the user doesn't publish the dir of the images
         //TODO: maybe we should consider using the github repo field, if this fails
         const imgRegex = new RegExp(
-            '(\\!\\[)(.*)(\\]\\()(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(\\))',
-            'g'
+            "(\\!\\[)(.*)(\\]\\()(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(\\))",
+            "g"
           ),
-          labelRegex = new RegExp('(?<=(\\!\\[))(.*)(?=(\\]))', 'g'),
+          labelRegex = new RegExp("(?<=(\\!\\[))(.*)(?=(\\]))", "g"),
           pathRegex = new RegExp(
-            '(?<=((\\!\\[)(.*)(\\]\\()))(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(?=(\\)))',
-            'g'
+            "(?<=((\\!\\[)(.*)(\\]\\()))(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(?=(\\)))",
+            "g"
           ),
           imagesInReadme = this.packageReadme.match(imgRegex);
 
@@ -335,8 +335,8 @@ export default {
           const imgLabel = img.match(labelRegex)[0],
             imgPath = img
               .match(pathRegex)[0]
-              .replace(/^(\.\/)/, '')
-              .replace(/^(\/)/, '');
+              .replace(/^(\.\/)/, "")
+              .replace(/^(\/)/, "");
 
           this.packageReadme = this.packageReadme.replace(
             img,
@@ -344,12 +344,12 @@ export default {
           );
         }
       } catch (err) {
-        this.$emit('new-error', err);
+        this.$emit("new-error", err);
       }
     },
     sortPackages(packageList) {
       for (let i = 0; i < packageList.length; i++) {
-        packageList[i] = packageList[i].split('@')[1];
+        packageList[i] = packageList[i].split("@")[1];
       }
       return semverSort(packageList).reverse();
     },
@@ -357,8 +357,8 @@ export default {
       this.$copyText(this.entryURL).then(() => {
         this.copied = true;
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

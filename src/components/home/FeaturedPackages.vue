@@ -23,11 +23,11 @@
 </template>
 
 <script>
-import Card from '../Card';
-import axios from 'axios';
+import Card from "../Card";
+import axios from "axios";
 
 export default {
-  name: 'FeaturedPackages',
+  name: "FeaturedPackages",
   data() {
     return {
       featuredModules: []
@@ -38,7 +38,7 @@ export default {
   },
   async created() {
     //selecting 4 random packages from the last 20 updated packages
-    await axios.get('https://x.nest.land/api/packages/20').then(response => {
+    await axios.get("https://x.nest.land/api/packages/20").then(response => {
       this.featuredModules = response.data
         .sort(() => 0.5 - Math.random())
         .slice(0, 4);

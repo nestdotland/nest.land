@@ -1,8 +1,8 @@
-const request = require('request');
+const request = require("request");
 
 module.exports = (req, res) => {
   const requestOptions = {
-    uri: 'https://x.nest.land/api/package/' + req.body.data.name,
+    uri: "https://x.nest.land/api/package/" + req.body.data.name,
     json: true
   };
   request.get(requestOptions, function(err, response, body) {

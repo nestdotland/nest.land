@@ -61,21 +61,21 @@
 
 <script>
 export default {
-  name: 'NestNav',
+  name: "NestNav",
   data() {
     return {
       burgerToggled: false,
-      burgerClass: ''
+      burgerClass: ""
     };
   },
   methods: {
     toggleBurger() {
       if (this.burgerToggled) {
         this.burgerToggled = false;
-        this.burgerClass = '';
+        this.burgerClass = "";
       } else {
         this.burgerToggled = true;
-        this.burgerClass = 'is-active';
+        this.burgerClass = "is-active";
       }
     }
   }

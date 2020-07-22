@@ -57,9 +57,9 @@
           :icon="['fa', 'level-up-alt']"
         />
         {{
-          filesLocation === '' || filesLocation === '/'
-            ? 'Return to package review'
-            : 'Go up'
+          filesLocation === "" || filesLocation === "/"
+            ? "Return to package review"
+            : "Go up"
         }}
       </router-link>
       <div v-if="!fileView">
@@ -132,13 +132,13 @@
 </template>
 
 <script>
-import axios from 'axios';
-import VueMarkdown from 'vue-markdown';
-import { component as VueCodeHighlight } from 'vue-code-highlight';
-import '../../styles/CodeHighlightTheme.sass';
+import axios from "axios";
+import VueMarkdown from "vue-markdown";
+import { component as VueCodeHighlight } from "vue-code-highlight";
+import "../../styles/CodeHighlightTheme.sass";
 
 export default {
-  name: 'FileExplorer',
+  name: "FileExplorer",
   components: {
     VueMarkdown,
     VueCodeHighlight
@@ -147,8 +147,8 @@ export default {
     return {
       files: {},
       fileView: false,
-      currentFileContent: '',
-      currentFileURL: ''
+      currentFileContent: "",
+      currentFileURL: ""
     };
   },
   props: {
@@ -186,15 +186,15 @@ export default {
           `/${this.submodule}` +
           this.$route.path.split(`/std/${this.submodule}/${this.version}`)[1]
         );
-      return this.$route.path.split('/files')[1];
+      return this.$route.path.split("/files")[1];
     },
     //get the filesystem
     fileSystem() {
       let fileSystemData = [];
 
       for (const file in this.files) {
-        const fileName = file.split('/')[file.split('/').length - 1],
-          fileLocation = file.replace(fileName, ''),
+        const fileName = file.split("/")[file.split("/").length - 1],
+          fileLocation = file.replace(fileName, ""),
           fileSize = 0;
 
         fileSystemData.push({ fileName, fileLocation, fileSize });
@@ -203,19 +203,19 @@ export default {
     },
     //get all files with their paths
     filesLocationList() {
-      let filesWithRoute = [{ display: '/', href: '/' }],
-        locations = '/';
+      let filesWithRoute = [{ display: "/", href: "/" }],
+        locations = "/";
 
-      for (const fileLoc of this.filesLocation.split('/')) {
-        if (fileLoc === '') continue;
+      for (const fileLoc of this.filesLocation.split("/")) {
+        if (fileLoc === "") continue;
         if (
           this.std &&
-          fileLoc.replace(new RegExp('/', 'g'), '') === this.submodule
+          fileLoc.replace(new RegExp("/", "g"), "") === this.submodule
         )
           continue;
-        locations += fileLoc.replace(new RegExp('/', 'g'), '') + '/';
+        locations += fileLoc.replace(new RegExp("/", "g"), "") + "/";
         filesWithRoute.push({
-          display: fileLoc.replace(new RegExp('/', 'g'), '') + '/',
+          display: fileLoc.replace(new RegExp("/", "g"), "") + "/",
           href: locations
         });
       }
@@ -223,7 +223,7 @@ export default {
       if (filesWithRoute.length > 1)
         filesWithRoute[filesWithRoute.length - 1].display = filesWithRoute[
           filesWithRoute.length - 1
-        ].display.replace(new RegExp('/', 'g'), '');
+        ].display.replace(new RegExp("/", "g"), "");
 
       return filesWithRoute;
     },
@@ -233,8 +233,8 @@ export default {
       return this.fileSystem
         .filter(file => {
           return (
-            file.fileLocation.replace(new RegExp('/$'), '') ===
-            this.filesLocation.replace(new RegExp('/$'), '')
+            file.fileLocation.replace(new RegExp("/$"), "") ===
+            this.filesLocation.replace(new RegExp("/$"), "")
           );
         })
         .sort((a, b) => a.fileName.localeCompare(b.fileName));
@@ -247,19 +247,19 @@ export default {
 
       for (const file of this.fileSystem) {
         const locationWithoutLastSlash = this.filesLocation.replace(
-            new RegExp('/$'),
-            ''
+            new RegExp("/$"),
+            ""
           ),
           dirToPush = file.fileLocation
-            .replace(locationWithoutLastSlash, '')
-            .split('/')[1];
+            .replace(locationWithoutLastSlash, "")
+            .split("/")[1];
 
         if (
           !dirs.includes(dirToPush) &&
           file.fileLocation.includes(locationWithoutLastSlash) &&
-          dirToPush !== ''
+          dirToPush !== ""
         ) {
-          if (this.std && dirToPush === '..') continue;
+          if (this.std && dirToPush === "..") continue;
 
           dirs.push(dirToPush);
         }
@@ -269,25 +269,25 @@ export default {
     //get the parent dir
     //we use this cuz utilizing "./" in the router-link does not work always, because is based on router history
     parentDir() {
-      const routeWithoutSlashEnding = this.$route.path.endsWith('/')
-        ? this.$route.path.replace(new RegExp('/$'), '')
+      const routeWithoutSlashEnding = this.$route.path.endsWith("/")
+        ? this.$route.path.replace(new RegExp("/$"), "")
         : this.$route.path;
 
       return routeWithoutSlashEnding.substr(
         0,
-        routeWithoutSlashEnding.lastIndexOf('/')
+        routeWithoutSlashEnding.lastIndexOf("/")
       );
     },
     //get the currently opened file's extension
     currentFileExtension() {
-      const routeWithoutSlashEnding = this.$route.path.endsWith('/')
-          ? this.$route.path.replace(new RegExp('/$'), '')
+      const routeWithoutSlashEnding = this.$route.path.endsWith("/")
+          ? this.$route.path.replace(new RegExp("/$"), "")
           : this.$route.path,
-        fileName = routeWithoutSlashEnding.split('/')[
-          routeWithoutSlashEnding.split('/').length - 1
+        fileName = routeWithoutSlashEnding.split("/")[
+          routeWithoutSlashEnding.split("/").length - 1
         ];
 
-      return fileName.split('.')[fileName.split('.').length - 1];
+      return fileName.split(".")[fileName.split(".").length - 1];
     },
     //get the number of lines of the currently opened file
     //we use this for the line numbering with the code
@@ -295,7 +295,7 @@ export default {
       //when a json file is opened, axios auto-converts it into a javascript object
       //we stringfiy the object to get the number of lines
       //this doesn't work always, since many people have different styles when using json files
-      if (this.currentFileExtension === 'json')
+      if (this.currentFileExtension === "json")
         return JSON.stringify(this.currentFileContent, null, 4).split(
           /\r\n|\r|\n/
         ).length;
@@ -305,7 +305,7 @@ export default {
   },
   filters: {
     removeSlash(val) {
-      return val.replace(new RegExp('/', 'g'), '');
+      return val.replace(new RegExp("/", "g"), "");
     }
   },
   methods: {
@@ -314,7 +314,7 @@ export default {
       await axios
         .get(
           `https://x.nest.land/api/package/${this.name}/${
-            this.std ? this.version : this.version.split('@')[1]
+            this.std ? this.version : this.version.split("@")[1]
           }`
         )
         .then(response => (this.files = response.data.files))
@@ -322,11 +322,11 @@ export default {
     },
     //load the current file
     async loadCurrentFile() {
-      const routeWithoutSlashEnding = this.$route.path.endsWith('/')
-          ? this.$route.path.replace(new RegExp('/$'), '')
+      const routeWithoutSlashEnding = this.$route.path.endsWith("/")
+          ? this.$route.path.replace(new RegExp("/$"), "")
           : this.$route.path,
-        fileName = routeWithoutSlashEnding.split('/')[
-          routeWithoutSlashEnding.split('/').length - 1
+        fileName = routeWithoutSlashEnding.split("/")[
+          routeWithoutSlashEnding.split("/").length - 1
         ];
 
       this.fileView = false;
@@ -338,14 +338,14 @@ export default {
 
       this.currentFileURL = `https://x.nest.land/${
         this.std
-          ? this.name + '@' + this.version + '/' + this.submodule
-          : this.version + '/'
+          ? this.name + "@" + this.version + "/" + this.submodule
+          : this.version + "/"
       }${
         this.std
           ? routeWithoutSlashEnding.split(
               `${this.submodule}/${this.version}`
             )[1]
-          : routeWithoutSlashEnding.split('/files/')[1]
+          : routeWithoutSlashEnding.split("/files/")[1]
       }`;
 
       await axios
@@ -353,19 +353,19 @@ export default {
         .then(response => (this.currentFileContent = response.data))
         .catch(() => this.$router.push(`/404`));
 
-      if (this.currentFileExtension === 'md') {
+      if (this.currentFileExtension === "md") {
         //resolving relative paths
         //the regex finds all image MARKDOWN tags and replaces the urls to x.nest.land
         //this won't work if the user doesn't publish the dir of the images
         //TODO: maybe we should consider using the github repo field, if this fails
         const imgRegex = new RegExp(
-            '(\\!\\[)(.*)(\\]\\()(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(\\))',
-            'g'
+            "(\\!\\[)(.*)(\\]\\()(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(\\))",
+            "g"
           ),
-          labelRegex = new RegExp('(?<=(\\!\\[))(.*)(?=(\\]))', 'g'),
+          labelRegex = new RegExp("(?<=(\\!\\[))(.*)(?=(\\]))", "g"),
           pathRegex = new RegExp(
-            '(?<=((\\!\\[)(.*)(\\]\\()))(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(?=(\\)))',
-            'g'
+            "(?<=((\\!\\[)(.*)(\\]\\()))(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(?=(\\)))",
+            "g"
           ),
           imagesInMarkdown = this.currentFileContent.match(imgRegex);
 
@@ -375,13 +375,13 @@ export default {
           const imgLabel = img.match(labelRegex)[0],
             imgPath = img
               .match(pathRegex)[0]
-              .replace(/^(\.\/)/, '')
-              .replace(/^(\/)/, '');
+              .replace(/^(\.\/)/, "")
+              .replace(/^(\/)/, "");
 
           this.currentFileContent = this.currentFileContent.replace(
             img,
             `![${imgLabel}](https://x.nest.land/${
-              this.std ? this.name + '@' + this.version : this.version
+              this.std ? this.name + "@" + this.version : this.version
             }/${imgPath})`
           );
         }
@@ -389,17 +389,17 @@ export default {
     },
     //get if the file item is a directory or an actual file
     getFileItemType(fileName) {
-      if (fileName.split('.').length < 1) return 'dir';
+      if (fileName.split(".").length < 1) return "dir";
 
-      return fileName.split('.')[fileName.split('.').length - 1];
+      return fileName.split(".")[fileName.split(".").length - 1];
     },
     //remove the slash from a path
     removeSlashFunc(val) {
-      return val.replace(new RegExp('/', 'g'), '');
+      return val.replace(new RegExp("/", "g"), "");
     },
     //add loading, so it won't display the previous file content
     openFile() {
-      this.currentFileContent = 'Loading file...';
+      this.currentFileContent = "Loading file...";
     },
     //check if the current file or dir exists
     //redirects to the 404 url if it does not

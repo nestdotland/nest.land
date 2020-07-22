@@ -1,8 +1,8 @@
-const request = require('request');
+const request = require("request");
 
 module.exports = (req, res) => {
   const signupOptions = {
-    uri: 'https://x.nest.land/api/signup',
+    uri: "https://x.nest.land/api/signup",
     json: true,
     body: {
       username: req.body.data.username,

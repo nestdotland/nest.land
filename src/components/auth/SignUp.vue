@@ -55,94 +55,94 @@
 </template>
 
 <script>
-import { HTTP } from '../../http-common';
+import { HTTP } from "../../http-common";
 
 export default {
   data() {
     return {
-      buttonStatusClass: '',
-      username: '',
-      password: '',
-      passwordConfirm: ''
+      buttonStatusClass: "",
+      username: "",
+      password: "",
+      passwordConfirm: ""
     };
   },
   methods: {
     async submitInformation() {
       const usernameRegex = /^[a-zA-Z0-9-]+$/;
-      if (this.username === '' || this.username.length < 4) {
+      if (this.username === "" || this.username.length < 4) {
         this.$emit(
-          'new-error',
-          'You must choose a username that is greater than 4 characters.'
+          "new-error",
+          "You must choose a username that is greater than 4 characters."
         );
-        this.buttonStatusClass = '';
+        this.buttonStatusClass = "";
         return;
       }
       if (this.username.match(usernameRegex) == null) {
         this.$emit(
-          'new-error',
+          "new-error",
           "Your username can only include alphanumeric characters and '-'"
         );
-        this.buttonStatusClass = '';
+        this.buttonStatusClass = "";
         return;
       }
-      if (this.password === '' || this.password.length < 8) {
+      if (this.password === "" || this.password.length < 8) {
         this.$emit(
-          'new-error',
-          'You must choose a password that is greater than 8 characters.'
+          "new-error",
+          "You must choose a password that is greater than 8 characters."
         );
-        this.buttonStatusClass = '';
+        this.buttonStatusClass = "";
         return;
       }
-      if (this.passwordConfirm === '') {
-        this.$emit('new-error', 'You must confirm your password.');
-        this.buttonStatusClass = '';
+      if (this.passwordConfirm === "") {
+        this.$emit("new-error", "You must confirm your password.");
+        this.buttonStatusClass = "";
         return;
       }
       if (this.password !== this.passwordConfirm) {
-        this.$emit('new-error', 'Your passwords do not match.');
-        this.buttonStatusClass = '';
+        this.$emit("new-error", "Your passwords do not match.");
+        this.buttonStatusClass = "";
         return;
       }
       if (this.username === this.password) {
         this.$emit(
-          'new-error',
+          "new-error",
           "You can't use the same username and password."
         );
-        this.buttonStatusClass = '';
+        this.buttonStatusClass = "";
         return;
       }
       // Resets error if there was one previously
-      this.$emit('new-error', '');
+      this.$emit("new-error", "");
       await this.recaptcha();
     },
     async recaptcha() {
-      this.buttonStatusClass = 'is-loading';
+      this.buttonStatusClass = "is-loading";
       await this.$recaptchaLoaded();
-      const token = await this.$recaptcha('login');
+      const token = await this.$recaptcha("login");
       let captchaResponse, signupResponse;
       try {
-        captchaResponse = await HTTP.post('captcha', {
+        captchaResponse = await HTTP.post("captcha", {
           data: {
             token
           }
         });
         if (captchaResponse.data.success) {
           try {
-            signupResponse = await HTTP.post('signup-client', {
+            signupResponse = await HTTP.post("signup-client", {
               data: {
                 username: this.username,
                 password: this.password
               }
             });
-            this.$emit('set-api-key', signupResponse.data.body.apiKey);
+            this.$emit("set-api-key", signupResponse.data.body.apiKey);
           } catch (err) {
-            this.$emit('new-error', err);
+            this.$emit("new-error", err);
           }
         } else {
-          this.$emit('new-error', 'We think that you are a bot. BE GONE, BOT!');
+          this.$emit("new-error", "We think that you are a bot. BE GONE, BOT!");
         }
       } catch (err) {
-        this.$emit('new-error', err);
+        this.$emit("new-error", err);
       }
     }
   }

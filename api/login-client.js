@@ -1,8 +1,8 @@
-const request = require('request');
+const request = require("request");
 
 module.exports = (req, res) => {
   const requestTokenOptions = {
-    uri: 'https://x.nest.land/api/getkey',
+    uri: "https://x.nest.land/api/getkey",
     json: true,
     body: {
       username: req.body.data.username,

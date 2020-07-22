@@ -30,10 +30,10 @@
 </template>
 
 <script>
-import NestNav from '../Nav';
+import NestNav from "../Nav";
 
 export default {
-  name: 'Hero',
+  name: "Hero",
   components: {
     NestNav
   },
@@ -42,11 +42,11 @@ export default {
   },
   created() {
     if (
-      localStorage.getItem('ghDiscussionsShown') !== null &&
-      localStorage.getItem('ghDiscussionsShown') === 'true'
+      localStorage.getItem("ghDiscussionsShown") !== null &&
+      localStorage.getItem("ghDiscussionsShown") === "true"
     )
       this.showGhDiscussionsNotification = false;
-    localStorage.setItem('ghDiscussionsShown', true);
+    localStorage.setItem("ghDiscussionsShown", true);
   }
 };
 </script>

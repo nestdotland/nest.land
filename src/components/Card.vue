@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: 'Card',
+  name: "Card",
   props: {
     item: {
       type: Object
@@ -31,13 +31,13 @@ export default {
   data() {
     return {
       package: {},
-      selectedVersion: ''
+      selectedVersion: ""
     };
   },
   created() {
     this.package = this.item;
     this.selectedVersion =
-      this.package.name + '@' + this.package.latestStableVersion;
+      this.package.name + "@" + this.package.latestStableVersion;
   }
 };
 </script>

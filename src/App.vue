@@ -10,10 +10,10 @@
 
 <script>
 export default {
-  name: 'App',
+  name: "App",
   data() {
     return {
-      loading: false,
+      loading: false
     };
   },
   mounted() {
@@ -23,14 +23,14 @@ export default {
     showLoading() {
       this.loading = true;
       setTimeout(() => (this.loading = false), 440);
-    },
+    }
   },
   watch: {
     $route(to, from) {
       if (to.path === from.path) return;
       this.showLoading();
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -93,7 +93,7 @@
 
 <script>
 export default {
-  name: 'FAQ'
+  name: "FAQ"
 };
 </script>
 
