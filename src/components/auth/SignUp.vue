@@ -77,6 +77,7 @@ export default {
         this.buttonStatusClass = "";
         return;
       }
+
       if (this.username.match(usernameRegex) == null) {
         this.$emit(
           "new-error",
@@ -85,6 +86,7 @@ export default {
         this.buttonStatusClass = "";
         return;
       }
+
       if (this.password === "" || this.password.length < 8) {
         this.$emit(
           "new-error",
@@ -93,6 +95,7 @@ export default {
         this.buttonStatusClass = "";
         return;
       }
+
       if (this.passwordConfirm === "") {
         this.$emit("new-error", "You must confirm your password.");
         this.buttonStatusClass = "";
@@ -103,6 +106,7 @@ export default {
         this.buttonStatusClass = "";
         return;
       }
+
       if (this.username === this.password) {
         this.$emit(
           "new-error",
