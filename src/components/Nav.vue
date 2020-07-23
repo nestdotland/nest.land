@@ -26,22 +26,25 @@
             to="/gallery"
             active-class="active-link"
             exact
-            >The Gallery</router-link
           >
+            The Gallery
+          </router-link>
           <router-link
             class="navbar-item has-text-dark"
             to="/std"
             active-class="active-link"
             exact
-            >Standard Library</router-link
           >
+            Standard Library
+          </router-link>
           <a
             class="navbar-item has-text-dark"
             href="https://docs.nest.land"
             target="_blank"
             rel="noopener noreferrer"
-            >Documentation</a
           >
+            Documentation
+          </a>
           <div class="navbar-item">
             <div class="buttons">
               <router-link

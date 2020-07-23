@@ -116,9 +116,9 @@
             <a :href="'#L' + line">{{ line }}</a>
           </span>
         </div>
-        <vue-code-highlight class="Code">{{
-          currentFileContent
-        }}</vue-code-highlight>
+        <vue-code-highlight class="Code">
+          {{ currentFileContent }}
+        </vue-code-highlight>
       </div>
       <vue-markdown
         :source="currentFileContent"

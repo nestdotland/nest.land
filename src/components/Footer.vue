@@ -57,8 +57,9 @@
         <p class="subtitle is-6 has-text-white has-text-centered">
           nest.land is licensed under the
           <a href="http://opensource.org/licenses/mit-license.php">
-            <b>MIT License</b> </a
-          >.
+            <b>MIT License</b>
+          </a>
+          .
         </p>
         <p class="has-text-centered">
           <a

@@ -33,13 +33,13 @@
                 @toggle-has-account="toggleHasAccount"
                 @new-error="newError"
                 @set-api-key="setAPIKey"
-              ></log-in>
+              />
               <sign-up
                 v-show="!hasAccount"
                 @toggle-has-account="toggleHasAccount"
                 @new-error="newError"
                 @set-api-key="setAPIKey"
-              ></sign-up>
+              />
             </div>
             <div v-show="eggsAPIKey !== ''" id="token-group">
               <h2 class="subtitle">Your key:</h2>

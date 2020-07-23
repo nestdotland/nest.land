@@ -34,8 +34,9 @@
                   <a
                     href="https://blog.npmjs.org/post/180565383195/details-about-the-event-stream-incident"
                     class="has-text-dark issue-text"
-                    >Prevents NPM issue: event-stream</a
                   >
+                    Prevents NPM issue: event-stream
+                  </a>
                 </p>
               </div>
             </div>
@@ -56,8 +57,9 @@
                   <a
                     href="https://blog.npmjs.org/post/141577284765/kik-left-pad-and-npm"
                     class="has-text-dark issue-text"
-                    >Prevents NPM issue: left-pad</a
                   >
+                    Prevents NPM issue: left-pad
+                  </a>
                 </p>
               </div>
             </div>
@@ -82,8 +84,9 @@
           <a
             href="https://github.com/nestdotland/nest.land/discussions"
             class="has-text-light has-text-underlined"
-            >GitHub Discussions</a
           >
+            GitHub Discussions
+          </a>
           tab!
         </p>
       </div>

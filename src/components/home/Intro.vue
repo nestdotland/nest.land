@@ -26,19 +26,22 @@
                     <font-awesome-icon
                       :icon="['fas', 'trash-alt']"
                       class="left-icon"
-                    />Permanently immutable
+                    />
+                    Permanently immutable
                   </li>
                   <li class="subtitle">
                     <font-awesome-icon
                       :icon="['fas', 'globe-americas']"
                       class="left-icon"
-                    />Globally accessible
+                    />
+                    Globally accessible
                   </li>
                   <li class="subtitle">
                     <font-awesome-icon
                       :icon="['fas', 'feather-alt']"
                       class="left-icon"
-                    />Free
+                    />
+                    Free
                   </li>
                 </ul>
               </div>
@@ -48,26 +51,29 @@
                     <font-awesome-icon
                       :icon="['fas', 'fingerprint']"
                       class="left-icon"
-                    />Secure
+                    />
+                    Secure
                   </li>
                   <li class="subtitle">
                     <font-awesome-icon
                       :icon="['fas', 'fist-raised']"
                       class="left-icon"
-                    />Decentralized
+                    />
+                    Decentralized
                   </li>
                   <li class="subtitle">
                     <font-awesome-icon
                       :icon="['fas', 'code-branch']"
                       class="left-icon"
-                    />Works without Git
+                    />
+                    Works without Git
                   </li>
                 </ul>
               </div>
             </div>
           </div>
           <div class="column is-hidden-mobile">
-            <package-vector></package-vector>
+            <package-vector />
           </div>
         </div>
       </div>

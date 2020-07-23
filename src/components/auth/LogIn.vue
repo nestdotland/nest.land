@@ -38,8 +38,9 @@
     <a
       class="has-text-dark has-text-underlined"
       @click="$emit('toggle-has-account', false)"
-      >No account? Sign up</a
     >
+      No account? Sign up
+    </a>
   </div>
 </template>
 
