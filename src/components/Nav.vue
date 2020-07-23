@@ -73,8 +73,20 @@
           this.burgerClass = "is-active";
         }
       },
-      jumpToGetStarted(){
-        this.$SmoothScroll(document.getElementById('start'));
+      jumpToGetStarted() {
+        // if not at homepage, jump to homepage first
+        const homePath = '/';
+        const isHome = this.$route.path === homePath;
+        if (!isHome) {
+          this.$router.push(homePath);
+        }
+        // scroll after DOM updated
+        this.$nextTick(() => {
+          const getStartedComp = document.getElementById('start');
+          if (getStartedComp) {
+            this.$SmoothScroll(getStartedComp);
+          }
+        });
       },
     },
   };

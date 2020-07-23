@@ -3,7 +3,11 @@
     <transition name="loading">
       <div class="LoadingLine" v-if="loading"></div>
     </transition>
-    <router-view></router-view>
+    <!--components cache-->
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive"></router-view>
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive"></router-view>
     <nest-footer></nest-footer>
   </div>
 </template>
