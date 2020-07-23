@@ -28,7 +28,7 @@ export default {
     FeaturedPackages,
     FAQ,
     Testimonial,
-    RequestKey
-  }
+    RequestKey,
+  },
 };
 </script>

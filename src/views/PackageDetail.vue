@@ -132,7 +132,7 @@
                 <a
                   v-if="
                     packageInfo.repository !== '' &&
-                      packageInfo.repository !== null
+                    packageInfo.repository !== null
                   "
                   class="panel-block"
                   :href="packageInfo.repository"
@@ -178,7 +178,7 @@
                   class="panel-block"
                   :href="
                     'https://github.com/nestdotland/nest.land/issues/new?labels=malicious-module&template=report_malicious_module.md&title=%5BMODULE+REPORT%5D%20Malicious%20module:%20' +
-                      $route.params.id
+                    $route.params.id
                   "
                   target="_blank"
                   rel="noopener noreferrer"
@@ -211,7 +211,7 @@ export default {
   components: {
     NestNav,
     VueMarkdown,
-    FileExplorer
+    FileExplorer,
   },
   data() {
     return {
@@ -223,19 +223,19 @@ export default {
       noVersion: false,
       entryFile: "/mod.ts",
       malicious: false,
-      copied: false
+      copied: false,
     };
   },
   props: {
     v: {
-      type: String
-    }
+      type: String,
+    },
   },
   filters: {
-    formatDate: function(createdAt) {
+    formatDate: function (createdAt) {
       if (!createdAt) return "";
       return moment(String(createdAt)).format("LL");
-    }
+    },
   },
   async created() {
     await this.refreshContent();
@@ -264,7 +264,7 @@ export default {
           this.selectedVersion.split("@")[1]
         }`
       )
-      .then(response => {
+      .then((response) => {
         this.malicious = response.data.malicious;
         if (response.data.entry !== null) this.entryFile = response.data.entry;
       });
@@ -281,7 +281,7 @@ export default {
         ""
       );
       return `https://x.nest.land/${this.selectedVersion}/${entryFileWithoutFirstSlash}`;
-    }
+    },
   },
   methods: {
     async refreshContent() {
@@ -289,8 +289,8 @@ export default {
       try {
         packageDataResponse = await HTTP.post("package-client", {
           data: {
-            name: this.$route.params.id
-          }
+            name: this.$route.params.id,
+          },
         });
         if (packageDataResponse.data.body === "Not Found") {
           this.$router.push("/404");
@@ -312,7 +312,7 @@ export default {
           "https://x.nest.land/" + this.selectedVersion + "/README.md";
         const readmeResponse = await fetch(url, {
           method: "GET",
-          redirect: "follow"
+          redirect: "follow",
         });
         this.packageReadme = await readmeResponse.text();
 
@@ -357,8 +357,8 @@ export default {
       this.$copyText(this.entryURL).then(() => {
         this.copied = true;
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -39,7 +39,7 @@ import {
   faCheckSquare,
   faFlag,
   faBook,
-  faArrowLeft
+  faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -96,17 +96,17 @@ const router = new VueRouter({
     }
     if (to.hash) {
       return {
-        selector: to.hash
+        selector: to.hash,
       };
     }
     return {
       x: 0,
-      y: 0
+      y: 0,
     };
-  }
+  },
 });
 
 new Vue({
   router,
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount("#app");

@@ -1,8 +1,8 @@
 <template>
   <router-link
-    :to="
-      `/${std ? 'std' : 'package'}/${item.name}${std ? '/' + item.version : ''}`
-    "
+    :to="`/${std ? 'std' : 'package'}/${item.name}${
+      std ? '/' + item.version : ''
+    }`"
     class="card"
     tag="div"
   >
@@ -21,24 +21,24 @@ export default {
   name: "Card",
   props: {
     item: {
-      type: Object
+      type: Object,
     },
     std: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
       package: {},
-      selectedVersion: ""
+      selectedVersion: "",
     };
   },
   created() {
     this.package = this.item;
     this.selectedVersion =
       this.package.name + "@" + this.package.latestStableVersion;
-  }
+  },
 };
 </script>
 

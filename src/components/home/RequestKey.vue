@@ -60,7 +60,7 @@ export default {
   name: "RequestKey",
   components: {
     LogIn,
-    SignUp
+    SignUp,
   },
   data() {
     return {
@@ -68,7 +68,7 @@ export default {
       userAccount: {},
       verificationSucceeded: false,
       serverError: "",
-      eggsAPIKey: ""
+      eggsAPIKey: "",
     };
   },
   methods: {
@@ -81,8 +81,8 @@ export default {
     setAPIKey(key) {
       this.eggsAPIKey = key;
       this.verificationSucceeded = true;
-    }
-  }
+    },
+  },
 };
 </script>
 

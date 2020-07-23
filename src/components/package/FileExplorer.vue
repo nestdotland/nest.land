@@ -36,7 +36,7 @@
           class="file-documentation"
           v-if="
             fileView &&
-              (currentFileExtension === 'ts' || currentFileExtension === 'js')
+            (currentFileExtension === 'ts' || currentFileExtension === 'js')
           "
           ><font-awesome-icon :icon="['fas', 'book']"
         /></a>
@@ -46,10 +46,10 @@
         :to="parentDir"
         v-if="
           !std ||
-            (filesLocation !== '' &&
-              filesLocation !== '/' &&
-              filesLocation !== '/' + submodule &&
-              filesLocation !== submodule)
+          (filesLocation !== '' &&
+            filesLocation !== '/' &&
+            filesLocation !== '/' + submodule &&
+            filesLocation !== submodule)
         "
       >
         <font-awesome-icon
@@ -94,7 +94,7 @@
                     getFileItemType(file.fileName)
                   )
                 ? 'image'
-                : 'file-code'
+                : 'file-code',
             ]"
           />
           {{ file.fileName }}
@@ -141,37 +141,37 @@ export default {
   name: "FileExplorer",
   components: {
     VueMarkdown,
-    VueCodeHighlight
+    VueCodeHighlight,
   },
   data() {
     return {
       files: {},
       fileView: false,
       currentFileContent: "",
-      currentFileURL: ""
+      currentFileURL: "",
     };
   },
   props: {
     //selected package version
     version: {
       type: String,
-      required: true
+      required: true,
     },
     //package name
     //originally packageInfo.name in PackageDetail.vue
     name: {
       type: String,
-      required: true
+      required: true,
     },
     //is it an std submodule
     std: {
       type: Boolean,
-      default: false
+      default: false,
     },
     //std submodule name
     submodule: {
-      type: String
-    }
+      type: String,
+    },
   },
   async created() {
     await this.reloadFiles();
@@ -216,7 +216,7 @@ export default {
         locations += fileLoc.replace(new RegExp("/", "g"), "") + "/";
         filesWithRoute.push({
           display: fileLoc.replace(new RegExp("/", "g"), "") + "/",
-          href: locations
+          href: locations,
         });
       }
 
@@ -231,7 +231,7 @@ export default {
     currentFiles() {
       if (this.fileView) return [];
       return this.fileSystem
-        .filter(file => {
+        .filter((file) => {
           return (
             file.fileLocation.replace(new RegExp("/$"), "") ===
             this.filesLocation.replace(new RegExp("/$"), "")
@@ -301,12 +301,12 @@ export default {
         ).length;
 
       return this.currentFileContent.split(/\r\n|\r|\n/).length;
-    }
+    },
   },
   filters: {
     removeSlash(val) {
       return val.replace(new RegExp("/", "g"), "");
-    }
+    },
   },
   methods: {
     //reload the files, and the filesystem on changes
@@ -317,7 +317,7 @@ export default {
             this.std ? this.version : this.version.split("@")[1]
           }`
         )
-        .then(response => (this.files = response.data.files))
+        .then((response) => (this.files = response.data.files))
         .catch(() => {});
     },
     //load the current file
@@ -350,7 +350,7 @@ export default {
 
       await axios
         .get(this.currentFileURL)
-        .then(response => (this.currentFileContent = response.data))
+        .then((response) => (this.currentFileContent = response.data))
         .catch(() => this.$router.push(`/404`));
 
       if (this.currentFileExtension === "md") {
@@ -407,12 +407,13 @@ export default {
       if (!this.isFileBrowse) return;
 
       const dirExists =
-        Object.keys(this.files).filter(key => key.includes(this.filesLocation))
-          .length > 0;
+        Object.keys(this.files).filter((key) =>
+          key.includes(this.filesLocation)
+        ).length > 0;
 
       if (!(this.filesLocation in this.files) && !dirExists)
         this.$router.push(`/404`);
-    }
+    },
   },
   watch: {
     //watch the selected version for changes
@@ -424,8 +425,8 @@ export default {
     async $route() {
       await this.loadCurrentFile();
       this.checkIfDirOrFileExists();
-    }
-  }
+    },
+  },
 };
 </script>
 

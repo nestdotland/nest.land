@@ -90,9 +90,9 @@ export default {
   name: "NestFooter",
   data() {
     return {
-      isCheese: false
+      isCheese: false,
     };
-  }
+  },
 };
 </script>
 

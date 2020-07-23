@@ -102,7 +102,7 @@ export default {
     NestNav,
     GradientBar,
     Card,
-    denologo
+    denologo,
   },
   data() {
     return {
@@ -112,11 +112,11 @@ export default {
       version: "1.0.0",
       latestPublish: "",
       versions: [],
-      isOutdated: false
+      isOutdated: false,
     };
   },
   async created() {
-    await axios.get("https://x.nest.land/api/package/std").then(res => {
+    await axios.get("https://x.nest.land/api/package/std").then((res) => {
       this.latestPublish = moment(res.data.updatedAt).format("MMM D, YYYY");
       this.versions = this.sortPackages(res.data.packageUploadNames);
       this.version = this.versions[0];
@@ -124,7 +124,7 @@ export default {
     await this.getModules();
     this.loading = false;
     //an additional check. this returns if the std published on nest.land is up to date with the latest deno std release on deno.land/std
-    axios.get("https://deno.land/std/version.ts").then(res => {
+    axios.get("https://deno.land/std/version.ts").then((res) => {
       const latestStdVersion = res.data.match(
         new RegExp('(?<=(export const VERSION = "))(.*)(?=("))', "g")
       )[0];
@@ -135,7 +135,7 @@ export default {
     async getModules() {
       await axios
         .get(`https://x.nest.land/api/package/std/${this.version}`)
-        .then(res => {
+        .then((res) => {
           for (const file in res.data.files) {
             if (file.split("/")[1] === undefined) continue;
             const firstDirName = file.split("/")[1];
@@ -163,20 +163,20 @@ export default {
       return {
         name: mod,
         description: `A library by Deno authors for ${mod}`,
-        version: this.version
+        version: this.version,
       };
-    }
+    },
   },
   computed: {
-    currentYear: () => moment().format("YYYY")
+    currentYear: () => moment().format("YYYY"),
   },
   watch: {
     async version() {
       this.loading = true;
       await this.getModules();
       this.loading = false;
-    }
-  }
+    },
+  },
 };
 </script>
 

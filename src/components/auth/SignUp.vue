@@ -63,7 +63,7 @@ export default {
       buttonStatusClass: "",
       username: "",
       password: "",
-      passwordConfirm: ""
+      passwordConfirm: "",
     };
   },
   methods: {
@@ -123,16 +123,16 @@ export default {
       try {
         captchaResponse = await HTTP.post("captcha", {
           data: {
-            token
-          }
+            token,
+          },
         });
         if (captchaResponse.data.success) {
           try {
             signupResponse = await HTTP.post("signup-client", {
               data: {
                 username: this.username,
-                password: this.password
-              }
+                password: this.password,
+              },
             });
             this.$emit("set-api-key", signupResponse.data.body.apiKey);
           } catch (err) {
@@ -144,8 +144,8 @@ export default {
       } catch (err) {
         this.$emit("new-error", err);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

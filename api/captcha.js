@@ -9,11 +9,11 @@ module.exports = (req, res) => {
     json: true,
     form: {
       secret: process.env.CAPTCHA_SECRET,
-      response: req.body.data.token
-    }
+      response: req.body.data.token,
+    },
   };
 
-  request.post(verifyCaptchaOptions, function(err, response, body) {
+  request.post(verifyCaptchaOptions, function (err, response, body) {
     if (err) {
       return res
         .status(500)

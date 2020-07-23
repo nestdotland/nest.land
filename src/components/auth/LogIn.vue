@@ -52,7 +52,7 @@ export default {
     return {
       buttonStatusClass: "",
       username: "",
-      password: ""
+      password: "",
     };
   },
   methods: {
@@ -83,16 +83,16 @@ export default {
       try {
         captchaResponse = await HTTP.post("captcha", {
           data: {
-            token
-          }
+            token,
+          },
         });
         if (captchaResponse.data.success) {
           try {
             loginResponse = await HTTP.post("login-client", {
               data: {
                 username: this.username,
-                password: this.password
-              }
+                password: this.password,
+              },
             });
             this.$emit("set-api-key", loginResponse.data.body.apiKey);
           } catch (err) {
@@ -106,8 +106,8 @@ export default {
         this.$emit("new-error", err);
         this.buttonStatusClass = "";
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

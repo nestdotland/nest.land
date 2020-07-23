@@ -36,7 +36,7 @@ import NestNav from "../Nav";
 export default {
   name: "Hero",
   components: {
-    NestNav
+    NestNav,
   },
   data() {
     return { showGhDiscussionsNotification: true };
@@ -48,7 +48,7 @@ export default {
     )
       this.showGhDiscussionsNotification = false;
     localStorage.setItem("ghDiscussionsShown", true);
-  }
+  },
 };
 </script>
 

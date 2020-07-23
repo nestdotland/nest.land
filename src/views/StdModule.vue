@@ -57,36 +57,36 @@ export default {
   components: {
     NestNav,
     VueMarkdown,
-    FileExplorer
+    FileExplorer,
   },
   data() {
     return {
       moduleReadme: "Loading README...",
-      loading: true
+      loading: true,
     };
   },
   props: {
     version: {
       type: String,
-      required: true
+      required: true,
     },
     module: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   async created() {
     //TODO: replace this to std before merge
     await axios
       .get(`https://x.nest.land/api/package/std/${this.version}`)
-      .then(res => {
+      .then((res) => {
         if (`/${this.module}/README.md` in res.data.files) {
           //TODO: replace this to std before merge
           axios
             .get(
               `https://x.nest.land/std@${this.version}/${this.module}/README.md`
             )
-            .then(readmeRes => {
+            .then((readmeRes) => {
               //replace https://deno.land/std urls to https://x.nest.land/std
               this.moduleReadme = readmeRes.data.replace(
                 new RegExp("(http|https)://deno.land/std", "g"),
@@ -98,7 +98,7 @@ export default {
         }
         this.loading = false;
       });
-  }
+  },
 };
 </script>
 

@@ -30,11 +30,11 @@ import NestNav from "../components/Nav";
 export default {
   name: "NotFound",
   components: {
-    NestNav
+    NestNav,
   },
   computed: {
-    notFoundIcon: () => notFoundIcon
-  }
+    notFoundIcon: () => notFoundIcon,
+  },
 };
 </script>
 
