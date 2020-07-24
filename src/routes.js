@@ -1,6 +1,7 @@
 import Home from "./views/Home";
 import Gallery from "./views/Gallery";
 import PackageDetail from "./views/PackageDetail";
+import Pst from "./views/Pst";
 import NotFound from "./views/NotFound";
 import StdGallery from "./views/StdGallery";
 import StdModule from "./views/StdModule";
@@ -37,6 +38,10 @@ export const routes = [
     path: "/std/:module/:version/*",
     component: StdModule,
     props: true
+  },
+  {
+    path: "/pst",
+    component: Pst
   },
   {
     path: "/404",
