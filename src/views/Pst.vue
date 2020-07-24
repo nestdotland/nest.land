@@ -7,7 +7,7 @@
           <div class="hero-body">
               <div class="container">
                   <h1 class="title is-1">
-                        Introducing (name_here)
+                        Introducing <span class="gradient-text">(name_here)</span>
                   </h1>
                   <p class="subtitle">
                       A profit sharing token for <b>nest.land</b>
@@ -15,6 +15,7 @@
               </div>
           </div>
       </div>
+      <gradient-bar></gradient-bar>
       <div class="hero is-medium is-light">
           <div class="hero-body">
               <div class="container">
@@ -55,15 +56,21 @@
 </template>
 
 <script>
+import GradientBar from "../components/GradientBar";
 import NestNav from "../components/Nav";
 
 export default {
     components: {
+        GradientBar,
         NestNav
     }
 }
 </script>
 
 <style lang="sass" scoped>
-
+.gradient-text
+  background: -webkit-linear-gradient(45deg, #22c1c3, #fdbb2d)
+  background-clip: text
+  -webkit-background-clip: text
+  -webkit-text-fill-color: transparent
 </style>
