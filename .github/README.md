@@ -60,7 +60,7 @@ This diagram is a visualisation of how these parts work together:
 
 - [divy-work](https://github.com/divy-work) - Backend Manager
 - [maximousblk](https://github.com/maximousblk) - UX Manager
-- [martondev](https://github.com/MartonDev) - Frontend Manager
+- [martonlederer](https://github.com/martonlederer) - Frontend Manager
 - [oganexon](https://github.com/oganexon) - CLI Manager
 
 ### Contributors
