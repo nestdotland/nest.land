@@ -195,11 +195,11 @@
       //     this.selectedVersion.split("@")[1]
       //    }`,
       //  )
-      console.log(this.packageInfo.name) // outputs "Object"
       yolk.moduleByName(this.packageInfo.name)
       .then(response => {
-        this.malicious = response.data.malicious;
-        if(response.data.entry !== null) this.entryFile = response.data.entry;
+        this.malicious = response.data.module.malicious;
+        console.log(response.data.module)
+        if(response.data.module.entry !== null) this.entryFile = response.data.module.entry;
       });
       await this.refreshReadme();
       this.loading = false;
@@ -269,7 +269,7 @@
       },
       sortPackages(packageList) {
         for (let i = 0; i < packageList.length; i++) {
-          packageList[i] = packageList[i].split("@")[1];
+          packageList[i] = packageList[i].name.split("@")[1];
         }
         return semverSort(packageList).reverse();
       },
