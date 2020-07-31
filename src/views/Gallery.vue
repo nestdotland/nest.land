@@ -126,9 +126,9 @@ export default {
       this.loadingPackages = true;
       const previousPackagesLength = this.packages.length;
       if (this.search !== "") this.searchPhrase = this.search;
-      yolk.modules(this.loadedPackages)
+      yolk.modules()
         .then(response => {
-          this.packages = response.data;
+          this.packages = response.data.modules;
           this.shownPackages = this.packages;
           this.loading = false;
           this.loadingPackages = false;
@@ -169,10 +169,11 @@ export default {
         return;
       }
       yolk.modules().then(response => {
-        this.shownPackages = response.data.filter(({ name }) =>
+        console.log(response.data.modules)
+        this.shownPackages = response.data.modules.filter(({ name }) =>
           name.toLowerCase().includes(this.searchPhrase.toLowerCase())
         );
-      });
+      })
     }
   }
 };
