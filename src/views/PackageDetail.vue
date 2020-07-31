@@ -131,12 +131,11 @@
 
 <script>
   import NestNav from "../components/Nav";
-  import { HTTP } from "../http-common";
   import moment from "moment";
   import * as semverSort from "semver/functions/sort";
   import VueMarkdown from "vue-markdown";
   import FileExplorer from "../components/package/FileExplorer";
-  import axios from 'axios'
+  import * as yolk from "@nestdotland/yolk";
 
   export default {
     components: {
@@ -175,7 +174,7 @@
         if (this.selectedVersion === null)
           this.selectedVersion = this.packageInfo.latestVersion;
       } else {
-        if (!this.packageInfo.packageUploadNames.includes(this.v)) {
+        if (!this.packageInfo.uploads.includes(this.v)) {
           this.$router.push("/404");
         }
         this.selectedVersion = this.packageInfo.name + "@" + this.v;
@@ -184,21 +183,24 @@
       if (
         this.packageInfo.latestStableVersion === null &&
         this.packageInfo.latestVersion === null &&
-        this.packageInfo.packageUploadNames.length === 0
+        this.packageInfo.uploads.length === 0
       ) {
         this.packageReadme = "# No version published yet";
         this.noVersion = true;
       }
-      await axios
-        .get(
-          `https://x.nest.land/api/package/${ this.packageInfo.name }/${
-            this.selectedVersion.split("@")[1]
-          }`,
-        )
-        .then(response => {
-          this.malicious = response.data.malicious;
-          if(response.data.entry !== null) this.entryFile = response.data.entry;
-        });
+      // TODO(divy-work): use yolk to get versioned module info
+      // await axios
+      //  .get(
+      //    `https://x.nest.land/api/package/${ this.packageInfo.name }/${
+      //     this.selectedVersion.split("@")[1]
+      //    }`,
+      //  )
+      console.log(this.packageInfo.name) // outputs "Object"
+      yolk.moduleByName(this.packageInfo.name)
+      .then(response => {
+        this.malicious = response.data.malicious;
+        if(response.data.entry !== null) this.entryFile = response.data.entry;
+      });
       await this.refreshReadme();
       this.loading = false;
     },
@@ -215,18 +217,15 @@
       async refreshContent() {
         let packageDataResponse;
         try {
-          packageDataResponse = await HTTP.post("package-client", {
-            data: {
-              name: this.$route.params.id,
-            },
-          });
-          if (packageDataResponse.data.body === "Not Found") {
+          packageDataResponse = await yolk.moduleByName(this.$route.params.id);
+          if (!packageDataResponse.data.module) {
             this.$router.push("/404");
             return;
           }
-          this.packageInfo = packageDataResponse.data.body;
+          console.log(packageDataResponse.data.module)
+          this.packageInfo = packageDataResponse.data.module;
           this.packageVersions = this.sortPackages(
-            this.packageInfo.packageUploadNames,
+            this.packageInfo.uploads,
           );
         } catch (err) {
           this.$emit("new-error", err);
