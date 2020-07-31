@@ -85,8 +85,7 @@
 import NestNav from "../components/Nav";
 import GradientBar from "../components/GradientBar";
 import Card from "../components/Card";
-import axios from "axios";
-import yolk from "@nestdotland/yolk";
+import * as yolk from "@nestdotland/yolk";
 
 export default {
   data() {
@@ -127,7 +126,7 @@ export default {
       this.loadingPackages = true;
       const previousPackagesLength = this.packages.length;
       if (this.search !== "") this.searchPhrase = this.search;
-      await yolk.modules(this.loadedPackages)
+      yolk.modules(this.loadedPackages)
         .then(response => {
           this.packages = response.data;
           this.shownPackages = this.packages;
@@ -169,7 +168,7 @@ export default {
         this.shownPackages = this.packages;
         return;
       }
-      axios.get(`https://x.nest.land/api/packages`).then(response => {
+      yolk.modules().then(response => {
         this.shownPackages = response.data.filter(({ name }) =>
           name.toLowerCase().includes(this.searchPhrase.toLowerCase())
         );
