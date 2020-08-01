@@ -197,9 +197,9 @@
       //  )
       yolk.moduleByName(this.packageInfo.name)
       .then(response => {
-        this.malicious = response.data.module.malicious;
-        console.log(response.data.module)
-        if(response.data.module.entry !== null) this.entryFile = response.data.module.entry;
+        console.log(response.data.module.uploads[0])
+        this.malicious = response.data.module.uploads[0].malicious;
+        if(response.data.module.uploads[0].entry !== null) this.entryFile = response.data.module.uploads[0].entry;
       });
       await this.refreshReadme();
       this.loading = false;
@@ -222,7 +222,6 @@
             this.$router.push("/404");
             return;
           }
-          console.log(packageDataResponse.data.module)
           this.packageInfo = packageDataResponse.data.module;
           this.packageVersions = this.sortPackages(
             this.packageInfo.uploads,

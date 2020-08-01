@@ -79,6 +79,7 @@
 
 <script>
   import axios from "axios";
+  import * as yolk from "@nestdotland/yolk";
   import VueMarkdown from "vue-markdown";
   import { component as VueCodeHighlight } from "vue-code-highlight";
   import "../../styles/CodeHighlightTheme.sass";
@@ -251,13 +252,14 @@
     methods: {
       //reload the files, and the filesystem on changes
       async reloadFiles () {
-        await axios
-          .get(
-            `https://x.nest.land/api/package/${ this.name }/${
-              this.std ? this.version : this.version.split("@")[1]
-            }`,
-          )
-          .then(response => this.files = response.data.files)
+        // await axios
+         // .get(
+         //   `https://x.nest.land/api/package/${ this.name }/${
+         //     this.std ? this.version : this.version.split("@")[1]
+         //   }`,
+         // )
+           yolk.moduleByName(this.name)
+          .then(response => this.files = response.data.module.uploads[0].files)
           .catch(() => {});
       },
       //load the current file

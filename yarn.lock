@@ -902,10 +902,10 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@nestdotland/yolk@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@nestdotland/yolk/-/yolk-0.2.0.tgz#8ce0bacf42469ae31ec62aad8bc558c2666925f1"
-  integrity sha512-bTAMiM8CIH0u78g2V/ZeoDe79K+ivMBBQLmgRe8peJySwgbYTV7VcPxSS93EST5WxQYlDB1ZaHuc05ekptp8rg==
+"@nestdotland/yolk@^0.2.0-rc1":
+  version "0.2.0-rc1"
+  resolved "https://registry.yarnpkg.com/@nestdotland/yolk/-/yolk-0.2.0-rc1.tgz#0599a3890aac8839605665703ec2f975b1fc071c"
+  integrity sha512-meOQFfvIoPRxl6TbMVHqnCo5Jd4sQ3/FNxprYIyy4UuScO/apg6tl0Da2JelfuNIPeMIY3bc61l7goK8nPejTw==
   dependencies:
     denoify "^0.3.0"
     typescript "^3.9.6"

@@ -12,7 +12,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.13.0",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/vue-fontawesome": "^0.1.9",
-    "@nestdotland/yolk": "^0.2.0",
+    "@nestdotland/yolk": "^0.2.0-rc1",
     "axios": "^0.19.2",
     "babel-runtime": "^6.26.0",
     "bulma": "^0.8.2",
