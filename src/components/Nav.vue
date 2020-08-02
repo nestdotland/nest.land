@@ -41,9 +41,11 @@
           >Documentation</a>
           <div class="navbar-item">
             <div class="buttons">
-              <router-link class="button is-light is-primary" id="get-started-button" to="/#start">
+              <button class="button is-light is-primary"
+                      id="get-started-button"
+                      @click="jumpToGetStarted">
                 <strong>Get Started</strong>
-              </router-link>
+              </button>
             </div>
           </div>
         </div>
@@ -70,6 +72,21 @@
           this.burgerToggled = true;
           this.burgerClass = "is-active";
         }
+      },
+      jumpToGetStarted() {
+        // if not at homepage, jump to homepage first
+        const homePath = '/';
+        const isHome = this.$route.path === homePath;
+        if (!isHome) {
+          this.$router.push(homePath);
+        }
+        // scroll after DOM updated
+        this.$nextTick(() => {
+          const getStartedComp = document.getElementById('start');
+          if (getStartedComp) {
+            this.$SmoothScroll(getStartedComp);
+          }
+        });
       },
     },
   };

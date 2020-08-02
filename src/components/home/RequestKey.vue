@@ -71,8 +71,8 @@
       setAPIKey(key) {
         this.eggsAPIKey = key;
         this.verificationSucceeded = true;
-      },
-    },
+      }
+    }
   };
 </script>
 
