@@ -67,7 +67,7 @@ This diagram is a visualisation of how these parts work together:
 
 - [ebebbington](https://github.com/ebebbington)
 - [yg](https://github.com/yg)
-- [jletey](https://github.com/jletey)
+- [johnletey](https://github.com/johnletey)
 - [qu4k](https://github.com/Qu4k)
 
 ### Special Thanks
