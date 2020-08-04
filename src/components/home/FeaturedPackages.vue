@@ -2,9 +2,18 @@
   <div class="hero is-medium">
     <div class="hero-body" id="featured">
       <div class="container">
-        <h1 class="title is-2 has-text-light has-text-centered" id="give-me-space">Featured Modules</h1>
+        <h1
+          class="title is-2 has-text-light has-text-centered"
+          id="give-me-space"
+        >
+          Featured Modules
+        </h1>
         <div class="columns">
-          <div class="column is-3" v-for="m in featuredModules" v-bind:key="m.id">
+          <div
+            class="column is-3"
+            v-for="m in featuredModules"
+            v-bind:key="m.id"
+          >
             <card v-bind:item="m"></card>
           </div>
         </div>
@@ -21,20 +30,20 @@ export default {
   name: "FeaturedPackages",
   data() {
     return {
-      featuredModules: []
+      featuredModules: [],
     };
   },
   components: {
-    Card
+    Card,
   },
   async created() {
     //selecting 4 random packages from the last 20 updated packages
-    await axios.get("https://x.nest.land/api/packages/20").then(response => {
+    await axios.get("https://x.nest.land/api/packages/20").then((response) => {
       this.featuredModules = response.data
         .sort(() => 0.5 - Math.random())
         .slice(0, 4);
     });
-  }
+  },
 };
 </script>
 

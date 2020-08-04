@@ -11,9 +11,7 @@ module.exports = (req, res) => {
   };
   request.post(requestTokenOptions, function (err, response, body) {
     if (err) {
-      return res.status(500).json(
-        { message: err },
-      );
+      return res.status(500).json({ message: err });
     }
     if (body.success) {
       res.status(201).json({ body });

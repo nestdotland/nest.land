@@ -7,9 +7,7 @@ module.exports = (req, res) => {
   };
   request.get(requestOptions, function (err, response, body) {
     if (err) {
-      return res.status(500).json(
-        { errorMessage: err },
-      );
+      return res.status(500).json({ errorMessage: err });
     }
     res.status(201).json({ body });
   });
