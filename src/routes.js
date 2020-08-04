@@ -9,6 +9,9 @@ export const routes = [
   {
     path: "",
     component: Home,
+    meta: {
+      keepAlive: true
+    }
   },
   {
     path: "/gallery",
