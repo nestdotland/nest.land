@@ -72,23 +72,22 @@ export default {
     };
   },
   methods: {
-      toggleHasAccount(condition) {
-        this.hasAccount = condition;
-      },
-      newError(e) {
-        this.serverError = e;
-      },
-      setAPIKey(key) {
-        this.eggsAPIKey = key;
-        this.verificationSucceeded = true;
-      }
-    }
-  };
+    toggleHasAccount(condition) {
+      this.hasAccount = condition;
+    },
+    newError(e) {
+      this.serverError = e;
+    },
+    setAPIKey(key) {
+      this.eggsAPIKey = key;
+      this.verificationSucceeded = true;
+    },
+  },
+};
 </script>
 
 <style lang="sass" scoped>
 
-  #token-element
-    background-color: #fdbb2d
-
+#token-element
+  background-color: #fdbb2d
 </style>
