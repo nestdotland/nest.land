@@ -13,10 +13,7 @@ module.exports = {
       .use("vue-svg-loader")
       .loader("vue-svg-loader");
 
-    markdownRule
-      .test(/\.md/)
-      .use("raw-loader")
-      .loader("raw-loader");
+    markdownRule.test(/\.md/).use("raw-loader").loader("raw-loader");
   },
   devServer: {
     // proxy: "https://nest.land",

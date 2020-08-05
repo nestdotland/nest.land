@@ -1,9 +1,11 @@
 <template>
   <div class="gallery">
     <div class="hero is-medium is-light nest-footprints-hero">
-      <div class="notification is-danger is-light" v-show="errorMessage !== ''">{{ errorMessage }}</div>
+      <div class="notification is-danger is-light" v-show="errorMessage !== ''">
+        {{ errorMessage }}
+      </div>
       <div class="hero-head">
-        <nest-nav></nest-nav>
+        <nest-nav />
       </div>
       <div class="hero-body">
         <div class="container has-text-centered">
@@ -34,7 +36,10 @@
             <a
               id="docs-link"
               href="https://docs.nest.land/eggs/installation.html"
-            >documentation</a>.
+            >
+              documentation
+            </a>
+            .
           </p>
         </div>
       </div>
@@ -43,7 +48,9 @@
           <div class="container">
             <ul>
               <li class="nest-heading">
-                <a class="no-hover">{{ shownPackages.length }} packages shown</a>
+                <a class="no-hover">
+                  {{ shownPackages.length }} packages shown
+                </a>
               </li>
             </ul>
           </div>
@@ -51,23 +58,38 @@
       </div>
     </div>
     <gradient-bar></gradient-bar>
-    <div class="hero is-light is-medium" v-show="packages.length === 0 || loading">
+    <div
+      class="hero is-light is-medium"
+      v-show="packages.length === 0 || loading"
+    >
       <div class="hero-body">
         <div class="container">
-          <h1 v-show="loading" class="title is-3 has-text-centered">Loading packages... 🥚</h1>
+          <h1 v-show="loading" class="title is-3 has-text-centered">
+            Loading packages... 🥚
+          </h1>
           <h1
             v-show="packages.length === 0 && !loading"
             class="title is-3 has-text-centered"
-          >Unable to find any packages 🥚</h1>
+          >
+            Unable to find any packages 🥚
+          </h1>
         </div>
       </div>
     </div>
     <div class="hero is-light is-small">
       <div class="hero-body">
         <div class="container">
-          <transition-group name="gallery-cards" tag="div" class="columns is-multiline">
+          <transition-group
+            name="gallery-cards"
+            tag="div"
+            class="columns is-multiline"
+          >
             <!-- using createdAt time because index can't be used as a key here -->
-            <div class="column is-3" v-for="p in shownPackages" :key="timeToInt(p.createdAt)">
+            <div
+              class="column is-3"
+              v-for="p in shownPackages"
+              :key="timeToInt(p.createdAt)"
+            >
               <card :item="p"></card>
             </div>
           </transition-group>
@@ -97,19 +119,19 @@ export default {
       errorMessage: "",
       loadedPackages: 24,
       loadingPackages: false,
-      noMorePackages: false
+      noMorePackages: false,
     };
   },
   props: {
     search: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   components: {
     NestNav,
     GradientBar,
-    Card
+    Card,
   },
   async created() {
     window.addEventListener("scroll", this.scroll);
@@ -128,7 +150,7 @@ export default {
       if (this.search !== "") this.searchPhrase = this.search;
       await axios
         .get(`https://x.nest.land/api/packages/${this.loadedPackages}`)
-        .then(response => {
+        .then((response) => {
           this.packages = response.data;
           this.shownPackages = this.packages;
           this.loading = false;
@@ -136,14 +158,14 @@ export default {
           if (this.packages.length === previousPackagesLength)
             this.noMorePackages = true;
         })
-        .catch(err => (this.errorMessage = err));
+        .catch((err) => (this.errorMessage = err));
     },
     async scroll() {
       const {
         top,
         left,
         right,
-        bottom
+        bottom,
       } = this.$refs.scrolledToBottom.getBoundingClientRect();
       if (
         top >= 0 &&
@@ -158,7 +180,7 @@ export default {
         this.loadedPackages += 24;
         await this.loadPackagesWithLimit();
       }
-    }
+    },
   },
   watch: {
     searchPhrase() {
@@ -169,58 +191,58 @@ export default {
         this.shownPackages = this.packages;
         return;
       }
-      axios.get(`https://x.nest.land/api/packages`).then(response => {
+      axios.get(`https://x.nest.land/api/packages`).then((response) => {
         this.shownPackages = response.data.filter(({ name }) =>
           name.toLowerCase().includes(this.searchPhrase.toLowerCase())
         );
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="sass" scoped>
 
-  .nest-heading
-    font-size: .9em
-    font-weight: 400
-    text-transform: uppercase
+.nest-heading
+  font-size: .9em
+  font-weight: 400
+  text-transform: uppercase
 
-  .no-hover:hover
-    background: none !important
-    cursor: default
+.no-hover:hover
+  background: none !important
+  cursor: default
 
-  .control .icon.is-small.is-left
-    transition: all .17s
+.control .icon.is-small.is-left
+  transition: all .17s
 
-  .subtitle
-    text-align: center
-    display: inline-block
-    text-shadow: -1px 9px 8px rgba(50, 50, 93, 0.12), 0 5px 15px rgba(0, 0, 0, 0.18)
+.subtitle
+  text-align: center
+  display: inline-block
+  text-shadow: -1px 9px 8px rgba(50, 50, 93, 0.12), 0 5px 15px rgba(0, 0, 0, 0.18)
 
-    @media screen and (max-width: 720px)
-      width: 100%
+  @media screen and (max-width: 720px)
+    width: 100%
 
-    #docs-link
-      color: #00947e !important
-      text-shadow: -1px 9px 8px rgba(#00947e, 0.12), 0 5px 15px rgba(#00947e, 0.18)
+  #docs-link
+    color: #00947e !important
+    text-shadow: -1px 9px 8px rgba(#00947e, 0.12), 0 5px 15px rgba(#00947e, 0.18)
 
-  .scrolledToBottom
-    display: block
-    padding: 10px 0
-    text-align: center
+.scrolledToBottom
+  display: block
+  padding: 10px 0
+  text-align: center
 
-    p
-      font-weight: 600
+  p
+    font-weight: 600
 
-  .gallery-cards-enter-active,
-  .gallery-cards-leave-active
-    transition: opacity 0.3s
+.gallery-cards-enter-active,
+.gallery-cards-leave-active
+  transition: opacity 0.3s
 
-  .gallery-cards-enter,
-  .gallery-cards-leave-to
-    opacity: 0
+.gallery-cards-enter,
+.gallery-cards-leave-to
+  opacity: 0
 
-  .gallery-cards-move
-    transition: transform 0.8s
+.gallery-cards-move
+  transition: transform 0.8s
 </style>

@@ -10,34 +10,37 @@ export const routes = [
   {
     path: "",
     component: Home,
+    meta: {
+      keepAlive: true,
+    },
   },
   {
     path: "/gallery",
     component: Gallery,
-    props: (route) => ({ search: route.query.search })
+    props: (route) => ({ search: route.query.search }),
   },
   {
     path: "/package/:id",
     component: PackageDetail,
-    props: (route) => ({ v: route.query.v })
+    props: (route) => ({ v: route.query.v }),
   },
   {
     path: "/package/:id/*",
-    component: PackageDetail
+    component: PackageDetail,
   },
   {
     path: "/std",
-    component: StdGallery
+    component: StdGallery,
   },
   {
     path: "/std/:module/:version",
     component: StdModule,
-    props: true
+    props: true,
   },
   {
     path: "/std/:module/:version/*",
     component: StdModule,
-    props: true
+    props: true,
   },
   {
     path: "/pst",
@@ -45,7 +48,7 @@ export const routes = [
   },
   {
     path: "/404",
-    component: NotFound
+    component: NotFound,
   },
   {
     path: "*",

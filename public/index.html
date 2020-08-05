@@ -1,61 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link
+      rel="icon"
+      media="(prefers-color-scheme:light)"
+      href="<%= BASE_URL %>images/nest.land/favicon_light.svg"
+      type="image/svg"
+    />
+    <link
+      rel="icon"
+      media="(prefers-color-scheme:dark)"
+      href="<%= BASE_URL %>images/nest.land/favicon_dark.svg"
+      type="image/svg"
+    />
+    <title><%= htmlWebpackPlugin.options.title %></title>
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link rel="icon" media="(prefers-color-scheme:light)" href="<%= BASE_URL %>images/nest.land/favicon_light.svg" type="image/svg" />
-  <link rel="icon" media="(prefers-color-scheme:dark)" href="<%= BASE_URL %>images/nest.land/favicon_dark.svg" type="image/svg" />
-  <title><%= htmlWebpackPlugin.options.title %></title>
+    <!-- Search Engine -->
+    <meta
+      name="description"
+      content="An immutable, blockchain powered module registry for Deno."
+    />
+    <meta name="image" content="https://og.nest.land/.png?fontSize=350px" />
+    <meta name="title" content="nest.land" />
+    <meta name="robots" content="index, follow" />
+    <!-- Schema.org for Google -->
+    <meta itemprop="name" content="nest.land" />
+    <meta
+      itemprop="description"
+      content="An immutable, blockchain powered module registry for Deno."
+    />
+    <meta itemprop="image" content="https://og.nest.land/.png?fontSize=350px" />
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="nest.land" />
+    <meta
+      name="twitter:description"
+      content="An immutable, blockchain powered module registry for Deno."
+    />
+    <meta name="twitter:creator" content="@tateberenbaum" />
+    <meta
+      name="twitter:image:src"
+      content="https://og.nest.land/.png?fontSize=350px"
+    />
+    <!-- Open Graph general (Facebook, Pinterest & Google+) -->
+    <meta name="og:title" content="nest.land" />
+    <meta
+      name="og:description"
+      content="An immutable, blockchain powered module registry for Deno."
+    />
+    <meta name="og:image" content="https://og.nest.land/.png?fontSize=350px" />
+    <meta name="og:site_name" content="nest.land" />
+    <meta name="og:locale" content="en_US" />
+    <meta name="og:type" content="website" />
+  </head>
 
-  <!-- Search Engine -->
-  <meta name="description" content="An immutable, blockchain powered module registry for Deno.">
-  <meta name="image"
-    content="https://og.nest.land/.png?fontSize=350px">
-  <meta name="title" content="nest.land">
-  <meta name="robots" content="index, follow">
-  <!-- Schema.org for Google -->
-  <meta itemprop="name" content="nest.land">
-  <meta itemprop="description" content="An immutable, blockchain powered module registry for Deno.">
-  <meta itemprop="image"
-    content="https://og.nest.land/.png?fontSize=350px">
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="nest.land">
-  <meta name="twitter:description" content="An immutable, blockchain powered module registry for Deno.">
-  <meta name="twitter:creator" content="@tateberenbaum">
-  <meta name="twitter:image:src"
-    content="https://og.nest.land/.png?fontSize=350px">
-  <!-- Open Graph general (Facebook, Pinterest & Google+) -->
-  <meta name="og:title" content="nest.land">
-  <meta name="og:description" content="An immutable, blockchain powered module registry for Deno.">
-  <meta name="og:image"
-    content="https://og.nest.land/.png?fontSize=350px">
-  <meta name="og:site_name" content="nest.land">
-  <meta name="og:locale" content="en_US">
-  <meta name="og:type" content="website">
-</head>
+  <body>
+    <noscript>
+      <strong>
+        We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work
+        properly without JavaScript enabled. Please enable it to continue.
+      </strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
 
-<body>
-  <noscript>
-    <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
-      Please enable it to continue.</strong>
-  </noscript>
-  <div id="app"></div>
-  <!-- built files will be auto injected -->
+    <!-- Dynamic favicon support -->
+    <script
+      src="https://unpkg.com/favicon-switcher@1.2.2/dist/index.js"
+      crossorigin="anonymous"
+      type="application/javascript"
+    ></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-168010978-1"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-  <!-- Dynamic favicon support -->
-  <script src="https://unpkg.com/favicon-switcher@1.2.2/dist/index.js" crossorigin="anonymous" type="application/javascript"></script> 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-168010978-1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'UA-168010978-1');
-  </script>
-</body>
-
+      gtag("config", "UA-168010978-1");
+    </script>
+  </body>
 </html>

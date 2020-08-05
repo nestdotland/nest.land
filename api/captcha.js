@@ -15,15 +15,13 @@ module.exports = (req, res) => {
 
   request.post(verifyCaptchaOptions, function (err, response, body) {
     if (err) {
-      return res.status(500).json(
-        { message: "Oops, something went wrong on our side" },
-      );
+      return res
+        .status(500)
+        .json({ message: "Oops, something went wrong on our side" });
     }
     if (!body.success) {
       return res.status(500).json({ message: body["error-codes"].join(".") });
     }
-    res.status(201).json(
-      { success: true },
-    );
+    res.status(201).json({ success: true });
   });
 };

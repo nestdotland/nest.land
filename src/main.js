@@ -5,6 +5,7 @@ import { VueReCaptcha } from "vue-recaptcha-v3";
 import VueLodash from "vue-lodash";
 import lodash from "lodash";
 import VueClipboard from "vue-clipboard2";
+import VueSmoothScroll from "vue-smoothscroll";
 
 import App from "./App.vue";
 import NestFooter from "./components/Footer";
@@ -39,7 +40,7 @@ import {
   faCheckSquare,
   faFlag,
   faBook,
-  faArrowLeft
+  faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -86,6 +87,7 @@ Vue.use(VueRouter);
 Vue.use(VueReCaptcha, { siteKey: "6Lepmf8UAAAAABsjF9Fo0kqzm3_2KcHHM2fX43YH" });
 Vue.use(VueLodash, { lodash: lodash });
 Vue.use(VueClipboard);
+Vue.use(VueSmoothScroll);
 
 const router = new VueRouter({
   routes,
