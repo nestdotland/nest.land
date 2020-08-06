@@ -159,6 +159,13 @@
                   />
                   Published on: {{ packageInfo.createdAt | formatDate }}
                 </div>
+                <div class="panel-block">
+                  <font-awesome-icon
+                    class="icon-margin-right"
+                    :icon="['fa', 'money-bill']"
+                  />
+                  1000.018 DAL
+                </div>
               </nav>
               <nav class="panel">
                 <p class="panel-heading">

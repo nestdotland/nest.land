@@ -7,7 +7,7 @@
           <div class="hero-body">
               <div class="container">
                   <h1 class="title is-1">
-                        Introducing <span class="gradient-text">(name_here)</span>
+                        Introducing <span class="gradient-text">DAL</span>
                   </h1>
                   <p class="subtitle">
                       A profit sharing token for <b>nest.land</b>
@@ -20,7 +20,7 @@
           <div class="hero-body">
               <div class="container">
                   <h1 class="title">
-                      What is a <i>"PST"</i>?
+                      What are DAL tokens?
                   </h1>
               </div>
           </div>
