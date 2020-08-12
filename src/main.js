@@ -41,7 +41,10 @@ import {
   faFlag,
   faBook,
   faArrowLeft,
-  faMoneyBill
+  faMoneyBill,
+  faUsers,
+  faExchangeAlt,
+  faGavel,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -76,7 +79,10 @@ library.add(
   faFlag,
   faBook,
   faArrowLeft,
-  faMoneyBill
+  faMoneyBill,
+  faUsers,
+  faExchangeAlt,
+  faGavel,
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
