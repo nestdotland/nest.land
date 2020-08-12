@@ -2,6 +2,7 @@
   <div>
     <div class="hero is-dark is-bold">
       <div class="hero-head">
+        <div class="notification is-dark" style="border-radius: 0">Coming soon...</div>
         <nav class="navbar">
           <router-link to="/" class="navbar-item back-arrow">
             <font-awesome-icon :icon="['fa', 'arrow-left']" />
