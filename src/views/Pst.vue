@@ -32,18 +32,18 @@
     <div class="hero is-medium is-light">
       <div class="hero-body">
         <div class="container">
-          <div class="columns">
+          <div class="columns is-vcentered">
             <div class="column">
               <h1 class="title section-title">Whaaa?</h1>
               <p class="subtitle">
-                <span class="currency">DNO</span> is a type of profit sharing token built on Arweave. These tokens behave like a normal cryptocurrency, and they will be used for a number of purposes:
+                <span class="currency">DNO</span> is a type of profit sharing token built on Arweave. These tokens behave like a normal cryptocurrency, and they will be used for a number of purposes...
               </p>
             </div>
             <div class="column is-1"></div>
             <div class="column">
               <ul>
                 <li class="subtitle">
-                  <font-awesome-icon :icon="['fas', 'users']" class="left-icon" />Awarded based on module usage
+                  <font-awesome-icon :icon="['fas', 'users']" class="left-icon" />Paid out based on module usage
                 </li>
                 <li class="subtitle">
                   <font-awesome-icon :icon="['fas', 'exchange-alt']" class="left-icon" />Transferrable & tradeable
@@ -60,21 +60,33 @@
     <div class="hero is-medium">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title">Useful? YES!</h1>
+          <h1 class="title">Token Metrics</h1>
         </div>
       </div>
     </div>
     <div class="hero is-medium is-light">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title">Token Metrics</h1>
-        </div>
-      </div>
-    </div>
-    <div class="hero is-medium">
-      <div class="hero-body">
-        <div class="container">
-          <h1 class="title">How to Purchase (name_here)</h1>
+          <div class="columns">
+            <div class="column">
+              <img src alt="World illustration" />
+            </div>
+            <div class="column">
+              <h1 class="title section-title">Supported exchanges</h1>
+              <p class="subtitle">
+                Anybody will be able to trade these tokens on
+                <a
+                  href="https://verto.exchange"
+                  class="hyperlink"
+                >Verto</a>, a new decentralized PST exchange.
+              </p>
+              <img
+                src="https://raw.githubusercontent.com/useverto/verto/master/static/logo_light.svg"
+                alt="Verto logo"
+                class="verto-logo"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -121,4 +133,13 @@ li.subtitle
 
 .section-title
     margin-bottom: 35px !important
+
+.verto-logo
+    width: 25%
+    max-width: 200px
+    margin: 0 auto !important
+
+.hyperlink
+    color: #22c1c3 !important
+    font-weight: 600
 </style>
