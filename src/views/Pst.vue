@@ -70,9 +70,12 @@
     <div class="hero is-medium is-light">
       <div class="hero-body">
         <div class="container">
-          <div class="columns">
+          <div class="columns is-vcentered">
             <div class="column">
-              <img src alt="World illustration" />
+              <img
+                src="https://raw.githubusercontent.com/nestdotland/nest.land/feat/pst-info/public/trade-diagram.svg"
+                alt="World illustration"
+              />
             </div>
             <div class="column">
               <h1 class="title section-title">Supported exchanges</h1>
@@ -83,11 +86,6 @@
                   class="hyperlink"
                 >Verto</a>, a new decentralized PST exchange.
               </p>
-              <img
-                src="https://raw.githubusercontent.com/useverto/verto/master/static/logo_light.svg"
-                alt="Verto logo"
-                class="verto-logo"
-              />
             </div>
           </div>
         </div>
