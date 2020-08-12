@@ -22,7 +22,10 @@
               </p>
             </div>
             <div class="column is-5">
-              <img src="https://svgur.com/i/Neq.svg" alt="PST diagram" />
+              <img
+                src="https://raw.githubusercontent.com/nestdotland/nest.land/feat/pst-info/public/pst-diagram-dark.svg"
+                alt="PST diagram"
+              />
             </div>
           </div>
         </div>
