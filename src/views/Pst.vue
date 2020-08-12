@@ -39,7 +39,7 @@
             <div class="column">
               <h1 class="title section-title">Whaaa?</h1>
               <p class="subtitle">
-                <span class="currency">DNO</span> is a type of profit sharing token built on Arweave. These tokens behave like a normal cryptocurrency, and they will be used for a number of purposes...
+                <span class="currency">DNO</span> is a profit sharing token built on Arweave. These tokens behave like a normal cryptocurrency, and they will be used for a number of purposes...
               </p>
             </div>
             <div class="column is-1"></div>
@@ -63,7 +63,27 @@
     <div class="hero is-medium">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title">Token Metrics</h1>
+          <h1 class="title section-title has-text-centered">POC Token Metrics</h1>
+          <div class="columns has-text-centered">
+            <div class="column is-one-third">
+              <p class="subtitle">
+                <b>Initial supply</b>
+              </p>
+              <p class="subtitle currency">10,000,000</p>
+            </div>
+            <div class="column is-one-third">
+              <p class="subtitle">
+                <b>Minting price</b>
+              </p>
+              <p class="subtitle currency">0.01 AR / 1 DNO</p>
+            </div>
+            <div class="column is-one-third">
+              <p class="subtitle">
+                <b>Payout rate</b>
+              </p>
+              <p class="subtitle currency">1 DNO / 100 imports</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -78,7 +98,7 @@
               />
             </div>
             <div class="column">
-              <h1 class="title section-title">Supported exchanges</h1>
+              <h1 class="title section-title">Supported Exchanges</h1>
               <p class="subtitle">
                 Anybody will be able to trade these tokens on
                 <a
