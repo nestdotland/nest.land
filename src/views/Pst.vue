@@ -70,7 +70,7 @@
               <p class="subtitle">
                 <b>Initial supply</b>
               </p>
-              <p class="subtitle currency">10,000,000</p>
+              <p class="subtitle currency">1,000,000</p>
             </div>
             <div class="column is-one-third">
               <p class="subtitle">
