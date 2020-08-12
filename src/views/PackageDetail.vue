@@ -29,7 +29,8 @@
               <div class="Warning" v-if="malicious">
                 <font-awesome-icon :icon="['fa', 'exclamation-triangle']" />
                 <p>
-                  This package is flagged as <b>malicious</b>. Do not use it in
+                  This package is flagged as
+                  <b>malicious</b>. Do not use it in
                   your projects!
                 </p>
               </div>
@@ -49,10 +50,7 @@
             <div class="column is-4">
               <nav class="panel">
                 <p class="panel-heading">
-                  <font-awesome-icon
-                    class="icon-margin-right"
-                    :icon="['fas', 'parachute-box']"
-                  />Open this package
+                  <font-awesome-icon class="icon-margin-right" :icon="['fas', 'parachute-box']" />Open this package
                 </p>
                 <div class="panel-block">
                   <div class="buttons has-addons nest-button-group">
@@ -69,9 +67,7 @@
                           : null
                       "
                       :disabled="packageInfo.latestStableVersion === null"
-                    >
-                      Stable
-                    </button>
+                    >Stable</button>
                     <button
                       class="button is-warning is-light"
                       @click="
@@ -81,16 +77,11 @@
                       "
                       :disabled="noVersion"
                       :title="noVersion ? 'No versions published yet' : null"
-                    >
-                      Latest
-                    </button>
+                    >Latest</button>
                   </div>
                 </div>
                 <div class="panel-block">
-                  <div
-                    class="select is-light has-light-arrow is-fullwidth"
-                    v-if="!noVersion"
-                  >
+                  <div class="select is-light has-light-arrow is-fullwidth" v-if="!noVersion">
                     <select
                       v-model="selectedVersion"
                       @change="
@@ -102,31 +93,29 @@
                         v-for="(version, id) in packageVersions"
                         :key="id"
                         :value="$route.params.id + '@' + version"
-                        >{{ $route.params.id + "@" + version }}</option
-                      >
+                      >{{ $route.params.id + "@" + version }}</option>
                     </select>
                   </div>
                   <p v-if="noVersion">No version available</p>
                 </div>
                 <div class="panel-block entryURL" v-if="!noVersion">
                   <pre class="is-fullwidth">
-                    <font-awesome-icon :class="{ 'icon-margin-right': true, 'copyEntry': true, copied }" @click="copyPackageEntry" :icon="['fa', (copied ? 'check-square' : 'copy')]" title="Click to copy" />
+                    <font-awesome-icon
+  :class="{ 'icon-margin-right': true, 'copyEntry': true, copied }"
+  @click="copyPackageEntry"
+  :icon="['fa', (copied ? 'check-square' : 'copy')]"
+  title="Click to copy"
+/>
                     <code>{{ entryURL }}</code>
                   </pre>
                 </div>
               </nav>
               <nav class="panel">
                 <p class="panel-heading">
-                  <font-awesome-icon
-                    class="icon-margin-right"
-                    :icon="['fas', 'box-open']"
-                  />Package info
+                  <font-awesome-icon class="icon-margin-right" :icon="['fas', 'box-open']" />Package info
                 </p>
                 <div class="panel-block">
-                  <font-awesome-icon
-                    class="icon-margin-right"
-                    :icon="['fa', 'user']"
-                  />
+                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'user']" />
                   {{ packageInfo.owner }}
                 </div>
                 <a
@@ -137,49 +126,26 @@
                   class="panel-block"
                   :href="packageInfo.repository"
                 >
-                  <font-awesome-icon
-                    class="icon-margin-right"
-                    :icon="['fa', 'code-branch']"
-                  />Repository
+                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'code-branch']" />Repository
                 </a>
                 <router-link
                   v-if="!noVersion"
                   class="panel-block"
                   :to="'/package/' + $route.params.id + '/files'"
                 >
-                  <font-awesome-icon
-                    class="icon-margin-right"
-                    :icon="['fa', 'folder']"
-                  />Browse files
+                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'folder']" />Browse files
                 </router-link>
                 <div class="panel-block">
-                  <font-awesome-icon
-                    class="icon-margin-right"
-                    :icon="['fa', 'calendar-alt']"
-                  />
+                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'calendar-alt']" />
                   Published on: {{ packageInfo.createdAt | formatDate }}
-                </div>
-                <div class="panel-block">
-                  <font-awesome-icon
-                    class="icon-margin-right"
-                    :icon="['fa', 'money-bill']"
-                  />
-                  1000.018 DAL
                 </div>
               </nav>
               <nav class="panel">
                 <p class="panel-heading">
-                  <font-awesome-icon
-                    class="icon-margin-right"
-                    :icon="['fas', 'shield-alt']"
-                  />Audit
+                  <font-awesome-icon class="icon-margin-right" :icon="['fas', 'shield-alt']" />Audit
                 </p>
                 <div class="panel-block warning" v-if="malicious">
-                  <font-awesome-icon
-                    class="icon-margin-right"
-                    :icon="['fa', 'biohazard']"
-                  />
-                  Flagged as malicious
+                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'biohazard']" />Flagged as malicious
                 </div>
                 <a
                   class="panel-block"
@@ -191,10 +157,7 @@
                   rel="noopener noreferrer"
                   v-else
                 >
-                  <font-awesome-icon
-                    class="icon-margin-right"
-                    :icon="['fa', 'flag']"
-                  />Report malicious module
+                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'flag']" />Report malicious module
                 </a>
               </nav>
             </div>
@@ -370,7 +333,6 @@ export default {
 </script>
 
 <style lang="sass">
-
 @import "../styles/Markdown"
 
 .readme
