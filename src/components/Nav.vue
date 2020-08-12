@@ -37,6 +37,14 @@
           >
             Standard Library
           </router-link>
+          <router-link
+            class="navbar-item has-text-dark"
+            to="/pst"
+            active-class="active-link"
+            exact
+          >
+            Tokens
+          </router-link>
           <a
             class="navbar-item has-text-dark"
             href="https://docs.nest.land"
