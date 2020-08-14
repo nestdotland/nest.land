@@ -27,7 +27,7 @@
                       :icon="['fas', 'trash-alt']"
                       class="left-icon"
                     />
-                    Permanently immutable
+                    Permanent & immutable
                   </li>
                   <li class="subtitle">
                     <font-awesome-icon
