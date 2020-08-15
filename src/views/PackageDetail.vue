@@ -135,7 +135,7 @@
   import * as semverSort from "semver/functions/sort";
   import VueMarkdown from "vue-markdown";
   import FileExplorer from "../components/package/FileExplorer";
-  import * as yolk from "@nestdotland/yolk";
+  import * as Yolk from "@nestdotland/yolk";
 
   export default {
     components: {
@@ -154,6 +154,7 @@
         entryFile: "/mod.ts",
         malicious: false,
         copied: false,
+        yolk: new Yolk.Yolk("http://localhost:8080")
       };
     },
     props: {
@@ -170,16 +171,16 @@
     async created() {
       await this.refreshContent();
       if (this.v === "" || !this.v || this.v === null) {
-        this.selectedVersion = this.packageInfo.latestStableVersion;
-        if (this.selectedVersion === null)
-          this.selectedVersion = this.packageInfo.latestVersion;
+        this.selectedVersion = this.packageInfo.latestStableVersion || this.packageInfo.latestVersion;
+        if(this.selectedVersion == null) 
+          this.$router.push("/404");
       } else {
         if (!this.packageInfo.uploads.includes(this.v)) {
           this.$router.push("/404");
         }
         this.selectedVersion = this.packageInfo.name + "@" + this.v;
       }
-
+      console.log(this.packageInfo);
       if (
         this.packageInfo.latestStableVersion === null &&
         this.packageInfo.latestVersion === null &&
@@ -188,14 +189,7 @@
         this.packageReadme = "# No version published yet";
         this.noVersion = true;
       }
-      // TODO(divy-work): use yolk to get versioned module info
-      // await axios
-      //  .get(
-      //    `https://x.nest.land/api/package/${ this.packageInfo.name }/${
-      //     this.selectedVersion.split("@")[1]
-      //    }`,
-      //  )
-      yolk.moduleByName(this.packageInfo.name)
+      this.yolk.moduleUploadByVersion(this.packageInfo.name, this.selectedVersion.split("@")[1])
       .then(response => {
         console.log(response.data.module.uploads[0])
         this.malicious = response.data.module.uploads[0].malicious;
@@ -217,7 +211,7 @@
       async refreshContent() {
         let packageDataResponse;
         try {
-          packageDataResponse = await yolk.moduleByName(this.$route.params.id);
+          packageDataResponse = await this.yolk.moduleByName(this.$route.params.id);
           if (!packageDataResponse.data.module) {
             this.$router.push("/404");
             return;

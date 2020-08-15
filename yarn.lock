@@ -902,10 +902,10 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@nestdotland/yolk@^0.2.0-rc1":
-  version "0.2.0-rc1"
-  resolved "https://registry.yarnpkg.com/@nestdotland/yolk/-/yolk-0.2.0-rc1.tgz#0599a3890aac8839605665703ec2f975b1fc071c"
-  integrity sha512-meOQFfvIoPRxl6TbMVHqnCo5Jd4sQ3/FNxprYIyy4UuScO/apg6tl0Da2JelfuNIPeMIY3bc61l7goK8nPejTw==
+"@nestdotland/yolk@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@nestdotland/yolk/-/yolk-0.3.0.tgz#4121768caf02618f6dd44d55288349572ac99440"
+  integrity sha512-AdXsRWjBhL/jhgC0TzpF35CSCq4B6G3VsN9P8JAH/axikkmz16VO81m8n5feRRL7luQog8w02st3ZndGxLuCAw==
   dependencies:
     denoify "^0.3.0"
     typescript "^3.9.6"
@@ -923,9 +923,9 @@
     "@octokit/types" "^5.0.0"
 
 "@octokit/core@^3.0.0":
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/@octokit/core/-/core-3.1.1.tgz#1856745aa8fb154cf1544a2a1b82586c809c5e66"
-  integrity sha512-cQ2HGrtyNJ1IBxpTP1U5m/FkMAJvgw7d2j1q3c9P0XUuYilEgF6e4naTpsgm4iVcQeOnccZlw7XHRIUBy0ymcg==
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/@octokit/core/-/core-3.1.2.tgz#c937d5f9621b764573068fcd2e5defcc872fd9cc"
+  integrity sha512-AInOFULmwOa7+NFi9F8DlDkm5qtZVmDQayi7TUgChE3yeIGPq0Y+6cAEXPexQ3Ea+uZy66hKEazR7DJyU+4wfw==
   dependencies:
     "@octokit/auth-token" "^2.4.0"
     "@octokit/graphql" "^4.3.1"
@@ -944,9 +944,9 @@
     universal-user-agent "^6.0.0"
 
 "@octokit/graphql@^4.3.1":
-  version "4.5.3"
-  resolved "https://registry.yarnpkg.com/@octokit/graphql/-/graphql-4.5.3.tgz#d5ff0d4a8a33e98614a2a7359dac98bc285e062f"
-  integrity sha512-JyYvi3j2tOb5ofASEpcg1Advs07H+Ag+I+ez7buuZfNVAmh1IYcDTuxd4gnYH8S2PSGu+f5IdDGxMmkK+5zsdA==
+  version "4.5.4"
+  resolved "https://registry.yarnpkg.com/@octokit/graphql/-/graphql-4.5.4.tgz#c9ef75b0406ebf195bf5f4ed2304a77ed7df27c7"
+  integrity sha512-ITpZ+dQc0cXAW1FmDkHJJM+8Lb6anUnin0VB5hLBilnYVdLC0ICFU/KIvT7OXfW9S81DE3U4Vx2EypDG1OYaPA==
   dependencies:
     "@octokit/request" "^5.3.0"
     "@octokit/types" "^5.0.0"
@@ -1006,9 +1006,9 @@
     "@octokit/plugin-rest-endpoint-methods" "4.1.2"
 
 "@octokit/types@^5.0.0", "@octokit/types@^5.0.1", "@octokit/types@^5.1.1", "@octokit/types@^5.2.0":
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/@octokit/types/-/types-5.2.0.tgz#d075dc23bf293f540739250b6879e2c1be2fc20c"
-  integrity sha512-XjOk9y4m8xTLIKPe1NFxNWBdzA2/z3PFFA/bwf4EoH6oS8hM0Y46mEa4Cb+KCyj/tFDznJFahzQ0Aj3o1FYq4A==
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/@octokit/types/-/types-5.4.0.tgz#25f2f8e24fec09214553168c41c06383c9d0f529"
+  integrity sha512-D/uotqF69M50OIlwMqgyIg9PuLT2daOiBAYF0P40I2ekFA2ESwwBY5dxZe/UhXdPvIbNKDzuZmQrO7rMpuFbcg==
   dependencies:
     "@types/node" ">= 8"
 
@@ -2565,9 +2565,9 @@ commander@~2.19.0:
   integrity sha512-6tvAOO+D6OENvRAh524Dh9jcfKTYDQAqvqezbCW82xj5X0pSrcpxtvRKHLG0yBY6SD7PSDrJaj+0AiOcKVd1Xg==
 
 comment-json@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/comment-json/-/comment-json-3.0.2.tgz#a5652a491910e338080bcbf98fc9a37cbd7f3733"
-  integrity sha512-ysJasbJ671+8mPEmwLOfLFqxoGtSmjyoep+lKRVH4J1/hsGu79fwetMDQWk8de8mVgqDZ43D7JuJAlACqjI1pg==
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/comment-json/-/comment-json-3.0.3.tgz#0cadacd6278602b57b8c51b1814dc5d311d228c4"
+  integrity sha512-P7XwYkC3qjIK45EAa9c5Y3lR7SMXhJqwFdWg3niAIAcbk3zlpKDdajV8Hyz/Y3sGNn3l+YNMl8A2N/OubSArHg==
   dependencies:
     core-util-is "^1.0.2"
     esprima "^4.0.1"
@@ -3155,9 +3155,9 @@ delegates@^1.0.0:
   integrity sha1-hMbhWbgZBP3KWaDvRM2HDTElD5o=
 
 denoify@^0.3.0:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/denoify/-/denoify-0.3.3.tgz#f7d6d21f0ef754c05d12cd54793a554655adc4ed"
-  integrity sha512-QjaaOFYy8bOS9OoQo6nMR67VA0OYXZj1iwMxoH/SA6afFimqH96guN6Hu9d9oqwG8ZDBRVMW5YUwpMPTdlSITA==
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/denoify/-/denoify-0.3.8.tgz#4a91d5f3c476c29d75a74c7856cedd4b2b59111a"
+  integrity sha512-hK3z+Lhw3h2zW3BcjcRYFqfbLqMpFTZ1Ta9d7kN4vC4F5TlVPbw5F24WAiF7GbKi1qDaBaJ5RQEgJve6BqdsKA==
   dependencies:
     "@octokit/rest" "^18.0.0"
     "@types/comment-json" "^1.1.1"
@@ -3647,12 +3647,12 @@ evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
     safe-buffer "^5.1.1"
 
 evt@^1.7.13:
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/evt/-/evt-1.8.3.tgz#720abd318b0bf680b5c734bd1276c1178ff076f5"
-  integrity sha512-3H60tAwOs20WMRbdzodq01cDKNv96ZCr0QKFdxwbkb3ZF+6rhS6eOOXQKdpxdlmJJ/8kIdlArvpdrwx1atBFpw==
+  version "1.8.7"
+  resolved "https://registry.yarnpkg.com/evt/-/evt-1.8.7.tgz#51f7b266f0aa9ff8b816f6e0e4b1d580b617eb9d"
+  integrity sha512-+yk8cryrCasrOGCWCmr+Q4MTp2/ujM1BGDL2zo73cI++gfxLDE8TvO0lL0NqKvURybcm485jQYakXOn0FeyLPg==
   dependencies:
-    minimal-polyfills "^2.1.3"
-    run-exclusive "^2.2.8"
+    minimal-polyfills "^2.1.4"
+    run-exclusive "^2.2.13"
 
 execa@^0.8.0:
   version "0.8.0"
@@ -5729,10 +5729,10 @@ mini-css-extract-plugin@^0.9.0:
     schema-utils "^1.0.0"
     webpack-sources "^1.1.0"
 
-minimal-polyfills@^2.1.3:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/minimal-polyfills/-/minimal-polyfills-2.1.3.tgz#de39bd2cbd18a549b60b6594f1dec602256a5798"
-  integrity sha512-gEbwv2dEvvrGys/hhWdZy+/BGkKAKqzxfmVqmF1Jl9OlD0tK9hEFLJ2tCXOuOtz2qiDMQO2Ke1jYB2s5uCj2Xw==
+minimal-polyfills@^2.1.4:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/minimal-polyfills/-/minimal-polyfills-2.1.4.tgz#208d32410666dc8bcccee088646d52397b2be296"
+  integrity sha512-X4hfRfqGz+9f92hOy0kw4URE9TZEkmLDonLVXKETulK2Vjoo6ovBmVJkSGAgQX2fNIG3xZ9pW4V7+TWCQa8zFw==
 
 minimalistic-assert@^1.0.0, minimalistic-assert@^1.0.1:
   version "1.0.1"
@@ -7522,12 +7522,12 @@ run-async@^2.4.0:
   resolved "https://registry.yarnpkg.com/run-async/-/run-async-2.4.1.tgz#8440eccf99ea3e70bd409d49aab88e10c189a455"
   integrity sha512-tvVnVv01b8c1RrA6Ep7JkStj85Guv/YrMcwqYQnwjsAS2cTmmPGBBjAjpCW7RrSodNSoE2/qg9O4bceNvUuDgQ==
 
-run-exclusive@^2.2.8:
-  version "2.2.8"
-  resolved "https://registry.yarnpkg.com/run-exclusive/-/run-exclusive-2.2.8.tgz#106854fff3f9a92a92a365dcaa1bee454e9bd4e0"
-  integrity sha512-WTSUO1p8eLiQGe1v0G1YsmrWt5pRZJHQu/Ql6KbTEqhivhctsyWNKGT+EEnek8l1We5Slm/lV2nqdup1m545Yg==
+run-exclusive@^2.2.13:
+  version "2.2.13"
+  resolved "https://registry.yarnpkg.com/run-exclusive/-/run-exclusive-2.2.13.tgz#778421aa10684fa6e8925a1e944fa3ab255589cf"
+  integrity sha512-88PHMS2WjLYSY2MjFvnq1QG5yTbWg+ePPwgY7UQF4gP2ALx2i3brwGyDs7fN7UMEuiLIJ0SMTQxpA42Vi07qtA==
   dependencies:
-    minimal-polyfills "^2.1.3"
+    minimal-polyfills "^2.1.4"
 
 run-queue@^1.0.0, run-queue@^1.0.3:
   version "1.0.3"

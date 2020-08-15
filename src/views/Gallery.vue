@@ -85,7 +85,8 @@
 import NestNav from "../components/Nav";
 import GradientBar from "../components/GradientBar";
 import Card from "../components/Card";
-import * as yolk from "@nestdotland/yolk";
+import * as Yolk from "@nestdotland/yolk";
+// TODO: change version to 1.0.0 when published
 
 export default {
   data() {
@@ -97,7 +98,8 @@ export default {
       errorMessage: "",
       loadedPackages: 24,
       loadingPackages: false,
-      noMorePackages: false
+      noMorePackages: false,
+      yolk: new Yolk.Yolk("http://localhost:8080"),
     };
   },
   props: {
@@ -126,7 +128,7 @@ export default {
       this.loadingPackages = true;
       const previousPackagesLength = this.packages.length;
       if (this.search !== "") this.searchPhrase = this.search;
-      yolk.modules()
+      this.yolk.modules()
         .then(response => {
           this.packages = response.data.modules;
           this.shownPackages = this.packages;
@@ -168,7 +170,7 @@ export default {
         this.shownPackages = this.packages;
         return;
       }
-      yolk.modules().then(response => {
+      this.yolk.modules().then(response => {
         console.log(response.data.modules)
         this.shownPackages = response.data.modules.filter(({ name }) =>
           name.toLowerCase().includes(this.searchPhrase.toLowerCase())
