@@ -53,7 +53,7 @@ This diagram is a visualisation of how these parts work together:
 ### Authors
 
 - [t8](https://github.com/t8) - Co-Founder, Frontend, & Project Management
-- [zorbyte](https://github.com/zorbyte) - Co-Founder, Advisor, Triager, & Code Quality Control
+- [zorbyte](https://github.com/zorbyte) - Co-Founder
 - [justablob](https://github.com/justablob) - Backend & CLI
 
 ### Core Team
@@ -69,6 +69,8 @@ This diagram is a visualisation of how these parts work together:
 - [yg](https://github.com/yg)
 - [johnletey](https://github.com/johnletey)
 - [qu4k](https://github.com/Qu4k)
+- [keimeno](https://github.com/Keimeno)
+- [hermitsun](https://github.com/HermitSun)
 
 ### Special Thanks
 
