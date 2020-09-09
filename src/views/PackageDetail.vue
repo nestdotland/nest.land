@@ -135,10 +135,12 @@
                 >
                   <font-awesome-icon class="icon-margin-right" :icon="['fa', 'folder']" />Browse files
                 </router-link>
-                <div class="panel-block">
+                <a target="_blank"
+                  :href="linkToViewBlockIO"
+                  class="panel-block">
                   <font-awesome-icon class="icon-margin-right" :icon="['fa', 'calendar-alt']" />
                   Published on: {{ packageInfo.createdAt | formatDate }}
-                </div>
+                </a>
               </nav>
               <nav class="panel">
                 <p class="panel-heading">
@@ -186,6 +188,7 @@ export default {
   data() {
     return {
       packageInfo: Object,
+      linkToViewBlockIO: "",
       selectedVersion: "",
       packageVersions: [],
       packageReadme: "Loading README...",
@@ -235,6 +238,7 @@ export default {
         }`
       )
       .then((response) => {
+        this.linkToViewBlockIO = `https://viewblock.io/arweave/tx/${response.data.prefix.split('https://arweave.net/')[1]}` 
         this.malicious = response.data.malicious;
         if (response.data.entry !== null) this.entryFile = response.data.entry;
       });
