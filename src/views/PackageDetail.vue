@@ -136,12 +136,11 @@
                   <font-awesome-icon class="icon-margin-right" :icon="['fa', 'folder']" />Browse files
                 </router-link>
                 <a target="_blank"
-                :href="linkToViewBlockIO"
-                class="panel-block">
-                <font-awesome-icon class="icon-margin-right" :icon="['fa', 'calendar-alt']" />
-                Published on: {{ packageInfo.createdAt | formatDate }}
-
-              </a>
+                  :href="linkToViewBlockIO"
+                  class="panel-block">
+                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'calendar-alt']" />
+                  Published on: {{ packageInfo.createdAt | formatDate }}
+                </a>
               </nav>
               <nav class="panel">
                 <p class="panel-heading">
