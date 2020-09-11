@@ -25,7 +25,7 @@
 
             on the
             <a class="gradient-text" href="https://www.arweave.org/">
-              blockchain
+              Blockchain
             </a>
           </h1>
         </transition>
