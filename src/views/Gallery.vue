@@ -44,7 +44,7 @@
             <ul>
               <li class="nest-heading">
                 <a class="no-hover">
-                  {{ shownPackages.length }} packages shown
+                  {{ shownPackages.length }} modules shown
                 </a>
               </li>
             </ul>
