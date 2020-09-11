@@ -20,7 +20,7 @@
                     <input
                       class="input is-rounded nest-input"
                       type="text"
-                      placeholder="Search for packages"
+                      placeholder="Search for modules"
                       v-model="searchPhrase"
                     />
                     <span class="icon is-small is-left">
@@ -32,7 +32,7 @@
             </div>
           </div>
           <p class="subtitle">
-            Trying to add a package? See the
+            Trying to add a module? See the
             <a id="docs-link" href="https://docs.nest.land/eggs/installation.html">
               documentation</a>.
           </p>
@@ -60,13 +60,13 @@
       <div class="hero-body">
         <div class="container">
           <h1 v-show="loading" class="title is-3 has-text-centered">
-            Loading packages... 🥚
+            Loading modules... 🥚
           </h1>
           <h1
             v-show="packages.length === 0 && !loading"
             class="title is-3 has-text-centered"
           >
-            Unable to find any packages 🥚
+            Unable to find any modules 🥚
           </h1>
         </div>
       </div>
@@ -90,7 +90,7 @@
           </transition-group>
           <!-- hack to get if the user scrolled to the bottom -->
           <div class="scrolledToBottom" ref="scrolledToBottom">
-            <p v-if="loadingPackages">Loading packages... 🥚</p>
+            <p v-if="loadingPackages">Loading modules... 🥚</p>
           </div>
         </div>
       </div>
