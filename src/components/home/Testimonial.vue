@@ -43,7 +43,7 @@
                 />
                 <p class="title is-3">
                   Blockchains are the only way we know of to enable fully
-                  decentralized package / module registries, a concept long overdue for
+                  decentralized package registries, a concept long overdue for
                   some proper exploration with nest.land.
                 </p>
                 <div class="media">
