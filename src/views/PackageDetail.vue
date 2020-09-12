@@ -112,7 +112,7 @@
               </nav>
               <nav class="panel">
                 <p class="panel-heading">
-                  <font-awesome-icon class="icon-margin-right" :icon="['fas', 'box-open']" />Module Info
+                  <font-awesome-icon class="icon-margin-right" :icon="['fas', 'box-open']" />Module info
                 </p>
                 <div class="panel-block">
                   <font-awesome-icon class="icon-margin-right" :icon="['fa', 'user']" />
