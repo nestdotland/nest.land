@@ -21,7 +21,7 @@
               With us, you can publish your Deno modules to the permaweb,
               where they can <b>never</b> be deleted. This avoids a major
               pitfall for web-based module imports while allowing developers
-              to ideally leverage Deno's import design!
+              to leverage Deno's import design!
             </p>
             <hr />
             <div class="columns">
