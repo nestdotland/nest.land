@@ -17,7 +17,7 @@
                 class="has-text-dark has-text-underlined"
                 href="https://www.arweave.org/"
               >
-                Arweave Blockchain</a>. 
+                Arweave</a>. 
               With us, you can publish your Deno modules to the permaweb,
               where they can <b>never</b> be deleted. This avoids a major
               pitfall for web-based module imports while allowing developers
