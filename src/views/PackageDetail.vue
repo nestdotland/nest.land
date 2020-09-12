@@ -50,7 +50,7 @@
             <div class="column is-4">
               <nav class="panel">
                 <p class="panel-heading">
-                  <font-awesome-icon class="icon-margin-right" :icon="['fas', 'parachute-box']" />Use Module
+                  <font-awesome-icon class="icon-margin-right" :icon="['fas', 'parachute-box']" />Use this module
                 </p>
                 <div class="panel-block">
                   <div class="buttons has-addons nest-button-group">
