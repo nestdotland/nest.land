@@ -13,7 +13,12 @@
       </div>
       <div class="hero-body">
         <div class="container">
-          <h1 class="title has-text-centered">{{ $route.params.id }}</h1>
+          <h1 class="title has-text-centered pdt-module-head">
+            <a href="/gallery" class="back-arrow" :title="'Back to Gallery'">
+              <svg aria-hidden="true" focusable="false" data-prefix="fa" data-icon="arrow-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="svg-inline--fa fa-arrow-left fa-w-14"><path fill="currentColor" d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z" class=""></path></svg>
+            </a>
+            {{ $route.params.id }}
+          </h1>
         </div>
       </div>
     </div>
@@ -338,6 +343,23 @@ export default {
 
 <style lang="sass">
 @import "../styles/Markdown"
+
+.pdt-module-head a.back-arrow
+  float: left
+  display: inline-block
+  vertical-align: middle
+  color: rgba(0, 0, 0, .7)
+  transition: transform .3s
+
+a.back-arrow
+  font-size: 20px !important
+  margin-top: 10px
+
+  &:active
+    transform: scale(1.2, 1.2)
+
+.title:not(.is-spaced) + .subtitle
+  margin: 0
 
 .readme
   margin-top: 1.5rem !important
