@@ -18,11 +18,7 @@
         <transition name="slide-up" type="animation" appear>
           <h1 class="title is-1" id="hero-text">
             A module registry for
-            <!-- <span id="deno-text">Deno</span>, <br /> -->
-            <a class="gradient-text" href="https://deno.land/">
-              Deno
-            </a>
-
+            <span id="deno-text">Deno</span>, <br />
             on the
             <a class="gradient-text" href="https://www.arweave.org/">
               blockweave
