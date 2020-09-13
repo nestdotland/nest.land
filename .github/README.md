@@ -24,6 +24,9 @@ Please use the Yarn package manager, if you want to contribute to the front-end
 - `yarn install`
 - `yarn run serve`
 
+### Serve via Vercel
+- `vc dev`  
+
 ## What is nest.land?
 
 Nest.land combines Deno with the [Arweave Blockchain](https://www.arweave.org/). With us, you can publish your Deno modules to the permaweb, where they can never be deleted. This avoids a major pitfall for web-based module imports while allowing the developer to maximize on the potential of Deno's import design!
