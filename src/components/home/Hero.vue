@@ -21,7 +21,7 @@
             <span id="deno-text">Deno</span>, <br />
             on the
             <a class="gradient-text" href="https://www.arweave.org/">
-              blockchain
+              blockweave
             </a>
           </h1>
         </transition>

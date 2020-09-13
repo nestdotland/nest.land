@@ -29,7 +29,7 @@
               <div class="Warning" v-if="malicious">
                 <font-awesome-icon :icon="['fa', 'exclamation-triangle']" />
                 <p>
-                  This package is flagged as
+                  This module is flagged as
                   <b>malicious</b>. Do not use it in
                   your projects!
                 </p>
@@ -50,7 +50,7 @@
             <div class="column is-4">
               <nav class="panel">
                 <p class="panel-heading">
-                  <font-awesome-icon class="icon-margin-right" :icon="['fas', 'parachute-box']" />Open this package
+                  <font-awesome-icon class="icon-margin-right" :icon="['fas', 'parachute-box']" />Use this module
                 </p>
                 <div class="panel-block">
                   <div class="buttons has-addons nest-button-group">
@@ -112,7 +112,7 @@
               </nav>
               <nav class="panel">
                 <p class="panel-heading">
-                  <font-awesome-icon class="icon-margin-right" :icon="['fas', 'box-open']" />Package info
+                  <font-awesome-icon class="icon-margin-right" :icon="['fas', 'box-open']" />Module info
                 </p>
                 <div class="panel-block">
                   <font-awesome-icon class="icon-margin-right" :icon="['fa', 'user']" />

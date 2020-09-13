@@ -58,7 +58,7 @@
         />
         {{
           filesLocation === "" || filesLocation === "/"
-            ? "Return to package review"
+            ? "Return to module overview"
             : "Go up"
         }}
       </router-link>
