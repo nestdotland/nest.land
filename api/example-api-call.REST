@@ -1,0 +1,5 @@
+
+// If you have the https://marketplace.visualstudio.com/items?itemName=humao.rest-client installed, 
+// you can just click Send Request ...
+
+GET https://x.nest.land/api/packages/24
