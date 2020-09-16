@@ -6,6 +6,7 @@ import VueLodash from "vue-lodash";
 import lodash from "lodash";
 import VueClipboard from "vue-clipboard2";
 import VueSmoothScroll from "vue-smoothscroll";
+import VueTreeList from 'vue-tree-list'
 
 import App from "./App.vue";
 import NestFooter from "./components/Footer";
@@ -26,6 +27,11 @@ import {
   faBoxOpen,
   faCubes,
   faFolder,
+  faFolderOpen,
+  faFolderPlus,
+  faFile,
+  faFileMedical,
+  faFileImport,
   faLevelUpAlt,
   faFileCode,
   faBookOpen,
@@ -45,6 +51,9 @@ import {
   faUsers,
   faExchangeAlt,
   faGavel,
+  faBoxes,
+  faPen,
+  faExternalLinkAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -64,6 +73,11 @@ library.add(
   faGithub,
   faTwitter,
   faFolder,
+  faFolderOpen,
+  faFolderPlus,
+  faFile,
+  faFileMedical,
+  faFileImport,
   faLevelUpAlt,
   faFileCode,
   faBookOpen,
@@ -83,6 +97,9 @@ library.add(
   faUsers,
   faExchangeAlt,
   faGavel,
+  faBoxes,
+  faPen,
+  faExternalLinkAlt,
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
@@ -96,6 +113,7 @@ Vue.use(VueReCaptcha, { siteKey: "6Lepmf8UAAAAABsjF9Fo0kqzm3_2KcHHM2fX43YH" });
 Vue.use(VueLodash, { lodash: lodash });
 Vue.use(VueClipboard);
 Vue.use(VueSmoothScroll);
+Vue.use(VueTreeList)
 
 const router = new VueRouter({
   routes,

@@ -29,7 +29,8 @@
     "vue-markdown": "^2.2.4",
     "vue-recaptcha-v3": "^1.9.0",
     "vue-router": "^3.3.1",
-    "vue-smoothscroll": "^0.2.0"
+    "vue-smoothscroll": "^0.2.0",
+    "vue-tree-list": "^1.4.6"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.3.0",

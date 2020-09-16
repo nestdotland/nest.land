@@ -22,6 +22,7 @@
         <div class="container">
           <div class="columns reverse-column-order">
             <div class="column is-8">
+              <Tree></Tree>
               <div v-show="packageReadme === 'Loading README...'">
                 <p class="subtitle">{{ packageInfo.description }}</p>
                 <hr class="mini-hr" />
@@ -162,6 +163,20 @@
                   <font-awesome-icon class="icon-margin-right" :icon="['fa', 'flag']" />Report malicious module
                 </a>
               </nav>
+              <nav class="panel">
+                <p class="panel-heading">
+                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'boxes']" />Dependencies
+                </p>
+                <div class="panel-block">
+                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'external-link-alt']" />
+                  5 external dependencies
+                </div>
+                <div class="panel-block">
+                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'file-import']" />
+                  36 imports
+                </div>
+                <Tree></Tree>
+              </nav>
             </div>
           </div>
         </div>
@@ -172,18 +187,21 @@
 
 <script>
 import NestNav from "../components/Nav";
+import Tree from "./Tree"
 import { HTTP } from "../http-common";
 import moment from "moment";
 import * as semverSort from "semver/functions/sort";
 import VueMarkdown from "vue-markdown";
 import FileExplorer from "../components/package/FileExplorer";
 import axios from "axios";
+// import { dependencyTree } from "./DependencyTree";
 
 export default {
   components: {
     NestNav,
     VueMarkdown,
     FileExplorer,
+    Tree
   },
   data() {
     return {
