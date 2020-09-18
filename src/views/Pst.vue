@@ -2,7 +2,9 @@
   <div>
     <div class="hero is-dark is-bold">
       <div class="hero-head">
-        <div class="notification is-dark" style="border-radius: 0">Coming soon...</div>
+        <div class="notification is-dark" style="border-radius: 0;">
+          Coming soon...
+        </div>
         <nav class="navbar">
           <router-link to="/" class="navbar-item back-arrow">
             <font-awesome-icon :icon="['fa', 'arrow-left']" />
@@ -40,20 +42,32 @@
             <div class="column">
               <h1 class="title section-title">Whaaa?</h1>
               <p class="subtitle">
-                <span class="currency">DNO</span> is a profit sharing token built on Arweave. These tokens behave like a normal cryptocurrency, and they will be used for a number of purposes...
+                <span class="currency">DNO</span> is a profit sharing token
+                built on Arweave. These tokens behave like a normal
+                cryptocurrency, and they will be used for a number of
+                purposes...
               </p>
             </div>
             <div class="column is-1"></div>
             <div class="column">
               <ul>
                 <li class="subtitle">
-                  <font-awesome-icon :icon="['fas', 'users']" class="left-icon" />Paid out based on module usage
+                  <font-awesome-icon
+                    :icon="['fas', 'users']"
+                    class="left-icon"
+                  />Paid out based on module usage
                 </li>
                 <li class="subtitle">
-                  <font-awesome-icon :icon="['fas', 'exchange-alt']" class="left-icon" />Transferrable & tradeable
+                  <font-awesome-icon
+                    :icon="['fas', 'exchange-alt']"
+                    class="left-icon"
+                  />Transferrable & tradeable
                 </li>
                 <li class="subtitle">
-                  <font-awesome-icon :icon="['fas', 'gavel']" class="left-icon" />Used for platform governance
+                  <font-awesome-icon
+                    :icon="['fas', 'gavel']"
+                    class="left-icon"
+                  />Used for platform governance
                 </li>
               </ul>
             </div>
@@ -64,7 +78,9 @@
     <div class="hero is-medium">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title section-title has-text-centered">POC Token Metrics</h1>
+          <h1 class="title section-title has-text-centered">
+            POC Token Metrics
+          </h1>
           <div class="columns has-text-centered">
             <div class="column is-one-third">
               <p class="subtitle">
@@ -102,10 +118,8 @@
               <h1 class="title section-title">Supported Exchanges</h1>
               <p class="subtitle">
                 Anybody will be able to trade these tokens on
-                <a
-                  href="https://verto.exchange"
-                  class="hyperlink"
-                >Verto</a>, a new decentralized PST exchange.
+                <a href="https://verto.exchange" class="hyperlink">Verto</a>, a
+                new decentralized PST exchange.
               </p>
             </div>
           </div>

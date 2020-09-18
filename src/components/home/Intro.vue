@@ -6,22 +6,23 @@
           <div class="column">
             <h1 class="title">What is nest.land?</h1>
             <p>
-              Nest.land combines 
+              Nest.land combines
               <a
                 class="has-text-dark has-text-underlined"
                 href="https://deno.land/"
               >
-                Deno</a>
+                Deno</a
+              >
               with the
               <a
                 class="has-text-dark has-text-underlined"
                 href="https://www.arweave.org/"
               >
-                Arweave</a>. 
-              With us, you can publish your Deno modules to the permaweb,
+                Arweave</a
+              >. With us, you can publish your Deno modules to the permaweb,
               where they can <b>never</b> be deleted. This avoids a major
-              pitfall for web-based module imports while allowing developers
-              to leverage Deno's import design!
+              pitfall for web-based module imports while allowing developers to
+              leverage Deno's import design!
             </p>
             <hr />
             <div class="columns">
