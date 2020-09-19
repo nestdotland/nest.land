@@ -33,8 +33,12 @@
           </div>
           <p class="subtitle">
             Trying to add a module? See the
-            <a id="docs-link" href="https://docs.nest.land/eggs/installation.html">
-              documentation</a>.
+            <a
+              id="docs-link"
+              href="https://docs.nest.land/eggs/installation.html"
+            >
+              documentation</a
+            >.
           </p>
         </div>
       </div>

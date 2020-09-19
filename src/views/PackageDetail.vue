@@ -13,7 +13,12 @@
       </div>
       <div class="hero-body">
         <div class="container">
-          <h1 class="title has-text-centered">{{ $route.params.id }}</h1>
+          <h1 class="title has-text-centered pdt-module-head">
+            <router-link to="/gallery" class="back-arrow">
+              <font-awesome-icon :icon="['fa', 'arrow-left']" />
+            </router-link>
+            {{ $route.params.id }}
+          </h1>
         </div>
       </div>
     </div>
@@ -30,8 +35,7 @@
                 <font-awesome-icon :icon="['fa', 'exclamation-triangle']" />
                 <p>
                   This module is flagged as
-                  <b>malicious</b>. Do not use it in
-                  your projects!
+                  <b>malicious</b>. Do not use it in your projects!
                 </p>
               </div>
               <vue-markdown
@@ -50,7 +54,10 @@
             <div class="column is-4">
               <nav class="panel">
                 <p class="panel-heading">
-                  <font-awesome-icon class="icon-margin-right" :icon="['fas', 'parachute-box']" />Use this module
+                  <font-awesome-icon
+                    class="icon-margin-right"
+                    :icon="['fas', 'parachute-box']"
+                  />Use this module
                 </p>
                 <div class="panel-block">
                   <div class="buttons has-addons nest-button-group">
@@ -67,7 +74,9 @@
                           : null
                       "
                       :disabled="packageInfo.latestStableVersion === null"
-                    >Stable</button>
+                    >
+                      Stable
+                    </button>
                     <button
                       class="button is-warning is-light"
                       @click="
@@ -77,11 +86,16 @@
                       "
                       :disabled="noVersion"
                       :title="noVersion ? 'No versions published yet' : null"
-                    >Latest</button>
+                    >
+                      Latest
+                    </button>
                   </div>
                 </div>
                 <div class="panel-block">
-                  <div class="select is-light has-light-arrow is-fullwidth" v-if="!noVersion">
+                  <div
+                    class="select is-light has-light-arrow is-fullwidth"
+                    v-if="!noVersion"
+                  >
                     <select
                       v-model="selectedVersion"
                       @change="
@@ -93,7 +107,8 @@
                         v-for="(version, id) in packageVersions"
                         :key="id"
                         :value="$route.params.id + '@' + version"
-                      >{{ $route.params.id + "@" + version }}</option>
+                        >{{ $route.params.id + "@" + version }}</option
+                      >
                     </select>
                   </div>
                   <p v-if="noVersion">No version available</p>
@@ -112,10 +127,16 @@
               </nav>
               <nav class="panel">
                 <p class="panel-heading">
-                  <font-awesome-icon class="icon-margin-right" :icon="['fas', 'box-open']" />Module info
+                  <font-awesome-icon
+                    class="icon-margin-right"
+                    :icon="['fas', 'box-open']"
+                  />Module info
                 </p>
                 <div class="panel-block">
-                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'user']" />
+                  <font-awesome-icon
+                    class="icon-margin-right"
+                    :icon="['fa', 'user']"
+                  />
                   {{ packageInfo.owner }}
                 </div>
                 <a
@@ -126,28 +147,45 @@
                   class="panel-block"
                   :href="packageInfo.repository"
                 >
-                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'code-branch']" />Repository
+                  <font-awesome-icon
+                    class="icon-margin-right"
+                    :icon="['fa', 'code-branch']"
+                  />Repository
                 </a>
                 <router-link
                   v-if="!noVersion"
                   class="panel-block"
                   :to="'/package/' + $route.params.id + '/files'"
                 >
-                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'folder']" />Browse files
+                  <font-awesome-icon
+                    class="icon-margin-right"
+                    :icon="['fa', 'folder']"
+                  />Browse files
                 </router-link>
-                <a target="_blank"
+                <a
+                  target="_blank"
                   :href="linkToViewBlockIO"
-                  class="panel-block">
-                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'calendar-alt']" />
+                  class="panel-block"
+                >
+                  <font-awesome-icon
+                    class="icon-margin-right"
+                    :icon="['fa', 'calendar-alt']"
+                  />
                   Published on: {{ packageInfo.createdAt | formatDate }}
                 </a>
               </nav>
               <nav class="panel">
                 <p class="panel-heading">
-                  <font-awesome-icon class="icon-margin-right" :icon="['fas', 'shield-alt']" />Audit
+                  <font-awesome-icon
+                    class="icon-margin-right"
+                    :icon="['fas', 'shield-alt']"
+                  />Audit
                 </p>
                 <div class="panel-block warning" v-if="malicious">
-                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'biohazard']" />Flagged as malicious
+                  <font-awesome-icon
+                    class="icon-margin-right"
+                    :icon="['fa', 'biohazard']"
+                  />Flagged as malicious
                 </div>
                 <a
                   class="panel-block"
@@ -159,7 +197,10 @@
                   rel="noopener noreferrer"
                   v-else
                 >
-                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'flag']" />Report malicious module
+                  <font-awesome-icon
+                    class="icon-margin-right"
+                    :icon="['fa', 'flag']"
+                  />Report malicious module
                 </a>
               </nav>
             </div>
@@ -238,7 +279,9 @@ export default {
         }`
       )
       .then((response) => {
-        this.linkToViewBlockIO = `https://viewblock.io/arweave/tx/${response.data.prefix.split('https://arweave.net/')[1]}` 
+        this.linkToViewBlockIO = `https://viewblock.io/arweave/tx/${
+          response.data.prefix.split("https://arweave.net/")[1]
+        }`;
         this.malicious = response.data.malicious;
         if (response.data.entry !== null) this.entryFile = response.data.entry;
       });
@@ -338,6 +381,23 @@ export default {
 
 <style lang="sass">
 @import "../styles/Markdown"
+
+.pdt-module-head a.back-arrow
+  float: left
+  display: inline-block
+  vertical-align: middle
+  color: rgba(0, 0, 0, .7)
+  transition: transform .3s
+
+a.back-arrow
+  font-size: 20px !important
+  margin-top: 10px
+
+  &:active
+    transform: scale(1.2, 1.2)
+
+.title:not(.is-spaced) + .subtitle
+  margin: 0
 
 .readme
   margin-top: 1.5rem !important

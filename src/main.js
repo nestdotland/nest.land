@@ -82,7 +82,7 @@ library.add(
   faMoneyBill,
   faUsers,
   faExchangeAlt,
-  faGavel,
+  faGavel
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
