@@ -67,6 +67,10 @@
             <font-awesome-icon :icon="['fab', 'github']" />
           </a>
           <span class="footer-icon-separator"></span>
+          <a href="https://discord.gg/hYUsX3H" class="footer-icon">
+            <font-awesome-icon :icon="['fab', 'discord']" />
+          </a>
+          <span class="footer-icon-separator"></span>
           <a href="https://twitter.com/nestdotland" class="footer-icon">
             <font-awesome-icon :icon="['fab', 'twitter']" />
           </a>
