@@ -13,12 +13,13 @@
       </div>
       <div class="hero-body">
         <div class="container">
+          <router-link to="/gallery" class="back-arrow title">
+            <font-awesome-icon :icon="['fa', 'arrow-left']" />
+          </router-link>
           <h1 class="title has-text-centered pdt-module-head">
-            <router-link to="/gallery" class="back-arrow">
-              <font-awesome-icon :icon="['fa', 'arrow-left']" />
-            </router-link>
             {{ $route.params.id }}
           </h1>
+          <p class="has-text-centered">{{ packageInfo.description }}</p>
         </div>
       </div>
     </div>
@@ -238,6 +239,9 @@ export default {
       entryFile: "/mod.ts",
       malicious: false,
       copied: false,
+      originalPageTitle: "nest.land",
+      originalPageDescription:
+        "An immutable, blockchain powered module registry for Deno.",
     };
   },
   props: {
@@ -252,7 +256,33 @@ export default {
     },
   },
   async created() {
+    this.originalPageTitle = document.title;
+    this.originalPageDescription = document.querySelector(
+      "meta[name=description]"
+    ).content;
+
     await this.refreshContent();
+
+    const title = `${this.packageInfo.name} | nest.land`;
+    document.title = title;
+    document.querySelector("meta[name=title]").content = title;
+    document.querySelector("meta[itemprop=name]").content = title;
+    document.querySelector("meta[name='twitter:title']").content = title;
+    document.querySelector("meta[name='og:title']").content = title;
+
+    document.querySelector(
+      "meta[name=description]"
+    ).content = this.packageInfo.description;
+    document.querySelector(
+      "meta[itemprop=description]"
+    ).content = this.packageInfo.description;
+    document.querySelector(
+      "meta[name='twitter:description']"
+    ).content = this.packageInfo.description;
+    document.querySelector(
+      "meta[name='og:description']"
+    ).content = this.packageInfo.description;
+
     if (this.v === "" || !this.v || this.v === null) {
       this.selectedVersion = this.packageInfo.latestStableVersion;
       if (this.selectedVersion === null)
@@ -287,6 +317,32 @@ export default {
       });
     await this.refreshReadme();
     this.loading = false;
+  },
+  beforeDestroy() {
+    document.title = this.originalPageTitle;
+    document.querySelector("meta[name=title]").content = this.originalPageTitle;
+    document.querySelector(
+      "meta[itemprop=name]"
+    ).content = this.originalPageTitle;
+    document.querySelector(
+      "meta[name='twitter:title']"
+    ).content = this.originalPageTitle;
+    document.querySelector(
+      "meta[name='og:title']"
+    ).content = this.originalPageTitle;
+
+    document.querySelector(
+      "meta[name=description]"
+    ).content = this.originalPageDescription;
+    document.querySelector(
+      "meta[itemprop=description]"
+    ).content = this.originalPageDescription;
+    document.querySelector(
+      "meta[name='twitter:description']"
+    ).content = this.originalPageDescription;
+    document.querySelector(
+      "meta[name='og:description']"
+    ).content = this.originalPageDescription;
   },
   computed: {
     isFileBrowse() {
