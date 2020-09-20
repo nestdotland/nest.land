@@ -152,6 +152,19 @@
                     :icon="['fa', 'code-branch']"
                   />Repository
                 </a>
+                <a
+                  class="panel-block"
+                  :href="`https://doc.deno.land/${entryURL.replace(
+                    '://',
+                    '/'
+                  )}`"
+                  target="_blank"
+                >
+                  <font-awesome-icon
+                    class="icon-margin-right"
+                    :icon="['fa', 'book']"
+                  />Documentation
+                </a>
                 <router-link
                   v-if="!noVersion"
                   class="panel-block"
