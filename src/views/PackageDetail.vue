@@ -240,8 +240,6 @@ export default {
       malicious: false,
       copied: false,
       originalPageTitle: "nest.land",
-      originalPageDescription:
-        "An immutable, blockchain powered module registry for Deno.",
     };
   },
   props: {
@@ -257,9 +255,6 @@ export default {
   },
   async created() {
     this.originalPageTitle = document.title;
-    this.originalPageDescription = document.querySelector(
-      "meta[name=description]"
-    ).content;
 
     await this.refreshContent();
 
@@ -303,29 +298,6 @@ export default {
   },
   beforeDestroy() {
     document.title = this.originalPageTitle;
-    document.querySelector("meta[name=title]").content = this.originalPageTitle;
-    document.querySelector(
-      "meta[itemprop=name]"
-    ).content = this.originalPageTitle;
-    document.querySelector(
-      "meta[name='twitter:title']"
-    ).content = this.originalPageTitle;
-    document.querySelector(
-      "meta[name='og:title']"
-    ).content = this.originalPageTitle;
-
-    document.querySelector(
-      "meta[name=description]"
-    ).content = this.originalPageDescription;
-    document.querySelector(
-      "meta[itemprop=description]"
-    ).content = this.originalPageDescription;
-    document.querySelector(
-      "meta[name='twitter:description']"
-    ).content = this.originalPageDescription;
-    document.querySelector(
-      "meta[name='og:description']"
-    ).content = this.originalPageDescription;
   },
   computed: {
     isFileBrowse() {
