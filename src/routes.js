@@ -44,7 +44,7 @@ export const routes = [
   },
   {
     path: "/pst",
-    component: Pst
+    component: Pst,
   },
   {
     path: "/404",
