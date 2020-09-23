@@ -265,23 +265,6 @@ export default {
 
     const title = `${this.packageInfo.name} | nest.land`;
     document.title = title;
-    document.querySelector("meta[name=title]").content = title;
-    document.querySelector("meta[itemprop=name]").content = title;
-    document.querySelector("meta[name='twitter:title']").content = title;
-    document.querySelector("meta[name='og:title']").content = title;
-
-    document.querySelector(
-      "meta[name=description]"
-    ).content = this.packageInfo.description;
-    document.querySelector(
-      "meta[itemprop=description]"
-    ).content = this.packageInfo.description;
-    document.querySelector(
-      "meta[name='twitter:description']"
-    ).content = this.packageInfo.description;
-    document.querySelector(
-      "meta[name='og:description']"
-    ).content = this.packageInfo.description;
 
     if (this.v === "" || !this.v || this.v === null) {
       this.selectedVersion = this.packageInfo.latestStableVersion;
