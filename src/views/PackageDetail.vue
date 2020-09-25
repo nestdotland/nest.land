@@ -13,13 +13,12 @@
       </div>
       <div class="hero-body">
         <div class="container">
-          <router-link to="/gallery" class="back-arrow title">
-            <font-awesome-icon :icon="['fa', 'arrow-left']" />
-          </router-link>
           <h1 class="title has-text-centered pdt-module-head">
+            <router-link to="/gallery" class="back-arrow">
+              <font-awesome-icon :icon="['fa', 'arrow-left']" />
+            </router-link>
             {{ $route.params.id }}
           </h1>
-          <p class="has-text-centered">{{ packageInfo.description }}</p>
         </div>
       </div>
     </div>
