@@ -238,6 +238,7 @@ export default {
       entryFile: "/mod.ts",
       malicious: false,
       copied: false,
+      originalPageTitle: "nest.land",
     };
   },
   props: {
@@ -252,7 +253,13 @@ export default {
     },
   },
   async created() {
+    this.originalPageTitle = document.title;
+
     await this.refreshContent();
+
+    const title = `${this.packageInfo.name} | nest.land`;
+    document.title = title;
+
     if (this.v === "" || !this.v || this.v === null) {
       this.selectedVersion = this.packageInfo.latestStableVersion;
       if (this.selectedVersion === null)
@@ -287,6 +294,9 @@ export default {
       });
     await this.refreshReadme();
     this.loading = false;
+  },
+  beforeDestroy() {
+    document.title = this.originalPageTitle;
   },
   computed: {
     isFileBrowse() {
