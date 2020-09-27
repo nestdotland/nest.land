@@ -130,8 +130,7 @@
                     <span class="arweave-info">
                       <font-awesome-icon :icon="['fas', 'info-circle']" />
                       <div class="notice">
-                        While the nest.land API can go down in the future,
-                        Arweave is 100% permanent
+                        Importing from Arweave will remove your dependence on x.nest.land.
                       </div>
                     </span>
                   </div>
@@ -515,14 +514,14 @@ pre.is-fullwidth
       .notice
         position: absolute
         top: 2.5em
-        font-size: .77em
+        font-size: .9em
         line-height: 1em
         padding: 5px
         border-radius: 3px
-        background-color: #00947e
+        background-color: #15b199
         right: 0
-        color: #212121
-        width: 240px
+        color: #fff
+        width: 250px
         display: none
         opacity: 0
         transition: opacity .2s
