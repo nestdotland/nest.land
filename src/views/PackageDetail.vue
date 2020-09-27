@@ -114,6 +114,27 @@
                   <p v-if="noVersion">No version available</p>
                 </div>
                 <div class="panel-block entryURL" v-if="!noVersion">
+                  <div class="url-menu">
+                    <button
+                      @click="switchURL(false)"
+                      :class="{ active: !arweaveURL }"
+                    >
+                      Nest.land
+                    </button>
+                    <button
+                      @click="switchURL(true)"
+                      :class="{ active: arweaveURL }"
+                    >
+                      Arweave
+                    </button>
+                    <span class="arweave-info">
+                      <font-awesome-icon :icon="['fas', 'info-circle']" />
+                      <div class="notice">
+                        While the nest.land API can go down in the future,
+                        Arweave is 100% permanent
+                      </div>
+                    </span>
+                  </div>
                   <pre class="is-fullwidth">
                     <font-awesome-icon
   :class="{ 'icon-margin-right': true, 'copyEntry': true, copied }"
@@ -239,6 +260,8 @@ export default {
       malicious: false,
       copied: false,
       originalPageTitle: "nest.land",
+      arweaveURL: false,
+      arweaveImport: "",
     };
   },
   props: {
@@ -289,6 +312,7 @@ export default {
         this.linkToViewBlockIO = `https://viewblock.io/arweave/tx/${
           response.data.prefix.split("https://arweave.net/")[1]
         }`;
+        this.arweaveImport = response.data.prefix;
         this.malicious = response.data.malicious;
         if (response.data.entry !== null) this.entryFile = response.data.entry;
       });
@@ -307,10 +331,16 @@ export default {
         new RegExp("/", "i"),
         ""
       );
-      return `https://x.nest.land/${this.selectedVersion}/${entryFileWithoutFirstSlash}`;
+      return this.arweaveURL
+        ? `${this.arweaveImport}/${entryFileWithoutFirstSlash}`
+        : `https://x.nest.land/${this.selectedVersion}/${entryFileWithoutFirstSlash}`;
     },
   },
   methods: {
+    switchURL(switchURLType) {
+      this.arweaveURL = switchURLType;
+      this.copied = false;
+    },
     async refreshContent() {
       let packageDataResponse;
       try {
@@ -466,15 +496,86 @@ pre.is-fullwidth
   color: #ff0000
   font-weight: 600
 
-.panel-block.entryURL pre
-  display: flex
-  align-items: center
+.panel-block.entryURL
+  display: block
 
-  svg
-    margin-right: 15px
+  .url-menu
+    display: flex
+    align-items: center
+    justify-content: center
+    margin-bottom: .5em
+    position: relative
 
-    &.copied
-      color: $accentColor
+    .arweave-info
+      position: absolute
+      right: 0
+      top: 50%
+      transform: translateY(-50%)
+
+      .notice
+        position: absolute
+        top: 2.5em
+        font-size: .77em
+        line-height: 1em
+        padding: 5px
+        border-radius: 3px
+        background-color: #00947e
+        right: 0
+        color: #212121
+        width: 240px
+        display: none
+        opacity: 0
+        transition: opacity .2s
+
+      svg
+        color: #bdbdbd
+        cursor: pointer
+        font-size: 1em
+
+        &:hover
+          color: #00947e
+
+          & + .notice
+            display: block
+            opacity: 1
+
+    button
+      background: transparent
+      font-size: .85em
+      z-index: 10
+      font-weight: 500
+      color: #101010
+      cursor: pointer
+      border: none
+      outline: none
+      position: relative
+      margin: 0 8px
+      padding: 0
+        bottom: 5px
+
+      &::after
+        content: ''
+        position: absolute
+        left: 0
+        bottom: 0
+        right: 0
+        height: 2px
+        background-color: #00947e
+        opacity: 0
+        transition: all .18s
+
+      &.active::after
+        opacity: 1
+
+  pre
+    display: flex
+    align-items: center
+
+    svg
+      margin-right: 15px
+
+      &.copied
+        color: $accentColor
 
 .panel-block .copyEntry
   cursor: pointer

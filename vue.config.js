@@ -16,7 +16,7 @@ module.exports = {
     markdownRule.test(/\.md/).use("raw-loader").loader("raw-loader");
   },
   devServer: {
-    // proxy: "https://nest.land",
+    proxy: "https://nest.land",
   },
   css: {
     loaderOptions: {
