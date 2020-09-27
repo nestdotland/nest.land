@@ -45,8 +45,13 @@ import {
   faUsers,
   faExchangeAlt,
   faGavel,
+  faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import { faGithub, faTwitter, faDiscord } from "@fortawesome/free-brands-svg-icons";
+import {
+  faGithub,
+  faTwitter,
+  faDiscord,
+} from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 library.add(
@@ -83,7 +88,8 @@ library.add(
   faMoneyBill,
   faUsers,
   faExchangeAlt,
-  faGavel
+  faGavel,
+  faInfoCircle
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
