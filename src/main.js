@@ -54,8 +54,13 @@ import {
   faBoxes,
   faPen,
   faExternalLinkAlt,
+  faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import { faGithub, faTwitter, faDiscord } from "@fortawesome/free-brands-svg-icons";
+import {
+  faGithub,
+  faTwitter,
+  faDiscord,
+} from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 library.add(
@@ -101,6 +106,7 @@ library.add(
   faBoxes,
   faPen,
   faExternalLinkAlt,
+  faInfoCircle
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
