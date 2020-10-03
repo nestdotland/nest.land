@@ -230,7 +230,7 @@
                 </p>
                 <div class="panel-block">
                   <font-awesome-icon class="icon-margin-right" :icon="['fa', 'external-link-alt']" />
-                  5 external dependencies
+                  {{ importTreeAnalysis ? importTreeAnalysis.dependencies.length : 0 }} external dependencies
                 </div>
                 <div class="panel-block">
                   <font-awesome-icon class="icon-margin-right" :icon="['fa', 'file-import']" />
@@ -255,7 +255,7 @@ import * as semverSort from "semver/functions/sort";
 import VueMarkdown from "vue-markdown";
 import FileExplorer from "../components/package/FileExplorer";
 import axios from "axios";
-// import { dependencyTree } from "./DependencyTree";
+import { importTree } from "./DependencyTree";
 
 export default {
   components: {
@@ -279,6 +279,7 @@ export default {
       originalPageTitle: "nest.land",
       arweaveURL: false,
       arweaveImport: "",
+      importTreeAnalysis: Object,
     };
   },
   props: {
@@ -296,6 +297,8 @@ export default {
     this.originalPageTitle = document.title;
 
     await this.refreshContent();
+
+    this.refreshTree();
 
     const title = `${this.packageInfo.name} | nest.land`;
     document.title = title;
@@ -357,6 +360,11 @@ export default {
     switchURL(switchURLType) {
       this.arweaveURL = switchURLType;
       this.copied = false;
+    },
+    async refreshTree() {
+      const analysis = await importTree("https://x.nest.land/denon@2.3.2/mod.ts", { fullTree: true });
+      console.log(analysis);
+      this.importTreeAnalysis = analysis;
     },
     async refreshContent() {
       let packageDataResponse;

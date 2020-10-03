@@ -1,31 +1,16 @@
-import init, { tree as extractDependencies } from "analyzer/analyzer_wasm/pkg/nest_analyzer_wasm";
-
-export const initTree = init;
-/**
- * Build a dependency tree from a relative path or remote HTTP URL.
- * Analyses simultaneously the constructed tree.
- * @param {string} path 
- * @param {{
-    fullTree?: boolean;
-    onImportFound?: (count: number) => void;
-    onImportResolved?: (count: number) => void
-  }} options 
- * @returns {Promise<{
-    tree: DependencyTree;
-    circular: boolean;
-    errors: [string, any][];
-    count: number;
-    iterator: IterableIterator<string>;
-  }>}
- */
-export async function dependencyTree(
-  path, {
+/** Build an import tree from a relative path or remote HTTP URL.
+ * Analyses simultaneously the constructed tree. */
+export async function importTree(
+  path,
+  {
     fullTree = false,
     onImportFound = () => {},
     onImportResolved = () => {},
   } = {},
 ) {
-  const markedDependencies = new Map();
+  const markedImports = new Map();
+
+  const dependencies = [];
 
   const errors = [];
   let circular = false;
@@ -34,7 +19,11 @@ export async function dependencyTree(
   let foundImportsCount = 0;
   let resolvedImportsCount = 0;
 
-  async function createTree(url, parents = []) {
+  async function createTree(
+    url,
+    parents,
+    status,
+  ) {
     if (url.match(/^\[(Circular|Error|Redundant)/)) {
       return [{
         path: url,
@@ -42,15 +31,25 @@ export async function dependencyTree(
       }];
     }
 
+    if (status === "dependency") dependencies.push(url);
+
     const depTree = [];
-    markedDependencies.set(url, depTree);
+    markedImports.set(url, depTree);
 
     const src = await fetchData(url);
 
-    const dependencies = extractDependencies("", src)
-      .map((dep) => resolveURL(dep, url));
+    const imports_ = extractImports("", src)
 
-    const resolvedDependencies = dependencies
+    const imports = imports_.map((dep) => resolveURL(dep, url));
+    
+    const statutes = imports_.map((dep) => {
+      const status_ = (status === "external" || status === "dependency")
+        ? "external"
+        : (dep.match(/^https?:\/\//) ? "dependency" : "internal");
+      return status_
+    })
+
+    const resolvedImports = imports
       .map((dep) => {
         onImportFound(++foundImportsCount);
         if (parents.includes(dep)) {
@@ -59,32 +58,33 @@ export async function dependencyTree(
         }
         return dep;
       })
-      .map((dep) => {
-        if (markedDependencies.has(dep)) {
+      .map((dep, index) => {
+        if (markedImports.has(dep)) {
           return fullTree
-            ? Promise.resolve(markedDependencies.get(dep))
-            : createTree("[Redundant]");
+            ? Promise.resolve(markedImports.get(dep))
+            : createTree("[Redundant]", [], statutes[index]);
         }
-        count++;
-        return createTree(dep, [url, ...parents]);
+        if (dep !== "[Circular]") count++;
+        return createTree(dep, [url, ...parents], statutes[index]);
       });
-    const settledDependencies = await Promise.allSettled(
-      resolvedDependencies,
+    const settledImports = await Promise.allSettled(
+      resolvedImports,
     );
 
-    for (let i = 0; i < dependencies.length; i++) {
+    for (let i = 0; i < imports.length; i++) {
       onImportResolved(++resolvedImportsCount);
-      const subTree = settledDependencies[i];
+      const subTree = settledImports[i];
 
       if (subTree.status === "fulfilled") {
         depTree.push({
-          path: dependencies[i],
+          path: imports[i],
           imports: subTree.value,
+          status: statutes[i],
         });
       } else {
-        errors.push([dependencies[i], subTree.reason]);
+        errors.push([imports[i], subTree.reason]);
         depTree.push({
-          path: dependencies[i],
+          path: imports[i],
           imports: [{
             path: `[Error: ${subTree.reason}]`,
             imports: [],
@@ -99,9 +99,10 @@ export async function dependencyTree(
   const url = resolveURL(path);
   const tree = [{
     path: url,
-    imports: await createTree(url),
+    imports: await createTree(url, [], "internal"),
+    status: "internal",
   }];
-  return { tree, circular, count, iterator: markedDependencies.keys(), errors };
+  return { tree, circular, dependencies, count, iterator: markedImports.keys(), errors };
 }
 
 /* Resolves any path, relative or HTTP url. */
