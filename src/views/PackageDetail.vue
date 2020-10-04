@@ -130,7 +130,8 @@
                     <span class="arweave-info">
                       <font-awesome-icon :icon="['fas', 'info-circle']" />
                       <div class="notice">
-                        Importing from Arweave will remove your dependence on x.nest.land.
+                        Importing from Arweave will remove your dependence on
+                        x.nest.land.
                       </div>
                     </span>
                   </div>
@@ -373,14 +374,41 @@ export default {
         this.packageReadme = await readmeResponse.text();
 
         // replace html href attrs
-        this.packageReadme = this.packageReadme.replace(/(?<=((href)=("|')))(?!(http|https))([^\s\\]*)(?=("|'))/g, replaceVal => `/package/${this.packageInfo.name}/files/${replaceVal.replace(/\/|\.\//, "")}`);
+        this.packageReadme = this.packageReadme.replace(
+          /(?<=((href)=("|')))(?!(http|https))([^\s\\]*)(?=("|'))/g,
+          (replaceVal) =>
+            `/package/${this.packageInfo.name}/files/${replaceVal.replace(
+              /\/|\.\//,
+              ""
+            )}`
+        );
         // replace html src attrs
-        this.packageReadme = this.packageReadme.replace(/(?<=((src)=("|')))(?!(http|https))([^\s\\]*)(?=("|'))/g, replaceVal => `https://x.nest.land/${this.selectedVersion}/${replaceVal.replace(/\/|\.\//, "")}`);
+        this.packageReadme = this.packageReadme.replace(
+          /(?<=((src)=("|')))(?!(http|https))([^\s\\]*)(?=("|'))/g,
+          (replaceVal) =>
+            `https://x.nest.land/${this.selectedVersion}/${replaceVal.replace(
+              /\/|\.\//,
+              ""
+            )}`
+        );
         // replace imgs
-        this.packageReadme = this.packageReadme.replace(/(?<=((\!\[(.*)\])\())(?!(http|https))([^\s\\]*)(?=(\)))/g, replaceVal => `https://x.nest.land/${this.selectedVersion}/${replaceVal.replace(/\/|\.\//, "")}`)
+        this.packageReadme = this.packageReadme.replace(
+          /(?<=((\!\[(.*)\])\())(?!(http|https))([^\s\\]*)(?=(\)))/g,
+          (replaceVal) =>
+            `https://x.nest.land/${this.selectedVersion}/${replaceVal.replace(
+              /\/|\.\//,
+              ""
+            )}`
+        );
         // replace links
-        this.packageReadme = this.packageReadme.replace(/(?<!((!\[(.*)\])\())(?<=((\[(.*)\])\())(?!(http|https))([^\s\\]*)(?=(\)))/g, replaceVal => `/package/${this.packageInfo.name}/files/${replaceVal.replace(/\/|\.\//, "")}`)
-
+        this.packageReadme = this.packageReadme.replace(
+          /(?<!((!\[(.*)\])\())(?<=((\[(.*)\])\())(?!(http|https))([^\s\\]*)(?=(\)))/g,
+          (replaceVal) =>
+            `/package/${this.packageInfo.name}/files/${replaceVal.replace(
+              /\/|\.\//,
+              ""
+            )}`
+        );
       } catch (err) {
         this.$emit("new-error", err);
       }
