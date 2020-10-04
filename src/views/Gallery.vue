@@ -20,7 +20,7 @@
                     <input
                       class="input is-rounded nest-input"
                       type="text"
-                      placeholder="Search for modules"
+                      :placeholder="'Search from ' + allPackages + ' modules'"
                       v-model="searchPhrase"
                     />
                     <span class="icon is-small is-left">
@@ -119,6 +119,7 @@ export default {
       loadedPackages: 24,
       loadingPackages: false,
       noMorePackages: false,
+      allPackages: 0,
     };
   },
   props: {
@@ -158,6 +159,9 @@ export default {
             this.noMorePackages = true;
         })
         .catch((err) => (this.errorMessage = err));
+      await axios.get("/api/all-packages").then((response) => {
+        this.allPackages = response.data.total;
+      });
     },
     async scroll() {
       const {
