@@ -3,7 +3,7 @@ import axios from "axios";
 
 export default (req: NowRequest, res: NowResponse) => {
   const pkg = req.body.data["pkg"];
-  if(pkg === null || pkg === undefined || pkg === "") res.status(500).json({ message: "Wrong request" });
+  if(pkg === null || pkg === undefined || pkg === "") return res.status(500).json({ message: "Wrong request" });
 
   axios
     .get(`https://x.nest.land/${pkg}/README.md`)
@@ -44,7 +44,7 @@ export default (req: NowRequest, res: NowResponse) => {
             ""
           )}`
       );
-      res.status(200).send(data);
+      return res.status(200).send(data);
     })
     .catch(({ response }) => res.status(response.status).json({ message: "There was an error while fetching the README." }));
 }
