@@ -239,6 +239,7 @@ import * as semverSort from "semver/functions/sort";
 import VueMarkdown from "vue-markdown";
 import FileExplorer from "../components/package/FileExplorer";
 import axios from "axios";
+import licensee from "license-checker";
 
 export default {
   components: {
@@ -261,6 +262,7 @@ export default {
       originalPageTitle: "nest.land",
       arweaveURL: false,
       arweaveImport: "",
+      license: "",
     };
   },
   props: {
@@ -317,6 +319,7 @@ export default {
       });
     await this.refreshReadme();
     this.loading = false;
+    // TODO license check
   },
   beforeDestroy() {
     document.title = this.originalPageTitle;
