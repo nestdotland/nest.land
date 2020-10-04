@@ -27,7 +27,7 @@
         <div class="container">
           <div class="columns reverse-column-order">
             <div class="column is-8">
-              <Tree></Tree>
+              <!-- <Tree></Tree> -->
               <div v-show="packageReadme === 'Loading README...'">
                 <p class="subtitle">{{ packageInfo.description }}</p>
                 <hr class="mini-hr" />
@@ -44,13 +44,14 @@
                 :toc="true"
                 :toc-anchor-link-space="false"
                 class="markdown"
-                v-if="!isFileBrowse"
+                v-if="!isFileBrowse && !isImportBrowse"
               ></vue-markdown>
               <FileExplorer
                 :version="selectedVersion"
                 :name="packageInfo.name"
                 v-else-if="!noVersion"
               />
+              <ImportTree :imports="importTreeAnalysis.tree" v-if="isImportBrowse"></ImportTree>
             </div>
             <div class="column is-4">
               <nav class="panel">
@@ -183,6 +184,16 @@
                     :icon="['fa', 'folder']"
                   />Browse files
                 </router-link>
+                <router-link
+                  v-if="!noVersion"
+                  class="panel-block"
+                  :to="'/package/' + $route.params.id + '/imports'"
+                >
+                  <font-awesome-icon
+                    class="icon-margin-right"
+                    :icon="['fa', 'file-import']"
+                  />Browse imports
+                </router-link>
                 <a
                   target="_blank"
                   :href="linkToViewBlockIO"
@@ -228,15 +239,16 @@
                 <p class="panel-heading">
                   <font-awesome-icon class="icon-margin-right" :icon="['fa', 'boxes']" />Dependencies
                 </p>
-                <div class="panel-block">
-                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'external-link-alt']" />
-                  {{ importTreeAnalysis ? importTreeAnalysis.dependencies.length : 0 }} external dependencies
-                </div>
+                <DependencyTree :dependencies="importTreeAnalysis.dependencies"></DependencyTree>
                 <div class="panel-block">
                   <font-awesome-icon class="icon-margin-right" :icon="['fa', 'file-import']" />
-                  36 imports
+                  <p v-if="importTreeAnalysis.count">
+                    <span v-if="importTreeAnalysis.count === 0">No imports 🎉</span>
+                    <span v-else>{{ importTreeAnalysis.count }} imports</span>
+                  </p>
+                  <p v-else>Computing the number of imports...</p>
                 </div>
-                <Tree></Tree>
+                <ImportTree :imports="importTreeAnalysis.tree"></ImportTree>
               </nav>
             </div>
           </div>
@@ -248,7 +260,8 @@
 
 <script>
 import NestNav from "../components/Nav";
-import Tree from "./Tree"
+import DependencyTree from "./trees/Dependencies"
+import ImportTree from "./trees/Imports"
 import { HTTP } from "../http-common";
 import moment from "moment";
 import * as semverSort from "semver/functions/sort";
@@ -262,7 +275,8 @@ export default {
     NestNav,
     VueMarkdown,
     FileExplorer,
-    Tree
+    DependencyTree,
+    ImportTree,
   },
   data() {
     return {
@@ -346,6 +360,9 @@ export default {
     isFileBrowse() {
       return this.$route.path.toLowerCase().includes("/files");
     },
+    isImportBrowse() {
+      return this.$route.path.toLowerCase().includes("/imports");
+    },
     entryURL() {
       const entryFileWithoutFirstSlash = this.entryFile.replace(
         new RegExp("/", "i"),
@@ -362,8 +379,8 @@ export default {
       this.copied = false;
     },
     async refreshTree() {
-      const analysis = await importTree("https://x.nest.land/denon@2.3.2/mod.ts", { fullTree: true });
-      console.log(analysis);
+      // const analysis = await importTree("https://x.nest.land/denon@2.3.2/mod.ts"/* , { fullTree: true } */);
+      const analysis = await importTree(`https://x.nest.land/${this.selectedVersion}${this.entryFile}`);
       this.importTreeAnalysis = analysis;
     },
     async refreshContent() {

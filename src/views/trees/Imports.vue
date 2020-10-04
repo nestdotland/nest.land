@@ -17,10 +17,8 @@
         <span class="icon">
           <font-awesome-icon
             class="icon-margin-right"
-            :icon="['fa', 'folder-open']"
-            v-if="slotProps.expanded"
+            :icon="['fa',getFileIcon(slotProps.model.name)]"
           />
-          <font-awesome-icon class="icon-margin-right" :icon="['fa', 'folder']" v-else />
         </span>
       </template>
       <template v-slot:leafNodeIcon="slotProps">
@@ -41,46 +39,41 @@
 
 <script>
 import { VueTreeList, Tree, TreeNode } from "vue-tree-list";
+import { addTreeToNode } from "./addToTree";
+
 export default {
-  name: "Tree",
+  name: "ImportTree",
   components: {
     VueTreeList,
   },
   data() {
     return {
+      ids: 1,
       newTree: {},
       data: new Tree([
         {
-          name: "Node 1",
-          id: 1,
+          name: "Computing import tree...",
+          id: 0,
           pid: 0,
           dragDisabled: true,
           addTreeNodeDisabled: true,
           addLeafNodeDisabled: true,
           editNodeDisabled: true,
           delNodeDisabled: true,
-          children: [
-            {
-              name: "Node 1-2",
-              id: 2,
-              isLeaf: true,
-              pid: 1,
-            },
-          ],
-        },
-        {
-          name: "Node 2",
-          id: 3,
-          pid: 0,
-          disabled: true,
-        },
-        {
-          name: "Node 3",
-          id: 4,
-          pid: 0,
+          children: [],
         },
       ]),
     };
+  },
+  props: {
+    imports: Array,
+  },
+  watch: {
+    imports(tree) {
+      const node = new Tree([])
+      addTreeToNode(tree, node)
+      this.data = node;
+    },
   },
   methods: {
     onDel(node) {
@@ -111,23 +104,3 @@ export default {
   },
 };
 </script>
-
-<style lang="sass">
-.vtl
-  .vtl-drag-disabled
-    background-color: #d0cfcf;
-    &:hover
-      background-color: #d0cfcf;
-    .vtl-disabled 
-      background-color: #d0cfcf;
-</style>
-
-<style lang="sass">
-.icon
-  &:hover
-    cursor: pointer;
-
-  .muted
-    color: gray;
-    font-size: 80%;
-</style>
