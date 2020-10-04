@@ -20,7 +20,7 @@
                     <input
                       class="input is-rounded nest-input"
                       type="text"
-                      placeholder="Search for modules"
+                      :placeholder="'Search from ' + allPackages + ' modules'"
                       v-model="searchPhrase"
                     />
                     <span class="icon is-small is-left">
@@ -47,7 +47,9 @@
           <div class="container">
             <ul>
               <li class="nest-heading">
-                <a class="no-hover"> {{ allPackages }} modules in total </a>
+                <a class="no-hover">
+                  {{ shownPackages.length }} modules shown
+                </a>
               </li>
             </ul>
           </div>
