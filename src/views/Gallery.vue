@@ -47,9 +47,7 @@
           <div class="container">
             <ul>
               <li class="nest-heading">
-                <a class="no-hover">
-                  {{ shownPackages.length }} modules shown
-                </a>
+                <a class="no-hover"> {{ allPackages }} modules in total </a>
               </li>
             </ul>
           </div>
@@ -119,6 +117,7 @@ export default {
       loadedPackages: 24,
       loadingPackages: false,
       noMorePackages: false,
+      allPackages: 0,
     };
   },
   props: {
@@ -158,6 +157,9 @@ export default {
             this.noMorePackages = true;
         })
         .catch((err) => (this.errorMessage = err));
+      await axios.get("/api/all-packages").then((response) => {
+        this.allPackages = response.data.total;
+      });
     },
     async scroll() {
       const {
