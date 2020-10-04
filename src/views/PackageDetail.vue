@@ -312,8 +312,6 @@ export default {
 
     await this.refreshContent();
 
-    this.refreshTree();
-
     const title = `${this.packageInfo.name} | nest.land`;
     document.title = title;
 
@@ -336,6 +334,7 @@ export default {
       this.packageReadme = "# No version published yet";
       this.noVersion = true;
     }
+    this.refreshTree();
     await axios
       .get(
         `https://x.nest.land/api/package/${this.packageInfo.name}/${
