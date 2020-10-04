@@ -130,7 +130,8 @@
                     <span class="arweave-info">
                       <font-awesome-icon :icon="['fas', 'info-circle']" />
                       <div class="notice">
-                        Importing from Arweave will remove your dependence on x.nest.land.
+                        Importing from Arweave will remove your dependence on
+                        x.nest.land.
                       </div>
                     </span>
                   </div>
@@ -372,33 +373,42 @@ export default {
         });
         this.packageReadme = await readmeResponse.text();
 
-        //resolving relative paths
-        //the regex finds all image MARKDOWN tags and replaces the urls to x.nest.land
-        //this won't work if the user doesn't publish the dir of the images
-        //TODO: maybe we should consider using the github repo field, if this fails
-        const imgRegex = new RegExp(
-            "(\\!\\[)(.*)(\\]\\()(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(\\))",
-            "g"
-          ),
-          labelRegex = new RegExp("(?<=(\\!\\[))(.*)(?=(\\]))", "g"),
-          pathRegex = new RegExp(
-            "(?<=((\\!\\[)(.*)(\\]\\()))(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(?=(\\)))",
-            "g"
-          ),
-          imagesInReadme = this.packageReadme.match(imgRegex);
-
-        for (const img of imagesInReadme) {
-          const imgLabel = img.match(labelRegex)[0],
-            imgPath = img
-              .match(pathRegex)[0]
-              .replace(/^(\.\/)/, "")
-              .replace(/^(\/)/, "");
-
-          this.packageReadme = this.packageReadme.replace(
-            img,
-            `![${imgLabel}](https://x.nest.land/${this.selectedVersion}/${imgPath})`
-          );
-        }
+        // replace html href attrs
+        this.packageReadme = this.packageReadme.replace(
+          /(?<=((href)=("|')))(?!(http|https))([^\s\\]*)(?=("|'))/g,
+          (replaceVal) =>
+            `/package/${this.packageInfo.name}/files/${replaceVal.replace(
+              /\/|\.\//,
+              ""
+            )}`
+        );
+        // replace html src attrs
+        this.packageReadme = this.packageReadme.replace(
+          /(?<=((src)=("|')))(?!(http|https))([^\s\\]*)(?=("|'))/g,
+          (replaceVal) =>
+            `https://x.nest.land/${this.selectedVersion}/${replaceVal.replace(
+              /\/|\.\//,
+              ""
+            )}`
+        );
+        // replace imgs
+        this.packageReadme = this.packageReadme.replace(
+          /(?<=((\!\[(.*)\])\())(?!(http|https))([^\s\\]*)(?=(\)))/g,
+          (replaceVal) =>
+            `https://x.nest.land/${this.selectedVersion}/${replaceVal.replace(
+              /\/|\.\//,
+              ""
+            )}`
+        );
+        // replace links
+        this.packageReadme = this.packageReadme.replace(
+          /(?<!((!\[(.*)\])\())(?<=((\[(.*)\])\())(?!(http|https))([^\s\\]*)(?=(\)))/g,
+          (replaceVal) =>
+            `/package/${this.packageInfo.name}/files/${replaceVal.replace(
+              /\/|\.\//,
+              ""
+            )}`
+        );
       } catch (err) {
         this.$emit("new-error", err);
       }
