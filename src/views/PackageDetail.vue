@@ -364,16 +364,21 @@ export default {
     async refreshReadme() {
       if (this.noVersion) return;
 
-      try {
-        const url = "/api/readme?mod=" + this.selectedVersion;
-        const readmeResponse = await fetch(url, {
-          method: "GET",
-          redirect: "follow",
+      axios
+        .get("/api/readme?mod=" + this.selectedVersion)
+        .then(({ data }) => (this.packageReadme = data))
+        .catch((err) => {
+           this.packageReadme = `# ${
+            this.$route.params.id
+          }\nNo README found for this module. Want to check the [files](/package/${
+            this.packageInfo.name
+          }/files)${
+            this.packageInfo.repository !== "" &&
+            this.packageInfo.repository !== null
+              ? " or the [repo](" + this.packageInfo.repository + ")"
+              : ""
+          }?`;
         });
-        this.packageReadme = await readmeResponse.text();
-      } catch (err) {
-        this.$emit("new-error", err);
-      }
     },
     sortPackages(packageList) {
       for (let i = 0; i < packageList.length; i++) {
