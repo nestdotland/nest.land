@@ -3,7 +3,7 @@ import axios from "axios";
 
 export default (req: NowRequest, res: NowResponse) => {
   const { mod } = req.query;
-  if(mod === null || mod === undefined || mod === "") return res.status(500).json({ message: "Wrong request" });
+  if(mod === null || mod === undefined || mod === "" || typeof mod === "object") return res.status(500).json({ message: "Wrong request" });
 
   axios
     .get(`https://x.nest.land/${mod}/README.md`)
@@ -44,6 +44,8 @@ export default (req: NowRequest, res: NowResponse) => {
             ""
           )}`
       );
+      // replace unnecessary "$"s
+      data = data.replace(/(?<=((```(bash|sh|))([\r\n]+)( *)))\$( ?)/gm, "");
       return res.status(200).send(data);
     })
     .catch(({ response }) => res.status(response.status).json({ message: "There was an error while fetching the README." }));
