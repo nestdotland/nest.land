@@ -6,6 +6,7 @@ import VueLodash from "vue-lodash";
 import lodash from "lodash";
 import VueClipboard from "vue-clipboard2";
 import VueSmoothScroll from "vue-smoothscroll";
+import VJstree from "vue-jstree";
 
 import App from "./App.vue";
 import NestFooter from "./components/Footer";
@@ -46,6 +47,10 @@ import {
   faExchangeAlt,
   faGavel,
   faInfoCircle,
+  faFileImport,
+  faFile,
+  faBoxes,
+  faExternalLinkAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faGithub,
@@ -89,12 +94,17 @@ library.add(
   faUsers,
   faExchangeAlt,
   faGavel,
-  faInfoCircle
+  faInfoCircle,
+  faFileImport,
+  faFile,
+  faBoxes,
+  faExternalLinkAlt
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 Vue.component("nest-footer", NestFooter);
 Vue.component("package-vector", PackageVector);
+Vue.component("v-jstree", VJstree);
 
 Vue.config.productionTip = false;
 

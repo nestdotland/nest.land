@@ -224,6 +224,20 @@
                   />Report malicious module
                 </a>
               </nav>
+              <nav class="panel">
+                <p class="panel-heading">
+                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'boxes']" />Dependencies
+                </p>
+                <div class="panel-block">
+                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'file-import']" />
+                  <p v-if="importTreeAnalysis.count">
+                    <span v-if="importTreeAnalysis.count === 0">No imports 🎉</span>
+                    <span v-else>{{ importTreeAnalysis.count }} imports</span>
+                  </p>
+                  <p v-else>Computing the number of imports...</p>
+                </div>
+                <Tree :tree="importTreeAnalysis.tree"></Tree>
+              </nav>
             </div>
           </div>
         </div>
@@ -240,12 +254,17 @@ import * as semverSort from "semver/functions/sort";
 import VueMarkdown from "vue-markdown";
 import FileExplorer from "../components/package/FileExplorer";
 import axios from "axios";
+import {
+  importTree
+} from "./ImportTree";
+import Tree from "./Tree";
 
 export default {
   components: {
     NestNav,
     VueMarkdown,
     FileExplorer,
+    Tree,
   },
   data() {
     return {
@@ -262,6 +281,7 @@ export default {
       originalPageTitle: "nest.land",
       arweaveURL: false,
       arweaveImport: "",
+      importTreeAnalysis: Object,
     };
   },
   props: {
@@ -302,6 +322,9 @@ export default {
       this.packageReadme = "# No version published yet";
       this.noVersion = true;
     }
+
+    this.refreshTree();
+
     await axios
       .get(
         `https://x.nest.land/api/package/${this.packageInfo.name}/${
@@ -331,15 +354,22 @@ export default {
         new RegExp("/", "i"),
         ""
       );
-      return this.arweaveURL
-        ? `${this.arweaveImport}/${entryFileWithoutFirstSlash}`
-        : `https://x.nest.land/${this.selectedVersion}/${entryFileWithoutFirstSlash}`;
+      return this.arweaveURL ?
+        `${this.arweaveImport}/${entryFileWithoutFirstSlash}` :
+        `https://x.nest.land/${this.selectedVersion}/${entryFileWithoutFirstSlash}`;
     },
   },
   methods: {
     switchURL(switchURLType) {
       this.arweaveURL = switchURLType;
       this.copied = false;
+    },
+    async refreshTree() {
+      const analysis = await importTree(
+        "https://x.nest.land/denon@2.3.2/mod.ts" , { fullTree: true }
+      );
+      // const analysis = await importTree(`https://x.nest.land/${this.selectedVersion}${this.entryFile}`);
+      this.importTreeAnalysis = analysis;
     },
     async refreshContent() {
       let packageDataResponse;
