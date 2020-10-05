@@ -365,41 +365,12 @@ export default {
       if (this.noVersion) return;
 
       try {
-        const url =
-          "https://x.nest.land/" + this.selectedVersion + "/README.md";
+        const url = "/api/readme?mod=" + this.selectedVersion;
         const readmeResponse = await fetch(url, {
           method: "GET",
           redirect: "follow",
         });
         this.packageReadme = await readmeResponse.text();
-
-        //resolving relative paths
-        //the regex finds all image MARKDOWN tags and replaces the urls to x.nest.land
-        //this won't work if the user doesn't publish the dir of the images
-        //TODO: maybe we should consider using the github repo field, if this fails
-        const imgRegex = new RegExp(
-            "(\\!\\[)(.*)(\\]\\()(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(\\))",
-            "g"
-          ),
-          labelRegex = new RegExp("(?<=(\\!\\[))(.*)(?=(\\]))", "g"),
-          pathRegex = new RegExp(
-            "(?<=((\\!\\[)(.*)(\\]\\()))(?!(https:\\/\\/)|(http:\\/\\/))(.*)(.png|.jpeg|.jpg|.svg|.gif|.webp)(?=(\\)))",
-            "g"
-          ),
-          imagesInReadme = this.packageReadme.match(imgRegex);
-
-        for (const img of imagesInReadme) {
-          const imgLabel = img.match(labelRegex)[0],
-            imgPath = img
-              .match(pathRegex)[0]
-              .replace(/^(\.\/)/, "")
-              .replace(/^(\/)/, "");
-
-          this.packageReadme = this.packageReadme.replace(
-            img,
-            `![${imgLabel}](https://x.nest.land/${this.selectedVersion}/${imgPath})`
-          );
-        }
       } catch (err) {
         this.$emit("new-error", err);
       }

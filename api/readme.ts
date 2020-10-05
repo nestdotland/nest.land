@@ -2,17 +2,17 @@ import { NowRequest, NowResponse } from "@vercel/node";
 import axios from "axios";
 
 export default (req: NowRequest, res: NowResponse) => {
-  const pkg = req.body.data["pkg"];
-  if(pkg === null || pkg === undefined || pkg === "") return res.status(500).json({ message: "Wrong request" });
+  const { mod } = req.query;
+  if(mod === null || mod === undefined || mod === "") return res.status(500).json({ message: "Wrong request" });
 
   axios
-    .get(`https://x.nest.land/${pkg}/README.md`)
+    .get(`https://x.nest.land/${mod}/README.md`)
     .then(({ data }) => {
       // replace html href attrs
       data = data.replace(
         /(?<=((href)=("|')))(?!(http|https))([^\s\\]*)(?=("|'))/g,
         (replaceVal) =>
-          `/package/${pkg.split("@")[0]}/files/${replaceVal.replace(
+          `/package/${mod.split("@")[0]}/files/${replaceVal.replace(
             /\/|\.\//,
             ""
           )}`
@@ -21,7 +21,7 @@ export default (req: NowRequest, res: NowResponse) => {
       data = data.replace(
         /(?<=((src)=("|')))(?!(http|https))([^\s\\]*)(?=("|'))/g,
         (replaceVal) =>
-          `https://x.nest.land/${pkg}/${replaceVal.replace(
+          `https://x.nest.land/${mod}/${replaceVal.replace(
             /\/|\.\//,
             ""
           )}`
@@ -30,7 +30,7 @@ export default (req: NowRequest, res: NowResponse) => {
       data = data.replace(
         /(?<=((\!\[(.*)\])\())(?!(http|https))([^\s\\]*)(?=(\)))/g,
         (replaceVal) =>
-          `https://x.nest.land/${pkg}/${replaceVal.replace(
+          `https://x.nest.land/${mod}/${replaceVal.replace(
             /\/|\.\//,
             ""
           )}`
@@ -39,7 +39,7 @@ export default (req: NowRequest, res: NowResponse) => {
       data = data.replace(
         /(?<!((!\[(.*)\])\())(?<=((\[(.*)\])\())(?!(http|https))([^\s\\]*)(?=(\)))/g,
         (replaceVal) =>
-          `/package/${pkg.split("@")[0]}/files/${replaceVal.replace(
+          `/package/${mod.split("@")[0]}/files/${replaceVal.replace(
             /\/|\.\//,
             ""
           )}`
