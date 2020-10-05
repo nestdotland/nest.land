@@ -1,5 +1,5 @@
 <template>
-  <v-jstree :data="asyncData" :async="loadData" whole-row @item-click="itemClick" ref="importTree"></v-jstree>
+  <v-jstree :data="asyncData" :async="loadData" @item-click="itemClick" ref="importTree"></v-jstree>
 </template>
 
 <script>
@@ -9,22 +9,15 @@ export default {
     return {
       asyncData: [],
       loadData(oriNode, resolve) {
-        console.log(oriNode.data)
-        if (oriNode.data.tree === undefined) {
-          console.log("undefined", this.tree)
-        } else {
-          console.log("hey")
-          console.log(oriNode, resolve)
-          let id = 0;
-          const tree = oriNode.data.tree;
-          const data2 = tree.map((subTree) => {
+        if (oriNode.data.tree !== undefined) {
+          const data = oriNode.data.tree.map((subTree) => {
             return {
               text: subTree.path,
               isLeaf: subTree.imports.length === 0,
               tree: subTree.imports,
             }
           })
-          resolve(data2)
+          resolve(data)
         }
       }
     }
@@ -51,3 +44,6 @@ export default {
   }
 };
 </script>
+
+<style lang="sass">
+</style>

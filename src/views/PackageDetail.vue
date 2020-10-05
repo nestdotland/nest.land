@@ -236,7 +236,9 @@
                   </p>
                   <p v-else>Computing the number of imports...</p>
                 </div>
-                <Tree :tree="importTreeAnalysis.tree"></Tree>
+                <div class="panel-block panel-tree">
+                  <Tree :tree="importTreeAnalysis.tree"></Tree>
+                </div>
               </nav>
             </div>
           </div>
@@ -584,6 +586,9 @@ pre.is-fullwidth
 
   &:hover
     opacity: .73
+
+.panel-tree
+  overflow: auto
 
 .markdown
   +markdown()
