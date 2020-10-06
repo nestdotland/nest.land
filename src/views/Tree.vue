@@ -1,5 +1,10 @@
 <template>
-  <v-jstree :data="asyncData" :async="loadData" @item-click="itemClick" ref="importTree"></v-jstree>
+  <v-jstree
+    :data="asyncData"
+    :async="loadData"
+    @item-click="itemClick"
+    ref="importTree"
+  ></v-jstree>
 </template>
 
 <script>
@@ -15,12 +20,12 @@ export default {
               text: subTree.path,
               isLeaf: subTree.imports.length === 0,
               tree: subTree.imports,
-            }
-          })
-          resolve(data)
+            };
+          });
+          resolve(data);
         }
-      }
-    }
+      },
+    };
   },
   props: {
     tree: Array,
@@ -28,22 +33,22 @@ export default {
   watch: {
     tree(tree) {
       console.log("here", this.asyncData);
-      this.asyncData.tree = tree
-      this.$refs.importTree.handleAsyncLoad(this.asyncData, this.$refs.importTree);
+      this.asyncData.tree = tree;
+      this.$refs.importTree.handleAsyncLoad(
+        this.asyncData,
+        this.$refs.importTree
+      );
     },
   },
   async mounted() {
-    this.asyncData = [
-      this.$refs.importTree.initializeLoading()
-    ]
+    this.asyncData = [this.$refs.importTree.initializeLoading()];
   },
   methods: {
     itemClick(node) {
-      console.log(node.model.text + ' clicked !')
+      console.log(node.model.text + " clicked !");
     },
-  }
+  },
 };
 </script>
 
-<style lang="sass">
-</style>
+<style lang="sass"></style>

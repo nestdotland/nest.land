@@ -226,18 +226,29 @@
               </nav>
               <nav class="panel">
                 <p class="panel-heading">
-                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'boxes']" />Dependencies
+                  <font-awesome-icon
+                    class="icon-margin-right"
+                    :icon="['fa', 'boxes']"
+                  />Dependencies
                 </p>
                 <div class="panel-block">
-                  <font-awesome-icon class="icon-margin-right" :icon="['fa', 'file-import']" />
+                  <font-awesome-icon
+                    class="icon-margin-right"
+                    :icon="['fa', 'file-import']"
+                  />
                   <p v-if="importTreeAnalysis.count">
-                    <span v-if="importTreeAnalysis.count === 0">No imports 🎉</span>
+                    <span v-if="importTreeAnalysis.count === 0"
+                      >No imports 🎉</span
+                    >
                     <span v-else>{{ importTreeAnalysis.count }} imports</span>
                   </p>
                   <p v-else>Computing the number of imports...</p>
                 </div>
                 <div class="panel-block panel-tree">
-                  <Tree :tree="importTreeAnalysis.tree"></Tree>
+                  <!-- <Tree :tree="importTreeAnalysis.tree"></Tree> -->
+                </div>
+                <div class="panel-block">
+                  <Details></Details>
                 </div>
               </nav>
             </div>
@@ -256,17 +267,17 @@ import * as semverSort from "semver/functions/sort";
 import VueMarkdown from "vue-markdown";
 import FileExplorer from "../components/package/FileExplorer";
 import axios from "axios";
-import {
-  importTree
-} from "./ImportTree";
-import Tree from "./Tree";
+import { importTree } from "./ImportTree";
+// import Tree from "./Tree";
+import Details from "./Details";
 
 export default {
   components: {
     NestNav,
     VueMarkdown,
     FileExplorer,
-    Tree,
+    // Tree,
+    Details,
   },
   data() {
     return {
@@ -356,9 +367,9 @@ export default {
         new RegExp("/", "i"),
         ""
       );
-      return this.arweaveURL ?
-        `${this.arweaveImport}/${entryFileWithoutFirstSlash}` :
-        `https://x.nest.land/${this.selectedVersion}/${entryFileWithoutFirstSlash}`;
+      return this.arweaveURL
+        ? `${this.arweaveImport}/${entryFileWithoutFirstSlash}`
+        : `https://x.nest.land/${this.selectedVersion}/${entryFileWithoutFirstSlash}`;
     },
   },
   methods: {
@@ -368,7 +379,8 @@ export default {
     },
     async refreshTree() {
       const analysis = await importTree(
-        "https://x.nest.land/denon@2.3.2/mod.ts" , { fullTree: true }
+        "https://x.nest.land/denon@2.3.2/mod.ts",
+        { fullTree: true }
       );
       // const analysis = await importTree(`https://x.nest.land/${this.selectedVersion}${this.entryFile}`);
       this.importTreeAnalysis = analysis;
