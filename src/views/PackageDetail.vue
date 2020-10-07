@@ -231,7 +231,8 @@
                     :icon="['fa', 'boxes']"
                   />Dependencies
                 </p>
-                <div class="panel-block">
+                <div v-if="importTreeAnalysis.tree">
+                  <div class="panel-block">
                   <font-awesome-icon
                     class="icon-margin-right"
                     :icon="['fa', 'file-import']"
@@ -243,12 +244,20 @@
                     <span v-else>{{ importTreeAnalysis.count }} imports</span>
                   </p>
                   <p v-else>Computing the number of imports...</p>
+                  </div>
+                  <div class="panel-block">
+                    <Tree :treeData="importTreeAnalysis.tree[0]"></Tree>
+                  </div>
+                  <div class="panel-block">
+                    <Details2></Details2>
+                  </div>
                 </div>
-                <div class="panel-block panel-tree">
-                  <!-- <Tree :tree="importTreeAnalysis.tree"></Tree> -->
-                </div>
-                <div class="panel-block">
-                  <Details></Details>
+                <div class="panel-block" v-else >
+                  <font-awesome-icon
+                    class="icon-margin-right"
+                    :icon="['fa', 'file-import']"
+                  />
+                  Loading...
                 </div>
               </nav>
             </div>
@@ -268,16 +277,18 @@ import VueMarkdown from "vue-markdown";
 import FileExplorer from "../components/package/FileExplorer";
 import axios from "axios";
 import { importTree } from "./ImportTree";
-// import Tree from "./Tree";
-import Details from "./Details";
+import Tree from "./Tree";
+// import Details from "./Details";
+import Details2 from "./Details2";
 
 export default {
   components: {
     NestNav,
     VueMarkdown,
     FileExplorer,
-    // Tree,
-    Details,
+    Tree,
+    // Details,
+    Details2,
   },
   data() {
     return {
@@ -379,8 +390,7 @@ export default {
     },
     async refreshTree() {
       const analysis = await importTree(
-        "https://x.nest.land/denon@2.3.2/mod.ts",
-        { fullTree: true }
+        "https://x.nest.land/denon@2.3.2/mod.ts"/* , { fullTree: true } */
       );
       // const analysis = await importTree(`https://x.nest.land/${this.selectedVersion}${this.entryFile}`);
       this.importTreeAnalysis = analysis;

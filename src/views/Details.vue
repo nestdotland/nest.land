@@ -9,6 +9,7 @@
             Test 1
             <details>
               <summary class="success">UI Unit Tests</summary>
+              <div> foo </div>
               <ul>
                 <li>
                   <div class="success">
@@ -216,7 +217,7 @@ details
     summary
       & ~ ul
         li
-          div
+          > div, div:before
 	          animation: sweep .5s ease-in-out normal forwards
 	          animation-delay: .1s
 

@@ -1,26 +1,54 @@
 <template>
-  <div class="tree">
-    <ul class="tree-list">
-      <node-tree :node="treeData" id="n-0"></node-tree>
+  <div class="treee">
+    <ul id="menutree">
+      <li>
+        One
+      </li>
+      <li class="tree-node">
+        <input type="checkbox" id="m2"/>
+        <label for="m2">
+          Two
+        </label>
+        <ul>
+          <li>
+            One Inside
+            <span class="status">succeeded</span>
+          </li>
+          <li>
+            https://nest.land/package/ssgo/files/src/default/_template.ts
+          </li>
+          <li class="tree-node">
+            <input type="checkbox" id="m3"/>
+            <label for="m3">
+              Three Inside
+            </label>
+            <ul>
+              <li>
+                Four Inside
+              </li>
+              <li>
+                Five Inside
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        Three
+      </li>
     </ul>
   </div>
 </template>
 
 <script>
-import NodeTree from "./NodeTree";
-
 export default {
-  props: {
-    treeData: Object
-  },
-  components: {
-    NodeTree
-  }
+  name: "Details2",
 };
 </script>
 
 <style lang="sass">
-.tree
+
+.treee
   width: 100%
   	
   li
@@ -57,7 +85,7 @@ export default {
     &:last-child:after
       display: none
 
-    &.node-tree
+    &.tree-node
   	  ul 
   	  	visibility: hidden 
   	  	opacity: 0 
@@ -103,4 +131,5 @@ export default {
   		top: 0 
   		right: 0 
   		transition: all 0.5s 
+
 </style>
