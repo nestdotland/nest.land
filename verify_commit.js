@@ -8,7 +8,7 @@ if (validCommitRegex.test(commitMessage)) {
       "[" +
       "\x1b[0m" +
       "\x1b[32m" +
-      "Verto" +
+      "nest.land" +
       "\x1b[0m" +
       "\x1b[2m" +
       "]" +
@@ -21,7 +21,7 @@ if (validCommitRegex.test(commitMessage)) {
       "[" +
       "\x1b[0m" +
       "\x1b[32m" +
-      "Verto" +
+      "nest.land" +
       "\x1b[0m" +
       "\x1b[2m" +
       "]" +
@@ -38,7 +38,7 @@ if (validCommitRegex.test(commitMessage)) {
       "[" +
       "\x1b[0m" +
       "\x1b[32m" +
-      "Verto" +
+      "nest.land" +
       "\x1b[0m" +
       "\x1b[2m" +
       "]" +
