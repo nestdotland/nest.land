@@ -368,7 +368,7 @@ export default {
         .get("/api/readme?mod=" + this.selectedVersion)
         .then(({ data }) => (this.packageReadme = data))
         .catch((err) => {
-           this.packageReadme = `# ${
+          this.packageReadme = `# ${
             this.$route.params.id
           }\nNo README found for this module. Want to check the [files](/package/${
             this.packageInfo.name
