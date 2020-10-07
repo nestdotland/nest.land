@@ -51,6 +51,7 @@ import {
   faFile,
   faBoxes,
   faExternalLinkAlt,
+  faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faGithub,
@@ -98,7 +99,8 @@ library.add(
   faFileImport,
   faFile,
   faBoxes,
-  faExternalLinkAlt
+  faExternalLinkAlt,
+  faSpinner,
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

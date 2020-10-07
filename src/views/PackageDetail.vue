@@ -248,14 +248,11 @@
                   <div class="panel-block">
                     <Tree :treeData="importTreeAnalysis.tree[0]"></Tree>
                   </div>
-                  <div class="panel-block">
-                    <Details2></Details2>
-                  </div>
                 </div>
                 <div class="panel-block" v-else >
                   <font-awesome-icon
                     class="icon-margin-right"
-                    :icon="['fa', 'file-import']"
+                    :icon="['fa', 'spinner']"
                   />
                   Loading...
                 </div>
@@ -276,10 +273,8 @@ import * as semverSort from "semver/functions/sort";
 import VueMarkdown from "vue-markdown";
 import FileExplorer from "../components/package/FileExplorer";
 import axios from "axios";
-import { importTree } from "./ImportTree";
-import Tree from "./Tree";
-// import Details from "./Details";
-import Details2 from "./Details2";
+import { importTree } from "./Tree/importTree_web.ts";
+import Tree from "./Tree/Tree";
 
 export default {
   components: {
@@ -287,8 +282,6 @@ export default {
     VueMarkdown,
     FileExplorer,
     Tree,
-    // Details,
-    Details2,
   },
   data() {
     return {
@@ -390,7 +383,7 @@ export default {
     },
     async refreshTree() {
       const analysis = await importTree(
-        "https://x.nest.land/denon@2.3.2/mod.ts"/* , { fullTree: true } */
+        "https://x.nest.land/denon@2.3.2/mod.ts", { fullTree: true }
       );
       // const analysis = await importTree(`https://x.nest.land/${this.selectedVersion}${this.entryFile}`);
       this.importTreeAnalysis = analysis;
