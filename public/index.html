@@ -61,7 +61,7 @@
   </script>
   <script type="module">
     import init, { tree } from "https://raw.githack.com/nestdotland/analyzer/master/analyzer_wasm/pkg/nest_analyzer_wasm.js";
-    init().then(() => {
+    window.initExtractImports = init().then(() => {
       function extractImports(file, code) {
         // First up we need to actually load the wasm file, so we use the
         // default export to inform it where the wasm file is located on the

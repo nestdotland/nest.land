@@ -1,5 +1,5 @@
 <template>
-  <li class="node-tree">
+  <li :class="[ node.imports.length ? 'node-tree' : 'leaf-tree']">
     
     <input type="checkbox" :id="id" v-if="node.imports.length" @click="() => subRender = true"/>
     <label :for="id" v-if="node.imports.length">

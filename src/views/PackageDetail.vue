@@ -245,13 +245,13 @@
                   </p>
                   <p v-else>Computing the number of imports...</p>
                   </div>
-                  <div class="panel-block">
+                  <div class="panel-block panel-tree">
                     <Tree :treeData="importTreeAnalysis.tree[0]"></Tree>
                   </div>
                 </div>
-                <div class="panel-block" v-else >
+                <div class="panel-block" v-else>
                   <font-awesome-icon
-                    class="icon-margin-right"
+                    class="icon-margin-right loading"
                     :icon="['fa', 'spinner']"
                   />
                   Loading...
@@ -273,7 +273,7 @@ import * as semverSort from "semver/functions/sort";
 import VueMarkdown from "vue-markdown";
 import FileExplorer from "../components/package/FileExplorer";
 import axios from "axios";
-import { importTree } from "./Tree/importTree_web.ts";
+import { importTree } from "./Tree/ImportTree";
 import Tree from "./Tree/Tree";
 
 export default {
@@ -382,6 +382,7 @@ export default {
       this.copied = false;
     },
     async refreshTree() {
+      await initExtractImports;
       const analysis = await importTree(
         "https://x.nest.land/denon@2.3.2/mod.ts", { fullTree: true }
       );
@@ -569,7 +570,7 @@ pre.is-fullwidth
       position: relative
       margin: 0 8px
       padding: 0
-        bottom: 5px
+      bottom: 5px
 
       &::after
         content: ''
@@ -603,7 +604,18 @@ pre.is-fullwidth
     opacity: .73
 
 .panel-tree
-  overflow: auto
+  overflow-x: auto
+  overflow-y: hidden
+
+.loading
+  animation: infiniteRotate 1.5s linear infinite
+
+@keyframes infiniteRotate
+  0%
+    transform: rotate(0deg)
+
+  100%
+    transform: rotate(-360deg)
 
 .markdown
   +markdown()
