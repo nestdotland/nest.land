@@ -225,28 +225,122 @@
                 </a>
               </nav>
               <nav class="panel">
-                <p class="panel-heading">
+                <div class="panel-heading dropdown-heading">
                   <font-awesome-icon
                     class="icon-margin-right"
                     :icon="['fa', 'boxes']"
-                  />Dependencies
-                </p>
-                <div v-if="importTreeAnalysis.tree">
-                  <div class="panel-block">
-                  <font-awesome-icon
-                    class="icon-margin-right"
-                    :icon="['fa', 'file-import']"
                   />
-                  <p v-if="importTreeAnalysis.count">
-                    <span v-if="importTreeAnalysis.count === 0"
-                      >No imports 🎉</span
-                    >
-                    <span v-else>{{ importTreeAnalysis.count }} imports</span>
-                  </p>
-                  <p v-else>Computing the number of imports...</p>
+                  <span>Dependencies</span>
+                  <div class="dropdown">
+                    <font-awesome-icon
+                      class="icon-margin-right dropbtn"
+                      :icon="['fa', 'cogs']"
+                    />
+                    <div class="dropdown-content">
+                      <div
+                        @click="
+                          () => {
+                            rawUrls = !rawUrls;
+                          }
+                        "
+                      >
+                        {{
+                          rawUrls
+                            ? "Display formatted URLs"
+                            : "Display raw URLs"
+                        }}
+                      </div>
+                      <div
+                        @click="
+                          () => {
+                            displayImportStatuses = !displayImportStatuses;
+                          }
+                        "
+                      >
+                        {{
+                          displayImportStatuses
+                            ? "Hide import statuses"
+                            : "Display import statuses"
+                        }}
+                      </div>
+                    </div>
                   </div>
-                  <div class="panel-block panel-tree">
-                    <Tree :treeData="importTreeAnalysis.tree[0]"></Tree>
+                </div>
+                <div v-if="importTreeAnalysis.tree">
+                  <div>
+                    <input
+                      class="collapse-switch"
+                      type="checkbox"
+                      id="collapse-switch-1"
+                    />
+                    <label class="panel-block" for="collapse-switch-1">
+                      <font-awesome-icon
+                        class="icon-margin-right"
+                        :icon="['fa', 'external-link-alt']"
+                      />
+                      <span
+                        class="collapse-arrow"
+                        v-if="importTreeAnalysis.dependencies.length"
+                        >{{ importTreeAnalysis.dependencies.length }} external
+                        dependencies
+                      </span>
+                      <span v-else>No external dependencies 🎉</span>
+                    </label>
+                    <div
+                      class="panel-block panel-list collapse"
+                      v-if="importTreeAnalysis.dependencies.length"
+                    >
+                      <ul>
+                        <li
+                          class="panel-list-simple"
+                          v-for="(url,
+                          index) in importTreeAnalysis.dependencies"
+                          :key="`panel-dependencies-${index}`"
+                        >
+                          <UrlRegistry :url="url" :raw="rawUrls"></UrlRegistry>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div>
+                    <input
+                      class="collapse-switch"
+                      type="checkbox"
+                      id="collapse-switch-2"
+                    />
+                    <label class="panel-block" for="collapse-switch-2">
+                      <font-awesome-icon
+                        class="icon-margin-right"
+                        :icon="['fa', 'file-import']"
+                      />
+                      <span
+                        class="collapse-arrow"
+                        v-if="importTreeAnalysis.count"
+                        >{{ importTreeAnalysis.count }} imports
+                      </span>
+                      <span v-else>No imports 🎉</span>
+                    </label>
+                    <div
+                      class="panel-block panel-list collapse"
+                      v-if="importTreeAnalysis.count"
+                    >
+                      <ul>
+                        <li
+                          class="panel-list-simple"
+                          v-for="(url, index) in importTreeAnalysis.imports"
+                          :key="`panel-imports-${index}`"
+                        >
+                          <UrlRegistry :url="url" :raw="rawUrls"></UrlRegistry>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="panel-block panel-list">
+                    <Tree
+                      :treeData="importTreeAnalysis.tree[0]"
+                      :raw="rawUrls"
+                      :importStatus="displayImportStatuses"
+                    ></Tree>
                   </div>
                 </div>
                 <div class="panel-block" v-else>
@@ -275,6 +369,7 @@ import FileExplorer from "../components/package/FileExplorer";
 import axios from "axios";
 import { importTree } from "./Tree/ImportTree";
 import Tree from "./Tree/Tree";
+import UrlRegistry from "./Tree/UrlRegistry";
 
 export default {
   components: {
@@ -282,6 +377,7 @@ export default {
     VueMarkdown,
     FileExplorer,
     Tree,
+    UrlRegistry,
   },
   data() {
     return {
@@ -299,6 +395,8 @@ export default {
       arweaveURL: false,
       arweaveImport: "",
       importTreeAnalysis: Object,
+      rawUrls: false,
+      displayImportStatuses: false,
     };
   },
   props: {
@@ -367,6 +465,11 @@ export default {
       return this.$route.path.toLowerCase().includes("/files");
     },
     entryURL() {
+      return this.getEntryURL();
+    },
+  },
+  methods: {
+    getEntryURL() {
       const entryFileWithoutFirstSlash = this.entryFile.replace(
         new RegExp("/", "i"),
         ""
@@ -375,18 +478,20 @@ export default {
         ? `${this.arweaveImport}/${entryFileWithoutFirstSlash}`
         : `https://x.nest.land/${this.selectedVersion}/${entryFileWithoutFirstSlash}`;
     },
-  },
-  methods: {
     switchURL(switchURLType) {
       this.arweaveURL = switchURLType;
       this.copied = false;
     },
     async refreshTree() {
       await initExtractImports;
-      const analysis = await importTree(
-        "https://x.nest.land/denon@2.3.2/mod.ts", { fullTree: true }
-      );
-      // const analysis = await importTree(`https://x.nest.land/${this.selectedVersion}${this.entryFile}`);
+      /* const analysis = await importTree(
+        "https://x.nest.land/denon@2.3.2/mod.ts",
+        { allowRedundant: true, allowCircular: true }
+      ); */
+      const analysis = await importTree(this.getEntryURL(), {
+        allowRedundant: true,
+        allowCircular: true,
+      });
       this.importTreeAnalysis = analysis;
     },
     async refreshContent() {
@@ -603,19 +708,78 @@ pre.is-fullwidth
   &:hover
     opacity: .73
 
-.panel-tree
+.panel-list
   overflow-x: auto
   overflow-y: hidden
 
+  li
+    white-space: nowrap
+    position: relative
+
+    &.panel-list-simple
+      list-style: disc inside
+
 .loading
   animation: infiniteRotate 1.5s linear infinite
+
+.panel-block.collapse
+  visibility: hidden
+  padding: 0 1.25em
+  opacity: 0
+  max-height: 0
+  transition: all .5s
+
+.collapse-arrow::after
+  content: "\25b6"
+  position: absolute
+  right: 1em
+  transition: all 0.5s
+
+input
+  &:checked
+    & ~ .collapse
+      visibility: visible
+      padding: 0.5em 1.25em
+      opacity: 1
+      max-height: 100%
+
+    & ~ label .collapse-arrow::after
+      transform: rotate(90deg)
+
+
+  &.collapse-switch
+    display: none
 
 @keyframes infiniteRotate
   0%
     transform: rotate(0deg)
 
   100%
-    transform: rotate(-360deg)
+    transform: rotate(360deg)
+
+.dropdown
+  position: relative
+  display: inline-block
+
+.dropdown-content
+  display: none
+  position: absolute
+  min-width: 10em
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2)
+  z-index: 1
+
+.dropdown-content div
+  cursor: pointer
+  font-size: .7em
+  color: black
+  padding: .5em .5em
+  display: block
+
+.dropdown-content div:hover
+  background-color: #ddd
+
+.dropdown:hover .dropdown-content
+  display: block
 
 .markdown
   +markdown()

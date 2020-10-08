@@ -3,7 +3,8 @@
 export async function importTree(
   path,
   {
-    fullTree = false,
+    allowRedundant = false,
+    allowCircular = false,
     onImportFound = () => {},
     onImportResolved = () => {},
   } = {}
@@ -13,11 +14,22 @@ export async function importTree(
   const dependencies = [];
 
   const errors = [];
-  let circular = false;
+  const loops = [];
   let count = 0;
 
   let foundImportsCount = 0;
   let resolvedImportsCount = 0;
+
+  function isCircular(parents, url) {
+    return (
+      parents.includes(url) ||
+      parents.some((parent1) =>
+        markedImports
+          .get(parent1)
+          .markedParents.some((parent2) => parent2.includes(url))
+      )
+    );
+  }
 
   async function createTree(url, parents, status) {
     if (url.match(/^\[(Circular|Error|Redundant)/)) {
@@ -30,44 +42,48 @@ export async function importTree(
     }
 
     if (status === "dependency") dependencies.push(url);
+    parents.push(url);
 
     const depTree = [];
-    markedImports.set(url, depTree);
+    markedImports.set(url, {
+      tree: depTree,
+      markedParents: [parents],
+    });
 
     const src = await fetchData(url);
 
-    const imports_ = extractImports("", src);
+    const rawImports = extractImports("", src);
 
-    const imports = imports_.map((dep) => resolveURL(dep, url));
+    const imports = rawImports.map((dep) => resolveURL(dep, url));
 
-    const statutes = imports_.map((dep) => {
-      const status_ =
+    const statutes = rawImports.map((dep) => {
+      const newStatus =
         status === "external" || status === "dependency"
           ? "external"
           : dep.match(/^https?:\/\//)
           ? "dependency"
           : "internal";
-      return status_;
+      return newStatus;
     });
 
-    const resolvedImports = imports
-      .map((dep) => {
-        onImportFound(++foundImportsCount);
-        if (parents.includes(dep)) {
-          circular = true;
-          return "[Circular]";
-        }
-        return dep;
-      })
-      .map((dep, index) => {
-        if (markedImports.has(dep)) {
-          return fullTree
-            ? Promise.resolve(markedImports.get(dep))
-            : createTree("[Redundant]", [], statutes[index]);
-        }
-        if (dep !== "[Circular]") count++;
-        return createTree(dep, [url, ...parents], statutes[index]);
-      });
+    const resolvedImports = imports.map((dep, index) => {
+      onImportFound(++foundImportsCount);
+      if (isCircular(parents, dep)) {
+        loops.push(dep);
+        markedImports.get(dep).markedParents.push(parents);
+        return allowCircular
+          ? Promise.resolve(markedImports.get(dep).tree)
+          : createTree("[Circular]", [], statutes[index]);
+      }
+      if (markedImports.has(dep)) {
+        markedImports.get(dep).markedParents.push(parents);
+        return allowRedundant
+          ? Promise.resolve(markedImports.get(dep).tree)
+          : createTree("[Redundant]", [], statutes[index]);
+      }
+      count++;
+      return createTree(dep, [...parents], statutes[index]);
+    });
     const settledImports = await Promise.allSettled(resolvedImports);
 
     for (let i = 0; i < imports.length; i++) {
@@ -79,11 +95,14 @@ export async function importTree(
           path: imports[i],
           imports: subTree.value,
           status: statutes[i],
+          circular: isCircular(parents, imports[i]),
+          redundant: markedImports.has(imports[i]),
         });
       } else {
         errors.push([imports[i], subTree.reason]);
         depTree.push({
           path: imports[i],
+          error: `${subTree.reason}`,
           imports: [
             {
               path: `[Error: ${subTree.reason}]`,
@@ -107,11 +126,11 @@ export async function importTree(
   ];
   return {
     tree,
-    circular,
+    loops,
     dependencies,
     count,
-    iterator: markedImports.keys(),
     errors,
+    imports: [...markedImports.keys()],
   };
 }
 

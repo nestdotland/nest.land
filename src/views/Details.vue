@@ -9,7 +9,7 @@
             Test 1
             <details>
               <summary class="success">UI Unit Tests</summary>
-              <div> foo </div>
+              <div>foo</div>
               <ul>
                 <li>
                   <div class="success">
