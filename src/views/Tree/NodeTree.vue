@@ -22,6 +22,8 @@
         :id="`${id}-${index}`"
         :node="child"
         :render="subRender"
+        :raw="raw"
+        :importStatus="importStatus"
       ></node>
     </ul>
   </li>
