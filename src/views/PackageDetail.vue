@@ -667,7 +667,7 @@ pre.is-fullwidth
       position: relative
       margin: 0 8px
       padding: 0
-      bottom: 5px
+        bottom: 5px
 
       &::after
         content: ''
