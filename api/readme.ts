@@ -10,7 +10,7 @@ export default (req: NowRequest, res: NowResponse) => {
     .then(({ data }) => {
       // replace html href attrs
       data = data.replace(
-        /(?<=((href)=("|')))(?!(http|https))([^\s\\]*)(?=("|'))/g,
+        /(?<=((href)=("|')))(?!(http|https))(?!#)([^\s\\]*)(?=("|'))/g,
         (replaceVal) =>
           `/package/${mod.split("@")[0]}/files/${replaceVal.replace(
             /\/|\.\//,
@@ -19,7 +19,7 @@ export default (req: NowRequest, res: NowResponse) => {
       );
       // replace html src attrs
       data = data.replace(
-        /(?<=((src)=("|')))(?!(http|https))([^\s\\]*)(?=("|'))/g,
+        /(?<=((src)=("|')))(?!(http|https))(?!#)([^\s\\]*)(?=("|'))/g,
         (replaceVal) =>
           `https://x.nest.land/${mod}/${replaceVal.replace(
             /\/|\.\//,
@@ -37,7 +37,7 @@ export default (req: NowRequest, res: NowResponse) => {
       );
       // replace links
       data = data.replace(
-        /(?<!((!\[(.*)\])\())(?<=((\[(.*)\])\())(?!(http|https))([^\s\\]*)(?=(\)))/g,
+        /(?<!((!\[(.*)\])\())(?<=((\[(.*)\])\())(?!(http|https))(?!#)([^\s\\]*)(?=(\)))/g,
         (replaceVal) =>
           `/package/${mod.split("@")[0]}/files/${replaceVal.replace(
             /\/|\.\//,
