@@ -384,7 +384,7 @@ export default {
       linkToViewBlockIO: "",
       selectedVersion: "",
       packageVersions: [],
-      packageReadme: "Loading README...",
+      packageReadme: `<center>Loading README...</center>`,
       loading: true,
       noVersion: false,
       entryFile: "/mod.ts",
