@@ -231,9 +231,8 @@
                     :icon="['fa', 'boxes']"
                   />
                   <span>Dependencies</span>
-                  <div class="dropdown">
+                  <div class="dropdown is-pulled-right">
                     <font-awesome-icon
-                      class="icon-margin-right dropbtn"
                       :icon="['fa', 'cogs']"
                     />
                     <div class="dropdown-content">
@@ -576,9 +575,9 @@ a.back-arrow
 .nest-button-group
   margin: 0 auto
 
-.nest-button-group button
-  margin-bottom: 0
-  font-family: "Inconsolata", monospace
+  button
+    margin-bottom: 0
+    font-family: "Inconsolata", monospace
 
 pre.is-fullwidth
   width: 100%
@@ -720,20 +719,20 @@ pre.is-fullwidth
       list-style: disc inside
 
 .loading
-  animation: infiniteRotate 1.5s linear infinite
+  animation: infiniteRotate 0.5s linear infinite
 
 .panel-block.collapse
   visibility: hidden
   padding: 0 1.25em
   opacity: 0
   max-height: 0
-  transition: all .5s
+  transition: all .3s
 
 .collapse-arrow::after
   content: "\25b6"
   position: absolute
   right: 1em
-  transition: all 0.5s
+  transition: all 0.3s
 
 input
   &:checked
@@ -760,26 +759,28 @@ input
 .dropdown
   position: relative
   display: inline-block
+  padding-top: 2px
 
-.dropdown-content
-  display: none
-  position: absolute
-  min-width: 10em
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2)
-  z-index: 1
+  .dropdown-content
+    display: none
+    position: absolute
+    right: 0
+    min-width: 10em
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2)
+    z-index: 1
 
-.dropdown-content div
-  cursor: pointer
-  font-size: .7em
-  color: black
-  padding: .5em .5em
-  display: block
+    div
+      cursor: pointer
+      font-size: .7em
+      color: black
+      padding: .5em .5em
+      display: block
 
-.dropdown-content div:hover
-  background-color: #ddd
+    div:hover
+      background-color: #ddd
 
-.dropdown:hover .dropdown-content
-  display: block
+  &:hover .dropdown-content
+    display: block
 
 .markdown
   +markdown()
