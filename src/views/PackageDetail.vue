@@ -137,11 +137,11 @@
                   </div>
                   <pre class="is-fullwidth">
                     <font-awesome-icon
-  :class="{ 'icon-margin-right': true, 'copyEntry': true, copied }"
-  @click="copyPackageEntry"
-  :icon="['fa', (copied ? 'check-square' : 'copy')]"
-  title="Click to copy"
-/>
+                      :class="{ 'icon-margin-right': true, 'copyEntry': true, copied }"
+                      @click="copyPackageEntry"
+                      :icon="['fa', (copied ? 'check-square' : 'copy')]"
+                      title="Click to copy"
+                    />
                     <code>{{ entryURL }}</code>
                   </pre>
                 </div>
@@ -193,35 +193,6 @@
                     :icon="['fa', 'calendar-alt']"
                   />
                   Published on: {{ packageInfo.createdAt | formatDate }}
-                </a>
-              </nav>
-              <nav class="panel">
-                <p class="panel-heading">
-                  <font-awesome-icon
-                    class="icon-margin-right"
-                    :icon="['fas', 'shield-alt']"
-                  />Audit
-                </p>
-                <div class="panel-block warning" v-if="malicious">
-                  <font-awesome-icon
-                    class="icon-margin-right"
-                    :icon="['fa', 'biohazard']"
-                  />Flagged as malicious
-                </div>
-                <a
-                  class="panel-block"
-                  :href="
-                    'https://github.com/nestdotland/nest.land/issues/new?labels=malicious-module&template=report_malicious_module.md&title=%5BMODULE+REPORT%5D%20Malicious%20module:%20' +
-                    $route.params.id
-                  "
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  v-else
-                >
-                  <font-awesome-icon
-                    class="icon-margin-right"
-                    :icon="['fa', 'flag']"
-                  />Report malicious module
                 </a>
               </nav>
               <nav class="panel">
@@ -349,6 +320,35 @@
                   />
                   Loading...
                 </div>
+              </nav>
+              <nav class="panel">
+                <p class="panel-heading">
+                  <font-awesome-icon
+                    class="icon-margin-right"
+                    :icon="['fas', 'shield-alt']"
+                  />Audit
+                </p>
+                <div class="panel-block warning" v-if="malicious">
+                  <font-awesome-icon
+                    class="icon-margin-right"
+                    :icon="['fa', 'biohazard']"
+                  />Flagged as malicious
+                </div>
+                <a
+                  class="panel-block"
+                  :href="
+                    'https://github.com/nestdotland/nest.land/issues/new?labels=malicious-module&template=report_malicious_module.md&title=%5BMODULE+REPORT%5D%20Malicious%20module:%20' +
+                    $route.params.id
+                  "
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  v-else
+                >
+                  <font-awesome-icon
+                    class="icon-margin-right"
+                    :icon="['fa', 'flag']"
+                  />Report malicious module
+                </a>
               </nav>
             </div>
           </div>
