@@ -437,8 +437,6 @@ export default {
       this.noVersion = true;
     }
 
-    this.refreshTree();
-
     await axios
       .get(
         `https://x.nest.land/api/package/${this.packageInfo.name}/${
@@ -453,8 +451,9 @@ export default {
         this.malicious = response.data.malicious;
         if (response.data.entry !== null) this.entryFile = response.data.entry;
       });
-    await this.refreshReadme();
     this.loading = false;
+    this.refreshReadme();
+    this.refreshTree();
   },
   beforeDestroy() {
     document.title = this.originalPageTitle;
