@@ -33,7 +33,7 @@ export default {
 
   li
     list-style: none
-    padding-top: .5em;
+    padding-top: .5em
     padding-left: 1.5em
     position: relative
 
