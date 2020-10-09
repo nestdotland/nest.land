@@ -46,6 +46,12 @@ import {
   faExchangeAlt,
   faGavel,
   faInfoCircle,
+  faFileImport,
+  faFile,
+  faBoxes,
+  faExternalLinkAlt,
+  faSpinner,
+  faCogs,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faGithub,
@@ -89,7 +95,13 @@ library.add(
   faUsers,
   faExchangeAlt,
   faGavel,
-  faInfoCircle
+  faInfoCircle,
+  faFileImport,
+  faFile,
+  faBoxes,
+  faExternalLinkAlt,
+  faSpinner,
+  faCogs
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

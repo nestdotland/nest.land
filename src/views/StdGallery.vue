@@ -229,7 +229,7 @@ export default {
         display: block
 
 .version-select
-  float: right;
+  float: right
 
 .no-hover:hover
   background: none !important

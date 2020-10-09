@@ -137,11 +137,11 @@
                   </div>
                   <pre class="is-fullwidth">
                     <font-awesome-icon
-  :class="{ 'icon-margin-right': true, 'copyEntry': true, copied }"
-  @click="copyPackageEntry"
-  :icon="['fa', (copied ? 'check-square' : 'copy')]"
-  title="Click to copy"
-/>
+                      :class="{ 'icon-margin-right': true, 'copyEntry': true, copied }"
+                      @click="copyPackageEntry"
+                      :icon="['fa', (copied ? 'check-square' : 'copy')]"
+                      title="Click to copy"
+                    />
                     <code>{{ entryURL }}</code>
                   </pre>
                 </div>
@@ -196,6 +196,130 @@
                 </a>
               </nav>
               <nav class="panel">
+                <div class="panel-heading dropdown-heading">
+                  <font-awesome-icon
+                    class="icon-margin-right"
+                    :icon="['fa', 'boxes']"
+                  />
+                  <span>Dependencies</span>
+                  <div class="dropdown is-pulled-right">
+                    <font-awesome-icon :icon="['fa', 'cogs']" />
+                    <div class="dropdown-content">
+                      <div
+                        @click="
+                          () => {
+                            rawUrls = !rawUrls;
+                          }
+                        "
+                      >
+                        {{
+                          rawUrls
+                            ? "Display formatted URLs"
+                            : "Display raw URLs"
+                        }}
+                      </div>
+                      <div
+                        @click="
+                          () => {
+                            displayImportStatuses = !displayImportStatuses;
+                          }
+                        "
+                      >
+                        {{
+                          displayImportStatuses
+                            ? "Hide import statuses"
+                            : "Display import statuses"
+                        }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div v-if="importTreeAnalysis.tree">
+                  <div>
+                    <input
+                      class="collapse-switch"
+                      type="checkbox"
+                      id="collapse-switch-1"
+                    />
+                    <label class="panel-block" for="collapse-switch-1">
+                      <font-awesome-icon
+                        class="icon-margin-right"
+                        :icon="['fa', 'external-link-alt']"
+                      />
+                      <span
+                        class="collapse-arrow"
+                        v-if="importTreeAnalysis.dependencies.length"
+                        >{{ importTreeAnalysis.dependencies.length }} external
+                        dependencies
+                      </span>
+                      <span v-else>No external dependencies 🎉</span>
+                    </label>
+                    <div
+                      class="panel-block panel-list collapse"
+                      v-if="importTreeAnalysis.dependencies.length"
+                    >
+                      <ul>
+                        <li
+                          class="panel-list-simple"
+                          v-for="(url,
+                          index) in importTreeAnalysis.dependencies"
+                          :key="`panel-dependencies-${index}`"
+                        >
+                          <UrlRegistry :url="url" :raw="rawUrls"></UrlRegistry>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div>
+                    <input
+                      class="collapse-switch"
+                      type="checkbox"
+                      id="collapse-switch-2"
+                    />
+                    <label class="panel-block" for="collapse-switch-2">
+                      <font-awesome-icon
+                        class="icon-margin-right"
+                        :icon="['fa', 'file-import']"
+                      />
+                      <span
+                        class="collapse-arrow"
+                        v-if="importTreeAnalysis.count"
+                        >{{ importTreeAnalysis.count }} imports
+                      </span>
+                      <span v-else>No imports 🎉</span>
+                    </label>
+                    <div
+                      class="panel-block panel-list collapse"
+                      v-if="importTreeAnalysis.count"
+                    >
+                      <ul>
+                        <li
+                          class="panel-list-simple"
+                          v-for="(url, index) in importTreeAnalysis.imports"
+                          :key="`panel-imports-${index}`"
+                        >
+                          <UrlRegistry :url="url" :raw="rawUrls"></UrlRegistry>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="panel-block panel-list">
+                    <Tree
+                      :treeData="importTreeAnalysis.tree[0]"
+                      :raw="rawUrls"
+                      :importStatus="displayImportStatuses"
+                    ></Tree>
+                  </div>
+                </div>
+                <div class="panel-block" v-else>
+                  <font-awesome-icon
+                    class="icon-margin-right loading"
+                    :icon="['fa', 'spinner']"
+                  />
+                  Loading...
+                </div>
+              </nav>
+              <nav class="panel">
                 <p class="panel-heading">
                   <font-awesome-icon
                     class="icon-margin-right"
@@ -240,12 +364,17 @@ import * as semverSort from "semver/functions/sort";
 import VueMarkdown from "vue-markdown";
 import FileExplorer from "../components/package/FileExplorer";
 import axios from "axios";
+import { importTree } from "../modules/import-tree/importTree";
+import Tree from "../components/Tree/Tree";
+import UrlRegistry from "../components/Tree/UrlRegistry";
 
 export default {
   components: {
     NestNav,
     VueMarkdown,
     FileExplorer,
+    Tree,
+    UrlRegistry,
   },
   data() {
     return {
@@ -253,7 +382,7 @@ export default {
       linkToViewBlockIO: "",
       selectedVersion: "",
       packageVersions: [],
-      packageReadme: "Loading README...",
+      packageReadme: `<center>Loading README...</center>`,
       loading: true,
       noVersion: false,
       entryFile: "/mod.ts",
@@ -262,6 +391,9 @@ export default {
       originalPageTitle: "nest.land",
       arweaveURL: false,
       arweaveImport: "",
+      importTreeAnalysis: Object,
+      rawUrls: false,
+      displayImportStatuses: false,
     };
   },
   props: {
@@ -302,6 +434,7 @@ export default {
       this.packageReadme = "# No version published yet";
       this.noVersion = true;
     }
+
     await axios
       .get(
         `https://x.nest.land/api/package/${this.packageInfo.name}/${
@@ -316,8 +449,9 @@ export default {
         this.malicious = response.data.malicious;
         if (response.data.entry !== null) this.entryFile = response.data.entry;
       });
-    await this.refreshReadme();
     this.loading = false;
+    this.refreshReadme();
+    this.refreshTree();
   },
   beforeDestroy() {
     document.title = this.originalPageTitle;
@@ -327,6 +461,11 @@ export default {
       return this.$route.path.toLowerCase().includes("/files");
     },
     entryURL() {
+      return this.getEntryURL();
+    },
+  },
+  methods: {
+    getEntryURL() {
       const entryFileWithoutFirstSlash = this.entryFile.replace(
         new RegExp("/", "i"),
         ""
@@ -335,11 +474,17 @@ export default {
         ? `${this.arweaveImport}/${entryFileWithoutFirstSlash}`
         : `https://x.nest.land/${this.selectedVersion}/${entryFileWithoutFirstSlash}`;
     },
-  },
-  methods: {
     switchURL(switchURLType) {
       this.arweaveURL = switchURLType;
       this.copied = false;
+    },
+    async refreshTree() {
+      await initExtractImports;
+      const analysis = await importTree(this.getEntryURL(), {
+        allowRedundant: true,
+        allowCircular: true,
+      });
+      this.importTreeAnalysis = analysis;
     },
     async refreshContent() {
       let packageDataResponse;
@@ -428,9 +573,9 @@ a.back-arrow
 .nest-button-group
   margin: 0 auto
 
-.nest-button-group button
-  margin-bottom: 0
-  font-family: "Inconsolata", monospace
+  button
+    margin-bottom: 0
+    font-family: "Inconsolata", monospace
 
 pre.is-fullwidth
   width: 100%
@@ -559,6 +704,81 @@ pre.is-fullwidth
 
   &:hover
     opacity: .73
+
+.panel-list
+  overflow-x: auto
+  overflow-y: hidden
+
+  li
+    white-space: nowrap
+    position: relative
+
+    &.panel-list-simple
+      list-style: disc inside
+
+.loading
+  animation: infiniteRotate 0.5s linear infinite
+
+.panel-block.collapse
+  visibility: hidden
+  padding: 0 1.25em
+  opacity: 0
+  max-height: 0
+  transition: all .3s
+
+.collapse-arrow::after
+  content: "\25b6"
+  position: absolute
+  right: 1em
+  transition: all 0.3s
+
+input
+  &:checked
+    & ~ .collapse
+      visibility: visible
+      padding: 0.5em 1.25em
+      opacity: 1
+      max-height: 100%
+
+    & ~ label .collapse-arrow::after
+      transform: rotate(90deg)
+
+
+  &.collapse-switch
+    display: none
+
+@keyframes infiniteRotate
+  0%
+    transform: rotate(0deg)
+
+  100%
+    transform: rotate(360deg)
+
+.dropdown
+  position: relative
+  display: inline-block
+  padding-top: 2px
+
+  .dropdown-content
+    display: none
+    position: absolute
+    right: 0
+    min-width: 10em
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2)
+    z-index: 1
+
+    div
+      cursor: pointer
+      font-size: .7em
+      color: black
+      padding: .5em .5em
+      display: block
+
+    div:hover
+      background-color: #ddd
+
+  &:hover .dropdown-content
+    display: block
 
 .markdown
   +markdown()
