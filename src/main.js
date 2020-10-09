@@ -6,7 +6,6 @@ import VueLodash from "vue-lodash";
 import lodash from "lodash";
 import VueClipboard from "vue-clipboard2";
 import VueSmoothScroll from "vue-smoothscroll";
-import VJstree from "vue-jstree";
 
 import App from "./App.vue";
 import NestFooter from "./components/Footer";
@@ -108,7 +107,6 @@ library.add(
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 Vue.component("nest-footer", NestFooter);
 Vue.component("package-vector", PackageVector);
-Vue.component("v-jstree", VJstree);
 
 Vue.config.productionTip = false;
 
