@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { parseURL, registryNames } from "./registries";
+import { parseURL, registryNames } from "../../modules/hatcher/registries";
 export default {
   props: {
     url: String,

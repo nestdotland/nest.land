@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { parseURL, registryNames } from "./registries";
+import { parseURL, registryNames } from "../../modules/hatcher/registries";
 import UrlRegistry from "./UrlRegistry";
 
 export default {

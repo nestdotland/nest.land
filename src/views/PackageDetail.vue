@@ -203,9 +203,7 @@
                   />
                   <span>Dependencies</span>
                   <div class="dropdown is-pulled-right">
-                    <font-awesome-icon
-                      :icon="['fa', 'cogs']"
-                    />
+                    <font-awesome-icon :icon="['fa', 'cogs']" />
                     <div class="dropdown-content">
                       <div
                         @click="
@@ -366,9 +364,9 @@ import * as semverSort from "semver/functions/sort";
 import VueMarkdown from "vue-markdown";
 import FileExplorer from "../components/package/FileExplorer";
 import axios from "axios";
-import { importTree } from "./Tree/ImportTree";
-import Tree from "./Tree/Tree";
-import UrlRegistry from "./Tree/UrlRegistry";
+import { importTree } from "../modules/import-tree/importTree";
+import Tree from "../components/Tree/Tree";
+import UrlRegistry from "../components/Tree/UrlRegistry";
 
 export default {
   components: {
@@ -482,10 +480,6 @@ export default {
     },
     async refreshTree() {
       await initExtractImports;
-      /* const analysis = await importTree(
-        "https://x.nest.land/denon@2.3.2/mod.ts",
-        { allowRedundant: true, allowCircular: true }
-      ); */
       const analysis = await importTree(this.getEntryURL(), {
         allowRedundant: true,
         allowCircular: true,
