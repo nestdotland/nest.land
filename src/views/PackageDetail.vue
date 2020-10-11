@@ -195,7 +195,7 @@
                   Published on: {{ packageInfo.createdAt | formatDate }}
                 </a>
               </nav>
-              <nav class="panel">
+              <nav class="panel dependencies-panel">
                 <div class="panel-heading dropdown-heading">
                   <font-awesome-icon
                     class="icon-margin-right"
@@ -303,7 +303,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="panel-block panel-list">
+                  <div class="panel-block panel-list all-imports-list">
                     <Tree
                       :treeData="importTreeAnalysis.tree[0]"
                       :raw="rawUrls"
@@ -365,8 +365,8 @@ import VueMarkdown from "vue-markdown";
 import FileExplorer from "../components/package/FileExplorer";
 import axios from "axios";
 import { importTree } from "../modules/import-tree/importTree";
-import Tree from "../components/Tree/Tree";
-import UrlRegistry from "../components/Tree/UrlRegistry";
+import Tree from "../components/tree/Tree";
+import UrlRegistry from "../components/tree/UrlRegistry";
 
 export default {
   components: {
@@ -725,11 +725,17 @@ pre.is-fullwidth
   max-height: 0
   transition: all .3s
 
-.collapse-arrow::after
-  content: "\25b6"
-  position: absolute
-  right: 1em
-  transition: all 0.3s
+.collapse-arrow
+  position: relative
+  width: 100%
+  padding-right: 1em
+  display: flex
+  align-items: center
+  justify-content: space-between
+
+  &::after
+    content: "\25b6"
+    transition: all 0.3s
 
 input
   &:checked
@@ -737,11 +743,12 @@ input
       visibility: visible
       padding: 0.5em 1.25em
       opacity: 1
-      max-height: 100%
+      max-height: 55vh
+      align-items: unset
+      overflow: auto
 
     & ~ label .collapse-arrow::after
       transform: rotate(90deg)
-
 
   &.collapse-switch
     display: none
@@ -778,6 +785,9 @@ input
 
   &:hover .dropdown-content
     display: block
+
+.all-imports-list
+  overflow-x: hidden
 
 .markdown
   +markdown()

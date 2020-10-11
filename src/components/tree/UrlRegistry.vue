@@ -1,6 +1,6 @@
 <template>
-  <span>
-    <span v-if="!raw && supportedRegistry">
+  <div class="url-registry">
+    <div v-if="!raw && supportedRegistry">
       <span :class="[registry.replace('.', ''), 'registry-label-url']">
         {{ registry }}
       </span>
@@ -8,11 +8,11 @@
       <span class="owner-label-url"> {{ owner }} </span>
       <span class="version-label-url"> {{ version }} </span>
       <span class="relativePath-label-url"> {{ relativePath }} </span>
-    </span>
-    <span v-else>
+    </div>
+    <div v-else>
       {{ url }}
-    </span>
-  </span>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -51,29 +51,33 @@ export default {
 };
 </script>
 
-<style lang="sass">
-span
-  &.registry-label-url
-    font-weight: bold
-    opacity: 0.7
+<style scoped lang="sass">
+.url-registry
+  display: inline-block
+  width: 100%
 
-    &.nestland
-      opacity: 1
-      background: -webkit-linear-gradient(45deg, #22c1c3, #fdbb2d)
-      background-clip: text
-      -webkit-background-clip: text
-      -webkit-text-fill-color: transparent
+  span
+    &.registry-label-url
+      font-weight: bold
+      opacity: 0.7
 
-  &.name-label-url
-    font-weight: bold
+      &.nestland
+        opacity: 1
+        background: -webkit-linear-gradient(45deg, #22c1c3, #fdbb2d)
+        background-clip: text
+        -webkit-background-clip: text
+        -webkit-text-fill-color: transparent
 
-  &.owner-label-url
-    font-weight: bold
+    &.name-label-url
+      font-weight: bold
 
-  &.version-label-url
-    font-style: italic
+    &.owner-label-url
+      font-weight: bold
 
-  &.relativePath-label-url
-    font-style: italic
-    opacity: 0.5
+    &.version-label-url
+      font-style: italic
+
+    &.relativePath-label-url
+      font-style: italic
+      opacity: 0.5
 </style>
