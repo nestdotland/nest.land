@@ -365,8 +365,8 @@ import VueMarkdown from "vue-markdown";
 import FileExplorer from "../components/package/FileExplorer";
 import axios from "axios";
 import { importTree } from "../modules/import-tree/importTree";
-import Tree from "../components/Tree/Tree";
-import UrlRegistry from "../components/Tree/UrlRegistry";
+import Tree from "../components/tree/Tree";
+import UrlRegistry from "../components/tree/UrlRegistry";
 
 export default {
   components: {
