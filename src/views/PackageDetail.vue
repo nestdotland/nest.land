@@ -434,7 +434,6 @@ export default {
       this.packageReadme = "# No version published yet";
       this.noVersion = true;
     }
-
     await axios
       .get(
         `https://x.nest.land/api/package/${this.packageInfo.name}/${
@@ -449,8 +448,8 @@ export default {
         this.malicious = response.data.malicious;
         if (response.data.entry !== null) this.entryFile = response.data.entry;
       });
+    await this.refreshReadme();
     this.loading = false;
-    this.refreshReadme();
     this.refreshTree();
   },
   beforeDestroy() {
@@ -509,7 +508,7 @@ export default {
     async refreshReadme() {
       if (this.noVersion) return;
 
-      axios
+      await axios
         .get("/api/readme?mod=" + this.selectedVersion)
         .then(({ data }) => (this.packageReadme = data))
         .catch((err) => {

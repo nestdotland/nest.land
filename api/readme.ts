@@ -13,7 +13,7 @@ export default (req: NowRequest, res: NowResponse) => {
         /(?<=((href)=("|')))(?!(http|https))(?!#)([^\s\\]*)(?=("|'))/g,
         (replaceVal) =>
           `/package/${mod.split("@")[0]}/files/${replaceVal.replace(
-            /\/|\.\//,
+            /^(\/|\.\/)/,
             ""
           )}`
       );
@@ -22,7 +22,7 @@ export default (req: NowRequest, res: NowResponse) => {
         /(?<=((src)=("|')))(?!(http|https))(?!#)([^\s\\]*)(?=("|'))/g,
         (replaceVal) =>
           `https://x.nest.land/${mod}/${replaceVal.replace(
-            /\/|\.\//,
+            /^(\/|\.\/)/,
             ""
           )}`
       );
@@ -31,7 +31,7 @@ export default (req: NowRequest, res: NowResponse) => {
         /(?<=((\!\[(.*)\])\())(?!(http|https))([^\s\\]*)(?=(\)))/g,
         (replaceVal) =>
           `https://x.nest.land/${mod}/${replaceVal.replace(
-            /\/|\.\//,
+            /^(\/|\.\/)/,
             ""
           )}`
       );
@@ -40,7 +40,7 @@ export default (req: NowRequest, res: NowResponse) => {
         /(?<!((!\[(.*)\])\())(?<=((\[(.*)\])\())(?!(http|https))(?!#)([^\s\\]*)(?=(\)))/g,
         (replaceVal) =>
           `/package/${mod.split("@")[0]}/files/${replaceVal.replace(
-            /\/|\.\//,
+            /^(\/|\.\/)/,
             ""
           )}`
       );
