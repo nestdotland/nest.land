@@ -30,7 +30,4 @@ export default {
 <style scoped lang="sass">
 .tree
   width: 100%
-
-  input[type=checkbox]
-    display: none
 </style>

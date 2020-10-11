@@ -1,10 +1,13 @@
 <template>
-  <li :class="[node.imports.length ? 'node-tree' : 'leaf-tree']">
+  <li
+    :class="[node.imports.length ? 'node-tree' : 'leaf-tree']"
+    :style="openedStyle"
+  >
     <input
       type="checkbox"
       :id="id"
       v-if="node.imports.length"
-      @click="() => (subRender = true)"
+      @click="openSub"
     />
     <label class="label-tree" :for="id">
       <UrlRegistry :url="node.path" :raw="raw"></UrlRegistry>
@@ -38,6 +41,7 @@ export default {
   data() {
     return {
       subRender: false,
+      openedStyle: {},
     };
   },
   components: {
@@ -49,6 +53,20 @@ export default {
     render: Boolean,
     raw: Boolean,
     importStatus: Boolean,
+  },
+  methods: {
+    openSub() {
+      this.subRender = true;
+      if (this.id === "n-0")
+        this.openedStyle = {
+          ...this.openedStyle,
+          overflow: this.openedStyle.overflow === "hidden" ? "auto" : "hidden",
+        };
+    },
+  },
+  mounted() {
+    if (this.id === "n-0")
+      this.openedStyle = { overflow: "hidden", maxHeight: "55vh" };
   },
 };
 </script>

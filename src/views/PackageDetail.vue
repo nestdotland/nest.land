@@ -195,7 +195,7 @@
                   Published on: {{ packageInfo.createdAt | formatDate }}
                 </a>
               </nav>
-              <nav class="panel">
+              <nav class="panel dependencies-panel">
                 <div class="panel-heading dropdown-heading">
                   <font-awesome-icon
                     class="icon-margin-right"
@@ -303,7 +303,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="panel-block panel-list">
+                  <div class="panel-block panel-list all-imports-list">
                     <Tree
                       :treeData="importTreeAnalysis.tree[0]"
                       :raw="rawUrls"
@@ -738,7 +738,9 @@ input
       visibility: visible
       padding: 0.5em 1.25em
       opacity: 1
-      max-height: 100%
+      max-height: 55vh
+      align-items: unset
+      overflow: auto
 
     & ~ label .collapse-arrow::after
       transform: rotate(90deg)
@@ -779,6 +781,9 @@ input
 
   &:hover .dropdown-content
     display: block
+
+.all-imports-list
+  overflow-x: hidden
 
 .markdown
   +markdown()
