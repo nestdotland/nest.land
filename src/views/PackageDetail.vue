@@ -726,11 +726,17 @@ pre.is-fullwidth
   max-height: 0
   transition: all .3s
 
-.collapse-arrow::after
-  content: "\25b6"
-  position: absolute
-  right: 1em
-  transition: all 0.3s
+.collapse-arrow
+  position: relative
+  width: 100%
+  padding-right: 1em
+  display: flex
+  align-items: center
+  justify-content: space-between
+
+  &::after
+    content: "\25b6"
+    transition: all 0.3s
 
 input
   &:checked
@@ -744,7 +750,6 @@ input
 
     & ~ label .collapse-arrow::after
       transform: rotate(90deg)
-
 
   &.collapse-switch
     display: none
