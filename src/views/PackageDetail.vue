@@ -130,7 +130,8 @@
                     <span class="arweave-info">
                       <font-awesome-icon :icon="['fas', 'info-circle']" />
                       <div class="notice">
-                        Importing from Arweave will remove your dependence on x.nest.land.
+                        Importing from Arweave will remove your dependence on
+                        x.nest.land.
                       </div>
                     </span>
                   </div>

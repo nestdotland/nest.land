@@ -14,7 +14,9 @@
             </figure>
             <p class="subtitle is-6 has-text-white">
               A platform by the
-              <a href="https://github.com/nestdotland/nest.land#credits"><b>Nest.land Team</b></a>.
+              <a href="https://github.com/nestdotland/nest.land#credits"
+                ><b>Nest.land Team</b></a
+              >.
             </p>
             <p class="subtitle is-6 has-text-white">
               Made with
