@@ -13,22 +13,19 @@
               <img src="/images/nest.land/logo_dark.svg" />
             </figure>
             <p class="subtitle is-6 has-text-white">
-              A platform by
-              <a href="https://github.com/t8"> <b>t8</b> </a>,
-              <a href="https://github.com/zorbyte"> <b>zorbyte</b> </a>,
-              <a href="https://github.com/justablob"> <b>blob</b> </a>, &
-              <a href="https://github.com/nestdotland/nest.land#credits">
-                <b>friends</b></a
+              A platform by the
+              <a href="https://github.com/nestdotland/nest.land#credits"
+                ><b>Nest.land Team</b></a
               >.
             </p>
             <p class="subtitle is-6 has-text-white">
               Made with
               <font-awesome-icon
                 :icon="['fa', 'heart']"
-                v-show="!isCheese"
-                @click="isCheese = !isCheese"
+                v-show="!isEgg"
+                @click="isEgg = !isEgg"
               />
-              <span v-show="isCheese">🧀</span>
+              <span v-show="isEgg">🥚</span>
               &nbsp; for the Deno community.
             </p>
           </div>
@@ -92,7 +89,7 @@ export default {
   name: "NestFooter",
   data() {
     return {
-      isCheese: false,
+      isEgg: false,
     };
   },
 };

@@ -55,16 +55,16 @@ This diagram is a visualisation of how these parts work together:
 
 ### Authors
 
-- [t8](https://github.com/t8) - Co-Founder, Frontend, & Project Management
-- [zorbyte](https://github.com/zorbyte) - Co-Founder
-- [justablob](https://github.com/justablob) - Backend & CLI
+- [t8](https://github.com/t8)
+- [zorbyte](https://github.com/zorbyte)
+- [justablob](https://github.com/justablob)
 
 ### Core Team
 
-- [divy-work](https://github.com/divy-work) - Backend Manager
-- [maximousblk](https://github.com/maximousblk) - UX Manager
-- [martonlederer](https://github.com/martonlederer) - Frontend Manager
-- [oganexon](https://github.com/oganexon) - CLI Manager
+- [littledivy](https://github.com/littledivy)
+- [maximousblk](https://github.com/maximousblk)
+- [martonlederer](https://github.com/martonlederer)
+- [oganexon](https://github.com/oganexon)
 
 ### Contributors
 
@@ -86,7 +86,7 @@ This diagram is a visualisation of how these parts work together:
 
 ## Copyright
 
-nest.land is licensed under the MIT license. Please see the [LICENSE](../LICENSE) file.
+Nest.land is licensed under the MIT license. Please see the [LICENSE](../LICENSE) file.
 
  <p align="center">
   <a href="https://vercel.com?utm_source=nest-land">
