@@ -6,13 +6,15 @@
     class="card"
     tag="div"
   >
-    <div class="card-content">
-      <div class="content">
-        <p class="title is-4">{{ item.name }}</p>
-        <hr class="mini-hr" />
-        <p class="subtitle is-6">{{ item.description }}</p>
+    <a>
+      <div class="card-content">
+        <div class="content">
+          <p class="title is-4">{{ item.name }}</p>
+          <hr class="mini-hr" />
+          <p class="subtitle is-6">{{ item.description }}</p>
+        </div>
       </div>
-    </div>
+    </a>
   </router-link>
 </template>
 
