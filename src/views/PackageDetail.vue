@@ -46,7 +46,7 @@
                 v-if="!isFileBrowse"
               ></vue-markdown>
               <FileExplorer
-                :version="selectedVersion"
+                :version="`${packageInfo.name}@${selectedVersion}`"
                 :name="packageInfo.name"
                 v-else-if="!noVersion"
               />
@@ -64,7 +64,7 @@
                     <button
                       class="button is-primary is-light"
                       @click="
-                        selectedVersion = packageInfo.latestStableVersion;
+                        selectedVersion = packageVersions.slice(-1).pop();
                         refreshContent();
                         refreshReadme();
                       "
@@ -80,7 +80,7 @@
                     <button
                       class="button is-warning is-light"
                       @click="
-                        selectedVersion = packageInfo.latestVersion;
+                        selectedVersion = packageVersions.slice(-1).pop();
                         refreshContent();
                         refreshReadme();
                       "
@@ -106,7 +106,7 @@
                       <option
                         v-for="(version, id) in packageVersions"
                         :key="id"
-                        :value="$route.params.id + '@' + version"
+                        :value="version"
                         >{{ $route.params.id + "@" + version }}</option
                       >
                     </select>
@@ -416,14 +416,14 @@ export default {
     document.title = title;
 
     if (this.v === "" || !this.v || this.v === null) {
-      this.selectedVersion = this.packageInfo.latestStableVersion;
+      this.selectedVersion = this.packageVersions.slice(-1).pop();
       if (this.selectedVersion === null)
-        this.selectedVersion = this.packageInfo.latestVersion;
+        this.selectedVersion = this.packageVersions.slice(-1).pop();
     } else {
       if (!this.packageInfo.packageUploadNames.includes(this.v)) {
         this.$router.push("/404");
       }
-      this.selectedVersion = this.packageInfo.name + "@" + this.v;
+      this.selectedVersion = this.v;
     }
 
     if (
@@ -436,9 +436,7 @@ export default {
     }
     await axios
       .get(
-        `https://x.nest.land/api/package/${this.packageInfo.name}/${
-          this.selectedVersion.split("@")[1]
-        }`
+        `https://x.nest.land/api/package/${this.packageInfo.name}/${this.selectedVersion}`
       )
       .then((response) => {
         this.linkToViewBlockIO = `https://viewblock.io/arweave/tx/${
@@ -471,7 +469,7 @@ export default {
       );
       return this.arweaveURL
         ? `${this.arweaveImport}/${entryFileWithoutFirstSlash}`
-        : `https://x.nest.land/${this.selectedVersion}/${entryFileWithoutFirstSlash}`;
+        : `https://x.nest.land/${this.packageInfo.name}@${this.selectedVersion}/${entryFileWithoutFirstSlash}`;
     },
     switchURL(switchURLType) {
       this.arweaveURL = switchURLType;
@@ -509,7 +507,7 @@ export default {
       if (this.noVersion) return;
 
       await axios
-        .get("/api/readme?mod=" + this.selectedVersion)
+        .get(`/api/readme?mod=${this.packageInfo.name}@${this.selectedVersion}`)
         .then(({ data }) => (this.packageReadme = data))
         .catch((err) => {
           this.packageReadme = `# ${
