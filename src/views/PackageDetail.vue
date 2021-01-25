@@ -64,7 +64,7 @@
                     <button
                       class="button is-primary is-light"
                       @click="
-                        selectedVersion = packageVersions.slice(-1).pop();
+                        selectedVersion = packageVersions[0];
                         refreshContent();
                         refreshReadme();
                       "
@@ -80,7 +80,7 @@
                     <button
                       class="button is-warning is-light"
                       @click="
-                        selectedVersion = packageVersions.slice(-1).pop();
+                        selectedVersion = packageVersions[0];
                         refreshContent();
                         refreshReadme();
                       "
@@ -416,9 +416,9 @@ export default {
     document.title = title;
 
     if (this.v === "" || !this.v || this.v === null) {
-      this.selectedVersion = this.packageVersions.slice(-1).pop();
+      this.selectedVersion = this.packageVersions[0];
       if (this.selectedVersion === null)
-        this.selectedVersion = this.packageVersions.slice(-1).pop();
+        this.selectedVersion = this.packageVersions[0];
     } else {
       if (!this.packageInfo.packageUploadNames.includes(this.v)) {
         this.$router.push("/404");
