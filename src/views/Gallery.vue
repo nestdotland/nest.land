@@ -35,7 +35,7 @@
             Trying to add a module? See the
             <a
               id="docs-link"
-              href="https://docs.nest.land/eggs/installation"
+              href="https://docs.nest.land/eggs"
             >
               documentation</a
             >.
