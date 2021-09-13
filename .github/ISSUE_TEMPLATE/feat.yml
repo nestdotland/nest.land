@@ -1,0 +1,58 @@
+name: 🚀 Feature Request/Idea
+description: Suggest a feature or idea for this project
+labels: ['feature request', 'needs triage']
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### 🚨 What happens if you don't follow this template and go your own path?
+
+        Someone will read your feature proposal and maybe will be able to help you,
+        but it’s unlikely that it will get much attention from the team. Eventually,
+        the issue will likely get closed in favor of issues that have better explanations
+
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue/discussion for your proposal?
+      description: Please search to see if an issue/discussion already exists for the feature you are requesting.
+      options:
+        - label: I have searched existing issues and discussions
+          required: true
+
+  - type: textarea
+    attributes:
+      label: Description
+      description: A clear and concise description of what the feature is
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Motivation
+      description: |
+        Please outline the motivation for the proposal.
+        Does this feature fix a problem? How does this feature improve the user's experience?
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Implementation
+      description: If you can, please explain how you think this feature should be implemented and how it would be used.
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Alternatives
+      description: Any alternative solutions or features that you've considered?
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Additional context?
+      description: Links? References? Anything that will give us more context about the feature request!
+    validations:
+      required: false

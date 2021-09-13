@@ -1,0 +1,26 @@
+name: 📚 Documentation Issue
+description: Report an issue related to documentation
+labels: ['documentation', 'needs triage']
+
+body:
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue/discussion for your issue?
+      description: Please search to see if an issue/discussion already exists for the documetation error.
+      options:
+        - label: I have searched existing issues and discussions
+          required: true
+
+  - type: textarea
+    attributes:
+      label: Description
+      description: A clear and concise description of what the issue is
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Additional context?
+      description: Links? References? Anything that will give us more context about the feature request!
+    validations:
+      required: false

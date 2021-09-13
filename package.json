@@ -1,0 +1,41 @@
+{
+  "name": "nest.land",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "fmt": "prettier --check .",
+    "fmt:fix": "prettier --write ."
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^1.6.7",
+    "@emotion/react": "^11.4.1",
+    "@emotion/styled": "^11.3.0",
+    "@fontsource/inter": "^4.5.0",
+    "@fontsource/jetbrains-mono": "^4.5.0",
+    "@nestdotland/ui": "^0.1.0-test.10",
+    "framer-motion": "^4.1.17",
+    "next": "^11.1.2",
+    "next-seo": "^4.26.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.19",
+    "eslint": "^7.32.0",
+    "eslint-config-next": "^11.1.2",
+    "prettier": "^2.4.0",
+    "typescript": "^4.4.2"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 120
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}

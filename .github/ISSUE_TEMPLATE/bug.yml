@@ -1,0 +1,91 @@
+name: 🐛 Bug Report
+description: Submit a bug report
+labels: ['bug report', 'needs triage']
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### 🚨 What happens if you don't follow this template and go your own path?
+
+        Someone will read your bug report, and maybe will be able to help you,
+        but it’s unlikely that it will get much attention from the team. Eventually,
+        the issue will likely get closed in favor of issues that follow this template.
+        Please provide all the info requested in this template.
+
+        Please remember that,
+
+        - The person fixing the bug would have to figure out these details anyway. Please be respectful of their time.
+        - You might figure out the issues yourself as you work on extracting these details.
+        - If you list multiple bugs/concerns in this one issue, it makes it hard to track the progress.
+        - If you open an issue that has many duplicates, the triager may close your issue.
+        - If you fill something completely blank in the body, the triager may close your issue without further explanation or engagement.
+
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue/discussion for your problem?
+      description: Please search to see if an issue/discussion already exists for the problem you encountered.
+      options:
+        - label: I have searched existing issues and discussions
+          required: true
+
+  - type: textarea
+    attributes:
+      label: Description
+      description: A clear and concise description of what the bug is
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Current Behavior
+      description: |
+        Is something broken, or not behaving as you expected?
+        Describe this section in detail, and attach screenshots if possible.
+        Don't only say "it doesn't work"!
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      description: |
+        How did you expect your project to behave?
+        It’s fine if you’re not sure you understand.
+        Write down what you expected would happen.
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Steps To Reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. With this config...
+        2. Run '...'
+        3. See error...
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: OS Version
+      description: 'Name and version of your operating system'
+      placeholder: 'Ubuntu 20.04'
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: Deno Version
+      description: 'Long form of your Deno version (`deno --version`)'
+      placeholder: 'deno 1.13.0 (release, x86_64-unknown-linux-gnu)'
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Additional context?
+      description: Links? References? Anything that will give us more context about the issue you are encountering!
+    validations:
+      required: false

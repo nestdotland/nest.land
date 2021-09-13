@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 GitHub Discussions
+    url: https://github.com/nestdotland/nest.land/discussions
+    about: Ask questions and post ideas
+  - name: 💭 Discord Server
+    url: https://discord.gg/hYUsX3H
+    about: Ask casual questions here
