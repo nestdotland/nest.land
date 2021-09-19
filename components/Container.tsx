@@ -6,7 +6,7 @@ export const Container = (props: FlexProps) => {
       direction="column"
       alignItems="center"
       justifyContent="flex-start"
-      bg={useColorModeValue('gray.50', 'gray.800')}
+      bg={useColorModeValue('gray.100', 'gray.800')}
       color={useColorModeValue('black', 'white')}
       {...props}
     />

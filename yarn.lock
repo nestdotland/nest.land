@@ -818,10 +818,10 @@
   resolved "https://registry.yarnpkg.com/@napi-rs/triples/-/triples-1.0.3.tgz#76d6d0c3f4d16013c61e45dfca5ff1e6c31ae53c"
   integrity sha512-jDJTpta+P4p1NZTFVLHJ/TLFVYVcOqv6l8xwOeBKNPMgY/zDYH/YH7SJbvrr/h1RcS9GzbPcLKGzpuK9cV56UA==
 
-"@nestdotland/ui@^0.1.0-test.10":
-  version "0.1.0-test.10"
-  resolved "https://registry.yarnpkg.com/@nestdotland/ui/-/ui-0.1.0-test.10.tgz#92fb805eec5173cfbbb382ffc5a3615edba85b63"
-  integrity sha512-mw865rwPOA7vRdRm1AoXcQMpTpuOWxUcXgMG7k+4sndhxKz8s+O8BSE2nFbHVvJgilxZkSbigMyee+cpmLlqng==
+"@nestdotland/ui@^0.1.0-test.11":
+  version "0.1.0-test.11"
+  resolved "https://registry.yarnpkg.com/@nestdotland/ui/-/ui-0.1.0-test.11.tgz#ab064fe776348252e2e04651cd66e81ac6e78326"
+  integrity sha512-HZTiTeGgSmfE9T8OG0KrDR8quCB1JGq/v5gK9eYOmSEDvYl+U8stlvykFoFazsHhZHtHv/w2laJGmYTTHxJ2nA==
   dependencies:
     "@chakra-ui/icons" "^1.0.15"
     "@chakra-ui/react" "^1.6.7"

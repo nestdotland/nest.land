@@ -1,7 +1,6 @@
 import { Container } from '@/components/Container';
 import { Main } from '@/components/Main';
-import Footer from '@/components/Footer';
-// import Navbar from '@/components/Navbar';
+import { Footer } from '@nestdotland/ui';
 import { Navbar } from '@nestdotland/ui';
 import { navbar } from '@/utils/config';
 import Head from 'next/head';
