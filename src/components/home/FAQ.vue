@@ -11,7 +11,7 @@
                   Is my password uploaded to the blockchain too?
                 </p>
                 <p>
-                  No, your password is stored in our secure database. In fact,
+                  No, your login data is stored in our secure database. In fact,
                   no personal user information is
                   <b>ever</b> uploaded to the blockchain!
                 </p>
